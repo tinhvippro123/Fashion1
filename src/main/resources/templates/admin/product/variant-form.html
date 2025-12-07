@@ -47,6 +47,22 @@
 									th:value="${variant.stock}">
 							</div>
 
+							<div class="form-group">
+								<label>Trạng thái kinh doanh</label> <select name="status"
+									class="form-control">
+									<option value="AVAILABLE"
+										th:selected="${variant.status.name() == 'AVAILABLE'}">Đang
+										bán (Available)</option>
+									<option value="OUT_OF_STOCK"
+										th:selected="${variant.status.name() == 'OUT_OF_STOCK'}">Hết
+										hàng (Out of Stock)</option>
+									<option value="HIDDEN"
+										th:selected="${variant.status.name() == 'HIDDEN'}">Tạm
+										ẩn (Hidden)</option>
+								</select> <small class="text-muted">Chọn "Tạm ẩn" nếu bạn muốn
+									giấu size này khỏi trang chủ mà không cần xóa.</small>
+							</div>
+
 							<hr>
 							<button type="submit" class="btn btn-primary">Lưu thay
 								đổi</button>

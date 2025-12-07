@@ -14,8 +14,9 @@ import com.fashionshop.repository.VariantImageRepository;
 import com.fashionshop.repository.VariantRepository;
 import com.fashionshop.service.ProductService;
 import com.fashionshop.service.StorageService;
-import com.fashionshope.enums.ProductImageType;
-import com.fashionshope.enums.VariantStatus;
+import com.fashionshop.utils.SlugUtil;
+import com.fashionshop.enums.ProductImageType;
+import com.fashionshop.enums.VariantStatus;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
 	public Product saveProduct(Product product) {
 		// Logic tạo slug (URL thân thiện) từ tên sản phẩm
 		if (product.getSlug() == null || product.getSlug().isEmpty()) {
-			product.setSlug(product.getName().toLowerCase().replace(" ", "-"));
+			product.setSlug(SlugUtil.makeSlug(product.getName()));
 		}
 
 		if (product.getId() == null) {
@@ -86,6 +87,7 @@ public class ProductServiceImpl implements ProductService {
 				pc.setProduct(product);
 				pc.setColor(color);
 				pc.setIsDefault(false); // Mặc định là false, logic set true tính sau
+				pc.setIsActive(true);
 				productColorRepository.save(pc);
 			}
 		}
@@ -102,7 +104,14 @@ public class ProductServiceImpl implements ProductService {
 			variant.setSize(size);
 			variant.setPrice(price);
 			variant.setStock(stock);
-			variant.setStatus(VariantStatus.AVAILABLE); // Mặc định
+
+			// --- LOGIC TỰ ĐỘNG ---
+			if (stock <= 0) {
+				variant.setStatus(VariantStatus.OUT_OF_STOCK);
+			} else {
+				variant.setStatus(VariantStatus.AVAILABLE);
+			}
+
 			variantRepository.save(variant);
 		}
 	}
@@ -172,10 +181,52 @@ public class ProductServiceImpl implements ProductService {
 		if (variant != null) {
 			variant.setPrice(newPrice);
 			variant.setStock(newStock);
-			variant.setStatus(newStatus);
-			// Có thể thêm logic cập nhật status nếu stock = 0
+
+			// --- LOGIC TỰ ĐỘNG CẬP NHẬT TRẠNG THÁI ---
+
+			if (newStock <= 0) {
+				// 1. Nếu tồn kho về 0 -> Bắt buộc chuyển thành HẾT HÀNG
+				variant.setStatus(VariantStatus.OUT_OF_STOCK);
+			} else {
+				// 2. Nếu có hàng (Stock > 0)
+
+				// Trường hợp Admin đang chọn nhầm "Hết hàng" trong dropdown -> Tự sửa thành
+				// "Đang bán"
+				if (newStatus == VariantStatus.OUT_OF_STOCK) {
+					variant.setStatus(VariantStatus.AVAILABLE);
+				} else {
+					// Còn lại thì tôn trọng lựa chọn của Admin (Có thể là AVAILABLE hoặc HIDDEN)
+					variant.setStatus(newStatus);
+				}
+			}
+
 			variantRepository.save(variant);
 		}
 	}
 
+	@Override
+	public void toggleProductColorStatus(Long productColorId) {
+		ProductColor pc = productColorRepository.findById(productColorId).orElse(null);
+		if (pc != null) {
+			// Đảo ngược trạng thái: True thành False, False thành True
+			// Nếu null thì coi như là false -> set thành true
+			boolean currentStatus = pc.getIsActive() == null ? false : pc.getIsActive();
+			pc.setIsActive(!currentStatus);
+
+			productColorRepository.save(pc);
+		}
+	}
+
+	@Override
+	public List<Product> getProductsByCategorySlug(String slug) {
+	    return productRepository.findByRootCategorySlug(slug);
+	}
+
+	@Override
+	public List<Product> getNewArrivalsByCategorySlug(String slug) {
+	    // Logic: Lấy ngày hiện tại trừ đi 30 ngày
+	    LocalDateTime oneMonthAgo = LocalDateTime.now().minusDays(30);
+	    return productRepository.findNewArrivals(slug, oneMonthAgo);
+	}
+	
 }

@@ -12,4 +12,6 @@ public interface CategoryService {
 	void saveCategory(Category category);
 
 	void deleteCategory(Long id);
+
+	List<Category> getAllRootCategories();
 }

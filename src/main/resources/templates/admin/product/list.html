@@ -21,6 +21,7 @@
 						<thead>
 							<tr>
 								<th>ID</th>
+								<th width="100">Hình ảnh</th>
 								<th>Tên sản phẩm</th>
 								<th>Danh mục</th>
 								<th>Giá gốc</th>
@@ -31,6 +32,22 @@
 						<tbody>
 							<tr th:each="p : ${products}">
 								<td th:text="${p.id}"></td>
+
+								<td><img
+									th:if="${not #lists.isEmpty(p.productColors) 
+                          and not #lists.isEmpty(p.productColors[0].images)}"
+									th:src="@{'/uploads/' + ${p.productColors[0].images[0].imageUrl}}"
+									class="img-thumbnail"
+									style="width: 80px; height: 100px; object-fit: cover;">
+
+									<div
+										th:unless="${not #lists.isEmpty(p.productColors) 
+                            and not #lists.isEmpty(p.productColors[0].images)}"
+										class="text-center text-muted border d-flex align-items-center justify-content-center"
+										style="width: 80px; height: 100px; background: #f8f9fa;">
+										<i class="fas fa-image fa-2x"></i>
+									</div></td>
+
 
 								<td><span th:text="${p.name}"
 									class="font-weight-bold text-primary"></span> <br> <small

@@ -7,7 +7,7 @@ import com.fashionshop.service.ColorService;
 import com.fashionshop.service.ProductService;
 import com.fashionshop.service.SizeService;
 import com.fashionshop.service.StorageService;
-import com.fashionshope.enums.VariantStatus;
+import com.fashionshop.enums.VariantStatus;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -150,4 +150,10 @@ public class AdminProductController {
 		return "redirect:/admin/products/variants/" + productId;
 	}
 
+	// 10. Ẩn/Hiện nhóm màu
+	@GetMapping("/variants/toggle-color/{id}")
+	public String toggleColorStatus(@PathVariable Long id, @RequestParam Long productId) {
+		productService.toggleProductColorStatus(id);
+		return "redirect:/admin/products/variants/" + productId;
+	}
 }

@@ -1,4 +1,4 @@
-package com.fashionshope.enums;
+package com.fashionshop.enums;
 
 public enum ProductImageType {
 	MAIN, // Ảnh chính (Hiện ra đầu tiên ngoài danh sách)

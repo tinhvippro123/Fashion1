@@ -1,6 +1,6 @@
 package com.fashionshop.model;
 
-import com.fashionshope.enums.ProductImageType;
+import com.fashionshop.enums.ProductImageType;
 
 import jakarta.persistence.*;
 

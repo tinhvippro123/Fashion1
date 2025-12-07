@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create   # Hoặc validate nếu DB đã có sẵn
+      ddl-auto: update   # Hoặc validate nếu DB đã có sẵn
     show-sql: true
     properties:
       hibernate:

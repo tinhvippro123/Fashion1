@@ -1,4 +1,4 @@
-package com.fashionshope.enums;
+package com.fashionshop.enums;
 
 public enum VariantStatus {
     AVAILABLE,    // Còn hàng (Đang bán)

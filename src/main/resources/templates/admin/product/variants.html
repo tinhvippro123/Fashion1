@@ -38,22 +38,37 @@
 		<hr>
 
 		<div class="row">
-			<div class="col-lg-12 mb-4" th:each="pc : ${product.productColors}">
+			<div class="col-lg-12 mb-4" th:each="pc : ${product.productColors}"
+				th:classappend="${pc.isActive} ? '' : 'text-muted'">
 
-				<div class="card shadow">
+				<div class="card shadow"
+					th:style="${pc.isActive} ? '' : 'opacity: 0.6; border: 1px dashed red;'">
 					<div
 						class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 						<h6 class="m-0 font-weight-bold text-primary">
 							Màu: <span th:text="${pc.color.name}"></span> <span
-								th:style="'background-color:' + ${pc.color.hexCode} + '; display:inline-block; width:20px; height:20px; border:1px solid #ccc; vertical-align:middle; margin-left:10px;'"></span>
+								th:style="'background-color:' + ${pc.color.hexCode} + '; display:inline-block; width:20px; height:20px; ...'"></span>
+
+							<span th:if="${pc.isActive}" class="badge badge-success ml-2">Đang
+								hiển thị</span> <span th:unless="${pc.isActive}"
+								class="badge badge-secondary ml-2">Đang ẩn</span>
 						</h6>
 
-						<a
-							th:href="@{/admin/products/variants/delete-color/{id}(id=${pc.id}, productId=${product.id})}"
-							class="btn btn-danger btn-sm"
-							onclick="return confirm('CẢNH BÁO: Xóa màu này sẽ xóa hết tất cả Size và Ảnh bên trong. Bạn chắc chắn chứ?');">
-							<i class="fas fa-trash"></i> Xóa Màu này
-						</a>
+						<div>
+							<a
+								th:href="@{/admin/products/variants/toggle-color/{id}(id=${pc.id}, productId=${product.id})}"
+								class="btn btn-sm mr-2"
+								th:classappend="${pc.isActive} ? 'btn-warning' : 'btn-success'">
+								<i class="fas"
+								th:classappend="${pc.isActive} ? 'fa-eye-slash' : 'fa-eye'"></i>
+								<span th:text="${pc.isActive} ? 'Ẩn màu này' : 'Hiện màu này'"></span>
+							</a> <a
+								th:href="@{/admin/products/variants/delete-color/{id}(id=${pc.id}, productId=${product.id})}"
+								class="btn btn-danger btn-sm"
+								onclick="return confirm('CẢNH BÁO: Xóa màu này sẽ xóa hết tất cả Size và Ảnh bên trong. Bạn chắc chắn chứ?');">
+								<i class="fas fa-trash"></i> Xóa Màu này
+							</a>
+						</div>
 					</div>
 
 					<div class="card-body">
@@ -152,8 +167,15 @@
 									</thead>
 									<tbody>
 										<tr th:each="v : ${pc.variants}">
-											<td th:text="${v.size.name}"
-												class="font-weight-bold text-center"></td>
+											<td class="text-center"><span th:text="${v.size.name}"
+												class="font-weight-bold d-block"></span> <span
+												th:if="${v.status.name() == 'AVAILABLE'}"
+												class="badge badge-success" style="font-size: 0.7em;">Bán</span>
+												<span th:if="${v.status.name() == 'OUT_OF_STOCK'}"
+												class="badge badge-warning" style="font-size: 0.7em;">Hết</span>
+												<span th:if="${v.status.name() == 'HIDDEN'}"
+												class="badge badge-secondary" style="font-size: 0.7em;">Ẩn</span>
+											</td>
 											<td
 												th:text="${#numbers.formatDecimal(v.price, 0, 'COMMA', 0, 'POINT')}"></td>
 											<td th:text="${v.stock}"></td>

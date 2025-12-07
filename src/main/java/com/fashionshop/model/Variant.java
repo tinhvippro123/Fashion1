@@ -1,6 +1,6 @@
 package com.fashionshop.model;
 
-import com.fashionshope.enums.VariantStatus;
+import com.fashionshop.enums.VariantStatus;
 
 import jakarta.persistence.*;
 

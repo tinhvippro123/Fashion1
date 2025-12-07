@@ -5,8 +5,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fashionshope.enums.UserGender;
-import com.fashionshope.enums.UserRole;
+import com.fashionshop.enums.UserGender;
+import com.fashionshop.enums.UserRole;
 
 @Entity
 @Table(name = "users")

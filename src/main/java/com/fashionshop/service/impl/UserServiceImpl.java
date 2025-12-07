@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.fashionshop.model.User;
 import com.fashionshop.repository.UserRepository;
 import com.fashionshop.service.UserService;
-import com.fashionshope.enums.UserRole;
+import com.fashionshop.enums.UserRole;
 
 import java.time.LocalDateTime;
 import java.util.List;

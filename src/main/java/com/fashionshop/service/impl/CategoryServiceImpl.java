@@ -3,6 +3,8 @@ package com.fashionshop.service.impl;
 import com.fashionshop.model.Category;
 import com.fashionshop.repository.CategoryRepository;
 import com.fashionshop.service.CategoryService;
+import com.fashionshop.utils.SlugUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -28,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
 	public void saveCategory(Category category) {
 		// Logic: Tạo slug từ tên (Đơn giản hóa, thực tế nên dùng thư viện slugify)
 		if (category.getSlug() == null || category.getSlug().isEmpty()) {
-			category.setSlug(category.getName().toLowerCase().replace(" ", "-"));
+			category.setSlug(SlugUtil.makeSlug(category.getName()));
 		}
 
 		// Logic: Set thời gian
@@ -49,5 +51,10 @@ public class CategoryServiceImpl implements CategoryService {
 		// Logic: Có thể kiểm tra xem có sản phẩm nào thuộc danh mục này không trước khi
 		// xóa
 		categoryRepository.deleteById(id);
+	}
+
+	@Override
+	public List<Category> getAllRootCategories() {
+		return categoryRepository.findByParentIsNull();
 	}
 }

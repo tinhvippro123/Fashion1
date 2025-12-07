@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.fashionshop.model.Product;
 import com.fashionshop.model.Variant;
-import com.fashionshope.enums.VariantStatus;
+import com.fashionshop.enums.VariantStatus;
 
 public interface ProductService {
 	List<Product> getAllProducts();
@@ -30,4 +30,10 @@ public interface ProductService {
 	Variant getVariantById(Long id);
 
 	void updateVariant(Long variantId, Double newPrice, Integer newStock, VariantStatus newStatus);
+
+	void toggleProductColorStatus(Long productColorId);
+
+	List<Product> getProductsByCategorySlug(String slug);
+
+	List<Product> getNewArrivalsByCategorySlug(String slug);
 }

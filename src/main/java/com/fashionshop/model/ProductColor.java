@@ -22,6 +22,9 @@ public class ProductColor {
 	@Column(name = "is_default")
 	private Boolean isDefault; // Màu này có phải màu hiển thị chính ngoài trang chủ không?
 
+	@Column(name = "is_active")
+	private Boolean isActive = true; // Mặc định là True (Đang hiện)
+
 	// Quan hệ 1-N với Variants (Một màu có nhiều Size: S, M, L)
 	@OneToMany(mappedBy = "productColor", cascade = CascadeType.ALL)
 	private List<Variant> variants;
@@ -64,6 +67,14 @@ public class ProductColor {
 
 	public void setIsDefault(Boolean isDefault) {
 		this.isDefault = isDefault;
+	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	public List<Variant> getVariants() {
