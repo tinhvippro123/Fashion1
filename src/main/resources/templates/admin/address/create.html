@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
+
+<head>
+    <title>Thêm địa chỉ mới</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <h1 class="h3 mb-4 text-gray-800">Thêm địa chỉ mới</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form th:action="@{/admin/users/{id}/addresses(id=${userId})}" th:object="${address}" method="post">
+                
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label>Tên người nhận</label>
+                        <input type="text" class="form-control" th:field="*{receiverName}" required placeholder="Ví dụ: Anh Ba...">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>Số điện thoại nhận hàng</label>
+                        <input type="text" class="form-control" th:field="*{phone}" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label>Tỉnh / Thành phố</label>
+                        <input type="text" class="form-control" th:field="*{province}" required>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label>Quận / Huyện</label>
+                        <input type="text" class="form-control" th:field="*{district}" required>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label>Phường / Xã</label>
+                        <input type="text" class="form-control" th:field="*{ward}" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Số nhà, tên đường</label>
+                    <input type="text" class="form-control" th:field="*{street}" required placeholder="Ví dụ: 123 Đường ABC...">
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="defaultCheck" th:field="*{isDefault}">
+                        <label class="custom-control-label" for="defaultCheck">Đặt làm địa chỉ mặc định</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Lưu địa chỉ</button>
+                <a th:href="@{/admin/users/{id}/addresses(id=${userId})}" class="btn btn-secondary">Hủy bỏ</a>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

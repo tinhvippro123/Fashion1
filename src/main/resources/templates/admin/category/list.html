@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout}">
+
+<head>
+<title>Quản lý danh mục</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<h1 class="h3 mb-4 text-gray-800">Danh sách Danh mục sản phẩm</h1>
+
+		<div class="card shadow mb-4">
+			<div class="card-header py-3">
+				<a th:href="@{/admin/categories/new}" class="btn btn-primary btn-sm">
+					<i class="fas fa-plus"></i> Thêm danh mục mới
+				</a>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-bordered" width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Tên danh mục</th>
+								<th>Đường dẫn (Slug)</th>
+								<th>Danh mục cha</th>
+								<th>Trạng thái</th>
+								<th>Hành động</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="cat : ${categories}">
+								<td th:text="${cat.id}">1</td>
+								<td th:text="${cat.name}" class="font-weight-bold text-primary">Áo
+									nam</td>
+								<td th:text="${cat.slug}">ao-nam</td>
+
+								<td><span th:if="${cat.parent == null}"
+									class="badge badge-secondary">--- Danh mục gốc ---</span> <span
+									th:if="${cat.parent != null}" th:text="${cat.parent.name}"
+									class="text-info">Thời trang nam</span></td>
+
+								<td><span th:if="${cat.isActive}"
+									class="badge badge-success">Hiển thị</span> <span
+									th:unless="${cat.isActive}" class="badge badge-danger">Ẩn</span>
+								</td>
+
+								<td><a
+									th:href="@{/admin/categories/edit/{id}(id=${cat.id})}"
+									class="btn btn-info btn-sm"> <i class="fas fa-edit"></i>
+										Sửa
+								</a> <a th:href="@{/admin/categories/delete/{id}(id=${cat.id})}"
+									class="btn btn-danger btn-sm"
+									onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này?');">
+										<i class="fas fa-trash"></i> Xóa
+								</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>

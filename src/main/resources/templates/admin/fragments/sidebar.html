@@ -1,0 +1,55 @@
+<ul xmlns:th="http://www.thymeleaf.org" th:fragment="sidebar"
+	class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+	id="accordionSidebar">
+
+	<a
+		class="sidebar-brand d-flex align-items-center justify-content-center"
+		th:href="@{/admin/dashboard}">
+		<div class="sidebar-brand-icon rotate-n-15">
+			<i class="fas fa-laugh-wink"></i>
+		</div>
+		<div class="sidebar-brand-text mx-3">Fashion Admin</div>
+	</a>
+
+	<hr class="sidebar-divider my-0">
+
+	<li class="nav-item"><a class="nav-link"
+		th:href="@{/admin/dashboard}"> <i
+			class="fas fa-fw fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
+
+	<hr class="sidebar-divider">
+
+	<div class="sidebar-heading">Hệ thống</div>
+
+	<li class="nav-item"><a class="nav-link" th:href="@{/admin/users}">
+			<i class="fas fa-fw fa-user"></i> <span>Người dùng (Users)</span>
+	</a></li>
+
+	<hr class="sidebar-divider">
+
+	<div class="sidebar-heading">Sản phẩm & Thuộc tính</div>
+
+	<li class="nav-item"><a class="nav-link"
+		th:href="@{/admin/products}"> <i class="fas fa-fw fa-tshirt"></i>
+			<span>Quản lý Sản phẩm</span></a></li>
+
+	<li class="nav-item"><a class="nav-link"
+		th:href="@{/admin/categories}"> <i class="fas fa-fw fa-list"></i>
+			<span>Danh mục (Category)</span></a></li>
+
+	<li class="nav-item"><a class="nav-link" th:href="@{/admin/sizes}">
+			<i class="fas fa-fw fa-ruler-horizontal"></i> <span>Kích cỡ
+				(Size)</span>
+	</a></li>
+
+	<li class="nav-item"><a class="nav-link"
+		th:href="@{/admin/colors}"> <i class="fas fa-fw fa-palette"></i> <span>Màu
+				sắc (Color)</span></a></li>
+
+	<hr class="sidebar-divider d-none d-md-block">
+
+	<div class="text-center d-none d-md-inline">
+		<button class="rounded-circle border-0" id="sidebarToggle"></button>
+	</div>
+
+</ul>

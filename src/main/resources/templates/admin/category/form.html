@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout}">
+
+<head>
+<title>Quản lý danh mục</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<h1 class="h3 mb-4 text-gray-800">Thông tin danh mục</h1>
+
+		<div class="card shadow mb-4">
+			<div class="card-body">
+				<form th:action="@{/admin/categories/save}" th:object="${category}"
+					method="post">
+					<input type="hidden" th:field="*{id}">
+
+					<div class="form-group">
+						<label>Tên danh mục</label> <input type="text"
+							class="form-control" th:field="*{name}" required>
+					</div>
+
+					<div class="form-group">
+						<label>Danh mục cha (Nếu có)</label> <select class="form-control"
+							th:field="*{parent}">
+							<option value="">-- Không có (Danh mục gốc) --</option>
+							<option th:each="cat : ${categories}" th:value="${cat.id}"
+								th:text="${cat.name}" th:if="${cat.id != category.id}">
+							</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input"
+								id="activeCheck" th:field="*{isActive}"> <label
+								class="custom-control-label" for="activeCheck">Hiển thị</label>
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary">Lưu lại</button>
+					<a th:href="@{/admin/categories}" class="btn btn-secondary">Hủy</a>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

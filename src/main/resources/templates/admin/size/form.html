@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
+<head><title>Size Form</title></head>
+<body>
+<div layout:fragment="content">
+    <h1 class="h3 mb-4 text-gray-800">Thông tin Size</h1>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form th:action="@{/admin/sizes/save}" th:object="${size}" method="post">
+                <input type="hidden" th:field="*{id}">
+                
+                <div class="form-group">
+                    <label>Tên Size (S, M, L, 29, 30...)</label>
+                    <input type="text" class="form-control" th:field="*{name}" required placeholder="Nhập tên size...">
+                </div>
+
+                <div class="form-group">
+                    <label>Thứ tự hiển thị (Số nhỏ đứng trước)</label>
+                    <input type="number" class="form-control" th:field="*{sortOrder}" value="0">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Lưu lại</button>
+                <a th:href="@{/admin/sizes}" class="btn btn-secondary">Hủy</a>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

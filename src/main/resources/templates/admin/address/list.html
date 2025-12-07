@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
+
+<head>
+    <title>Quản lý địa chỉ</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    
+    <h1 class="h3 mb-4 text-gray-800">
+        Địa chỉ của: <span th:text="${user.fullName}" class="text-primary"></span>
+    </h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách địa chỉ nhận hàng</h6>
+            <div>
+                <a th:href="@{/admin/users}" class="btn btn-sm btn-secondary shadow-sm mr-2">
+                    <i class="fas fa-arrow-left fa-sm"></i> Quay lại User
+                </a>
+                <a th:href="@{/admin/users/{id}/addresses/new(id=${userId})}" class="btn btn-sm btn-success shadow-sm">
+                    <i class="fas fa-plus fa-sm text-white-50"></i> Thêm địa chỉ
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Người nhận</th>
+                        <th>SĐT</th>
+                        <th>Địa chỉ chi tiết</th>
+                        <th>Mặc định</th>
+                        <th>Hành động</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${addresses.empty}">
+                        <td colspan="5" class="text-center">Người dùng này chưa có địa chỉ nào.</td>
+                    </tr>
+
+                    <tr th:each="addr : ${addresses}">
+                        <td th:text="${addr.receiverName}">Nguyễn Văn A</td>
+                        <td th:text="${addr.phone}">0909...</td>
+                        <td>
+                            <span th:text="${addr.street}"></span>, 
+                            <span th:text="${addr.ward}"></span>, 
+                            <span th:text="${addr.district}"></span>, 
+                            <span th:text="${addr.province}"></span>
+                        </td>
+                        <td class="text-center">
+                            <span th:if="${addr.isDefault}" class="badge badge-success">Mặc định</span>
+                        </td>
+                        <td>
+                            <a th:href="@{/admin/users/{uid}/addresses/edit/{aid}(uid=${userId}, aid=${addr.id})}" class="btn btn-info btn-sm">Sửa</a>
+                            <a th:href="@{/admin/users/{uid}/addresses/delete/{aid}(uid=${userId}, aid=${addr.id})}" 
+                               class="btn btn-danger btn-sm" 
+                               onclick="return confirm('Bạn có chắc muốn xóa địa chỉ này?');">Xóa</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout}">
+<head>
+<title>Cập nhật kho hàng</title>
+</head>
+<body>
+	<div layout:fragment="content">
+
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+				<div class="card shadow mb-4">
+					<div class="card-header py-3">
+						<h6 class="m-0 font-weight-bold text-primary">Cập nhật
+							Variant</h6>
+					</div>
+					<div class="card-body">
+						<form th:action="@{/admin/products/variants/update-size}"
+							method="post">
+							<input type="hidden" name="variantId" th:value="${variant.id}">
+							<input type="hidden" name="productId"
+								th:value="${variant.productColor.product.id}">
+
+							<div class="form-group">
+								<label>Sản phẩm / Màu sắc</label> <input type="text"
+									class="form-control" readonly
+									th:value="${variant.productColor.product.name} + ' - ' + ${variant.productColor.color.name}">
+							</div>
+
+							<div class="form-group">
+								<label>Kích cỡ (Size)</label> <input type="text"
+									class="form-control" readonly th:value="${variant.size.name}">
+								<small class="text-muted">Không thể sửa Size. Nếu sai,
+									hãy xóa đi tạo lại.</small>
+							</div>
+
+							<div class="form-group">
+								<label>Giá bán (VNĐ)</label> <input type="number" name="price"
+									class="form-control" required
+									th:value="${#numbers.formatDecimal(variant.price, 0, 'POINT', 0, 'POINT').replace('.', '')}">
+							</div>
+
+							<div class="form-group">
+								<label>Số lượng tồn kho</label> <input type="number"
+									name="stock" class="form-control" required
+									th:value="${variant.stock}">
+							</div>
+
+							<hr>
+							<button type="submit" class="btn btn-primary">Lưu thay
+								đổi</button>
+							<a
+								th:href="@{/admin/products/variants/{id}(id=${variant.productColor.product.id})}"
+								class="btn btn-secondary">Hủy</a>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

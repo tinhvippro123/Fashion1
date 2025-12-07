@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
+<head><title>Color Form</title></head>
+<body>
+<div layout:fragment="content">
+    <h1 class="h3 mb-4 text-gray-800">Thông tin Màu sắc</h1>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form th:action="@{/admin/colors/save}" th:object="${color}" method="post">
+                <input type="hidden" th:field="*{id}">
+                
+                <div class="form-group">
+                    <label>Tên màu (Ví dụ: Đỏ đô, Xanh dương...)</label>
+                    <input type="text" class="form-control" th:field="*{name}" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Chọn màu (Click vào để chọn)</label>
+                    <input type="color" class="form-control" th:field="*{hexCode}" style="height: 50px; width: 100px;">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Lưu lại</button>
+                <a th:href="@{/admin/colors}" class="btn btn-secondary">Hủy</a>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

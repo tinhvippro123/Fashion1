@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}"> <head>
+    <title>Danh sách người dùng</title>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+
+        <h1 class="h3 mb-2 text-gray-800">Quản lý người dùng</h1>
+        <p class="mb-4">Danh sách tất cả người dùng trong hệ thống.</p>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Danh sách User</h6>
+                <a th:href="@{/admin/users/new}" class="btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-plus fa-sm text-white-50"></i> Thêm mới
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Họ tên</th>
+                                <th>Email</th>
+                                <th>Vai trò</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="user : ${users}">
+                                <td th:text="${user.id}">1</td>
+                                <td th:text="${user.fullName}">Nguyễn Văn A</td>
+                                <td th:text="${user.email}">a@gmail.com</td>
+                                <td th:text="${user.role}">USER</td>
+                                <td>
+                                    <span th:if="${user.isActive}" class="badge badge-success">Active</span>
+                                    <span th:unless="${user.isActive}" class="badge badge-danger">Inactive</span>
+                                </td>
+                                <td>
+                                    <a th:href="@{/admin/users/edit/{id}(id=${user.id})}" class="btn btn-info btn-sm">Sửa</a>
+                                    <a th:href="@{/admin/users/{userId}/addresses(userId=${user.id})}" class="btn btn-warning btn-sm">Địa chỉ</a>
+                                    <a th:href="@{/admin/users/delete/{id}(id=${user.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn chắc chắn muốn xóa?');">Xóa</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

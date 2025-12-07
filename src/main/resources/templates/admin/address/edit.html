@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
+
+<head>
+    <title>Cập nhật địa chỉ</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <h1 class="h3 mb-4 text-gray-800">Cập nhật địa chỉ</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form th:action="@{/admin/users/{uid}/addresses/update/{aid}(uid=${userId}, aid=${address.id})}" 
+                  th:object="${address}" method="post">
+                
+                <input type="hidden" th:field="*{id}">
+
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label>Tên người nhận</label>
+                        <input type="text" class="form-control" th:field="*{receiverName}" required>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>Số điện thoại</label>
+                        <input type="text" class="form-control" th:field="*{phone}" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label>Tỉnh / Thành phố</label>
+                        <input type="text" class="form-control" th:field="*{province}" required>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label>Quận / Huyện</label>
+                        <input type="text" class="form-control" th:field="*{district}" required>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label>Phường / Xã</label>
+                        <input type="text" class="form-control" th:field="*{ward}" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Số nhà, tên đường</label>
+                    <input type="text" class="form-control" th:field="*{street}" required>
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="defaultCheckEdit" th:field="*{isDefault}">
+                        <label class="custom-control-label" for="defaultCheckEdit">Địa chỉ mặc định</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
+                <a th:href="@{/admin/users/{id}/addresses(id=${userId})}" class="btn btn-secondary">Hủy bỏ</a>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

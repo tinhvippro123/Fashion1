@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout}">
+<head>
+<title>Quản lý sản phẩm</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<h1 class="h3 mb-4 text-gray-800">Danh sách Sản phẩm</h1>
+
+		<div class="card shadow mb-4">
+			<div class="card-header py-3">
+				<a th:href="@{/admin/products/new}" class="btn btn-primary btn-sm">
+					<i class="fas fa-plus"></i> Thêm sản phẩm mới
+				</a>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-bordered" width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Tên sản phẩm</th>
+								<th>Danh mục</th>
+								<th>Giá gốc</th>
+								<th>Trạng thái</th>
+								<th>Hành động</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="p : ${products}">
+								<td th:text="${p.id}"></td>
+
+								<td><span th:text="${p.name}"
+									class="font-weight-bold text-primary"></span> <br> <small
+									th:text="${p.slug}"></small></td>
+
+								<td
+									th:text="${p.category != null ? p.category.name : 'Chưa phân loại'}"></td>
+
+								<td
+									th:text="${#numbers.formatDecimal(p.basePrice, 0, 'COMMA', 0, 'POINT')} + ' đ'"></td>
+
+								<td><span th:if="${p.isActive}" class="badge badge-success">Đang
+										bán</span> <span th:unless="${p.isActive}"
+									class="badge badge-secondary">Ngừng bán</span></td>
+
+								<td><a th:href="@{/admin/products/edit/{id}(id=${p.id})}"
+									class="btn btn-info btn-sm" title="Sửa thông tin"> <i
+										class="fas fa-edit"></i>
+								</a> <a th:href="@{/admin/products/variants/{id}(id=${p.id})}"
+									class="btn btn-warning btn-sm" title="Quản lý Màu & Size">
+										<i class="fas fa-layer-group"></i> Biến thể
+								</a> <a th:href="@{/admin/products/delete/{id}(id=${p.id})}"
+									class="btn btn-danger btn-sm"
+									onclick="return confirm('Xóa sản phẩm này?');" title="Xóa">
+										<i class="fas fa-trash"></i>
+								</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
