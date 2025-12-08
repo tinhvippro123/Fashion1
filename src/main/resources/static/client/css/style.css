@@ -106,17 +106,21 @@
 
 /* Mega Menu ẩn mặc định */
 .ivy-mega-menu {
-	display: none;
-	position: absolute;
-	top: 100%;
-	left: 0;
-	width: 100%; /* Rộng hết màn hình */
-	background: #fff;
-	padding: 30px 85px; /* Cách lề giống container */
-	border-top: 1px solid #f1f1f1;
-	border-bottom: 1px solid #f1f1f1;
-	z-index: 1000;
-	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    display: none;
+    position: absolute;
+    
+    /* KỸ THUẬT BREAKOUT: Buộc nó rộng bằng màn hình trình duyệt */
+    width: 100vw;              /* 100% chiều rộng màn hình (Viewport Width) */
+    left: 50%;                 /* Đẩy ra giữa */
+    transform: translateX(-50%); /* Căn chỉnh lại cho chuẩn giữa */
+    
+    top: 100%;                 /* Nằm ngay dưới header */
+    background: #fff;
+    border-top: 1px solid #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
+    z-index: 9999;             /* Đè lên mọi thứ */
+    padding: 30px 0 40px 0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
 }
 
 /* Hiện Mega Menu khi Hover */
@@ -125,7 +129,74 @@
 }
 
 /* Hover vào link con cấp 3 */
-.ivy-mega-menu a.text-secondary:hover {
+/*.ivy-mega-menu a.text-secondary:hover {
 	color: #000 !important;
 	padding-left: 5px; /* Hiệu ứng đẩy nhẹ sang phải */
+/*}*/
+
+/* 2. Layout Lưới đặc biệt (Cách nhau 50px) */
+.ivy-grid-wrapper {
+	display: flex;
+	width: 100%;
+}
+
+/* Cột Đặc biệt (ALL ITEMS) - Cố định bên trái */
+.ivy-col-special {
+	width: 250px; /* Cố định chiều rộng cột trái */
+	flex-shrink: 0; /* Không cho phép co lại */
+	padding-left: 25px; /* Yêu cầu của bạn: Cách khung bên trái 25px */
+	padding-right: 40px; /* Khoảng cách an toàn với cột bên phải */
+	border-right: 1px solid #eee; /* Đường kẻ dọc mờ */
+	margin-right: 40px; /* Đẩy các cột danh mục ra xa thêm chút nữa */
+}
+
+/* Khu vực chứa các cột danh mục (ÁO, QUẦN...) */
+.ivy-col-categories {
+	flex-grow: 1; /* Chiếm hết không gian còn lại bên phải */
+	display: flex; /* QUAN TRỌNG: Kích hoạt chế độ dàn trang Flex */
+	flex-direction: row; /* QUAN TRỌNG: Bắt buộc xếp theo hàng NGANG */
+	flex-wrap: wrap; /* Hết chỗ mới được xuống dòng */
+	gap: 30px; /* Khoảng cách giữa các cột (giảm xuống 30px cho vừa đẹp) */
+	padding-left: 40px; /* Cách đường kẻ dọc bên trái ra một chút */
+	align-content: flex-start; /* Dồn nội dung lên trên */
+}
+/* Mỗi cột danh mục con */
+.ivy-sub-cat-item {
+	width: 200px; /* Đặt chiều rộng cố định cho mỗi cột */
+	min-width: 180px; /* Không được co nhỏ hơn mức này */
+	margin-bottom: 30px; /* Khoảng cách dưới chân mỗi cột */
+	/* Đảm bảo không dính thuộc tính block cũ */
+	display: block;
+	box-sizing: border-box;
+}
+
+/* Link Style */
+.ivy-cat-title {
+	display: block;
+	font-weight: 700;
+	color: #333;
+	text-transform: uppercase;
+	font-size: 14px;
+	margin-bottom: 15px;
+	text-decoration: none !important;
+}
+
+.ivy-cat-title:hover {
+	color: #000;
+}
+
+.ivy-flex-container {
+	display: flex;
+	width: 100%;
+	/* Không set padding ở đây để tránh cộng dồn */
+}
+
+.ivy-mega-menu .container-ivy {
+    width: 100%;
+    max-width: 100%; /* Đảm bảo không bị giới hạn max-width của Bootstrap */
+    padding-left: 85px; /* Ép cứng lề trái */
+    padding-right: 85px; /* Ép cứng lề phải */
+    
+    /* Reset margin để nó không tự căn giữa nếu không muốn */
+    /* margin: 0; -> Nếu bạn muốn nó dính sát lề, nhưng container-ivy thường có margin auto */
 }
