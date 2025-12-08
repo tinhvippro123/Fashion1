@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{client/layout}">
+<head>
+<title th:text="${product.name} + ' - IvyModa'">Chi tiết sản
+	phẩm</title>
+</head>
+<body>
+	<div layout:fragment="content">
+
+		<div class="container-ivy mb-3 mt-3">
+			<small class="text-muted"> <a th:href="@{/}"
+				class="text-muted">Trang chủ</a> - <span class="text-dark"
+				th:text="${product.name}"></span>
+			</small>
+		</div>
+
+		<div class="container-ivy">
+			<div class="row">
+
+				<div class="col-lg-7 mb-5">
+					<div th:if="${not #lists.isEmpty(product.productColors)}"
+						th:with="firstColor=${product.productColors[0]}"
+						class="gallery-wrapper">
+
+						<div class="gallery-main">
+							<img id="mainImage"
+								th:src="@{'/uploads/' + ${firstColor.images[0].imageUrl}}"
+								class="main-img-display" alt="Ảnh chính">
+						</div>
+
+						<div class="gallery-thumbs-container">
+
+							<button class="thumb-arrow up"
+								th:if="${firstColor.images.size() > 5}"
+								onclick="scrollThumbs('up')">
+								<i class="fas fa-chevron-up"></i>
+							</button>
+
+							<div class="gallery-thumbs-scroll" id="thumbScroller">
+								<img th:each="img, iter : ${firstColor.images}"
+									th:src="@{'/uploads/' + ${img.imageUrl}}" class="thumb-img"
+									th:classappend="${iter.index == 0} ? 'active'"
+									th:onclick="'changeMainImage(this, \'' + @{'/uploads/' + ${img.imageUrl}} + '\')'">
+							</div>
+
+							<button class="thumb-arrow down"
+								th:if="${firstColor.images.size() > 5}"
+								onclick="scrollThumbs('down')">
+								<i class="fas fa-chevron-down"></i>
+							</button>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="col-lg-5 mb-5 product-info-col">
+					<form th:action="@{/cart/add}" method="post"
+						onsubmit="return addToCartValidation()">
+						<input type="hidden" name="productId" th:value="${product.id}">
+
+						<h2 class="font-weight-bold text-uppercase mb-2"
+							style="font-size: 24px;" th:text="${product.name}"></h2>
+
+						<div class="product-price-large"
+							th:text="${#numbers.formatDecimal(product.basePrice, 0, 'COMMA', 0, 'POINT')} + 'đ'">
+						</div>
+
+						<div class="mb-4">
+							<div class="color-label">
+								Màu sắc: <span class="font-weight-normal"
+									th:text="${product.productColors[0].color.name}">Trắng
+									ngà</span>
+							</div>
+						</div>
+
+						<div class="mb-4">
+							<div class="mb-4">
+								<div th:each="variant : ${product.productColors[0].variants}"
+									class="size-box"
+									th:classappend="${variant.stock <= 0} ? 'disabled'"
+									onclick="selectSize(this)">
+									<span th:text="${variant.size.name}">S</span> <input
+										type="radio" name="variantId" th:value="${variant.id}" hidden>
+								</div>
+
+								<div id="size-error" class="text-danger mt-2"
+									style="display: none; font-size: 13px;">
+									<i class="fas fa-exclamation-circle"></i> Vui lòng chọn kích cỡ
+									(Size)
+								</div>
+							</div>
+							<div class="mt-2 text-muted small">
+								<i class="fas fa-ruler-combined mr-1"></i> Kiểm tra size của bạn
+							</div>
+						</div>
+
+						<div class="mb-4">
+							<label class="font-weight-bold d-block mb-2">Số lượng</label>
+							<div class="qty-control">
+								<button type="button" class="qty-btn" onclick="updateQty(-1)">-</button>
+								<input type="text" name="quantity" id="qtyInput" value="1"
+									class="qty-input" readonly>
+								<button type="button" class="qty-btn" onclick="updateQty(1)">+</button>
+							</div>
+						</div>
+
+						<div class="action-buttons">
+							<button type="submit" class="btn-add-cart-black">THÊM
+								VÀO GIỎ</button>
+							<button type="button" class="btn-buy-now-white">MUA HÀNG</button>
+							<div class="btn-wishlist-box">
+								<i class="far fa-heart"></i>
+							</div>
+						</div>
+
+						<div class="mt-5">
+							<div class="single-tab-header">
+								<span class="tab-title">CHI TIẾT SẢN PHẨM</span>
+							</div>
+							<div class="text-muted"
+								style="font-size: 14px; line-height: 1.8;">
+								<p th:text="${product.description}"
+									style="white-space: pre-line;"></p>
+							</div>
+
+							<div class="text-center mt-3">
+								<i
+									class="fas fa-chevron-down text-muted border rounded-circle p-2"
+									style="cursor: pointer;"></i>
+							</div>
+						</div>
+
+					</form>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+	<th:block layout:fragment="pageScripts">
+		<script>
+            // 1. Đổi ảnh khi click Thumb
+            function changeMainImage(thumbElement, newSrc) {
+                // Đổi ảnh lớn
+                document.getElementById('mainImage').src = newSrc;
+                
+                // Active class cho thumb
+                document.querySelectorAll('.thumb-img').forEach(el => el.classList.remove('active'));
+                thumbElement.classList.add('active');
+            }
+
+            // 2. Scroll Slider Dọc
+            function scrollThumbs(direction) {
+                const container = document.getElementById('thumbScroller');
+                const scrollAmount = 100; // Mỗi lần bấm cuộn 100px
+                
+                if (direction === 'up') {
+                    container.scrollTop -= scrollAmount;
+                } else {
+                    container.scrollTop += scrollAmount;
+                }
+            }
+
+            // 3. Chọn Size
+            function selectSize(element) {
+                if (element.classList.contains('disabled')) return;
+
+                document.querySelectorAll('.size-box').forEach(el => el.classList.remove('active'));
+                element.classList.add('active');
+                element.querySelector('input').checked = true;
+            }
+
+            // 4. Số lượng
+            function updateQty(change) {
+                const input = document.getElementById('qtyInput');
+                let newVal = parseInt(input.value) + change;
+                if (newVal < 1) newVal = 1;
+                input.value = newVal;
+            }
+            
+            function addToCartValidation() {
+                // 1. Tìm xem có input radio nào tên 'variantId' được check chưa
+                const selectedSize = document.querySelector('input[name="variantId"]:checked');
+                const errorMsg = document.getElementById('size-error');
+
+                // 2. Nếu chưa chọn (kết quả là null)
+                if (!selectedSize) {
+                    // Hiện thông báo lỗi màu đỏ
+                    errorMsg.style.display = 'block';
+                    
+                    // (Tuỳ chọn) Cuộn màn hình lên chỗ chọn size để khách thấy
+                    errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                    // Chặn không cho gửi form
+                    return false; 
+                }
+
+                // 3. Nếu đã chọn rồi -> Ẩn lỗi đi và cho phép gửi
+                errorMsg.style.display = 'none';
+                return true;
+            }
+
+            // Bổ sung: Khi khách bấm chọn size thì tự động ẩn lỗi đi cho đẹp
+            function selectSize(element) {
+                if (element.classList.contains('disabled')) return;
+
+                document.querySelectorAll('.size-box').forEach(el => el.classList.remove('active'));
+                element.classList.add('active');
+                element.querySelector('input').checked = true;
+
+                // Ẩn lỗi ngay khi khách chọn
+                document.getElementById('size-error').style.display = 'none';
+            }
+        </script>
+	</th:block>
+</body>
+</html>

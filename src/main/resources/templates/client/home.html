@@ -3,15 +3,125 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{client/layout}">
 <head>
-    <title>Trang chủ - IvyModa Style</title>
+    <title>Trang chủ - IvyModa</title>
 </head>
 <body>
     <div layout:fragment="content">
-        <div style="background: #f5f5f5; height: 400px; display: flex; align-items: center; justify-content: center;">
-            <h2>BANNER SLIDER SẼ NẰM Ở ĐÂY</h2>
-        </div>
         
-        <h3 class="text-center mt-5 mb-4 font-weight-bold">NEW ARRIVAL</h3>
+        <div class="container-ivy mb-5"> 
+            
+            <div id="homeCarousel" class="carousel slide ivy-banner-wrapper" data-ride="carousel" data-interval="3000">
+                <ol class="carousel-indicators">
+                    <li data-target="#homeCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#homeCarousel" data-slide-to="1"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img th:src="@{/client/img/banner-1.jpg}" class="d-block w-100" alt="Banner 1">
+                    </div>
+                    <div class="carousel-item">
+                         <img th:src="@{/client/img/banner-2.jpg}" class="d-block w-100" alt="Banner 2">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#homeCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </a>
+                <a class="carousel-control-next" href="#homeCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </a>
+            </div>
+            
         </div>
+
+        <div class="container-ivy" style="margin-top: 50px;">
+            
+            <div class="ivy-section-header">
+                <h3 class="ivy-section-title">NEW ARRIVAL</h3>
+                
+                <div class="d-flex justify-content-center">
+                    <a href="javascript:void(0)" class="ivy-tab-item active">IVY moda</a>
+                    <a href="javascript:void(0)" class="ivy-tab-item">Metagent</a>
+                </div>
+            </div>
+            
+            <div class="row-ivy-5">
+    
+    <div class="col-ivy-5" th:each="p : ${products}">
+        <div class="product-item">
+            
+            <div class="product-image">
+                <span class="badge-new">NEW</span>
+
+                <a th:href="@{/product/{id}(id=${p.id})}">
+                    <th:block th:if="${not #lists.isEmpty(p.productColors)}">
+                        <th:block th:with="firstColor=${p.productColors[0]}">
+                            <img th:if="${not #lists.isEmpty(firstColor.images)}"
+                                 th:src="@{'/uploads/' + ${firstColor.images[0].imageUrl}}" 
+                                 class="img-main">
+                            <img th:if="${firstColor.images.size() > 1}"
+                                 th:src="@{'/uploads/' + ${firstColor.images[1].imageUrl}}" 
+                                 class="img-hover">
+                            <img th:if="${firstColor.images.size() == 1}"
+                                 th:src="@{'/uploads/' + ${firstColor.images[0].imageUrl}}" 
+                                 class="img-hover">
+                        </th:block>
+                    </th:block>
+                    
+                    <img th:if="${#lists.isEmpty(p.productColors)}" 
+                         src="https://via.placeholder.com/300x450?text=No+Image" 
+                         class="img-main">
+                </a>
+            </div>
+
+            <div class="product-info">
+                
+                <div class="info-row-1">
+                    <div class="list-colors">
+                        <th:block th:if="${not #lists.isEmpty(p.productColors)}">
+                            <span th:each="pc, iter : ${p.productColors}" 
+                                  th:if="${pc.isActive}"
+                                  class="color-dot"
+                                  th:classappend="${iter.index == 0} ? 'active'" 
+                                  th:style="'background-color:' + ${pc.color.hexCode}"
+                                  th:title="${pc.color.name}">
+                                  </span>
+                        </th:block>
+                    </div>
+                    
+                    <button class="btn-wishlist">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+
+                <div class="product-title">
+                    <a th:href="@{/product/{id}(id=${p.id})}" th:text="${p.name}">
+                        Tên sản phẩm sẽ hiện ở đây
+                    </a>
+                </div>
+
+                <div class="info-row-bottom">
+                    <div class="product-price">
+                        <span th:text="${#numbers.formatDecimal(p.basePrice, 0, 'COMMA', 0, 'POINT')} + 'đ'">
+                            990.000đ
+                        </span>
+                    </div>
+                    
+                    <a th:href="@{/product/{id}(id=${p.id})}" class="btn-bag-black">
+                        <i class="fas fa-shopping-bag"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+            
+            <div class="text-center mb-5 mt-4">
+                <a href="#" class="btn-ivy-see-all">Xem tất cả</a>
+            </div>
+
+        </div>
+
+    </div>
 </body>
 </html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{client/layout}">
+<head>
+<title>Giỏ hàng - IvyModa</title>
+</head>
+<body>
+	<div layout:fragment="content">
+
+		<div class="container-ivy mt-4">
+			<div class="checkout-progress">
+				<div class="progress-step active">
+					<div class="step-dot"></div>
+					<span class="step-text">Giỏ hàng</span>
+				</div>
+				<div class="progress-step">
+					<div class="step-dot"></div>
+					<span class="step-text">Đặt hàng</span>
+				</div>
+				<div class="progress-step">
+					<div class="step-dot"></div>
+					<span class="step-text">Thanh toán</span>
+				</div>
+				<div class="progress-step">
+					<div class="step-dot"></div>
+					<span class="step-text">Hoàn thành đơn</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="container-ivy mb-5">
+
+			<div th:if="${cart == null || #lists.isEmpty(cart.items)}"
+				class="text-center py-5">
+				<h4 class="mt-4">Giỏ hàng của bạn đang trống</h4>
+				<a th:href="@{/}" class="btn-continue mt-3">TIẾP TỤC MUA HÀNG</a>
+			</div>
+
+			<div th:if="${cart != null && not #lists.isEmpty(cart.items)}"
+				class="row">
+
+				<div class="col-lg-8">
+					<h4 class="font-weight-bold mb-4">
+						Giỏ hàng của bạn <span class="text-danger"
+							th:text="${cart.totalItems} + ' Sản phẩm'"></span>
+					</h4>
+
+					<div class="cart-header-row">
+						<div style="flex-grow: 1;">TÊN SẢN PHẨM</div>
+						<div style="width: 100px; text-align: center;">CHIẾT KHẤU</div>
+						<div style="width: 120px; text-align: center;">SỐ LƯỢNG</div>
+						<div style="width: 120px; text-align: right;">TỔNG TIỀN</div>
+						<div style="width: 40px;"></div>
+					</div>
+
+					<div class="cart-item-row" th:each="item : ${cart.items}">
+
+						<div class="cart-img">
+							<img
+								th:src="@{'/uploads/' + ${item.variant.productColor.images[0].imageUrl}}"
+								alt="SP">
+						</div>
+
+						<div class="cart-info">
+							<a
+								th:href="@{/product/{id}(id=${item.variant.productColor.product.id})}"
+								class="cart-name font-weight-bold"
+								th:text="${item.variant.productColor.product.name}">Tên SP</a>
+							<div class="cart-meta mt-1">
+								Màu sắc: <span th:text="${item.variant.productColor.color.name}"></span>
+								<br> Size: <span th:text="${item.variant.size.name}"></span>
+							</div>
+						</div>
+
+						<div style="width: 100px; text-align: center; color: #999;">-</div>
+
+						<div style="width: 120px; display: flex; justify-content: center;">
+							<form th:action="@{/cart/update}" method="post"
+								class="cart-qty-box">
+								<input type="hidden" name="itemId" th:value="${item.id}">
+
+								<button type="submit" name="quantity"
+									th:value="${item.quantity - 1}" class="qty-btn-cart">-</button>
+
+								<input type="text" th:value="${item.quantity}"
+									class="qty-input-cart" readonly>
+
+								<button type="submit" name="quantity"
+									th:value="${item.quantity + 1}" class="qty-btn-cart">+</button>
+							</form>
+						</div>
+
+						<div style="width: 120px; text-align: right;">
+							<span class="cart-price-total"
+								th:with="unitPrice=${item.variant.productColor.product.basePrice}"
+								th:text="${#numbers.formatDecimal(unitPrice * item.quantity, 0, 'COMMA', 0, 'POINT')} + 'đ'">
+							</span>
+						</div>
+
+						<div style="width: 40px; text-align: right;">
+							<a th:href="@{/cart/remove/{itemId}(itemId=${item.id})}"
+								class="cart-remove-btn"> <i class="fas fa-trash-alt"></i>
+							</a>
+						</div>
+					</div>
+
+					<a th:href="@{/}" class="btn-continue"> <i
+						class="fas fa-arrow-left mr-2"></i> Tiếp tục mua hàng
+					</a>
+				</div>
+
+				<div class="col-lg-4 pl-lg-5">
+					<div class="cart-summary">
+						<div class="summary-title">Tổng tiền giỏ hàng</div>
+
+						<div class="summary-row">
+							<span>Tổng sản phẩm</span> <span th:text="${cart.totalItems}"></span>
+						</div>
+
+						<div class="summary-row">
+							<span>Tổng tiền hàng</span> <span
+								th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+						</div>
+
+						<div class="summary-row">
+							<span>Thành tiền</span> <span class="font-weight-bold"
+								th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+						</div>
+
+						<div class="summary-row total">
+							<span>Tạm tính</span> <span
+								th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+						</div>
+
+						<div class="warning-text">
+							<i class="fas fa-exclamation-circle mr-1"></i> Sản phẩm nằm trong
+							CTKM giảm giá trên 50% không hỗ trợ đổi trả. KHÔNG THANH TOÁN cho
+							shipper khi CHƯA NHẬN HÀNG!!
+						</div>
+
+						<a href="#" class="btn-checkout">ĐẶT HÀNG</a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

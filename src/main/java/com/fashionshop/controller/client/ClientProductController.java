@@ -42,24 +42,42 @@ public class ClientProductController {
 //	}
 
 	// Endpoint xử lý chung cho Category
-    @GetMapping("/category/{slug}")
-    public String productsByCategory(@PathVariable String slug, 
-                                     @RequestParam(value = "filter", required = false) String filter,
-                                     Model model) {
-        List<Product> products;
+	@GetMapping("/category/{slug}")
+	public String productsByCategory(@PathVariable String slug,
+			@RequestParam(value = "filter", required = false) String filter, Model model) {
+		List<Product> products;
 
-        if ("new-arrival".equals(filter)) {
-            // Nếu bấm vào NEW ARRIVAL
-            products = productService.getNewArrivalsByCategorySlug(slug);
-            model.addAttribute("pageTitle", "Hàng mới về");
-        } else {
-            // Nếu bấm vào ALL ITEMS (hoặc tên danh mục)
-            products = productService.getProductsByCategorySlug(slug);
-            model.addAttribute("pageTitle", "Tất cả sản phẩm");
-        }
+		if ("new-arrival".equals(filter)) {
+			// Nếu bấm vào NEW ARRIVAL
+			products = productService.getNewArrivalsByCategorySlug(slug);
+			model.addAttribute("pageTitle", "Hàng mới về");
+		} else {
+			// Nếu bấm vào ALL ITEMS (hoặc tên danh mục)
+			products = productService.getProductsByCategorySlug(slug);
+			model.addAttribute("pageTitle", "Tất cả sản phẩm");
+		}
 
-        model.addAttribute("products", products);
-        return "client/products"; // Trang danh sách sản phẩm (sẽ tạo sau)
-    }
+		model.addAttribute("products", products);
+		return "client/products"; // Trang danh sách sản phẩm (sẽ tạo sau)
+	}
+
+	// Đây là cái bạn đang thiếu: Xử lý link /product/{id}
+	@GetMapping("/product/{id}")
+	public String productDetail(@PathVariable Long id, Model model) {
+
+		// 1. Gọi Service lấy sản phẩm theo ID
+		Product product = productService.getProductById(id);
+
+		// 2. Kiểm tra nếu không tìm thấy hoặc sản phẩm bị ẩn (Active = false)
+		if (product == null) {
+			return "redirect:/"; // Đá về trang chủ nếu lỗi
+		}
+
+		// 3. Đẩy dữ liệu sang HTML
+		model.addAttribute("product", product);
+
+		// 4. Trả về tên file HTML (nằm trong folder templates/client/)
+		return "client/product-detail";
+	}
 
 }

@@ -1,84 +1,104 @@
-	<header xmlns:th="http://www.thymeleaf.org" th:fragment="header"
-		class="site-header sticky-top">
-		<div
-			class="container-ivy d-flex align-items-center justify-content-between position-relative">
-	
-			<nav class="d-none d-lg-flex">
-	
-				<div th:each="rootCat : ${categories}" class="ivy-menu-item">
-	
-					<a href="javascript:void(0)" class="ivy-nav-link"
-						th:text="${rootCat.name}" style="cursor: default;">NỮ</a>
-	
-					<div class="ivy-mega-menu"
-						th:if="${not #lists.isEmpty(rootCat.children)}">
-	
-						<div class="container-ivy">
-	
-							<div class="ivy-flex-container">
-	
-								<div class="ivy-col-special">
-									<a th:href="@{/category/{slug}(slug=${rootCat.slug})}"
-										class="ivy-cat-title"> ALL ITEMS </a> <a
-										th:href="@{/category/{slug}(slug=${rootCat.slug}, filter='new-arrival')}"
-										class="ivy-cat-title text-danger mt-4"> NEW ARRIVAL </a> <a
-										href="#" class="ivy-cat-title text-danger mt-4"> HOT ITEMS
-										- SALE 50% </a>
-								</div>
-	
-								<div class="ivy-col-categories">
-	
-									<div class="ivy-sub-cat-item"
-										th:each="subCat : ${rootCat.children}">
-	
-										<a th:href="@{/category/{slug}(slug=${subCat.slug})}"
-											class="ivy-cat-title"> <span th:text="${subCat.name}">ÁO</span>
+
+<header xmlns:th="http://www.thymeleaf.org" th:fragment="header"
+	class="site-header sticky-top">
+	<div
+		class="container-ivy d-flex align-items-center justify-content-between position-relative">
+
+		<nav class="d-none d-lg-flex">
+
+			<div th:each="rootCat : ${categories}" class="ivy-menu-item">
+
+				<a href="javascript:void(0)" class="ivy-nav-link"
+					th:text="${rootCat.name}" style="cursor: default;">NỮ</a>
+
+				<div class="ivy-mega-menu"
+					th:if="${not #lists.isEmpty(rootCat.children)}">
+
+					<div class="container-ivy">
+
+						<div class="ivy-flex-container">
+
+							<div class="ivy-col-special">
+								<a th:href="@{/category/{slug}(slug=${rootCat.slug})}"
+									class="ivy-cat-title"> ALL ITEMS </a> <a
+									th:href="@{/category/{slug}(slug=${rootCat.slug}, filter='new-arrival')}"
+									class="ivy-cat-title text-danger mt-4"> NEW ARRIVAL </a> <a
+									href="#" class="ivy-cat-title text-danger mt-4"> HOT ITEMS
+									- SALE 50% </a>
+							</div>
+
+							<div class="ivy-col-categories">
+
+								<div class="ivy-sub-cat-item"
+									th:each="subCat : ${rootCat.children}">
+
+									<a th:href="@{/category/{slug}(slug=${subCat.slug})}"
+										class="ivy-cat-title"> <span th:text="${subCat.name}">ÁO</span>
+									</a>
+
+									<div th:each="childCat : ${subCat.children}">
+										<a th:href="@{/category/{slug}(slug=${childCat.slug})}"
+											class="d-block text-secondary mb-2"
+											style="font-size: 13px; text-decoration: none; transition: all 0.2s;">
+											<span th:text="${childCat.name}">Áo sơ mi</span>
 										</a>
-	
-										<div th:each="childCat : ${subCat.children}">
-											<a th:href="@{/category/{slug}(slug=${childCat.slug})}"
-												class="d-block text-secondary mb-2"
-												style="font-size: 13px; text-decoration: none; transition: all 0.2s;">
-												<span th:text="${childCat.name}">Áo sơ mi</span>
-											</a>
-										</div>
-	
 									</div>
+
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-	
-				<a th:href="@{/sale}" class="ivy-nav-link nav-highlight">BIG SALE
-					THÁNG 12</a> <a th:href="@{/collection}" class="ivy-nav-link">BỘ SƯU
-					TẬP</a> <a th:href="@{/about}" class="ivy-nav-link">VỀ CHÚNG TÔI</a>
-			</nav>
-	
-			<button class="btn d-lg-none" type="button">
-				<i class="fas fa-bars"></i>
-			</button>
-	
-			<a th:href="@{/}" class="ivy-logo text-center"> IVY <span>moda</span>
-			</a>
-	
-			<div class="d-flex align-items-center">
-	
-				<form action="#" class="d-none d-md-flex ivy-search-box">
-					<input type="text" class="ivy-search-input"
-						placeholder="TÌM KIẾM SẢN PHẨM">
-					<button type="submit" class="btn ivy-search-btn">
-						<i class="fas fa-search"></i>
-					</button>
-				</form>
-	
-				<a href="#" class="ivy-icon-btn d-none d-sm-block"> <i
-					class="fas fa-headset"></i>
-				</a> <a href="#" class="ivy-icon-btn"> <i class="far fa-user"></i>
-				</a> <a th:href="@{/cart}" class="ivy-icon-btn"> <i
-					class="fas fa-shopping-bag"></i> <span class="cart-badge">0</span>
-				</a>
 			</div>
-	
+
+			<div class="ivy-menu-item">
+
+				<a th:href="@{/sale}" class="ivy-nav-link nav-highlight">BIG
+
+					SALE THÁNG 12</a>
+
+			</div>
+
+
+
+			<div class="ivy-menu-item">
+
+				<a th:href="@{/collection}" class="ivy-nav-link">BỘ SƯU TẬP</a>
+
+			</div>
+
+			<div class="ivy-menu-item">
+
+				<a th:href="@{/about}" class="ivy-nav-link">VỀ CHÚNG TÔI</a>
+
+			</div>
+
+		</nav>
+
+		<button class="btn d-lg-none" type="button">
+			<i class="fas fa-bars"></i>
+		</button>
+
+		<a th:href="@{/}" class="ivy-logo text-center"> IVY <span>moda</span>
+		</a>
+
+		<div class="d-flex align-items-center">
+
+			<form action="#" class="d-none d-md-flex ivy-search-box">
+				<input type="text" class="ivy-search-input"
+					placeholder="TÌM KIẾM SẢN PHẨM">
+				<button type="submit" class="btn ivy-search-btn">
+					<i class="fas fa-search"></i>
+				</button>
+			</form>
+
+			<a href="#" class="ivy-icon-btn d-none d-sm-block"> <i
+				class="fas fa-headset"></i>
+			</a> <a href="#" class="ivy-icon-btn"> <i class="far fa-user"></i>
+			</a> <a th:href="@{/cart}" class="ivy-icon-btn"> <i
+				class="fas fa-shopping-bag"></i> <span class="cart-badge">0</span>
+			</a>
 		</div>
-	</header>
+
+	</div>
+</header>
