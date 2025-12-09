@@ -23,13 +23,12 @@
 }
 
 .site-header .container-ivy {
-    position: relative;
-    display: flex;
-    align-items: center;	
-    justify-content: space-between; /*-> Giữ nguyên cái này để 2 bên trái phải dãn ra */
-    
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	/*-> Giữ nguyên cái này để 2 bên trái phải dãn ra */
 }
-
 
 /* Menu bên trái */
 .ivy-nav-link {
@@ -54,9 +53,8 @@
 /* Logo ở giữa */
 .ivy-logo {
 	position: absolute; /* Thoát khỏi dòng chảy Flexbox */
-    left: 50%;          /* Đẩy sang 50% container */
-    transform: translateX(-50%);
-	
+	left: 50%; /* Đẩy sang 50% container */
+	transform: translateX(-50%);
 	font-size: 28px;
 	font-weight: 700;
 	color: #000;
@@ -64,8 +62,6 @@
 	letter-spacing: 2px;
 	z-index: 10;
 }
-
-
 
 .ivy-logo span {
 	font-weight: 300; /* Chữ 'moda' mỏng hơn */
@@ -139,18 +135,17 @@
 }
 
 .ivy-mega-menu::before {
-    content: "";
-    position: absolute;
-    /* Đẩy lớp giả lên trên để lấp khoảng trống giữa menu cha và con */
-    top: -20px; 
-    left: 0;
-    width: 100%;
-    height: 20px; /* Chiều cao bằng khoảng hở */
-    background: transparent; /* Trong suốt */
-    display: block;
-    z-index: 1001; /* Đè lên tất cả */
+	content: "";
+	position: absolute;
+	/* Đẩy lớp giả lên trên để lấp khoảng trống giữa menu cha và con */
+	top: -20px;
+	left: 0;
+	width: 100%;
+	height: 20px; /* Chiều cao bằng khoảng hở */
+	background: transparent; /* Trong suốt */
+	display: block;
+	z-index: 1001; /* Đè lên tất cả */
 }
-
 
 /* Hiện Mega Menu khi Hover */
 .ivy-menu-item:hover .ivy-mega-menu {
@@ -1552,3 +1547,37 @@
 	border-top: 1px solid #eee;
 	background: #f9f9f9;
 }
+
+/* ------------------------------------ OWL CAROUSEL CUSTOM ------------------------------------ */
+.owl-nav button.owl-prev, .owl-nav button.owl-next {
+	position: absolute;
+	top: 40%; /* Căn giữa theo chiều dọc của ảnh */
+	transform: translateY(-50%);
+	width: 40px;
+	height: 40px;
+	background: #fff !important;
+	border-radius: 50% !important;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	color: #333 !important;
+	font-size: 18px !important;
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s;
+}
+
+.owl-nav button.owl-prev:hover, .owl-nav button.owl-next:hover {
+	background: #000 !important;
+	color: #fff !important;
+}
+
+.owl-nav button.owl-prev {
+	left: -20px; /* Thò ra bên trái */
+}
+
+.owl-nav button.owl-next {
+	right: -20px; /* Thò ra bên phải */
+}
+
+/* Ẩn mũi tên nếu không hover (Optional - IvyModa luôn hiện hoặc hover mới hiện) */
+/* .product-slider:hover .owl-nav button { opacity: 1; } */

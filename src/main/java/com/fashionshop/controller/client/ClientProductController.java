@@ -42,24 +42,24 @@ public class ClientProductController {
 //	}
 
 	// Endpoint xử lý chung cho Category
-	@GetMapping("/category/{slug}")
-	public String productsByCategory(@PathVariable String slug,
-			@RequestParam(value = "filter", required = false) String filter, Model model) {
-		List<Product> products;
-
-		if ("new-arrival".equals(filter)) {
-			// Nếu bấm vào NEW ARRIVAL
-			products = productService.getNewArrivalsByCategorySlug(slug);
-			model.addAttribute("pageTitle", "Hàng mới về");
-		} else {
-			// Nếu bấm vào ALL ITEMS (hoặc tên danh mục)
-			products = productService.getProductsByCategorySlug(slug);
-			model.addAttribute("pageTitle", "Tất cả sản phẩm");
-		}
-
-		model.addAttribute("products", products);
-		return "client/products"; // Trang danh sách sản phẩm (sẽ tạo sau)
-	}
+//	@GetMapping("/category/{slug}")
+//	public String productsByCategory(@PathVariable String slug,
+//			@RequestParam(value = "filter", required = false) String filter, Model model) {
+//		List<Product> products;
+//
+//		if ("new-arrival".equals(filter)) {
+//			// Nếu bấm vào NEW ARRIVAL
+//			products = productService.getNewArrivalsByCategorySlug(slug);
+//			model.addAttribute("pageTitle", "Hàng mới về");
+//		} else {
+//			// Nếu bấm vào ALL ITEMS (hoặc tên danh mục)
+//			products = productService.getProductsByCategorySlug(slug);
+//			model.addAttribute("pageTitle", "Tất cả sản phẩm");
+//		}
+//
+//		model.addAttribute("products", products);
+//		return "client/products"; // Trang danh sách sản phẩm (sẽ tạo sau)
+//	}
 
 	// Đây là cái bạn đang thiếu: Xử lý link /product/{id}
 	@GetMapping("/product/{id}")

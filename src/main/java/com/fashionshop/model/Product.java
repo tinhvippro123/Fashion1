@@ -2,6 +2,7 @@ package com.fashionshop.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Entity
@@ -128,6 +129,6 @@ public class Product {
     public boolean isNew() {
         if (createdAt == null) return false;
         // Nếu ngày tạo + 14 ngày vẫn còn lớn hơn ngày hiện tại -> Còn mới
-        return createdAt.plusDays(14).isAfter(LocalDateTime.now());
+        return ChronoUnit.DAYS.between(createdAt, LocalDateTime.now()) < 14;
     }
 }
