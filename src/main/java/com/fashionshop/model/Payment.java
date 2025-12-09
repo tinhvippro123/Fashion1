@@ -3,6 +3,9 @@ package com.fashionshop.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+import com.fashionshop.enums.PaymentMethod;
+import com.fashionshop.enums.PaymentStatus;
+
 @Entity
 @Table(name = "payments")
 public class Payment {
@@ -16,13 +19,15 @@ public class Payment {
 	@JoinColumn(name = "order_id")
 	private Order order;
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "payment_method")
-	private String paymentMethod; // COD, VNPAY...
+	private PaymentMethod paymentMethod; // COD, VNPAY...
 
 	private Double amount;
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "payment_status")
-	private String paymentStatus; // UNPAID, PAID...
+	private PaymentStatus paymentStatus; // UNPAID, PAID...
 
 	@Column(name = "payment_date")
 	private LocalDateTime paymentDate;
@@ -51,11 +56,11 @@ public class Payment {
 		this.order = order;
 	}
 
-	public String getPaymentMethod() {
+	public PaymentMethod getPaymentMethod() {
 		return paymentMethod;
 	}
 
-	public void setPaymentMethod(String paymentMethod) {
+	public void setPaymentMethod(PaymentMethod paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
 
@@ -67,11 +72,11 @@ public class Payment {
 		this.amount = amount;
 	}
 
-	public String getPaymentStatus() {
+	public PaymentStatus getPaymentStatus() {
 		return paymentStatus;
 	}
 
-	public void setPaymentStatus(String paymentStatus) {
+	public void setPaymentStatus(PaymentStatus paymentStatus) {
 		this.paymentStatus = paymentStatus;
 	}
 

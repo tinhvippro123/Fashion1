@@ -95,9 +95,13 @@
 			<a href="#" class="ivy-icon-btn d-none d-sm-block"> <i
 				class="fas fa-headset"></i>
 			</a> <a href="#" class="ivy-icon-btn"> <i class="far fa-user"></i>
-			</a> <a th:href="@{/cart}" class="ivy-icon-btn"> <i
-				class="fas fa-shopping-bag"></i> <span class="cart-badge">0</span>
 			</a>
+			<div class="header-cart-icon" onclick="openMiniCart()">
+				<i class="fas fa-shopping-bag"
+					style="font-size: 24px; cursor: pointer;"></i> <span
+					class="cart-badge" th:if="${globalCartCount > 0}"
+					th:text="${globalCartCount}">0</span>
+			</div>
 		</div>
 
 	</div>

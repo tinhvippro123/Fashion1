@@ -44,6 +44,11 @@
 
 /* Logo ở giữa */
 .ivy-logo {
+	position: absolute; /* Thoát khỏi dòng chảy Flexbox */
+    left: 50%;          /* Đẩy sang 50% container */
+    transform: translateX(-50%);
+	
+	
 	font-size: 28px;
 	font-weight: 700;
 	color: #000;
@@ -1282,4 +1287,243 @@
 .btn-continue:hover {
 	background: #000;
 	color: #fff;
+}
+
+/* ------------------------------------  CHECKOUT PAGE ------------------------------------------------ */
+.checkout-container {
+	padding-bottom: 80px;
+}
+
+/* 1. Các ô nhập liệu (Input) */
+.form-control-ivy {
+	border: 1px solid #ddd;
+	border-radius: 4px 0 4px 0; /* Bo góc chéo đặc trưng */
+	padding: 10px 15px;
+	height: 45px;
+	font-size: 14px;
+	width: 100%;
+	margin-bottom: 20px;
+	outline: none;
+	transition: border 0.3s;
+}
+
+.form-control-ivy:focus {
+	border-color: #000;
+}
+
+/* Nút Đăng nhập/Đăng ký nhanh */
+.auth-buttons-checkout {
+	display: flex;
+	gap: 15px;
+	margin-bottom: 25px;
+}
+
+.btn-auth-checkout {
+	flex: 1;
+	padding: 10px;
+	border: 1px solid #333;
+	background: #fff;
+	color: #333;
+	text-align: center;
+	font-weight: 700;
+	text-decoration: none;
+	border-radius: 4px 0 4px 0;
+	transition: all 0.3s;
+}
+
+.btn-auth-checkout.active {
+	background: #222;
+	color: #fff;
+}
+
+.btn-auth-checkout:hover {
+	background: #000;
+	color: #fff;
+}
+
+/* 2. Phương thức vận chuyển (Box) */
+.shipping-method-box {
+	border: 1px solid #ddd;
+	border-radius: 10px;
+	padding: 20px;
+	margin-top: 10px;
+	display: flex;
+	align-items: center;
+}
+
+.shipping-method-box input[type="radio"] {
+	margin-right: 10px;
+	transform: scale(1.2);
+	accent-color: #000;
+}
+
+.shipping-method-box label {
+	margin: 0;
+	font-weight: 600;
+	font-size: 14px;
+}
+
+/* 3. Tóm tắt đơn hàng (Box bên phải) */
+.order-summary-box {
+	background: #fff;
+	padding: 20px 0;
+}
+
+.summary-line {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 15px;
+	font-size: 14px;
+	color: #666;
+}
+
+.summary-line.total {
+	border-top: 1px solid #eee;
+	padding-top: 15px;
+	font-weight: 700;
+	color: #000;
+	font-size: 16px;
+}
+
+.btn-place-order {
+	display: block;
+	width: 100%;
+	background: #222;
+	color: #fff;
+	font-weight: 700;
+	text-transform: uppercase;
+	padding: 15px;
+	text-align: center;
+	border: none;
+	border-radius: 4px 0 4px 0;
+	cursor: pointer;
+	margin-top: 20px;
+	transition: background 0.3s;
+}
+
+.btn-place-order:hover {
+	background: #000;
+}
+
+/* Input mã giảm giá */
+.coupon-input-group {
+	display: flex;
+	gap: 10px;
+	margin: 20px 0;
+}
+
+.btn-apply-coupon {
+	border: 1px solid #333;
+	background: #fff;
+	padding: 0 20px;
+	font-weight: 700;
+	border-radius: 4px 0 4px 0;
+	cursor: pointer;
+}
+
+.btn-apply-coupon:hover {
+	background: #000;
+	color: #fff;
+}
+
+/* ------------------------------------ MINI CART & ICON ------------------------------------ */
+
+/* 1. Icon Header */
+.header-cart-icon {
+	position: relative;
+	display: inline-block;
+	padding: 10px;
+}
+
+.cart-badge {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background: #222; /* Màu đen hoặc đỏ tùy bạn */
+	color: #fff;
+	font-size: 11px;
+	font-weight: bold;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 20px;
+}
+
+/* 2. Overlay (Lớp nền tối) */
+.cart-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 1040;
+	display: none; /* Mặc định ẩn */
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+.cart-overlay.open {
+	display: block;
+	opacity: 1;
+}
+
+/* 3. Sidebar (Ngăn kéo) */
+.mini-cart-sidebar {
+	position: fixed;
+	top: 0;
+	right: -400px; /* Giấu sang bên phải */
+	width: 400px;
+	height: 100%;
+	background: #fff;
+	z-index: 1050;
+	box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+	transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+	display: flex;
+	flex-direction: column;
+}
+
+.mini-cart-sidebar.open {
+	right: 0; /* Trượt ra */
+}
+
+/* Nội dung bên trong */
+.mini-cart-header {
+	padding: 20px;
+	border-bottom: 1px solid #eee;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.close-btn {
+	background: none;
+	border: none;
+	font-size: 30px;
+	cursor: pointer;
+}
+
+.mini-cart-body {
+	flex-grow: 1;
+	overflow-y: auto; /* Cho phép cuộn nếu danh sách dài */
+	padding: 20px;
+}
+
+.mini-cart-item {
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #eee;
+}
+
+.mini-cart-img {
+	width: 70px;
+	height: 100px;
+	object-fit: cover;
+}
+
+.mini-cart-footer {
+	padding: 20px;
+	border-top: 1px solid #eee;
+	background: #f9f9f9;
 }

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{client/layout}">
+<head>
+<title>Thanh toán - IvyModa</title>
+</head>
+<body>
+	<div layout:fragment="content" class="checkout-container">
+
+		<div class="container-ivy mt-4">
+
+			<div class="checkout-progress">
+				<div class="progress-step">
+					<div class="step-dot"></div>
+					<span class="step-text">Giỏ hàng</span>
+				</div>
+				<div class="progress-step active">
+					<div class="step-dot"></div>
+					<span class="step-text">Đặt hàng</span>
+				</div>
+				<div class="progress-step">
+					<div class="step-dot"></div>
+					<span class="step-text">Hoàn thành đơn</span>
+				</div>
+			</div>
+
+			<form th:action="@{/order/place-order}" method="post">
+
+				<div class="row">
+
+					<div class="col-lg-6 mb-4">
+						<h5 class="font-weight-bold mb-4">Địa chỉ giao hàng</h5>
+
+						<div class="auth-buttons-checkout" th:if="${!isLoggedIn}">
+							<a th:href="@{/login}" class="btn-auth-checkout active">ĐĂNG
+								NHẬP</a> <a th:href="@{/register}" class="btn-auth-checkout">ĐĂNG
+								KÝ</a>
+						</div>
+						<p class="small text-muted mb-4" th:if="${!isLoggedIn}">Đăng
+							nhập/Đăng ký tài khoản để được tích điểm và nhận thêm nhiều ưu
+							đãi từ IVY moda.</p>
+
+						<div class="mb-3">
+							<label class="font-weight-bold"><i
+								class="fas fa-check-circle mr-1"></i> Địa chỉ</label>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6">
+								<input type="text" name="receiverName" class="form-control-ivy"
+									placeholder="Họ tên" required>
+							</div>
+							<div class="col-md-6">
+								<input type="text" name="phone" class="form-control-ivy"
+									placeholder="Số điện thoại" required>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6">
+								<select name="province" class="form-control-ivy" required>
+									<option value="">Tỉnh/Thành phố</option>
+									<option value="Hồ Chí Minh">Hồ Chí Minh</option>
+									<option value="Hà Nội">Hà Nội</option>
+									<option value="Đà Nẵng">Đà Nẵng</option>
+								</select>
+							</div>
+							<div class="col-md-6">
+								<select name="district" class="form-control-ivy" required>
+									<option value="">Quận/Huyện</option>
+									<option value="Quận 1">Quận 1</option>
+									<option value="Quận 3">Quận 3</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="mb-0">
+							<select name="ward" class="form-control-ivy" required>
+								<option value="">Phường xã</option>
+								<option value="Phường Bến Nghé">Phường Bến Nghé</option>
+							</select>
+						</div>
+
+						<div>
+							<input type="text" name="street" class="form-control-ivy"
+								placeholder="Địa chỉ (Ví dụ: 123 đường Lê Lợi)" required>
+						</div>
+
+						<div>
+							<textarea name="note" class="form-control-ivy"
+								placeholder="Ghi chú thêm (Optional)" style="height: 80px;"></textarea>
+						</div>
+					</div>
+
+					<div class="col-lg-3 mb-4">
+						<h5 class="font-weight-bold mb-4">Phương thức giao hàng</h5>
+
+						<div class="shipping-method-box">
+							<input type="radio" id="shipping1" name="shippingMethod" checked>
+							<label for="shipping1">Chuyển phát nhanh</label>
+						</div>
+
+						<div
+							class="mt-4 d-flex align-items-center justify-content-between">
+							<label class="font-weight-bold mb-0">Bạn có muốn nhận hóa
+								đơn VAT không?</label> <input type="checkbox"
+								style="transform: scale(1.5);">
+						</div>
+					</div>
+
+					<div class="col-lg-3">
+						<h5 class="font-weight-bold mb-4">Tóm tắt đơn hàng</h5>
+
+						<div class="order-summary-box">
+							<div class="summary-line">
+								<span>Tổng tiền hàng</span> <span
+									th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+							</div>
+							<div class="summary-line">
+								<span>Tạm tính</span> <span
+									th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+							</div>
+							<div class="summary-line">
+								<span>Phí vận chuyển</span> <span
+									th:text="${#numbers.formatDecimal(shippingFee, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</span>
+							</div>
+
+							<div class="summary-line total">
+								<span>Tiền thanh toán</span> <span
+									th:text="${#numbers.formatDecimal(finalTotal, 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+							</div>
+
+							<hr>
+
+							<div class="mb-2 font-weight-bold">Mã phiếu giảm giá</div>
+							<div class="coupon-input-group">
+								<input type="text" class="form-control-ivy mb-0"
+									placeholder="Mã giảm giá">
+								<button type="button" class="btn-apply-coupon">ÁP DỤNG</button>
+							</div>
+
+							<div class="mb-3">
+								<select class="form-control-ivy">
+									<option>Mã nhân viên hỗ trợ</option>
+								</select>
+							</div>
+
+							<button type="submit" class="btn-place-order">HOÀN THÀNH
+							</button>
+						</div>
+					</div>
+
+				</div>
+			</form>
+
+		</div>
+	</div>
+</body>
+</html>

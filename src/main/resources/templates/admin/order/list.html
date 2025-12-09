@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
+<head>
+    <title>Quản lý Đơn hàng</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        
+        <h1 class="h3 mb-2 text-gray-800">Quản lý Đơn hàng</h1>
+        <p class="mb-4">Danh sách tất cả các đơn hàng trong hệ thống.</p>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Danh sách Đơn hàng</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn</th>
+                                <th>Khách hàng</th>
+                                <th>Ngày đặt</th>
+                                <th>Tổng tiền</th>
+                                <th>TT Thanh toán</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="order : ${orders}">
+                                
+                                <td>
+                                    <a th:href="@{/admin/orders/detail/{id}(id=${order.id})}" 
+                                       class="font-weight-bold text-primary" 
+                                       th:text="'#' + ${order.id}">#1001</a>
+                                </td>
+
+                                <td th:text="${order.receiverName}">Nguyễn Văn A</td>
+
+                                <td th:text="${#temporals.format(order.orderDate, 'dd-MM-yyyy HH:mm')}">12-12-2024 10:30</td>
+
+                                <td th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">
+                                    1.500.000đ
+                                </td>
+
+                                <td>
+                                    <span th:if="${order.payment.paymentStatus.name() == 'PAID'}" class="badge badge-success">Đã thanh toán</span>
+                                    <span th:if="${order.payment.paymentStatus.name() == 'UNPAID'}" class="badge badge-secondary">Chưa thanh toán</span>
+                                    <span th:if="${order.payment.paymentStatus.name() == 'REFUNDED'}" class="badge badge-warning">Đã hoàn tiền</span>
+                                </td>
+
+                                <td>
+                                    <span th:classappend="${
+                                        order.status.name() == 'PENDING' ? 'badge badge-warning' : 
+                                        (order.status.name() == 'CONFIRMED' ? 'badge badge-info' :
+                                        (order.status.name() == 'SHIPPING' ? 'badge badge-primary' :
+                                        (order.status.name() == 'COMPLETED' ? 'badge badge-success' :
+                                        'badge badge-danger')))
+                                    }" 
+                                    th:text="${order.status}">PENDING</span>
+                                </td>
+
+                                <td>
+                                    <a th:href="@{/admin/orders/detail/{id}(id=${order.id})}" class="btn btn-info btn-sm btn-circle">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

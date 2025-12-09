@@ -35,11 +35,11 @@ public class SecurityConfig {
 
                 // 3. PHÂN QUYỀN TRANG CLIENT (Cho phép tất cả mọi người truy cập)
                 // Trang chủ, Xem sản phẩm, Giỏ hàng -> Không cần đăng nhập
-                .requestMatchers("/", "/home", "/products/**", "/cart/**", "/checkout/**").permitAll()
+                .requestMatchers("/", "/home", "/cart/**", "/checkout/**", "/order/**").permitAll()
                 
                 // Trang đăng ký, đăng nhập
                 .requestMatchers("/login", "/register").permitAll()
-
+                .requestMatchers("/product/**").permitAll()
                 // Các trang còn lại (Ví dụ: Trang cá nhân /profile) -> Phải đăng nhập
                 .anyRequest().authenticated()
             )

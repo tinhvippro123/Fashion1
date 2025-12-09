@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout}">
+<head>
+<title>Chi tiết đơn hàng</title>
+</head>
+<body>
+	<div layout:fragment="content">
+
+		<div class="d-sm-flex align-items-center justify-content-between mb-4">
+			<h1 class="h3 mb-0 text-gray-800">
+				Chi tiết đơn hàng <span th:text="'#' + ${order.id}"></span>
+			</h1>
+			<a th:href="@{/admin/orders}"
+				class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
+				<i class="fas fa-arrow-left fa-sm text-white-50"></i> Quay lại
+			</a>
+		</div>
+
+		<div class="row">
+
+			<div class="col-lg-8">
+				<div class="card shadow mb-4">
+					<div class="card-header py-3">
+						<h6 class="m-0 font-weight-bold text-primary">Sản phẩm mua</h6>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-bordered">
+								<thead class="bg-light">
+									<tr>
+										<th>Sản phẩm</th>
+										<th class="text-center">Đơn giá</th>
+										<th class="text-center">SL</th>
+										<th class="text-right">Thành tiền</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="item : ${order.orderItems}">
+										<td>
+											<div class="d-flex align-items-center">
+												<img th:if="${item.productImage != null}"
+													th:src="@{'/uploads/' + ${item.productImage}}"
+													style="width: 50px; height: 75px; object-fit: cover; margin-right: 10px; border: 1px solid #ddd;">
+
+												<div>
+													<div class="font-weight-bold" th:text="${item.productName}">Áo
+														sơ mi</div>
+													<small class="text-muted"> Màu: <span
+														th:text="${item.colorName}"></span> | Size: <span
+														th:text="${item.sizeName}"></span>
+													</small>
+												</div>
+											</div>
+										</td>
+										<td class="text-center"
+											th:text="${#numbers.formatDecimal(item.unitPrice, 0, 'COMMA', 0, 'POINT')}">500.000</td>
+										<td class="text-center" th:text="${item.quantity}">2</td>
+										<td class="text-right font-weight-bold"
+											th:text="${#numbers.formatDecimal(item.unitPrice * item.quantity, 0, 'COMMA', 0, 'POINT')} + 'đ'">
+											1.000.000đ</td>
+									</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="3" class="text-right">Tạm tính:</td>
+										<td class="text-right"
+											th:text="${#numbers.formatDecimal(order.totalAmount - order.shippingFee, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
+									</tr>
+									<tr>
+										<td colspan="3" class="text-right">Phí vận chuyển:</td>
+										<td class="text-right"
+											th:text="${#numbers.formatDecimal(order.shippingFee, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
+									</tr>
+									<tr class="bg-light">
+										<td colspan="3"
+											class="text-right font-weight-bold text-primary"
+											style="font-size: 1.2rem;">TỔNG CỘNG:</td>
+										<td class="text-right font-weight-bold text-primary"
+											style="font-size: 1.2rem;"
+											th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4">
+
+				<div class="card shadow mb-4">
+					<div class="card-header py-3 bg-primary text-white">
+						<h6 class="m-0 font-weight-bold">Xử lý đơn hàng</h6>
+					</div>
+					<div class="card-body">
+						<form th:action="@{/admin/orders/update-status}" method="post">
+							<input type="hidden" name="orderId" th:value="${order.id}">
+
+							<div class="form-group">
+								<label class="font-weight-bold">Trạng thái hiện tại:</label>
+								<div>
+									<span class="badge badge-lg p-2"
+										th:classappend="${
+                                            order.status.name() == 'PENDING' ? 'badge-warning' : 
+                                            (order.status.name() == 'COMPLETED' ? 'badge-success' : 
+                                            (order.status.name() == 'CANCELLED' ? 'badge-danger' : 'badge-info'))
+                                          }"
+										th:text="${order.status}">PENDING</span>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="statusSelect" class="font-weight-bold">Chuyển
+									trạng thái sang:</label> <select class="form-control" name="status"
+									id="statusSelect">
+									<option th:each="st : ${orderStatuses}" th:value="${st}"
+										th:text="${st}" th:selected="${st == order.status}">
+									</option>
+								</select>
+							</div>
+
+							<button type="submit" class="btn btn-primary btn-block"
+								th:disabled="${order.status.name() == 'COMPLETED' || order.status.name() == 'CANCELLED'}">
+								<i class="fas fa-check"></i> Cập nhật trạng thái
+							</button>
+
+							<small class="text-muted mt-2 d-block text-center"> * Lưu
+								ý: Hủy đơn sẽ hoàn trả tồn kho. </small>
+						</form>
+					</div>
+				</div>
+
+				<div class="card shadow mb-4">
+					<div class="card-header py-3">
+						<h6 class="m-0 font-weight-bold text-primary">Thông tin giao
+							hàng</h6>
+					</div>
+					<div class="card-body">
+						<p>
+							<strong>Người nhận:</strong> <span
+								th:text="${order.receiverName}"></span>
+						</p>
+						<p>
+							<strong>Số điện thoại:</strong> <span th:text="${order.phone}"></span>
+						</p>
+						<p>
+							<strong>Địa chỉ:</strong> <span th:text="${order.street}"></span>,
+							<span th:text="${order.ward}"></span>, <span
+								th:text="${order.district}"></span>, <span
+								th:text="${order.province}"></span>
+						</p>
+						<hr>
+						<p>
+							<strong>Ghi chú:</strong> <em class="text-muted"
+								th:text="${order.note != null ? order.note : 'Không có'}"></em>
+						</p>
+					</div>
+				</div>
+
+				<div class="card shadow mb-4">
+					<div class="card-header py-3">
+						<h6 class="m-0 font-weight-bold text-primary">Thanh toán</h6>
+					</div>
+					<div class="card-body">
+						<p>
+							<strong>Phương thức:</strong> <span class="badge badge-secondary"
+								th:text="${order.payment.paymentMethod}">COD</span>
+						</p>
+						<p>
+							<strong>Trạng thái:</strong> <span
+								th:if="${order.payment.paymentStatus.name() == 'PAID'}"
+								class="text-success font-weight-bold"><i
+								class="fas fa-check-circle"></i> Đã thanh toán</span> <span
+								th:if="${order.payment.paymentStatus.name() == 'UNPAID'}"
+								class="text-warning font-weight-bold"><i
+								class="fas fa-clock"></i> Chưa thanh toán</span>
+						</p>
+						<p th:if="${order.payment.paymentDate != null}">
+							<strong>Ngày TT:</strong> <span
+								th:text="${#temporals.format(order.payment.paymentDate, 'dd-MM-yyyy HH:mm')}"></span>
+						</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

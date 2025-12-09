@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{client/layout}">
+<head>
+<title>Đặt hàng thành công</title>
+</head>
+<body>
+	<div layout:fragment="content" class="container-ivy py-5 text-center">
+		<div class="checkout-progress">
+			<div class="progress-step">
+				<div class="step-dot"></div>
+				<span class="step-text">Giỏ hàng</span>
+			</div>
+			<div class="progress-step">
+				<div class="step-dot"></div>
+				<span class="step-text">Đặt hàng</span>
+			</div>
+			<div class="progress-step active">
+				<div class="step-dot"></div>
+				<span class="step-text">Hoàn thành đơn</span>
+			</div>
+		</div>
+		<div class="mb-4">
+			<i class="fas fa-check-circle text-success" style="font-size: 80px;"></i>
+		</div>
+
+		<h2 class="font-weight-bold mb-3">ĐẶT HÀNG THÀNH CÔNG!</h2>
+
+		<p class="mb-4 text-muted">
+			Cảm ơn bạn đã mua sắm tại IVY moda. <br> Mã đơn hàng của bạn là:
+			<strong class="text-dark" th:text="'#' + ${orderId}"></strong>
+		</p>
+
+		<div class="d-flex justify-content-center gap-3">
+			<a th:href="@{/}" class="btn btn-outline-dark px-4 py-2 mx-2"> <i
+				class="fas fa-home"></i> VỀ TRANG CHỦ
+			</a> <a th:href="@{/account/orders}" class="btn btn-dark px-4 py-2 mx-2">
+				XEM ĐƠN HÀNG </a>
+		</div>
+
+	</div>
+</body>
+</html>

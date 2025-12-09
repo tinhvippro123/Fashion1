@@ -75,4 +75,10 @@ public class UserServiceImpl implements UserService {
 		// Ở đây demo xóa cứng
 		userRepository.deleteById(id);
 	}
+	
+	@Override
+	public User findByEmail(String email) {
+	    // Repository tìm theo cột email trong database
+	    return userRepository.findByEmail(email);
+	}
 }
