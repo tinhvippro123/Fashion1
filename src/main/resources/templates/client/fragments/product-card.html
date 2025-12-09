@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <div th:fragment="product-item(p)" class="product-item">
+            
+        <div class="product-image">
+            <div class="badge-new" th:if="${p.isNew}">NEW</div>
+
+            <a th:href="@{/product/{id}(id=${p.id})}">
+                <th:block th:if="${not #lists.isEmpty(p.productColors)}">
+                    <th:block th:with="firstColor=${p.productColors[0]}">
+                        <img th:if="${not #lists.isEmpty(firstColor.images)}"
+                             th:src="@{'/uploads/' + ${firstColor.images[0].imageUrl}}" 
+                             class="img-main">
+                        <img th:if="${firstColor.images.size() > 1}"
+                             th:src="@{'/uploads/' + ${firstColor.images[1].imageUrl}}" 
+                             class="img-hover">
+                        <img th:if="${firstColor.images.size() == 1}"
+                             th:src="@{'/uploads/' + ${firstColor.images[0].imageUrl}}" 
+                             class="img-hover">
+                    </th:block>
+                </th:block>
+                
+                <img th:if="${#lists.isEmpty(p.productColors)}" 
+                     src="https://via.placeholder.com/300x450?text=No+Image" 
+                     class="img-main">
+            </a>
+        </div>
+
+        <div class="product-info">
+            
+            <div class="info-row-1">
+                <div class="list-colors">
+                    <th:block th:if="${not #lists.isEmpty(p.productColors)}">
+                        <span th:each="pc, iter : ${p.productColors}" 
+                              th:if="${pc.isActive}"
+                              class="color-dot"
+                              th:classappend="${iter.index == 0} ? 'active'" 
+                              th:style="'background-color:' + ${pc.color.hexCode}"
+                              th:title="${pc.color.name}">
+                              </span>
+                    </th:block>
+                </div>
+                
+                <button class="btn-wishlist">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+
+            <div class="product-title">
+                <a th:href="@{/product/{id}(id=${p.id})}" th:text="${p.name}">
+                    Tên sản phẩm
+                </a>
+            </div>
+
+            <div class="info-row-bottom">
+                <div class="product-price">
+                    <span th:text="${#numbers.formatDecimal(p.basePrice, 0, 'COMMA', 0, 'POINT')} + 'đ'">
+                        990.000đ
+                    </span>
+                </div>
+                
+                <a th:href="@{/product/{id}(id=${p.id})}" class="btn-bag-black">
+                    <i class="fas fa-shopping-bag"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

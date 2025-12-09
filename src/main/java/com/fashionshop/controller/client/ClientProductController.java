@@ -80,4 +80,18 @@ public class ClientProductController {
 		return "client/product-detail";
 	}
 
+	// Trong ProductController.java
+
+//	@GetMapping("/new-arrival")
+//	public String newArrivalPage(Model model) {
+//	    // Logic: Lấy TẤT CẢ sản phẩm, sắp xếp giảm dần theo ngày tạo
+//	    List<Product> products = productService.findAllSortedByDateDesc();
+//	    
+//	    model.addAttribute("products", products);
+//	    model.addAttribute("pageTitle", "NEW ARRIVAL"); // Để hiện trên Breadcrumb
+//	    model.addAttribute("breadcrumb", "HÀNG MỚI VỀ");
+//	    
+//	    return "client/products"; // Tái sử dụng giao diện trang danh sách sản phẩm
+//	}
+//	
 }

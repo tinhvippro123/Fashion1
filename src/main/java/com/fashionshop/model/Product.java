@@ -123,4 +123,11 @@ public class Product {
 	public void setProductColors(List<ProductColor> productColors) {
 		this.productColors = productColors;
 	}
+	
+	@Transient 
+    public boolean isNew() {
+        if (createdAt == null) return false;
+        // Nếu ngày tạo + 14 ngày vẫn còn lớn hơn ngày hiện tại -> Còn mới
+        return createdAt.plusDays(14).isAfter(LocalDateTime.now());
+    }
 }

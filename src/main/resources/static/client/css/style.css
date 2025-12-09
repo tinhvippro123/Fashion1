@@ -22,13 +22,22 @@
 	padding: 17px 0;
 }
 
+.site-header .container-ivy {
+    position: relative;
+    display: flex;
+    align-items: center;	
+    justify-content: space-between; /*-> Giữ nguyên cái này để 2 bên trái phải dãn ra */
+    
+}
+
+
 /* Menu bên trái */
 .ivy-nav-link {
 	color: #333 !important;
 	font-weight: 600; /* Chữ đậm vừa */
 	text-transform: uppercase; /* Chữ IN HOA */
-	font-size: 16px;
-	margin-right: 15px;
+	font-size: 12px;
+	margin-right: 14px;
 	letter-spacing: 0.5px;
 	transition: color 0.3s;
 }
@@ -48,13 +57,15 @@
     left: 50%;          /* Đẩy sang 50% container */
     transform: translateX(-50%);
 	
-	
 	font-size: 28px;
 	font-weight: 700;
 	color: #000;
 	text-decoration: none !important;
 	letter-spacing: 2px;
+	z-index: 10;
 }
+
+
 
 .ivy-logo span {
 	font-weight: 300; /* Chữ 'moda' mỏng hơn */
@@ -126,6 +137,20 @@
 	padding: 30px 40px;
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
+
+.ivy-mega-menu::before {
+    content: "";
+    position: absolute;
+    /* Đẩy lớp giả lên trên để lấp khoảng trống giữa menu cha và con */
+    top: -20px; 
+    left: 0;
+    width: 100%;
+    height: 20px; /* Chiều cao bằng khoảng hở */
+    background: transparent; /* Trong suốt */
+    display: block;
+    z-index: 1001; /* Đè lên tất cả */
+}
+
 
 /* Hiện Mega Menu khi Hover */
 .ivy-menu-item:hover .ivy-mega-menu {

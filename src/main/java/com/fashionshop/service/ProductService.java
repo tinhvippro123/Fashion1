@@ -35,5 +35,9 @@ public interface ProductService {
 
 	List<Product> getProductsByCategorySlug(String slug);
 
-	List<Product> getNewArrivalsByCategorySlug(String slug);
+//	List<Product> getNewArrivalsByCategorySlug(String slug);
+	
+	
+	List<Product> findTop10NewestWomen(); // Lấy đồ Nữ
+	List<Product> findTop10NewestMen();   // Lấy đồ Nam
 }

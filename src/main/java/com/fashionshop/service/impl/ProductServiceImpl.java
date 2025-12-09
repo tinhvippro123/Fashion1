@@ -19,6 +19,7 @@ import com.fashionshop.enums.ProductImageType;
 import com.fashionshop.enums.VariantStatus;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -222,11 +223,27 @@ public class ProductServiceImpl implements ProductService {
 	    return productRepository.findByRootCategorySlug(slug);
 	}
 
+//	@Override
+//	public List<Product> getNewArrivalsByCategorySlug(String slug) {
+//	    // Logic: Lấy ngày hiện tại trừ đi 30 ngày
+//	    LocalDateTime oneMonthAgo = LocalDateTime.now().minusDays(30);
+//	    return productRepository.findNewArrivals(slug, oneMonthAgo);
+//	}
+	
+	
 	@Override
-	public List<Product> getNewArrivalsByCategorySlug(String slug) {
-	    // Logic: Lấy ngày hiện tại trừ đi 30 ngày
-	    LocalDateTime oneMonthAgo = LocalDateTime.now().minusDays(30);
-	    return productRepository.findNewArrivals(slug, oneMonthAgo);
-	}
+    public List<Product> findTop10NewestWomen() {
+        // THAY SỐ 1 BẰNG ID DANH MỤC "NỮ" TRONG DB CỦA BẠN
+        Long categoryIdNu = 4L; 
+        return productRepository.findTop10ByCategoryId(categoryIdNu, PageRequest.of(0, 10));
+    }
+
+    @Override
+    public List<Product> findTop10NewestMen() {
+        // THAY SỐ 2 BẰNG ID DANH MỤC "NAM" TRONG DB CỦA BẠN
+        Long categoryIdNam = 1L;
+        return productRepository.findTop10ByCategoryId(categoryIdNam, PageRequest.of(0, 10));
+    }
+
 	
 }

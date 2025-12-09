@@ -3,6 +3,7 @@ package com.fashionshop.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +23,18 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	// vào
 	@Query("SELECT p FROM Product p WHERE (p.category.parent.slug = :slug OR p.category.slug = :slug) AND p.createdAt >= :date")
 	List<Product> findNewArrivals(@Param("slug") String slug, @Param("date") LocalDateTime date);
+	
+	List<Product> findTop10ByOrderByCreatedAtDesc();
+	
+	@Query("SELECT p FROM Product p JOIN p.category c WHERE c.name = :categoryName ORDER BY p.createdAt DESC")
+    List<Product> findTop10ByCategoryName(@Param("categoryName") String categoryName, Pageable pageable);
+	
+	@Query("SELECT DISTINCT p FROM Product p " +
+	           "JOIN p.category c " +
+	           "WHERE c.id = :categoryId " +
+	           "OR c.parent.id = :categoryId " +
+	           "OR c.parent.parent.id = :categoryId " +
+	           "ORDER BY p.createdAt DESC")
+	    List<Product> findTop10ByCategoryId(@Param("categoryId") Long categoryId, Pageable pageable);
+
 }
