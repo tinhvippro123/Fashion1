@@ -2,6 +2,9 @@ package com.fashionshop.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.fashionshop.model.Product;
 import com.fashionshop.model.Variant;
 import com.fashionshop.enums.VariantStatus;
@@ -40,4 +43,6 @@ public interface ProductService {
 	
 	List<Product> findTop10NewestWomen(); // Lấy đồ Nữ
 	List<Product> findTop10NewestMen();   // Lấy đồ Nam
+	
+    Page<Product> filterProducts(Long categoryId, List<String> sizes, List<String> colors, Double minPrice, Double maxPrice, Pageable pageable);
 }

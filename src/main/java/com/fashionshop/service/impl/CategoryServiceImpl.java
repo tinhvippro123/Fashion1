@@ -57,4 +57,10 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Category> getAllRootCategories() {
 		return categoryRepository.findByParentIsNull();
 	}
+
+	@Override
+	public Category findBySlug(String slug) {
+		return categoryRepository.findBySlug(slug);
+	}
+
 }

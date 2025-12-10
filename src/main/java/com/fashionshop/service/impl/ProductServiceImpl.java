@@ -19,7 +19,9 @@ import com.fashionshop.enums.ProductImageType;
 import com.fashionshop.enums.VariantStatus;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -245,5 +247,10 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findTop10ByCategoryId(categoryIdNam, PageRequest.of(0, 10));
     }
 
-	
+    @Override
+    public Page<Product> filterProducts(Long categoryId, List<String> sizes, List<String> colors, Double minPrice, Double maxPrice, Pageable pageable) {
+        return productRepository.filterProducts(categoryId, sizes, colors, minPrice, maxPrice, pageable);
+    }
+    
+    
 }

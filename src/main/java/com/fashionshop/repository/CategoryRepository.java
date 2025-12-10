@@ -8,5 +8,7 @@ import com.fashionshop.model.Category;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 	List<Category> findByParentIsNull();
-	
+
+	Category findBySlug(String slug);
+
 }

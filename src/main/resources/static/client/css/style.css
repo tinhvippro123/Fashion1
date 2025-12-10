@@ -1581,3 +1581,32 @@
 
 /* Ẩn mũi tên nếu không hover (Optional - IvyModa luôn hiện hoặc hover mới hiện) */
 /* .product-slider:hover .owl-nav button { opacity: 1; } */
+
+/* ------------------------------------ FILTER SIDEBAR ------------------------------------ */
+.filter-group {
+	border-bottom: 1px solid #eee;
+	padding-bottom: 20px;
+}
+
+.filter-group:last-child {
+	border-bottom: none;
+}
+
+.custom-control-label {
+	font-size: 14px;
+	color: #333;
+	cursor: pointer;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+	color: #fff;
+	border-color: #000;
+	background-color: #000; /* Checkbox màu đen giống Ivy */
+}
+
+/* Pagination Style */
+.page-item.active .page-link {
+	background-color: #000;
+	border-color: #000;
+	color: #fff !important;
+}

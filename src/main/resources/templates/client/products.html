@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{client/layout}">
+<head>
+<title th:text="${breadcrumb} + ' - IVY moda'"></title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container-ivy"
+			style="margin-top: 30px; margin-bottom: 80px;">
+
+			<div class="mb-4 text-uppercase font-weight-bold"
+				style="font-size: 14px;">
+				<a th:href="@{/}" class="text-dark">Trang chủ</a> <span class="mx-2">-</span>
+				<span th:text="${breadcrumb}">DANH MỤC</span>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-3 d-none d-lg-block pr-5">
+
+					<h5 class="font-weight-bold mb-4">BỘ LỌC</h5>
+
+					<form id="filterForm" th:action="@{'/danh-muc/' + ${currentSlug}}"
+						method="get">
+
+						<div class="filter-group mb-4 border-bottom pb-3">
+							<div
+								class="filter-header d-flex justify-content-between align-items-center"
+								style="cursor: pointer;">
+								<h6 class="font-weight-bold m-0">Size</h6>
+								<i class="fas fa-plus"></i>
+							</div>
+
+							<div class="filter-content mt-3" style="display: none;">
+								<div class="custom-control custom-checkbox mb-2"
+									th:each="s : ${ {'S','M','L','XL','XXL'} }">
+									<input type="checkbox" class="custom-control-input"
+										th:id="'size-'+${s}" name="size" th:value="${s}"
+										th:checked="${selectedSizes != null && #lists.contains(selectedSizes, s)}"
+										onchange="this.form.submit()"> <label
+										class="custom-control-label" th:for="'size-'+${s}"
+										th:text="${s}"></label>
+								</div>
+							</div>
+						</div>
+
+						<div class="filter-group mb-4 border-bottom pb-3">
+							<div
+								class="filter-header d-flex justify-content-between align-items-center"
+								style="cursor: pointer;">
+								<h6 class="font-weight-bold m-0">Màu sắc</h6>
+								<i class="fas fa-plus"></i>
+							</div>
+							<div class="filter-content mt-3" style="display: none;">
+								<div class="custom-control custom-checkbox mb-2"
+									th:each="c : ${ {'Trắng','Đen','Vàng','Xanh','Be','Nâu'} }">
+									<input type="checkbox" class="custom-control-input"
+										th:id="'color-'+${c}" name="color" th:value="${c}"
+										th:checked="${selectedColors != null && #lists.contains(selectedColors, c)}"
+										onchange="this.form.submit()"> <label
+										class="custom-control-label" th:for="'color-'+${c}"
+										th:text="${c}"></label>
+								</div>
+							</div>
+						</div>
+
+						<div class="filter-group mb-4 border-bottom pb-3">
+							<div
+								class="filter-header d-flex justify-content-between align-items-center"
+								style="cursor: pointer;">
+								<h6 class="font-weight-bold m-0">Mức giá</h6>
+								<i class="fas fa-plus"></i>
+							</div>
+							<div class="filter-content mt-3" style="display: none;">
+								<div class="custom-control custom-radio mb-2">
+									<input type="radio" id="p-all" name="maxPrice" value=""
+										class="custom-control-input" onchange="this.form.submit()"
+										checked> <label class="custom-control-label"
+										for="p-all">Tất cả</label>
+								</div>
+								<div class="custom-control custom-radio mb-2">
+									<input type="radio" id="p-500" name="maxPrice" value="500000"
+										class="custom-control-input"
+										th:checked="${selectedMaxPrice == 500000.0}"
+										onchange="this.form.submit()"> <label
+										class="custom-control-label" for="p-500">Dưới 500.000đ</label>
+								</div>
+								<div class="custom-control custom-radio mb-2">
+									<input type="radio" id="p-1000" name="maxPrice" value="1000000"
+										class="custom-control-input"
+										th:checked="${selectedMaxPrice == 1000000.0}"
+										onchange="this.form.submit()"> <label
+										class="custom-control-label" for="p-1000">Dưới
+										1.000.000đ</label>
+								</div>
+							</div>
+						</div>
+
+					</form>
+				</div>
+
+				<div class="col-lg-9 col-12">
+
+					<h2 class="font-weight-bold mb-4" th:text="${breadcrumb}">TIÊU
+						ĐỀ</h2>
+
+					<div class="row">
+						<div class="col-lg-3 col-6 mb-4" th:each="p : ${products}">
+							<div
+								th:replace="~{client/fragments/product-card :: product-item(p=${p})}"></div>
+						</div>
+					</div>
+
+					<div class="d-flex justify-content-center mt-5"
+						th:if="${totalPages > 1}">
+						<nav>
+							<ul class="pagination">
+								<li class="page-item"
+									th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+									th:classappend="${currentPage == i} ? 'active'"><a
+									class="page-link text-dark font-weight-bold border-0 mx-1"
+									th:href="@{'/danh-muc/' + ${currentSlug}(page=${i}, size=${selectedSizes}, maxPrice=${selectedMaxPrice})}"
+									th:text="${i + 1}">1</a></li>
+							</ul>
+						</nav>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<th:block layout:fragment="pageScripts">
+		<script>
+			$(document)
+					.ready(
+							function() {
+
+								// Xử lý đóng mở bộ lọc
+								$('.filter-header').click(
+										function() {
+											// 1. Tìm phần nội dung ngay kế tiếp (next) và trượt nó
+											var content = $(this).next(
+													'.filter-content');
+											content.slideToggle(300); // 300ms cho mượt
+
+											// 2. Tìm icon bên trong header này để đổi dấu
+											var icon = $(this).find('i');
+
+											// Logic đổi dấu
+											if (icon.hasClass('fa-plus')) {
+												// Nếu đang là cộng -> đổi thành trừ
+												icon.removeClass('fa-plus')
+														.addClass('fa-minus');
+											} else {
+												// Nếu đang là trừ -> đổi thành cộng
+												icon.removeClass('fa-minus')
+														.addClass('fa-plus');
+											}
+										});
+
+								// LOGIC MỞ SẴN TAB ĐANG ĐƯỢC CHỌN (UX nâng cao)
+								// Nếu người dùng đang lọc Size -> Mở sẵn tab Size và đổi dấu thành trừ
+								// Cách làm: Kiểm tra xem có input nào đang checked không
+
+								$('.filter-content')
+										.each(
+												function() {
+													// Tìm xem trong content này có ô nào được check không
+													if ($(this).find(
+															'input:checked').length > 0) {
+														// Nếu có -> Hiện content ra
+														$(this).show();
+														// Đổi icon của header tương ứng thành dấu trừ
+														$(this)
+																.prev(
+																		'.filter-header')
+																.find('i')
+																.removeClass(
+																		'fa-plus')
+																.addClass(
+																		'fa-minus');
+													}
+												});
+
+								// Mặc định mở tab Mức giá (nếu muốn)
+								// $('.filter-group:last-child .filter-content').show();
+								// $('.filter-group:last-child .filter-header i').removeClass('fa-plus').addClass('fa-minus');
+							});
+		</script>
+	</th:block>
+</body>
+</html>

@@ -29,7 +29,7 @@ public class SecurityConfig {
                 // Của Client (Sau này bạn thêm vào)
                 .requestMatchers("/client/css/**", "/client/js/**", "/client/img/**").permitAll()
                 .requestMatchers("/uploads/**").permitAll() // Cho phép xem ảnh sản phẩm upload lên
-
+                .requestMatchers("/new-arrival/**", "/danh-muc/**").permitAll()
                 // 2. PHÂN QUYỀN TRANG ADMIN (Bắt buộc đăng nhập & có quyền ADMIN)
                 .requestMatchers("/admin/**").hasRole("ADMIN")
 

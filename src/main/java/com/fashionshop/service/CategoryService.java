@@ -14,4 +14,6 @@ public interface CategoryService {
 	void deleteCategory(Long id);
 
 	List<Category> getAllRootCategories();
+
+	Category findBySlug(String slug);
 }
