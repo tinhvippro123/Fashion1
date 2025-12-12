@@ -50,6 +50,19 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Address> addresses;
 
+	@PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+        if(this.isActive == null) this.isActive = true; // Mặc định active
+        if(this.role == null) this.role = UserRole.CUSTOMER;    // Mặc định role Customer
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+	
 	// Constructor rỗng
 	public User() {
 	}

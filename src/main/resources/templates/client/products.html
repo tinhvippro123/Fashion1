@@ -19,82 +19,86 @@
 			<div class="row">
 				<div class="col-lg-3 d-none d-lg-block pr-5">
 
-					<h5 class="font-weight-bold mb-4">BỘ LỌC</h5>
-
 					<form id="filterForm" th:action="@{'/danh-muc/' + ${currentSlug}}"
 						method="get">
 
-						<div class="filter-group mb-4 border-bottom pb-3">
-							<div
-								class="filter-header d-flex justify-content-between align-items-center"
-								style="cursor: pointer;">
-								<h6 class="font-weight-bold m-0">Size</h6>
-								<i class="fas fa-plus"></i>
+						<div class="filter-group">
+							<div class="filter-header">
+								<span>Size</span> <i class="fas fa-plus"></i>
 							</div>
-
-							<div class="filter-content mt-3" style="display: none;">
+							<div class="filter-content">
 								<div class="custom-control custom-checkbox mb-2"
 									th:each="s : ${ {'S','M','L','XL','XXL'} }">
 									<input type="checkbox" class="custom-control-input"
 										th:id="'size-'+${s}" name="size" th:value="${s}"
-										th:checked="${selectedSizes != null && #lists.contains(selectedSizes, s)}"
-										onchange="this.form.submit()"> <label
-										class="custom-control-label" th:for="'size-'+${s}"
+										th:checked="${selectedSizes != null && #lists.contains(selectedSizes, s)}">
+									<label class="custom-control-label" th:for="'size-'+${s}"
 										th:text="${s}"></label>
 								</div>
 							</div>
 						</div>
 
-						<div class="filter-group mb-4 border-bottom pb-3">
-							<div
-								class="filter-header d-flex justify-content-between align-items-center"
-								style="cursor: pointer;">
-								<h6 class="font-weight-bold m-0">Màu sắc</h6>
-								<i class="fas fa-plus"></i>
+						<div class="filter-group">
+							<div class="filter-header">
+								<span>Màu sắc</span> <i class="fas fa-plus"></i>
 							</div>
-							<div class="filter-content mt-3" style="display: none;">
+							<div class="filter-content">
 								<div class="custom-control custom-checkbox mb-2"
 									th:each="c : ${ {'Trắng','Đen','Vàng','Xanh','Be','Nâu'} }">
 									<input type="checkbox" class="custom-control-input"
 										th:id="'color-'+${c}" name="color" th:value="${c}"
-										th:checked="${selectedColors != null && #lists.contains(selectedColors, c)}"
-										onchange="this.form.submit()"> <label
-										class="custom-control-label" th:for="'color-'+${c}"
+										th:checked="${selectedColors != null && #lists.contains(selectedColors, c)}">
+									<label class="custom-control-label" th:for="'color-'+${c}"
 										th:text="${c}"></label>
 								</div>
 							</div>
 						</div>
 
-						<div class="filter-group mb-4 border-bottom pb-3">
-							<div
-								class="filter-header d-flex justify-content-between align-items-center"
-								style="cursor: pointer;">
-								<h6 class="font-weight-bold m-0">Mức giá</h6>
-								<i class="fas fa-plus"></i>
+						<div class="filter-group">
+							<div class="filter-header">
+								<span>Mức giá</span> <i class="fas fa-plus"></i>
 							</div>
-							<div class="filter-content mt-3" style="display: none;">
-								<div class="custom-control custom-radio mb-2">
-									<input type="radio" id="p-all" name="maxPrice" value=""
-										class="custom-control-input" onchange="this.form.submit()"
-										checked> <label class="custom-control-label"
-										for="p-all">Tất cả</label>
+
+							<div class="filter-content px-2 pb-3" style="display: none;">
+
+								<div id="price-slider" class="mt-3 mb-3"></div>
+
+								<div class="price-values">
+									<span id="price-min-display">0đ</span> <span
+										id="price-max-display">10.000.000đ</span>
 								</div>
-								<div class="custom-control custom-radio mb-2">
-									<input type="radio" id="p-500" name="maxPrice" value="500000"
-										class="custom-control-input"
-										th:checked="${selectedMaxPrice == 500000.0}"
-										onchange="this.form.submit()"> <label
-										class="custom-control-label" for="p-500">Dưới 500.000đ</label>
-								</div>
-								<div class="custom-control custom-radio mb-2">
-									<input type="radio" id="p-1000" name="maxPrice" value="1000000"
-										class="custom-control-input"
-										th:checked="${selectedMaxPrice == 1000000.0}"
-										onchange="this.form.submit()"> <label
-										class="custom-control-label" for="p-1000">Dưới
-										1.000.000đ</label>
-								</div>
+
+								<input type="hidden" name="minPrice" id="minPriceInput"
+									th:value="${selectedMinPrice != null ? #numbers.formatDecimal(selectedMinPrice, 0, 'NONE', 0, 'POINT') : 0}">
+
+								<input type="hidden" name="maxPrice" id="maxPriceInput"
+									th:value="${selectedMaxPrice != null ? #numbers.formatDecimal(selectedMaxPrice, 0, 'NONE', 0, 'POINT') : 10000000}">
 							</div>
+						</div>
+
+						<div class="filter-group">
+							<div class="filter-header">
+								<span>Mức chiết khấu</span> <i class="fas fa-plus"></i>
+							</div>
+							<div class="filter-content">
+								<p class="small text-muted">Đang cập nhật...</p>
+							</div>
+						</div>
+
+						<div class="filter-group">
+							<div class="filter-header">
+								<span>Nâng cao</span> <i class="fas fa-plus"></i>
+							</div>
+							<div class="filter-content">
+								<p class="small text-muted">Đang cập nhật...</p>
+							</div>
+						</div>
+
+						<div class="filter-actions mt-5 d-flex justify-content-between">
+							<a th:href="@{'/danh-muc/' + ${currentSlug}}"
+								class="btn-filter-clear"> BỎ LỌC </a>
+
+							<button type="submit" class="btn-filter-submit">LỌC</button>
 						</div>
 
 					</form>
@@ -105,73 +109,77 @@
 					<h2 class="font-weight-bold mb-4" th:text="${breadcrumb}">TIÊU
 						ĐỀ</h2>
 
-					<div class="row">
-						<div class="col-lg-3 col-6 mb-4" th:each="p : ${products}">
-							<div
-								th:replace="~{client/fragments/product-card :: product-item(p=${p})}"></div>
+					<div th:if="${not #lists.isEmpty(products)}">
+						<div class="row">
+							<div class="col-lg-3 col-6 mb-4" th:each="p : ${products}">
+								<div
+									th:replace="~{client/fragments/product-card :: product-item(p=${p})}"></div>
+							</div>
+						</div>
+
+						<div class="d-flex justify-content-center mt-5"
+							th:if="${totalPages > 1}">
+							<nav>
+								<ul class="pagination">
+									<li class="page-item"
+										th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+										th:classappend="${currentPage == i} ? 'active'"><a
+										class="page-link text-dark font-weight-bold border-0 mx-1"
+										th:href="@{'/danh-muc/' + ${currentSlug}(page=${i}, size=${selectedSizes}, maxPrice=${selectedMaxPrice})}"
+										th:text="${i + 1}">1</a></li>
+								</ul>
+							</nav>
 						</div>
 					</div>
 
-					<div class="d-flex justify-content-center mt-5"
-						th:if="${totalPages > 1}">
-						<nav>
-							<ul class="pagination">
-								<li class="page-item"
-									th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
-									th:classappend="${currentPage == i} ? 'active'"><a
-									class="page-link text-dark font-weight-bold border-0 mx-1"
-									th:href="@{'/danh-muc/' + ${currentSlug}(page=${i}, size=${selectedSizes}, maxPrice=${selectedMaxPrice})}"
-									th:text="${i + 1}">1</a></li>
-							</ul>
-						</nav>
+					<div th:if="${#lists.isEmpty(products)}" class="text-center py-5">
+						<div class="mb-3">
+							<i class="fas fa-search" style="font-size: 50px; color: #e1e1e1;"></i>
+						</div>
+
+						<h5 class="font-weight-bold text-muted mb-3">Không tìm thấy
+							sản phẩm phù hợp</h5>
+						<p class="text-muted small mb-4">Vui lòng thử lại với từ khóa
+							khác hoặc điều chỉnh bộ lọc.</p>
+
+						<a th:href="@{/}" class="btn btn-dark"
+							style="border-radius: 20px 0 20px 0; padding: 10px 30px; font-weight: 600;">
+							TIẾP TỤC MUA SẮM </a>
 					</div>
 
 				</div>
 			</div>
 		</div>
 	</div>
+
 	<th:block layout:fragment="pageScripts">
 		<script>
 			$(document)
 					.ready(
 							function() {
-
-								// Xử lý đóng mở bộ lọc
+								// 1. Code Accordion cũ của bạn (Giữ nguyên)
 								$('.filter-header').click(
 										function() {
-											// 1. Tìm phần nội dung ngay kế tiếp (next) và trượt nó
 											var content = $(this).next(
 													'.filter-content');
-											content.slideToggle(300); // 300ms cho mượt
-
-											// 2. Tìm icon bên trong header này để đổi dấu
+											content.slideToggle(300);
 											var icon = $(this).find('i');
-
-											// Logic đổi dấu
 											if (icon.hasClass('fa-plus')) {
-												// Nếu đang là cộng -> đổi thành trừ
 												icon.removeClass('fa-plus')
 														.addClass('fa-minus');
 											} else {
-												// Nếu đang là trừ -> đổi thành cộng
 												icon.removeClass('fa-minus')
 														.addClass('fa-plus');
 											}
 										});
 
-								// LOGIC MỞ SẴN TAB ĐANG ĐƯỢC CHỌN (UX nâng cao)
-								// Nếu người dùng đang lọc Size -> Mở sẵn tab Size và đổi dấu thành trừ
-								// Cách làm: Kiểm tra xem có input nào đang checked không
-
+								// Tự động mở tab nếu có ô input đang được chọn (Code cũ)
 								$('.filter-content')
 										.each(
 												function() {
-													// Tìm xem trong content này có ô nào được check không
 													if ($(this).find(
 															'input:checked').length > 0) {
-														// Nếu có -> Hiện content ra
 														$(this).show();
-														// Đổi icon của header tương ứng thành dấu trừ
 														$(this)
 																.prev(
 																		'.filter-header')
@@ -183,9 +191,78 @@
 													}
 												});
 
-								// Mặc định mở tab Mức giá (nếu muốn)
-								// $('.filter-group:last-child .filter-content').show();
-								// $('.filter-group:last-child .filter-header i').removeClass('fa-plus').addClass('fa-minus');
+								// ==========================================
+								// 2. CẤU HÌNH SLIDER (CODE MỚI)
+								// ==========================================
+								var slider = document
+										.getElementById('price-slider');
+
+								if (slider) { // Kiểm tra nếu có slider thì mới chạy
+									// Lấy giá trị hiện tại từ server (nếu user đã lọc trước đó)
+									var currentMin = parseInt($(
+											'#minPriceInput').val()) || 0;
+									var currentMax = parseInt($(
+											'#maxPriceInput').val()) || 10000000;
+
+									// Nếu đang lọc giá, tự động mở tab Mức giá ra
+									if (currentMin > 0 || currentMax < 10000000) {
+										$('#minPriceInput').closest(
+												'.filter-content').show();
+										$('#minPriceInput').closest(
+												'.filter-group').find(
+												'.fa-plus').removeClass(
+												'fa-plus').addClass('fa-minus');
+									}
+
+									noUiSlider.create(slider, {
+										start : [ currentMin, currentMax ], // Giá trị bắt đầu
+										connect : true, // Có đường nối màu đen giữa 2 điểm
+										range : {
+											'min' : 0,
+											'max' : 10000000
+										// Max 10 triệu
+										},
+										step : 100000, // Bước nhảy 100k
+										format : {
+											to : function(value) {
+												return Math.round(value);
+											},
+											from : function(value) {
+												return Number(value);
+											}
+										}
+									});
+
+									// Sự kiện khi kéo thanh trượt -> Cập nhật text và input ẩn
+									slider.noUiSlider
+											.on(
+													'update',
+													function(values, handle) {
+														var value = values[handle];
+
+														// Format tiền tệ (thêm dấu chấm và chữ đ)
+														var formattedValue = new Intl.NumberFormat(
+																'vi-VN')
+																.format(value)
+																+ 'đ';
+
+														if (handle === 0) {
+															$(
+																	'#price-min-display')
+																	.text(
+																			formattedValue);
+															$('#minPriceInput')
+																	.val(value);
+														} else {
+															$(
+																	'#price-max-display')
+																	.text(
+																			formattedValue);
+															$('#maxPriceInput')
+																	.val(value);
+														}
+													});
+								}
 							});
 		</script>
 	</th:block>

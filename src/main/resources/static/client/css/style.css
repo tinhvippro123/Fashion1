@@ -154,8 +154,8 @@
 
 /* Hover vào link con cấp 3 */
 /*.ivy-mega-menu a.text-secondary:hover {
-	color: #000 !important;
-	padding-left: 5px; /* Hiệu ứng đẩy nhẹ sang phải */
+		color: #000 !important;
+		padding-left: 5px; /* Hiệu ứng đẩy nhẹ sang phải */
 /*}*/
 
 /* 2. Layout Lưới đặc biệt (Cách nhau 50px) */
@@ -233,16 +233,17 @@
 	border-top: 1px solid #e1e1e1;
 	font-size: 18px; /* 2. TĂNG CỠ CHỮ TOÀN BỘ (gốc 14-16px) */
 	color: #333;
-	line-height: 1.8; /* Giãn dòng thoáng hơn */
+	line-height: 1.2; /* Giãn dòng thoáng hơn */
+	margin-top: 40px;
 }
 
 /* 1. Tiêu đề cột (Giới thiệu, Liên hệ...) */
 /* Tiêu đề cột */
 .footer-title {
-	font-size: 24px; /* Tiêu đề to đùng */
+	font-size: 20px; /* Tiêu đề to đùng */
 	font-weight: 800; /* Rất đậm */
 	text-transform: uppercase;
-	margin-bottom: 45px; /* Cách nội dung xa hơn (gốc 25px) */
+	margin-bottom: 20px; /* Cách nội dung xa hơn (gốc 25px) */
 	color: #000;
 	letter-spacing: 1px;
 }
@@ -297,17 +298,17 @@
 	background: #222;
 	color: #fff;
 	display: inline-block;
-	padding: 12px 40px; /* Nút to hơn */
+	padding: 12px 20px; /* Nút to hơn */
 	border-radius: 24px 0 24px 0;
 	font-weight: 700;
 	font-size: 16px; /* Chữ trong nút to hơn */
-	letter-spacing: 1px;
+	letter-spacing: 0.5px;
 }
 
 /* 5. Khung Newsletter (To và Nổi bật) */
 .newsletter-box {
 	border: 1px solid #ccc;
-	padding: 50px 40px; /* Tăng khoảng cách bên trong cho khung "mập" ra */
+	padding: 30px 22px; /* Tăng khoảng cách bên trong cho khung "mập" ra */
 	border-top-left-radius: 50px; /* Bo góc mạnh hơn */
 	border-bottom-right-radius: 50px;
 	position: relative;
@@ -362,6 +363,95 @@
 	color: #888;
 	padding-top: 30px;
 	margin-top: 50px;
+}
+
+/* Container Flex bao quanh toàn bộ footer */
+.footer-flex-container {
+	display: flex;
+	justify-content: flex-start; /* Căn trái */
+	align-items: flex-start; /* Căn thẳng hàng trên cùng */
+	flex-wrap: nowrap; /* Không cho xuống dòng ở màn hình to */
+	padding-bottom: 30px;
+}
+
+/* 1. Cột Social & Hotline */
+.footer-col-social {
+	width: 280px; /* Đặt chiều rộng cố định để không bị co */
+	flex-shrink: 0;
+	/* YÊU CẦU: Cách cột Giới thiệu 61px */
+	margin-right: 61px;
+}
+
+/* 2. Cột Giới thiệu */
+.footer-col-intro {
+	width: 170px; /* Chiều rộng đủ chứa chữ */
+	flex-shrink: 0;
+	/* YÊU CẦU: Cách cột Dịch vụ 68px */
+	margin-right: 68px;
+}
+
+/* 3. Cột Dịch vụ khách hàng */
+.footer-col-service {
+	width: 250px;
+	flex-shrink: 0;
+	/* YÊU CẦU: Cách cột Liên hệ 68px */
+	margin-right: 68px;
+}
+
+/* 4. Cột Liên hệ */
+.footer-col-contact {
+	width: 150px;
+	flex-shrink: 0;
+	/* YÊU CẦU: Cách cột Newsletter 61px */
+	margin-right: 61px;
+}
+
+/* 5. Cột Newsletter */
+.footer-col-newsletter {
+	flex-grow: 1; /* Chiếm hết phần còn lại */
+	min-width: 250px;
+}
+
+/* --- RESPONSIVE --- */
+/* Với màn hình nhỏ hơn 1400px (Laptop nhỏ), ta phải giảm khoảng cách đi một chút kẻo vỡ giao diện */
+@media ( max-width : 1440px) {
+	.footer-col-social {
+		margin-right: 30px;
+		width: 250px;
+	}
+	.footer-col-intro {
+		margin-right: 30px;
+		width: 140px;
+	}
+	.footer-col-service {
+		margin-right: 30px;
+		width: 220px;
+	}
+	.footer-col-contact {
+		margin-right: 30px;
+		width: 120px;
+	}
+}
+
+/* Với màn hình Tablet & Mobile: Chuyển về dạng lưới (Grid) hoặc Cột dọc */
+@media ( max-width : 992px) {
+	.footer-flex-container {
+		flex-wrap: wrap; /* Cho phép xuống dòng */
+	}
+
+	/* Reset margin cứng để layout không bị lệch */
+	.footer-col-social, .footer-col-intro, .footer-col-service,
+		.footer-col-contact, .footer-col-newsletter {
+		width: 50%; /* Mỗi cột chiếm 50% màn hình */
+		margin-right: 0;
+		padding-right: 15px;
+		margin-bottom: 30px;
+	}
+
+	/* Newsletter full width trên mobile */
+	.footer-col-newsletter {
+		width: 100%;
+	}
 }
 
 /* --------------------------------- BANNER SLIDER STYLE --------------------------------- */
@@ -433,7 +523,7 @@
 /* Thông tin sản phẩm */
 .product-info {
 	padding-top: 15px;
-	text-align: center; /* IvyModa thường căn giữa hoặc trái */
+	text-align: left; /* IvyModa thường căn giữa hoặc trái */
 }
 
 .product-title a {
@@ -824,98 +914,96 @@
 }
 
 /* --------------------------------- TRANG CHI TIẾT SẢN PHẨM --------------------------------- */
-/* --- PRODUCT DETAIL PAGE (NEW VERSION) --- */
+/* ======================================================= */
+/* ===       TRANG CHI TIẾT SẢN PHẨM (CUSTOM SIZE)     === */
+/* ======================================================= */
 
-/* 1. Gallery Wrapper (Bao quanh cả 2 cột) */
-.gallery-wrapper {
+/* 1. LAYOUT CHÍNH: Chia 2 cột (Ảnh - Thông tin) */
+.product-detail-row {
 	display: flex;
-	gap: 25px; /* Tăng khoảng cách giữa ảnh to và list ảnh nhỏ */
-	/* QUAN TRỌNG: Căn giữa 2 cột theo chiều dọc */
-	align-items: center;
-	/* Đặt chiều cao tương đối để cột nhỏ biết đâu là giữa */
-	min-height: 600px;
+	width: 100%;
+	align-items: flex-start; /* Căn hàng từ trên xuống */
 }
 
-/* 2. Cột Ảnh lớn (Main) - Nằm bên trái */
+/* ------------------------------------------------------- */
+/* CỘT TRÁI: KHỐI ẢNH (GALLERY) */
+/* ------------------------------------------------------- */
+.gallery-wrapper {
+	display: flex;
+	/* Chiều cao khớp ảnh lớn bạn đo */
+	height: 845px;
+	gap: 20px; /* Khoảng cách giữa Ảnh to và Thumb nhỏ */
+	flex-shrink: 0; /* Không cho phép co lại */
+}
+
+/* Ảnh Lớn (Main Image) - ÉP CỨNG 563px x 845px */
 .gallery-main {
-	flex-grow: 1; /* Chiếm phần lớn không gian */
+	width: 563px;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
 }
 
 .main-img-display {
 	width: 100%;
-	height: auto;
-	aspect-ratio: 2/3; /* Tỷ lệ ảnh dọc chuẩn */
-	object-fit: cover;
+	height: 100%;
+	object-fit: cover; /* Ảnh phủ kín, không méo */
+	display: block;
 }
 
-/* 3. Cột ảnh nhỏ (Thumbnails) - Nằm bên phải */
+/* Cột Thumbnail (Ảnh nhỏ bên cạnh ảnh lớn) */
 .gallery-thumbs-container {
-	/* TĂNG KÍCH THƯỚC: Cột rộng ra (Cũ là 80px) */
-	width: 150px;
-	flex-shrink: 0; /* Cố định chiều rộng, không co giãn */
+	width: 100px; /* Kích thước thumb ~100px */
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	position: relative;
-	/* Chiều cao tối đa của cột này, nếu ảnh nhiều hơn sẽ cuộn bên trong */
-	max-height: 600px;
+	padding: 30px 0;
 }
 
-/* Khung cuộn chứa các ảnh */
+/* Khung cuộn ảnh nhỏ */
 .gallery-thumbs-scroll {
-	overflow-y: auto; /* Cho phép cuộn dọc */
-	overflow-x: hidden;
-	scroll-behavior: smooth;
-	height: 100%; /* Chiếm hết chiều cao container */
-	/* Ẩn thanh cuộn cho đẹp */
-	scrollbar-width: none; /* Firefox */
-	-ms-overflow-style: none; /* IE/Edge */
-	/* Tạo khoảng trống để mũi tên không che mất ảnh */
-	padding: 35px 0;
+	overflow-y: auto;
+	height: 100%;
+	scrollbar-width: none;
 }
-/* Ẩn thanh cuộn Chrome/Safari */
+
 .gallery-thumbs-scroll::-webkit-scrollbar {
 	display: none;
 }
 
-/* Style từng ảnh nhỏ (Thumb Item) */
+/* Ảnh nhỏ */
 .thumb-img {
-	width: 100%; /* Rộng bằng container (150px) */
-	/* Tự động tính chiều cao theo tỷ lệ 2:3 (sẽ cao khoảng 225px) -> RẤT TO & RÕ */
+	width: 100%;
 	aspect-ratio: 2/3;
 	object-fit: cover;
-	margin-bottom: 20px; /* Khoảng cách giữa các ảnh xa hơn */
+	margin-bottom: 15px;
 	cursor: pointer;
-	border: 2px solid transparent; /* Viền dày hơn */
-	opacity: 0.5;
+	border: 1px solid transparent;
+	opacity: 0.6;
 	transition: all 0.3s;
 }
 
-.thumb-img:hover, .thumb-img.active {
+.thumb-img.active, .thumb-img:hover {
 	opacity: 1;
-	border-color: #000; /* Viền đen khi chọn */
+	border-color: #000;
 }
 
-/* 4. Mũi tên Lên/Xuống (To hơn) */
+/* Mũi tên điều hướng thumb */
 .thumb-arrow {
 	position: absolute;
-	left: 0;
-	width: 100%;
-	height: 35px; /* Nút cao hơn */
-	background: rgba(255, 255, 255, 0.95); /* Nền trắng mờ */
-	border: none;
-	cursor: pointer;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 25px;
+	height: 25px;
+	background: rgba(255, 255, 255, 0.9);
+	border: 1px solid #ddd;
+	border-radius: 50%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	color: #333;
+	cursor: pointer;
 	z-index: 5;
-	font-size: 16px; /* Icon to hơn */
-	transition: all 0.2s;
-}
-
-.thumb-arrow:hover {
-	background: #000;
-	color: #fff;
 }
 
 .thumb-arrow.up {
@@ -926,23 +1014,66 @@
 	bottom: 0;
 }
 
-/* --- KHOẢNG CÁCH GIỮA ẢNH VÀ THÔNG TIN (120PX) --- */
+/* ------------------------------------------------------- */
+/* CỘT PHẢI: THÔNG TIN (INFO) - CÁCH 105PX */
+/* ------------------------------------------------------- */
 .product-info-col {
-	/* ĐÂY LÀ CHỖ TẠO KHOẢNG CÁCH 120PX */
-	padding-left: 120px !important;
+	flex-grow: 1; /* Chiếm hết phần còn lại của màn hình */
+	/* QUAN TRỌNG: Padding trái 105px như bạn đo */
+	padding-left: 105px !important;
+	/* Canh chỉnh nội dung */
+	padding-top: 10px;
 }
 
-/* Responsive: Màn hình nhỏ hơn (Laptop nhỏ) thì giảm còn 60px cho đỡ chật */
+/* --- RESPONSIVE (Mobile & Tablet) --- */
+/* Khi màn hình nhỏ hơn 1400px (Laptop nhỏ) -> Giảm padding kẻo vỡ layout */
 @media ( max-width : 1400px) {
 	.product-info-col {
-		padding-left: 60px !important;
+		padding-left: 50px !important; /* Giảm xuống còn 50px */
+	}
+	.gallery-main {
+		width: 450px; /* Thu nhỏ ảnh lại chút */
+		height: 675px;
+	}
+	.gallery-wrapper {
+		height: 675px;
 	}
 }
 
-/* Responsive: Mobile & Tablet thì bỏ khoảng cách này đi (về 15px chuẩn) */
+/* Khi màn hình nhỏ hơn 992px (Mobile/Tablet dọc) -> Xếp dọc */
 @media ( max-width : 992px) {
+	.product-detail-row {
+		flex-direction: column;
+	}
+	.gallery-wrapper {
+		width: 100%;
+		height: auto;
+		flex-direction: column-reverse;
+		margin-bottom: 30px;
+	}
+	.gallery-main {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 2/3;
+	}
+	.gallery-thumbs-container {
+		width: 100%;
+		height: auto;
+		flex-direction: row;
+		padding: 0 0 10px 0;
+		overflow-x: auto;
+	}
 	.product-info-col {
-		padding-left: 15px !important;
+		padding-left: 0 !important; /* Mobile thì bỏ padding trái */
+		padding-right: 0;
+	}
+	.thumb-img {
+		width: 80px;
+		margin-right: 10px;
+		margin-bottom: 0;
+	}
+	.thumb-arrow {
+		display: none;
 	}
 }
 
@@ -1446,6 +1577,43 @@
 	color: #fff;
 }
 
+
+
+
+
+
+
+/* Style cho khung Phương thức thanh toán */
+.payment-box {
+    border: 1px solid #e1e1e1;
+    border-radius: 10px; /* Bo góc tròn 10px */
+    padding: 25px;
+    background: #fff;
+}
+
+/* Tinh chỉnh Radio button cho to rõ hơn */
+.payment-box .custom-control-label {
+    cursor: pointer;
+    font-size: 15px;
+    padding-left: 5px; /* Cách xa nút tròn một chút */
+}
+
+.payment-box .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #000; /* Màu đen khi chọn */
+    border-color: #000;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 /* ------------------------------------ MINI CART & ICON ------------------------------------ */
 
 /* 1. Icon Header */
@@ -1502,6 +1670,7 @@
 	transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
 }
 
 .mini-cart-sidebar.open {
@@ -1515,6 +1684,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	flex-shrink: 0; /* Không bao giờ được co nhỏ lại */
 }
 
 .close-btn {
@@ -1525,9 +1695,15 @@
 }
 
 .mini-cart-body {
-	flex-grow: 1;
-	overflow-y: auto; /* Cho phép cuộn nếu danh sách dài */
 	padding: 20px;
+	/* --- SỬA/THÊM CÁC DÒNG NÀY --- */
+	flex-grow: 1; /* Chiếm TẤT CẢ khoảng trống còn lại ở giữa */
+	overflow-y: auto; /* Nếu dài quá thì hiện thanh cuộn dọc */
+	overflow-x: hidden; /* Ẩn thanh cuộn ngang */
+	height: auto; /* Bỏ height cố định nếu có */
+	/* Tùy chỉnh thanh cuộn cho đẹp (giống Ivy) */
+	scrollbar-width: thin;
+	scrollbar-color: #ccc #fff;
 }
 
 .mini-cart-item {
@@ -1546,13 +1722,15 @@
 	padding: 20px;
 	border-top: 1px solid #eee;
 	background: #f9f9f9;
+	flex-shrink: 0; /* Không bao giờ được co nhỏ lại */
+	z-index: 10;
 }
 
 /* ------------------------------------ OWL CAROUSEL CUSTOM ------------------------------------ */
-.owl-nav button.owl-prev, .owl-nav button.owl-next {
+/*.owl-nav button.owl-prev, .owl-nav button.owl-next {
 	position: absolute;
 	top: 40%; /* Căn giữa theo chiều dọc của ảnh */
-	transform: translateY(-50%);
+/*	transform: translateY(-50%);
 	width: 40px;
 	height: 40px;
 	background: #fff !important;
@@ -1573,14 +1751,55 @@
 
 .owl-nav button.owl-prev {
 	left: -20px; /* Thò ra bên trái */
-}
+/*}
 
 .owl-nav button.owl-next {
 	right: -20px; /* Thò ra bên phải */
-}
+/*}
 
 /* Ẩn mũi tên nếu không hover (Optional - IvyModa luôn hiện hoặc hover mới hiện) */
 /* .product-slider:hover .owl-nav button { opacity: 1; } */
+
+
+/* --- OWL CAROUSEL NAV (MŨI TÊN) --- */
+.owl-nav button.owl-prev, 
+.owl-nav button.owl-next {
+    position: absolute;
+    top: 40%; /* Căn giữa theo chiều dọc của khung ảnh */
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: #fff !important;
+    border-radius: 50% !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* Đổ bóng nhẹ */
+    color: #333 !important;
+    font-size: 18px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    outline: none;
+}
+
+.owl-nav button.owl-prev:hover, 
+.owl-nav button.owl-next:hover {
+    background: #000 !important;
+    color: #fff !important;
+}
+
+/* Mũi tên Trái: Đẩy sang trái -20px để nằm chườm ra ngoài */
+.owl-nav button.owl-prev {
+    left: -10px; 
+}
+
+/* Mũi tên Phải: Đẩy sang phải -20px */
+.owl-nav button.owl-next {
+    right: -10px;
+}
+
+
+
+
 
 /* ------------------------------------ FILTER SIDEBAR ------------------------------------ */
 .filter-group {
@@ -1610,3 +1829,529 @@
 	border-color: #000;
 	color: #fff !important;
 }
+
+/* ------------------------------------ 1. QUICK SIZE POPUP (Danh sách size) ------------------------------------ */
+.quick-size-popup {
+	display: none; /* Mặc định ẩn */
+	position: absolute;
+	bottom: 45px; /* Hiện ngay phía trên nút giỏ hàng */
+	right: 0;
+	background: #fff;
+	width: 60px; /* Chiều rộng nhỏ gọn */
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+	border: 1px solid #eee;
+	z-index: 100;
+	border-radius: 4px;
+	animation: fadeInUp 0.2s ease;
+}
+
+.quick-size-popup ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.quick-size-popup li {
+	padding: 8px 0;
+	text-align: center;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	border-bottom: 1px solid #f5f5f5;
+	transition: all 0.2s;
+}
+
+.quick-size-popup li:last-child {
+	border-bottom: none;
+}
+
+.quick-size-popup li:hover {
+	background: #000;
+	color: #fff;
+}
+
+/* ------------------------------------- 2. SUCCESS MODAL (Thông báo thành công) ------------------------------------ */
+.ivy-modal {
+	display: none;
+	position: fixed;
+	z-index: 9999;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5); /* Nền tối mờ */
+	align-items: center;
+	justify-content: center;
+}
+
+.ivy-modal-content {
+	background-color: #fff;
+	padding: 40px;
+	text-align: center;
+	width: 450px;
+	position: relative;
+	border-radius: 0; /* IvyModa vuông vức */
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+	animation: zoomIn 0.3s ease;
+}
+
+.close-modal {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	font-size: 28px;
+	cursor: pointer;
+	color: #999;
+}
+
+/* Icon túi xách trong modal (Nếu dùng CSS vẽ) */
+.modal-icon {
+	position: relative;
+	display: inline-block;
+	margin-bottom: 10px;
+}
+
+/* ======================================================= */
+/* ===           LOGIN / REGISTER PAGE STYLE           === */
+/* ======================================================= */
+.login-wrapper-90 {
+	/* Cách lề trái phải của container đúng 90px */
+	margin-left: 90px;
+	margin-right: 90px;
+}
+
+/* Hàng chứa (Thêm đường kẻ dọc ở giữa cho màn hình lớn) */
+.login-row {
+	display: flex;
+}
+
+.login-col-left {
+	border-right: 1px solid #e1e1e1; /* Đường kẻ dọc chia đôi */
+	padding-right: 40px;
+	padding-left: 15px; /* Khoảng đệm 15px */
+	padding-right: 105px;
+}
+
+.login-col-right {
+	padding-left: 40px;
+	padding-right: 15px;
+	padding-left: 105px;
+}
+
+/* Responsive: Mobile bỏ đường kẻ và padding */
+@media ( max-width : 992px) {
+	.login-wrapper-90 {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.login-col-left {
+		border-right: none;
+		padding-right: 15px;
+		border-bottom: 1px solid #e1e1e1;
+		padding-bottom: 30px;
+		margin-bottom: 30px;
+	}
+	.login-col-right {
+		padding-left: 15px;
+	}
+}
+
+/* Tiêu đề mục */
+.auth-title {
+	font-size: 18px;
+	font-weight: 700;
+	text-transform: uppercase;
+	color: #000;
+	margin-bottom: 20px;
+	text-align: center; /* Căn giữa giống ảnh */
+}
+
+/* Mô tả ngắn */
+.auth-desc {
+	font-size: 14px;
+	color: #666;
+	margin-bottom: 30px;
+	line-height: 1.6;
+	text-align: center;
+}
+
+/* Input Form (Bo góc nhẹ) */
+.form-control-auth {
+	width: 100%;
+	height: 45px;
+	border: 1px solid #e1e1e1;
+	border-radius: 4px;
+	padding: 10px 15px;
+	font-size: 14px;
+	outline: none;
+	transition: border 0.3s;
+}
+
+.form-control-auth:focus {
+	border-color: #000;
+}
+
+/* Các link phụ (QR, OTP) */
+.auth-links-secondary a {
+	font-size: 14px;
+	color: #333;
+	text-decoration: underline; /* Gạch chân */
+}
+
+.auth-links-secondary a:hover {
+	color: #000;
+}
+
+/* Nút Đen To (Đăng nhập / Đăng ký) */
+.btn-auth-action {
+	display: block;
+	width: 100%;
+	background: #222;
+	color: #fff;
+	font-weight: 700;
+	text-transform: uppercase;
+	padding: 12px 0;
+	text-align: center;
+	border: 1px solid #222;
+	border-radius: 4px 0 4px 0; /* Bo góc chéo đặc trưng */
+	cursor: pointer;
+	transition: all 0.3s;
+	text-decoration: none; /* Dùng cho thẻ a */
+	font-size: 16px;
+}
+
+.btn-auth-action:hover {
+	background: #fff;
+	color: #000;
+}
+
+/* --- USER DROPDOWN (HEADER) --- */
+.user-dropdown-container {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	padding: 10px 0; /* Tạo vùng hover rộng hơn */
+}
+
+/* Ẩn menu mặc định */
+.user-dropdown-menu {
+	display: none;
+	position: absolute;
+	top: 100%;
+	right: -10px; /* Căn lề phải */
+	width: 220px;
+	background: #fff;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+	border-radius: 4px;
+	padding: 15px;
+	z-index: 9999;
+	border: 1px solid #eee;
+}
+
+/* Mũi tên nhọn chỉ lên trên (Optional) */
+.user-dropdown-menu::before {
+	content: "";
+	position: absolute;
+	top: -8px;
+	right: 15px;
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+	border-bottom: 8px solid #fff;
+}
+
+/* Hiện menu khi Hover vào container */
+/*.user-dropdown-container:hover .user-dropdown-menu {
+	    display: block;
+	} */
+.user-dropdown-menu.show {
+	display: block !important;
+}
+
+/* Style nội dung bên trong */
+.user-info {
+	font-size: 14px;
+	border-bottom: 1px solid #eee;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	color: #333;
+}
+
+.user-menu-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.user-menu-list li {
+	margin-bottom: 8px;
+}
+
+.user-menu-list a, .btn-logout-link {
+	font-size: 13px;
+	color: #555;
+	text-decoration: none;
+	transition: color 0.2s;
+	display: block;
+	width: 100%;
+	text-align: left;
+	background: none;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+}
+
+.user-menu-list a:hover, .btn-logout-link:hover {
+	color: #000;
+}
+
+/* ======================================================= */
+/* ===           REGISTER PAGE STYLE                   === */
+/* ======================================================= */
+
+/* Nhãn (Label) phía trên ô input */
+.auth-label {
+	font-size: 14px;
+	color: #666; /* Màu chữ xám giống ảnh */
+	margin-bottom: 5px;
+	font-weight: 400;
+}
+
+/* Ô nhập liệu (Input) chuẩn Ivy */
+.form-control-ivy {
+	border: 1px solid #e1e1e1;
+	border-radius: 4px;
+	height: 40px;
+	font-size: 14px;
+	padding: 5px 15px;
+	width: 100%;
+	outline: none;
+	transition: border 0.3s;
+}
+
+.form-control-ivy:focus {
+	border-color: #333;
+}
+
+/* Nút Đăng ký màu đen (Dùng chung với trang Login) */
+.btn-auth-action {
+	background: #222;
+	color: #fff;
+	width: 100%;
+	padding: 12px;
+	text-transform: uppercase;
+	font-weight: 700;
+	border: none;
+	border-radius: 4px 0 4px 0; /* Bo góc chéo */
+	cursor: pointer;
+	transition: all 0.3s;
+}
+
+.btn-auth-action:hover {
+	background: #000;
+}
+
+/* Custom checkbox chỉnh lại một chút cho đẹp */
+.custom-control-label::before {
+	border-radius: 2px;
+}
+
+/* ======================================================= */
+/* ===           ACCOUNT PAGE STYLE                    === */
+/* ======================================================= */
+
+/* Sidebar Avatar */
+.avatar-circle {
+	width: 50px;
+	height: 50px;
+	background: #f1f1f1;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #999;
+	font-size: 24px;
+}
+
+/* Sidebar Menu */
+.account-nav {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.account-nav-link {
+	display: block;
+	padding: 12px 0;
+	color: #666;
+	text-decoration: none;
+	font-size: 14px;
+	border-bottom: 1px solid #f5f5f5;
+	transition: color 0.2s;
+}
+
+.account-nav-link:hover {
+	color: #000;
+	text-decoration: none;
+}
+
+.account-nav-link.active {
+	color: #000;
+	font-weight: 700;
+}
+
+.account-nav-link i {
+	width: 25px; /* Cố định chiều rộng icon để chữ thẳng hàng */
+	text-align: center;
+}
+
+/* Form Styles */
+.col-form-label {
+	font-size: 14px;
+	padding-top: 12px; /* Căn giữa với input */
+}
+
+/* Input readonly (màu xám nhạt giống ảnh) */
+.form-control-ivy.bg-light {
+	background-color: #f8f9fa !important;
+	border-color: #eee;
+	color: #555;
+}
+
+/* Table bên phải */
+.table-bordered td, .table-bordered th {
+	border-color: #e1e1e1;
+	vertical-align: middle;
+}
+
+/* ======================================================= */
+/* ===           FILTER SIDEBAR STYLE (MỚI)            === */
+/* ======================================================= */
+
+/* 1. Accordion Header (Tiêu đề Size, Màu sắc...) */
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0; /* Giãn cách trên dưới */
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600; /* Đậm vừa phải */
+    color: #333;
+    transition: color 0.2s;
+}
+
+.filter-header:hover {
+    color: #000;
+}
+
+/* Icon cộng/trừ */
+.filter-header i {
+    font-size: 12px; /* Icon nhỏ gọn */
+    color: #999;
+}
+
+/* 2. Nội dung bên trong (Size list, Color list) */
+.filter-content {
+    display: none; /* Mặc định đóng */
+    padding-bottom: 20px;
+    padding-left: 5px; /* Thụt lề một chút */
+}
+
+/* 3. Slider Giá (noUiSlider Custom) */
+.noUi-target {
+    background: #e1e1e1; /* Đường nền xám nhạt */
+    border: none;
+    box-shadow: none;
+    height: 4px; /* Độ dày thanh */
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.noUi-connect {
+    background: #000; /* Đoạn giữa 2 nút màu đen */
+}
+
+.noUi-horizontal .noUi-handle {
+    width: 16px;
+    height: 16px;
+    right: -8px;
+    top: -6px;
+    background: #000; /* Nút tròn màu đen */
+    border: 2px solid #fff; /* Viền trắng để tách biệt */
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    cursor: pointer;
+    outline: none;
+}
+
+/* Ẩn vạch kẻ mặc định của thư viện */
+.noUi-handle:before, .noUi-handle:after {
+    display: none; 
+}
+
+/* Hiển thị giá tiền dưới slider */
+.price-values {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+}
+
+/* 4. Hai nút chức năng dưới cùng (BỎ LỌC - LỌC) */
+.filter-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+/* Nút BỎ LỌC (Trắng) */
+.btn-filter-clear {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 48%; /* Chia đôi hàng */
+    height: 40px;
+    background: #fff;
+    color: #333;
+    border: 1px solid #333;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: none;
+    /* Bo góc chéo: Trên-Trái & Dưới-Phải */
+    border-radius: 12px 0 12px 0; 
+    transition: all 0.3s;
+}
+
+.btn-filter-clear:hover {
+    background: #f9f9f9;
+    color: #000;
+    text-decoration: none;
+}
+
+/* Nút LỌC (Đen) */
+.btn-filter-submit {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 48%;
+    height: 40px;
+    background: #222;
+    color: #fff;
+    border: 1px solid #222;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    /* Bo góc chéo giống nút trắng */
+    border-radius: 12px 0 12px 0;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-filter-submit:hover {
+    background: #000;
+}
+
+

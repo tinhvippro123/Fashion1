@@ -1,21 +1,18 @@
 package com.fashionshop.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Autowired
+    private CustomSuccessHandler customSuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -25,7 +22,7 @@ public class SecurityConfig {
                 
                 // 1. CHO PHÉP TÀI NGUYÊN TĨNH (CSS, JS, ẢNH)
                 // Của Admin
-                .requestMatchers("/admin/css/**", "/admin/js/**", "/admin/vendor/**", "/admin/img/**").permitAll()
+                .requestMatchers("/admin/css/**", "/admin/js/**", "/admin/vendor/**", "/admin/img/**", "/favicon.ico").permitAll()
                 // Của Client (Sau này bạn thêm vào)
                 .requestMatchers("/client/css/**", "/client/js/**", "/client/img/**").permitAll()
                 .requestMatchers("/uploads/**").permitAll() // Cho phép xem ảnh sản phẩm upload lên
@@ -44,10 +41,14 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                // .loginPage("/login") // Khi nào làm giao diện login client thì mở
-                .defaultSuccessUrl("/admin/users", true) // Tạm thời login xong vào Admin
-                .permitAll()
-            )
+                    .loginPage("/login")  // 1. Dùng trang login của mình (ko dùng mặc định)
+                    .loginProcessingUrl("/login") // 2. URL để form submit POST vào (Spring Security tự xử lý)
+//                    .defaultSuccessUrl("/", true) // 3. Đăng nhập xong thì về trang chủ
+                    .successHandler(customSuccessHandler)
+                    .failureUrl("/login?error=true") // 4. Sai mật khẩu thì về lại login kèm lỗi
+ 
+                    .permitAll()
+                )
             .logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/")

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{client/layout}">
+<head>
+    <title>Thông tin tài khoản - IVY moda</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="container-ivy" style="margin-top: 30px; margin-bottom: 50px;">
+            
+            <div class="mb-4 text-muted small">
+                <a th:href="@{/}" class="text-dark">Trang chủ</a> 
+                <span class="mx-2">-</span> 
+                <span>Tài khoản của tôi</span>
+            </div>
+
+            <div class="row">
+                
+                <div class="col-lg-3 col-md-4 mb-4">
+                   <div th:replace="~{client/account/sidebar :: account-sidebar(activePage='profile')}"></div>
+                </div>
+
+                <div class="col-lg-9 col-md-8">
+                    
+                    <h4 class="font-weight-bold mb-4 text-uppercase">Tài khoản của tôi</h4>
+
+                    <div class="alert alert-primary border-0 rounded-0 mb-4" style="background-color: #d1ecf1; color: #0c5460; font-size: 14px;">
+                        "Vì chính sách an toàn thẻ, bạn không thể thay đổi SĐT, Ngày sinh, Họ tên. Vui lòng liên hệ CSKH 0905898683 để được hỗ trợ"
+                    </div>
+
+                    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                        <i class="fas fa-check-circle mr-2"></i> <span th:text="${successMessage}"></span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+
+                    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                        <i class="fas fa-exclamation-circle mr-2"></i> <span th:text="${errorMessage}"></span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+
+                    <form th:action="@{/account/update}" method="post">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label text-muted">Họ</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control-ivy bg-light" th:value="${displayLastName}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label text-muted">Tên</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control-ivy bg-light" th:value="${displayFirstName}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label text-muted">Số điện thoại</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control-ivy bg-light" th:value="${user.phone}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label text-muted">Email</label>
+                                    <div class="col-sm-9">
+                                        <input type="email" name="email" class="form-control-ivy" th:value="${user.email}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label text-muted">Giới tính</label>
+                                    <div class="col-sm-9 d-flex align-items-center pt-2">
+                                        
+                                        <div class="custom-control custom-radio mr-4">
+                                            <input type="radio" id="g-nam" name="gender" value="MALE" class="custom-control-input" 
+                                                   th:checked="${user.gender.name() == 'MALE'}">
+                                            <label class="custom-control-label" for="g-nam">Nam</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio mr-4">
+                                            <input type="radio" id="g-nu" name="gender" value="FEMALE" class="custom-control-input"
+                                                   th:checked="${user.gender.name() == 'FEMALE'}">
+                                            <label class="custom-control-label" for="g-nu">Nữ</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="g-khac" name="gender" value="OTHER" class="custom-control-input"
+                                                   th:checked="${user.gender.name() == 'OTHER'}">
+                                            <label class="custom-control-label" for="g-khac">Khác</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label text-muted">Ngày sinh</label>
+                                    <div class="col-sm-9">
+                                        <input type="date" class="form-control-ivy bg-light" th:value="${user.dateOfBirth}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 d-flex">
+                                    <button type="submit" class="btn btn-dark px-4 py-2 mr-3 font-weight-bold" style="border-radius: 4px 0 4px 0;">CẬP NHẬT</button>
+                                    
+                                    <button type="button" class="btn btn-outline-dark px-4 py-2 font-weight-bold" 
+                                            style="border-radius: 4px 0 4px 0;" 
+                                            data-toggle="modal" data-target="#changePasswordModal">
+                                        ĐỔI MẬT KHẨU
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-4 mt-4 mt-lg-0">
+                                <div class="border rounded p-0 overflow-hidden">
+                                    <table class="table table-bordered mb-0 text-center" style="font-size: 14px;">
+                                        <tbody>
+                                            <tr>
+                                                <td class="bg-light text-muted py-3">Điểm chiết khấu</td>
+                                                <td class="font-weight-bold py-3">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="bg-light text-muted py-3">Chiết khấu</td>
+                                                <td class="font-weight-bold py-3">0%</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="bg-light text-muted py-3">Hạn thẻ</td>
+                                                <td class="font-weight-bold py-3">13/04/2026</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content" style="border-radius: 0;">
+                    
+                    <div class="modal-header border-0 pb-0">
+                        <h5 class="modal-title font-weight-bold text-uppercase w-100 text-center" style="letter-spacing: 1px;">
+                            ĐỔI MẬT KHẨU
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body pt-4 px-5 pb-5">
+                        <form th:action="@{/account/change-password}" method="post">
+                            
+                            <div class="form-group">
+                                <label class="small text-muted font-weight-bold">Mật khẩu hiện tại</label>
+                                <input type="password" name="currentPassword" class="form-control-ivy" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="small text-muted font-weight-bold">Mật khẩu mới</label>
+                                <input type="password" name="newPassword" class="form-control-ivy" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="small text-muted font-weight-bold">Nhập lại Mật khẩu mới</label>
+                                <input type="password" name="confirmPassword" class="form-control-ivy" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-dark btn-block font-weight-bold py-3 mt-4" style="border-radius: 4px 0 4px 0;">
+                                CẬP NHẬT
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>

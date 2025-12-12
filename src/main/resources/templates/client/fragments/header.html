@@ -6,71 +6,94 @@
 
 		<nav class="d-none d-lg-flex">
 
-			<div th:each="rootCat : ${categories}" class="ivy-menu-item">
+			<div class="ivy-menu-item">
+				<a th:href="@{/danh-muc/nu}" class="ivy-nav-link">NỮ</a>
 
-				<a href="javascript:void(0)" class="ivy-nav-link"
-					th:text="${rootCat.name}" style="cursor: default;">NỮ</a>
-
-				<div class="ivy-mega-menu"
-					th:if="${not #lists.isEmpty(rootCat.children)}">
-
+				<div class="ivy-mega-menu">
 					<div class="container-ivy">
-
-						<div class="ivy-flex-container">
+						<div class="ivy-grid-wrapper">
 
 							<div class="ivy-col-special">
-								<a th:href="@{/category/{slug}(slug=${rootCat.slug})}"
-									class="ivy-cat-title"> ALL ITEMS </a> <a
-									th:href="@{/danh-muc/hang-nam-moi-ve}"
-									class="ivy-cat-title text-danger mt-4"> NEW ARRIVAL </a> <a
-									href="#" class="ivy-cat-title text-danger mt-4"> HOT ITEMS
-									- SALE 50% </a>
+								<a th:href="@{/danh-muc/hang-nu-moi-ve}"
+									class="d-block font-weight-bold mb-3 text-danger"
+									style="font-size: 14px;">NEW ARRIVAL</a> <a
+									th:href="@{/danh-muc/nu}" class="d-block font-weight-bold mb-3"
+									style="font-size: 14px; color: #333;">ALL ITEMS</a> <a href="#"
+									class="d-block font-weight-bold text-danger"
+									style="font-size: 14px;">HOT ITEMS - SALE 50%</a>
 							</div>
 
 							<div class="ivy-col-categories">
-
 								<div class="ivy-sub-cat-item"
-									th:each="subCat : ${rootCat.children}">
+									th:each="parent : ${womenCategories}">
 
-									<a th:href="@{/category/{slug}(slug=${subCat.slug})}"
-										class="ivy-cat-title"> <span th:text="${subCat.name}">ÁO</span>
-									</a>
+									<a th:href="@{'/danh-muc/' + ${parent.slug}}"
+										class="ivy-cat-title" th:text="${parent.name}">ÁO</a>
 
-									<div th:each="childCat : ${subCat.children}">
-										<a th:href="@{/category/{slug}(slug=${childCat.slug})}"
-											class="d-block text-secondary mb-2"
-											style="font-size: 13px; text-decoration: none; transition: all 0.2s;">
-											<span th:text="${childCat.name}">Áo sơ mi</span>
-										</a>
+									<div th:each="child : ${parent.children}">
+										<a th:href="@{'/danh-muc/' + ${child.slug}}"
+											class="d-block mb-2 text-muted"
+											style="font-size: 13px; text-decoration: none; transition: 0.3s;"
+											onmouseover="this.style.color='#000'"
+											onmouseout="this.style.color='#6c757d'"
+											th:text="${child.name}">Áo sơ mi</a>
 									</div>
-
 								</div>
 							</div>
+
 						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="ivy-menu-item">
+				<a th:href="@{/danh-muc/nam}" class="ivy-nav-link">NAM</a>
 
+				<div class="ivy-mega-menu">
+					<div class="container-ivy">
+						<div class="ivy-grid-wrapper">
+
+							<div class="ivy-col-special">
+								<a th:href="@{/danh-muc/hang-nam-moi-ve}"
+									class="d-block font-weight-bold mb-3 text-danger"
+									style="font-size: 14px;">NEW ARRIVAL</a> <a
+									th:href="@{/danh-muc/nam}"
+									class="d-block font-weight-bold mb-3"
+									style="font-size: 14px; color: #333;">ALL ITEMS</a> <a href="#"
+									class="d-block font-weight-bold text-danger"
+									style="font-size: 14px;">HOT ITEMS - SALE 50%</a>
+							</div>
+
+							<div class="ivy-col-categories">
+								<div class="ivy-sub-cat-item"
+									th:each="parent : ${menCategories}">
+									<a th:href="@{'/danh-muc/' + ${parent.slug}}"
+										class="ivy-cat-title" th:text="${parent.name}">ÁO</a>
+									<div th:each="child : ${parent.children}">
+										<a th:href="@{'/danh-muc/' + ${child.slug}}"
+											class="d-block mb-2 text-muted"
+											style="font-size: 13px; text-decoration: none; transition: 0.3s;"
+											onmouseover="this.style.color='#000'"
+											onmouseout="this.style.color='#6c757d'"
+											th:text="${child.name}">Áo thun</a>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="ivy-menu-item">
 				<a th:href="@{/sale}" class="ivy-nav-link nav-highlight">BIG
-
 					SALE THÁNG 12</a>
-
 			</div>
-
-
-
 			<div class="ivy-menu-item">
-
 				<a th:href="@{/collection}" class="ivy-nav-link">BỘ SƯU TẬP</a>
-
 			</div>
-
 			<div class="ivy-menu-item">
-
 				<a th:href="@{/about}" class="ivy-nav-link">VỀ CHÚNG TÔI</a>
-
 			</div>
 
 		</nav>
@@ -94,8 +117,50 @@
 
 			<a href="#" class="ivy-icon-btn d-none d-sm-block"> <i
 				class="fas fa-headset"></i>
-			</a> <a href="#" class="ivy-icon-btn"> <i class="far fa-user"></i>
+			</a> <a sec:authorize="!isAuthenticated()" th:href="@{/login}"
+				class="ivy-icon-btn"> <i class="far fa-user"></i>
 			</a>
+
+			<div sec:authorize="isAuthenticated()" class="ivy-icon-btn user-dropdown-container">
+    
+    <a href="javascript:void(0)" class="text-dark" onclick="toggleUserMenu(event)">
+        <i class="far fa-user"></i>
+    </a>
+
+    <div class="user-dropdown-menu" id="userDropdown" style="display: none;">
+        
+        <div class="user-info">
+            Xin chào, <b sec:authentication="name">User</b>
+        </div>
+        
+        <ul class="user-menu-list">
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin}" class="text-danger font-weight-bold">
+                    <i class="fas fa-cogs mr-2"></i> Trang quản trị
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/account/profile}">
+                    <i class="far fa-id-card mr-2"></i> Thông tin tài khoản
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/account/orders}">
+                    <i class="fas fa-history mr-2"></i> Quản lý đơn hàng
+                </a>
+            </li>
+            
+            <li class="border-top pt-2 mt-2">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn-logout-link">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Đăng xuất
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
 			<div class="header-cart-icon" onclick="openMiniCart()">
 				<i class="fas fa-shopping-bag"
 					style="font-size: 24px; cursor: pointer;"></i> <span

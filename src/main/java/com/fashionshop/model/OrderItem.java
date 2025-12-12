@@ -20,13 +20,13 @@ public class OrderItem {
 	private Variant variant;
 
 	// --- CÁC TRƯỜNG SNAPSHOT (Lưu cứng thông tin) ---
-	@Column(name = "product_name")
+	@Column(name = "product_name", columnDefinition = "nvarchar(100)")
 	private String productName;
 
-	@Column(name = "color_name")
+	@Column(name = "color_name", columnDefinition = "nvarchar(100)")
 	private String colorName;
 
-	@Column(name = "size_name")
+	@Column(name = "size_name", columnDefinition = "nvarchar(100)")
 	private String sizeName;
 
 	@Column(name = "product_image")

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<div th:fragment="account-sidebar(activePage)" class="account-sidebar">
+		<div class="user-profile-summary mb-4">
+			<div class="d-flex align-items-center">
+				<div class="avatar-circle mr-3">
+					<i class="fas fa-user"></i>
+				</div>
+				<div>
+					<div class="font-weight-bold" th:if="${user != null}"
+						th:text="${user.fullName}">Tên User</div>
+
+					<div class="font-weight-bold" th:if="${user == null}">Khách
+						hàng</div>
+
+					<div class="small text-muted">Member</div>
+				</div>
+			</div>
+		</div>
+
+		<ul class="account-nav">
+			<li><a th:href="@{/account/profile}" class="account-nav-link"
+				th:classappend="${activePage == 'profile'} ? 'active'"> <i
+					class="far fa-user mr-3"></i> Thông tin tài khoản
+			</a></li>
+
+			<li><a href="#" class="account-nav-link"> <i
+					class="fas fa-history mr-3"></i> Lịch sử đăng nhập
+			</a></li>
+
+			<li><a th:href="@{/account/orders}" class="account-nav-link"
+				th:classappend="${activePage == 'orders'} ? 'active'"> <i
+					class="fas fa-sync-alt mr-3"></i> Quản lý đơn hàng
+			</a></li>
+
+			<li><a th:href="@{/account/addresses}" class="account-nav-link"
+				th:classappend="${activePage == 'addresses'} ? 'active'"> <i
+					class="fas fa-map-marker-alt mr-3"></i> Sổ địa chỉ
+			</a></li>
+
+			<li><a href="#" class="account-nav-link"> <i
+					class="fas fa-eye mr-3"></i> Sản phẩm đã xem
+			</a></li>
+			<li><a href="#" class="account-nav-link"> <i
+					class="far fa-heart mr-3"></i> Sản phẩm yêu thích
+			</a></li>
+			<li><a href="#" class="account-nav-link"> <i
+					class="fas fa-headset mr-3"></i> Hỗ trợ - IVY
+			</a></li>
+		</ul>
+	</div>
+</body>
+</html>

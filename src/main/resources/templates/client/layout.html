@@ -5,102 +5,82 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fashion Shop - Phong cách IvyModa</title>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-<link
-	href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
-	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link rel="stylesheet" th:href="@{/client/css/style.css}">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css">
+<style>
+    /* CSS Tùy chỉnh cho Slider giống IVY Moda (Màu đen) */
+    .noUi-target {
+        background: #e1e1e1; /* Đường nền xám nhạt */
+        border: none;
+        box-shadow: none;
+        height: 4px; /* Độ dày thanh */
+    }
+    .noUi-connect {
+        background: #000; /* Đoạn giữa 2 nút màu đen */
+    }
+    .noUi-horizontal .noUi-handle {
+        width: 18px;
+        height: 18px;
+        right: -9px;
+        top: -7px;
+        background: #000; /* Nút tròn màu đen */
+        border: 2px solid #fff; /* Viền trắng nhẹ để tách biệt */
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        cursor: pointer;
+    }
+    /* Ẩn 2 cái vạch kẻ mặc định xấu xí của thư viện */
+    .noUi-handle:before, .noUi-handle:after {
+        display: none; 
+    }
+    .price-values {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+    }
+</style>
 </head>
 <body style="font-family: 'Montserrat', sans-serif;">
 
 	<header th:replace="~{client/fragments/header :: header}"></header>
 
-	<main style="min-height: 600px; padding-top: 20px;">
+	<main style="min-height: 400px">
 		<div layout:fragment="content"></div>
 	</main>
 
 	<footer th:replace="~{client/fragments/footer :: footer}"></footer>
 
 	<div id="cartOverlay" class="cart-overlay" onclick="closeMiniCart()"></div>
+	
 	<div id="miniCartSidebar" class="mini-cart-sidebar">
-		<div class="mini-cart-header">
-			<h5>
-				Giỏ hàng <span class="badge badge-dark rounded-circle"
-					th:text="${globalCartCount}">0</span>
-			</h5>
-			<button onclick="closeMiniCart()" class="close-btn">&times;</button>
-		</div>
-		<div class="mini-cart-body">
-			<div
-				th:if="${globalCart == null || #lists.isEmpty(globalCart.items)}"
-				class="text-center py-5">
-				<p>Giỏ hàng đang trống</p>
+		<div th:replace="~{client/fragments/mini-cart :: mini-cart-content}"></div>
+	</div>
+
+	<div id="successModal" class="ivy-modal">
+		<div class="ivy-modal-content">
+			<span class="close-modal" onclick="closeSuccessModal()">&times;</span>
+			<div class="modal-icon">
+				<img th:src="@{/client/img/shopping-bag-check.png}" alt="Success" style="width: 60px;">
 			</div>
-			<th:block th:if="${globalCart != null}">
-				<div th:each="item : ${globalCart.items}" class="mini-cart-item">
-					<div class="d-flex">
-						<img
-							th:src="@{'/uploads/' + ${item.variant.productColor.images[0].imageUrl}}"
-							class="mini-cart-img">
-						<div class="ml-3 w-100">
-							<p class="mb-1 font-weight-bold"
-								th:text="${item.variant.productColor.product.name}">Tên SP</p>
-							<small class="text-muted"> Màu: <span
-								th:text="${item.variant.productColor.color.name}"></span> |
-								Size: <span th:text="${item.variant.size.name}"></span></small>
-							<div
-								class="d-flex justify-content-between align-items-center mt-2">
-								<div class="qty-small">
-									<span class="qty-text" th:text="'x ' + ${item.quantity}"></span>
-								</div>
-								<span class="font-weight-bold text-danger"
-									th:with="unitPrice=${item.variant.productColor.product.basePrice}"
-									th:text="${#numbers.formatDecimal(unitPrice * item.quantity, 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</th:block>
-		</div>
-		<div class="mini-cart-footer">
-			<div class="d-flex justify-content-between mb-3">
-				<span class="font-weight-bold">Tổng cộng:</span> <span
-					class="font-weight-bold text-danger" style="font-size: 18px;"
-					th:text="${#numbers.formatDecimal(globalTotalPrice, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</span>
-			</div>
-			<a th:href="@{/cart}"
-				class="btn btn-dark btn-block mb-2 py-3 font-weight-bold"
-				style="border-radius: 0;"> XEM GIỎ HÀNG </a>
-			<div th:if="${!isLoggedIn}">
-				<a th:href="@{/login}"
-					class="btn btn-outline-dark btn-block py-3 font-weight-bold"
-					style="border-radius: 0;"> ĐĂNG NHẬP </a>
-			</div>
-			<div th:if="${isLoggedIn}">
-				<a th:href="@{/order/checkout}"
-					class="btn btn-outline-dark btn-block py-3 font-weight-bold"
-					style="border-radius: 0;"> THANH TOÁN </a>
-			</div>
+			<h5 class="font-weight-bold mt-3">THÊM VÀO GIỎ HÀNG THÀNH CÔNG !</h5>
 		</div>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+	
 	<script th:src="@{/client/js/script.js}"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
 	<th:block layout:fragment="pageScripts"></th:block>
 
 </body>

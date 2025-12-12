@@ -35,7 +35,7 @@
 			</div>
 		</div>
 
-		<div class="container-ivy" style="margin-top: 50px;">
+		<div class="container-ivy" style="margin-top: 30px;">
 
 			<div class="ivy-section-header">
 				<h3 class="ivy-section-title">NEW ARRIVAL</h3>
@@ -48,29 +48,48 @@
 			</div>
 
 			<div id="tab-women" class="product-tab-content">
-				<div class="owl-carousel owl-theme product-slider">
-					<div th:each="p : ${womenProducts}">
-						<div
-							th:replace="~{client/fragments/product-card :: product-item(p=${p})}"></div>
+
+				<div th:if="${not #lists.isEmpty(womenProducts)}">
+					<div class="owl-carousel owl-theme product-slider">
+						<div th:each="p : ${womenProducts}">
+							<div
+								th:replace="~{client/fragments/product-card :: product-item(p=${p})}"></div>
+						</div>
+					</div>
+					<div class="text-center mt-4">
+						<a th:href="@{/danh-muc/hang-nu-moi-ve}" class="btn-ivy-see-all">Xem
+							tất cả</a>
 					</div>
 				</div>
-				<div class="text-center mt-4">
-					<a th:href="@{/danh-muc/hang-nu-moi-ve}" class="btn-ivy-see-all">Xem
-						tất cả</a>
+
+				<div th:if="${#lists.isEmpty(womenProducts)}"
+					class="text-center py-5">
+					<p class="text-muted font-italic">Sản phẩm mới đang được cập
+						nhật...</p>
 				</div>
+
 			</div>
 
 			<div id="tab-men" class="product-tab-content" style="display: none;">
-				<div class="owl-carousel owl-theme product-slider">
-					<div th:each="p : ${menProducts}">
-						<div
-							th:replace="~{client/fragments/product-card :: product-item(p=${p})}"></div>
+
+				<div th:if="${not #lists.isEmpty(menProducts)}">
+					<div class="owl-carousel owl-theme product-slider">
+						<div th:each="p : ${menProducts}">
+							<div
+								th:replace="~{client/fragments/product-card :: product-item(p=${p})}"></div>
+						</div>
+					</div>
+					<div class="text-center mt-4">
+						<a th:href="@{/danh-muc/hang-nam-moi-ve}" class="btn-ivy-see-all">Xem
+							tất cả</a>
 					</div>
 				</div>
-				<div class="text-center mt-4">
-					<a th:href="@{/danh-muc/hang-nam-moi-ve}" class="btn-ivy-see-all">Xem
-						tất cả</a>
+
+				<div th:if="${#lists.isEmpty(menProducts)}" class="text-center py-5">
+					<p class="text-muted font-italic">Sản phẩm mới đang được cập
+						nhật...</p>
 				</div>
+
 			</div>
 
 		</div>
@@ -80,7 +99,7 @@
 		<script>
 			$(document).ready(
 					function() {
-						// Kích hoạt Owl Carousel cho cả 2 tab
+						// Kích hoạt Owl Carousel
 						var owlOptions = {
 							loop : false,
 							margin : 20,
@@ -96,31 +115,34 @@
 								600 : {
 									items : 3
 								},
-								1000 : {
+								800 : {
 									items : 5
 								}
 							}
 						};
 
-						// Khởi tạo slider ngay lập tức
-						$(".product-slider").owlCarousel(owlOptions);
+						// Chỉ khởi tạo nếu có class product-slider (tức là có sản phẩm)
+						if ($(".product-slider").length > 0) {
+							$(".product-slider").owlCarousel(owlOptions);
+						}
 					});
 
 			function switchTab(gender, event) {
-				// 1. Ẩn tất cả tab & Bỏ active ở tiêu đề
+				// 1. Ẩn tất cả tab & Bỏ active cũ
 				$('.product-tab-content').hide();
 				$('.ivy-tab-item').removeClass('active');
 
-				// 2. Hiện tab được chọn & Thêm active
+				// 2. Hiện tab mới
 				var selectedTab = $('#tab-' + gender);
 				selectedTab.show();
 
-				// 3. Quan trọng: Refresh lại Slider của tab vừa hiện ra
-				// (Tránh lỗi slider bị vỡ kích thước khi chuyển từ ẩn sang hiện)
-				selectedTab.find('.product-slider').trigger(
-						'refresh.owl.carousel');
+				// 3. Refresh slider (nếu có)
+				var slider = selectedTab.find('.product-slider');
+				if (slider.length > 0) {
+					slider.trigger('refresh.owl.carousel');
+				}
 
-				// 4. Thêm class active cho nút vừa bấm
+				// 4. Active nút bấm
 				$(event.target).addClass('active');
 			}
 		</script>

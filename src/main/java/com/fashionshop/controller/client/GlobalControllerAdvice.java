@@ -6,18 +6,14 @@ import com.fashionshop.model.User;
 import com.fashionshop.service.CartService;
 import com.fashionshop.service.CategoryService;
 import com.fashionshop.service.UserService;
-
 import jakarta.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
 import java.security.Principal;
-import java.util.List;
 
-@ControllerAdvice(basePackages = "com.fashionshop.controller.client") // Chỉ áp dụng cho các controller của Client
+@ControllerAdvice(basePackages = "com.fashionshop.controller.client")
 public class GlobalControllerAdvice {
 
     @Autowired
@@ -29,37 +25,40 @@ public class GlobalControllerAdvice {
     @Autowired
     private UserService userService;
 
-    @ModelAttribute("categories") // Tên biến dùng trong HTML sẽ là ${categories}
-    public List<Category> populateCategories() {
-        // Logic: Chỉ lấy các danh mục GỐC (Parent = null)
-        // Vì trong Entity Category mình đã map @OneToMany children, 
-        // nên từ cha sẽ tự lấy được con.
-        return categoryService.getAllRootCategories(); 
-    }
-    
+    // --- 1. LẤY MENU RIÊNG BIỆT CHO NAM VÀ NỮ ---
     @ModelAttribute
-    public void addGlobalAttributes(Model model, Principal principal, HttpSession session) {
-        // Logic lấy giỏ hàng (Giống hệt resolveCart bạn đã làm)
-        Cart cart = null;
-        
-        if (principal != null) {
-            String email = principal.getName();
-            User user = userService.findByEmail(email);
-            if (user != null) {
-                cart = cartService.getCartByUser(user.getId());
-            }
-        } else {
-            String sessionId = (String) session.getAttribute("CART_SESSION_ID");
-            if (sessionId != null) {
-                cart = cartService.getCartBySession(sessionId);
-            }
+    public void populateMenuCategories(Model model) {
+        // Tìm danh mục gốc NAM (slug phải đúng là 'nam' trong database)
+        Category menCat = categoryService.findBySlug("nam");
+        if (menCat != null) {
+            // Gửi danh sách con (Áo, Quần, Phụ kiện...) của Nam ra view
+            model.addAttribute("menCategories", menCat.getChildren());
         }
 
-        // Đẩy dữ liệu ra toàn bộ View
+        // Tìm danh mục gốc NỮ (slug phải đúng là 'nu' trong database)
+        Category womenCat = categoryService.findBySlug("nu"); 
+        if (womenCat != null) {
+            // Gửi danh sách con (Áo, Quần, Đầm...) của Nữ ra view
+            model.addAttribute("womenCategories", womenCat.getChildren());
+        }
+    }
+    
+    // --- 2. GIỎ HÀNG (GIỮ NGUYÊN CŨ) ---
+    @ModelAttribute
+    public void addGlobalAttributes(Model model, Principal principal, HttpSession session) {
+        Cart cart = null;
+        if (principal != null) {
+            User user = userService.findByEmail(principal.getName());
+            if (user != null) cart = cartService.getCartByUser(user.getId());
+        } else {
+            String sessionId = (String) session.getAttribute("CART_SESSION_ID");
+            if (sessionId != null) cart = cartService.getCartBySession(sessionId);
+        }
+
         if (cart != null) {
             model.addAttribute("globalCart", cart);
             model.addAttribute("globalCartCount", cart.getTotalItems());
-            model.addAttribute("globalTotalPrice", cartService.calculateTotalPrice(cart)); // Nhớ dùng service tính tiền
+            model.addAttribute("globalTotalPrice", cartService.calculateTotalPrice(cart));
         } else {
             model.addAttribute("globalCartCount", 0);
             model.addAttribute("globalTotalPrice", 0);

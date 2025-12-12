@@ -1,6 +1,7 @@
 package com.fashionshop.service;
 
 import com.fashionshop.model.Cart;
+import com.fashionshop.model.User;
 
 public interface CartService {
 
@@ -24,7 +25,7 @@ public interface CartService {
 	void clearCart(Long userId, String sessionId);
 
 	// Merge giỏ hàng (Khi khách đang chọn dở ở Session mà đăng nhập vào)
-	void mergeCart(String sessionId, Long userId);
+	void mergeCart(String sessionId, User user);
 
 	double calculateTotalPrice(Cart cart);
 }

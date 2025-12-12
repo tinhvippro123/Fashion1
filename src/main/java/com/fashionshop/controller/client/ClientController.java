@@ -1,9 +1,11 @@
 package com.fashionshop.controller.client;
 
+import com.fashionshop.dto.UserRegisterDTO;
 import com.fashionshop.model.Category;
 import com.fashionshop.model.Product;
 import com.fashionshop.service.CategoryService;
 import com.fashionshop.service.ProductService;
+import com.fashionshop.service.UserService;
 
 import java.util.List;
 
@@ -14,8 +16,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ClientController {
@@ -24,6 +29,8 @@ public class ClientController {
 	private ProductService productService;
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private UserService userService;
 
 	// Đây là hàm xử lý khi người dùng vào trang chủ (http://localhost:8080/)
 	@GetMapping(value = { "/", "/home" })
@@ -78,63 +85,104 @@ public class ClientController {
 
 	@GetMapping("/danh-muc/{slug}")
 	public String categoryPage(@PathVariable("slug") String slug,
-			@RequestParam(name = "page", defaultValue = "0") int page,
-			@RequestParam(name = "size", required = false) List<String> sizes,
-			@RequestParam(name = "maxPrice", required = false) Double maxPrice, Model model) {
-		// Cấu hình: 24 sản phẩm/trang (4 cột x 6 hàng)
-		Pageable pageable = PageRequest.of(page, 24);
-		Page<Product> productPage;
-		String breadcrumbTitle = "";
+	        @RequestParam(name = "page", defaultValue = "0") int page,
+	        @RequestParam(name = "size", required = false) List<String> sizes,
+	        // THÊM 2 THAM SỐ NÀY (Có giá trị mặc định để tránh lỗi null)
+	        @RequestParam(name = "minPrice", defaultValue = "0") Double minPrice,
+	        @RequestParam(name = "maxPrice", defaultValue = "10000000") Double maxPrice,
+	        Model model) {
 
-		// --- LOGIC MỚI: KHÔNG DÙNG ID CỨNG ---
+	    Pageable pageable = PageRequest.of(page, 24);
+	    Page<Product> productPage;
+	    String breadcrumbTitle = "";
 
-		if (slug.equals("hang-nam-moi-ve")) {
-			// 1. Tự động tìm danh mục có slug là "nam" trong DB
-			Category catNam = categoryService.findBySlug("nam"); // Slug này phải chuẩn trong DB
+	    // --- LOGIC GỌI SERVICE (TRUYỀN THÊM minPrice) ---
+	    // Giả sử hàm filterProducts của bạn thứ tự là: (catId, sizes, colors, minPrice, maxPrice, pageable)
+	    
+	    if (slug.equals("hang-nam-moi-ve")) {
+	        Category catNam = categoryService.findBySlug("nam");
+	        if (catNam != null) {
+	            // Truyền minPrice vào vị trí tham số tương ứng
+	            productPage = productService.filterProducts(catNam.getId(), sizes, null, minPrice, maxPrice, pageable);
+	        } else {
+	            productPage = Page.empty();
+	        }
+	        breadcrumbTitle = "HÀNG NAM MỚI VỀ";
 
-			if (catNam != null) {
-				// Lấy ID động từ kết quả tìm được (Dù là 1, 5 hay 100 đều chạy đúng)
-				productPage = productService.filterProducts(catNam.getId(), sizes, null, null, maxPrice, pageable);
-			} else {
-				productPage = Page.empty(); // Không tìm thấy danh mục Nam thì trả về rỗng
-			}
+	    } else if (slug.equals("hang-nu-moi-ve")) {
+	        Category catNu = categoryService.findBySlug("nu");
+	        if (catNu != null) {
+	            productPage = productService.filterProducts(catNu.getId(), sizes, null, minPrice, maxPrice, pageable);
+	        } else {
+	            productPage = Page.empty();
+	        }
+	        breadcrumbTitle = "HÀNG NỮ MỚI VỀ";
 
-			breadcrumbTitle = "HÀNG NAM MỚI VỀ";
+	    } else {
+	        Category category = categoryService.findBySlug(slug);
+	        if (category == null) return "redirect:/";
 
-		} else if (slug.equals("hang-nu-moi-ve")) {
-			// 2. Tự động tìm danh mục có slug là "nu" (hoặc "nu-thoi-trang" tùy DB bạn đặt)
-			Category catNu = categoryService.findBySlug("nu");
+	        productPage = productService.filterProducts(category.getId(), sizes, null, minPrice, maxPrice, pageable);
+	        breadcrumbTitle = category.getName().toUpperCase();
+	    }
 
-			if (catNu != null) {
-				productPage = productService.filterProducts(catNu.getId(), sizes, null, null, maxPrice, pageable);
-			} else {
-				productPage = Page.empty();
-			}
+	    // 3. GỬI DỮ LIỆU RA FILE HTML
+	    model.addAttribute("products", productPage.getContent());
+	    model.addAttribute("totalPages", productPage.getTotalPages());
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("breadcrumb", breadcrumbTitle);
+	    model.addAttribute("currentSlug", slug);
 
-			breadcrumbTitle = "HÀNG NỮ MỚI VỀ";
+	    model.addAttribute("selectedSizes", sizes);
+	    
+	    // GỬI LẠI GIÁ TRỊ ĐỂ SLIDER HIỂN THỊ ĐÚNG VỊ TRÍ CŨ
+	    model.addAttribute("selectedMinPrice", minPrice);
+	    model.addAttribute("selectedMaxPrice", maxPrice);
 
-		} else {
-			// CASE 3: DANH MỤC THƯỜNG (Giữ nguyên)
-			Category category = categoryService.findBySlug(slug);
-			if (category == null)
-				return "redirect:/";
-
-			productPage = productService.filterProducts(category.getId(), sizes, null, null, maxPrice, pageable);
-			breadcrumbTitle = category.getName().toUpperCase();
-		}
-
-		// 3. GỬI DỮ LIỆU RA FILE HTML
-		model.addAttribute("products", productPage.getContent());
-		model.addAttribute("totalPages", productPage.getTotalPages());
-		model.addAttribute("currentPage", page);
-		model.addAttribute("breadcrumb", breadcrumbTitle);
-		model.addAttribute("currentSlug", slug); // Để giữ URL khi bấm qua trang 2, 3
-
-		// Gửi lại các bộ lọc đã chọn để tick vào checkbox
-		model.addAttribute("selectedSizes", sizes);
-		model.addAttribute("selectedMaxPrice", maxPrice);
-
-		return "client/products"; // Trả về file giao diện danh sách
+	    return "client/products";
 	}
+
+	@GetMapping("/login")
+	public String loginPage(
+	        // Hứng tham số 'error' từ URL
+	        @RequestParam(value = "error", required = false) String error, 
+	        Model model) {
+	    
+	    // Nếu URL có ?error=true -> Gửi thông báo lỗi ra View
+	    if (error != null) {
+	        model.addAttribute("loginError", "Sai email hoặc mật khẩu! Vui lòng kiểm tra lại.");
+	    }
+
+	    return "client/login";
+	}
+
+	// Hiển thị trang Đăng ký
+	@GetMapping("/register")
+	public String registerPage(Model model) {
+		// Gửi một object rỗng sang để form điền vào
+		model.addAttribute("userDto", new UserRegisterDTO());
+		return "client/register";
+	}
+
+	// Xử lý khi bấm nút Đăng ký (POST)
+	@PostMapping("/register")
+	public String handleRegister(@ModelAttribute("userDto") UserRegisterDTO userDto,
+			RedirectAttributes redirectAttributes) {
+		try {
+			// Controller không xử lý logic, đẩy hết sang Service
+			userService.registerUser(userDto);
+
+			// Nếu thành công -> Chuyển về Login
+			redirectAttributes.addFlashAttribute("successMessage", "Đăng ký thành công! Vui lòng đăng nhập.");
+			return "redirect:/login";
+
+		} catch (Exception e) {
+			// Nếu có lỗi (vd: trùng email) -> Quay lại trang Register báo lỗi
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("errorMessage", "Đăng ký thất bại: " + e.getMessage());
+			return "redirect:/register";
+		}
+	}
+
 
 }

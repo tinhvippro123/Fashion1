@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{client/layout}">
+<head>
+<title>Quản lý đơn hàng - IVY moda</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container-ivy mt-5 mb-5">
+
+			<div class="mb-4 text-muted small">
+				<a th:href="@{/}" class="text-dark">Trang chủ</a> <span class="mx-2">-</span>
+				<span>Quản lý đơn hàng</span>
+			</div>
+
+			<div class="row">
+
+				<div class="col-lg-3">
+					<div
+						th:replace="~{client/account/sidebar :: account-sidebar(activePage='orders')}"></div>
+				</div>
+
+				<div class="col-lg-9">
+
+					<div class="d-flex justify-content-between align-items-center mb-4">
+						<h4 class="font-weight-bold text-uppercase">QUẢN LÝ ĐƠN HÀNG</h4>
+
+						<div class="d-flex align-items-center">
+							<span class="text-muted mr-2 small">Trạng thái đơn hàng:</span> <select
+								class="form-control-ivy form-control-sm" style="width: 150px;">
+								<option>Tất cả</option>
+								<option>Chờ xác nhận</option>
+								<option>Đang giao</option>
+								<option>Đã hủy</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="table-responsive">
+						<table class="table table-hover border-bottom">
+							<thead class="bg-white border-top border-bottom">
+								<tr class="text-muted small text-uppercase font-weight-bold">
+									<th class="border-0 py-3">Mã đơn hàng</th>
+									<th class="border-0 py-3">Ngày</th>
+									<th class="border-0 py-3">Trạng thái</th>
+									<th class="border-0 py-3" style="width: 35%;">Sản phẩm</th>
+									<th class="border-0 py-3 text-right">Tổng tiền</th>
+									<th class="border-0 py-3 text-center" style="width: 120px;">Hành
+										động</th>
+								</tr>
+							</thead>
+							<tbody class="bg-white">
+								<tr th:if="${#lists.isEmpty(orders)}">
+									<td colspan="5" class="text-center py-5 text-muted">Bạn
+										chưa có đơn hàng nào.</td>
+								</tr>
+
+								<tr th:each="order : ${orders}">
+
+									<td class="align-middle"><a
+										th:href="@{'/account/orders/' + ${order.id}}"
+										class="text-dark font-weight-bold"
+										style="text-decoration: underline;"
+										th:text="'#' + ${order.id}">#IVM123</a></td>
+
+									<td class="align-middle small text-muted"
+										th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy HH:mm')}">
+										08/12/2025</td>
+
+									<td class="align-middle small"><span
+										th:switch="${order.status.name()}"> <span
+											th:case="'PENDING'"><i
+												class="fas fa-clock mr-1 text-warning"></i> Chờ xử lý</span> <span
+											th:case="'SHIPPING'"><i
+												class="fas fa-truck mr-1 text-info"></i> Đang giao</span> <span
+											th:case="'DELIVERED'"><i
+												class="fas fa-check-circle mr-1 text-success"></i> Đã giao</span> <span
+											th:case="'CANCELLED'"><i
+												class="fas fa-times-circle mr-1 text-secondary"></i> Đã hủy</span>
+											<span th:case="*" th:text="${order.status}"></span>
+									</span></td>
+
+									<td class="align-middle">
+										<div th:each="item : ${order.orderItems}" class="small mb-1">
+											<span class="font-weight-bold"
+												th:text="${item.quantity} + 'x'"></span> <span
+												th:text="${item.productName}">Tên SP</span> <span
+												class="text-muted"
+												th:text="'(' + ${item.colorName} + ', ' + ${item.sizeName} + ')'">
+											</span>
+										</div>
+									</td>
+
+									<td class="align-middle text-right font-weight-bold"><span
+										th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'POINT', 0, 'COMMA')} + 'đ'">
+											2,090,000 đ </span></td>
+									<td class="align-middle text-center"><a
+										th:if="${order.status.name() == 'PENDING'}"
+										th:href="@{'/account/orders/cancel/' + ${order.id}}"
+										class="btn btn-outline-danger btn-sm"
+										onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
+											Hủy đơn </a> <a th:href="@{'/account/orders/' + ${order.id}}"
+										class="btn btn-outline-dark btn-sm"> Chi tiết </a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="d-flex justify-content-center mt-4"
+						th:if="${not #lists.isEmpty(orders)}">
+						<nav>
+							<ul class="pagination pagination-sm">
+								<li class="page-item active"><a
+									class="page-link bg-dark border-dark" href="#">1</a></li>
+							</ul>
+						</nav>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

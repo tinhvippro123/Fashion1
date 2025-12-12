@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<div th:fragment="mini-cart-content"
+		style="height: 100%; display: flex; flex-direction: column;">
+
+		<div class="mini-cart-header">
+			<h5>
+				Giỏ hàng <span class="badge badge-dark rounded-circle"
+					th:text="${globalCartCount}">0</span>
+			</h5>
+			<button onclick="closeMiniCart()" class="close-btn">&times;</button>
+		</div>
+
+		<div class="mini-cart-body">
+			<div
+				th:if="${globalCart == null || #lists.isEmpty(globalCart.items)}"
+				class="text-center py-5">
+				<p>Giỏ hàng đang trống</p>
+			</div>
+
+			<th:block th:if="${globalCart != null}">
+				<div th:each="item : ${globalCart.items}" class="mini-cart-item">
+					<div class="d-flex">
+						<img
+							th:if="${not #lists.isEmpty(item.variant.productColor.images)}"
+							th:src="@{'/uploads/' + ${item.variant.productColor.images[0].imageUrl}}"
+							class="mini-cart-img">
+
+						<div class="ml-3 w-100">
+							<p class="mb-1 font-weight-bold"
+								th:text="${item.variant.productColor.product.name}">Tên SP</p>
+							<small class="text-muted"> Màu: <span
+								th:text="${item.variant.productColor.color.name}"></span> |
+								Size: <span th:text="${item.variant.size.name}"></span>
+							</small>
+
+							<div
+								class="d-flex justify-content-between align-items-center mt-2">
+								<div class="qty-small">
+									<span class="qty-text" th:text="'x ' + ${item.quantity}"></span>
+								</div>
+								<span class="font-weight-bold text-danger"
+									th:with="unitPrice=${item.variant.productColor.product.basePrice}"
+									th:text="${#numbers.formatDecimal(unitPrice * item.quantity, 0, 'POINT', 0, 'COMMA')} + 'đ'">
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</th:block>
+		</div>
+
+		<div class="mini-cart-footer">
+
+			<div class="d-flex justify-content-between mb-3">
+				<span class="font-weight-bold">Tổng cộng:</span> <span
+					class="font-weight-bold text-danger" style="font-size: 18px;"
+					th:text="${#numbers.formatDecimal(globalTotalPrice != null ? globalTotalPrice : 0, 0, 'POINT', 0, 'COMMA')} + 'đ'">0đ</span>
+			</div>
+
+			<div class="d-flex flex-column">
+
+				<a th:href="@{/cart}"
+					class="btn btn-dark btn-block mb-2 py-3 font-weight-bold"
+					style="border-radius: 4px 0 4px 0;"> XEM GIỎ HÀNG </a> <a
+					th:href="@{/login}" sec:authorize="!isAuthenticated()"
+					class="btn btn-outline-dark btn-block py-3 font-weight-bold"
+					style="border-radius: 4px 0 4px 0;"> ĐĂNG NHẬP </a>
+
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

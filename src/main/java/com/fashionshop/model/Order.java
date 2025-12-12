@@ -19,17 +19,27 @@ public class Order {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@Column(name = "receiver_name")
+	@Column(name = "receiver_name", columnDefinition = "nvarchar(100)")
 	private String receiverName;
 
+	@Column(columnDefinition = "nvarchar(100)")
 	private String phone;
+	
+	@Column(columnDefinition = "nvarchar(100)")
 	private String province;
+	
+	@Column(columnDefinition = "nvarchar(100)")
 	private String district;
+	
+	@Column(columnDefinition = "nvarchar(100)")
 	private String ward;
+	
+	@Column(columnDefinition = "nvarchar(100)")
 	private String street;
-	
+
+	@Column(columnDefinition = "nvarchar(100)")
 	private String note;
-	
+
 	@Column(name = "order_date", updatable = false)
 	private LocalDateTime orderDate;
 
@@ -171,11 +181,11 @@ public class Order {
 	public String getNote() {
 		return note;
 	}
-	
+
 	public void setNote(String note) {
 		this.note = note;
 	}
-	
+
 	@PrePersist
 	protected void onCreate() {
 		this.orderDate = LocalDateTime.now();

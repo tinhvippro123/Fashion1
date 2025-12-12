@@ -1,5 +1,9 @@
 package com.fashionshop.model;
 
+import java.time.LocalDateTime;
+
+import com.fashionshop.enums.AddressType;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -19,22 +23,42 @@ public class Address {
 	private String receiverName;
 
 	private String phone;
-	
+
 	@Column(columnDefinition = "nvarchar(100)")
 	private String province;
-	
+
 	@Column(columnDefinition = "nvarchar(100)")
 
 	private String district;
-	
+
 	@Column(columnDefinition = "nvarchar(100)")
 	private String ward;
-	
+
 	@Column(columnDefinition = "nvarchar(100)")
 	private String street;
 
 	@Column(name = "is_default")
 	private Boolean isDefault;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "address_type")
+	private AddressType addressType = AddressType.HOME; // Mặc định
+
+	@Column(name = "created_at", updatable = false)
+	private LocalDateTime createdAt;
+	@Column(name = "updated_at")
+	private LocalDateTime updatedAt;
+
+	@PrePersist
+	protected void onCreate() {
+		this.createdAt = LocalDateTime.now();
+		this.updatedAt = LocalDateTime.now();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		this.updatedAt = LocalDateTime.now();
+	}
 
 	public Address() {
 	}
@@ -111,4 +135,33 @@ public class Address {
 	public void setIsDefault(Boolean isDefault) {
 		this.isDefault = isDefault;
 	}
+
+	public AddressType getAddressType() {
+		return addressType;
+	}
+
+	public void setAddressType(AddressType addressType) {
+		this.addressType = addressType;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public String getFullAddress() {
+        return street + ", " + ward + ", " + district + ", " + province;
+    }
+	
 }

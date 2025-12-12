@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{client/layout}">
+<head>
+<title>Đăng nhập - IVY moda</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container-ivy"
+			style="margin-top: 10px; margin-bottom: 30px;">
+			<div class="login-wrapper-90">
+
+				<div class="row justify-content-center mb-3">
+					<div class="col-12">
+
+						<div th:if="${successMessage}"
+							class="alert alert-success alert-dismissible fade show"
+							role="alert">
+							<i class="fas fa-check-circle mr-2"></i> <span
+								th:text="${successMessage}"></span>
+							<button type="button" class="close" data-dismiss="alert"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+
+						<div th:if="${loginError}"
+							class="alert alert-danger alert-dismissible fade show"
+							role="alert">
+							<i class="fas fa-exclamation-circle mr-2"></i> <span
+								th:text="${loginError}"></span>
+							<button type="button" class="close" data-dismiss="alert"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="row login-row">
+
+					<div class="col-md-6 col-12 login-col-left">
+						<div class="login-box">
+							<h4 class="auth-title">Bạn đã có tài khoản IVY</h4>
+							<p class="auth-desc">Nếu bạn đã có tài khoản, hãy đăng nhập
+								để tích lũy điểm thành viên và nhận được những ưu đãi tốt hơn!</p>
+
+							<form th:action="@{/login}" method="post">
+								<div class="form-group mb-3">
+									<input type="text" name="username" class="form-control-auth"
+										placeholder="Email/SĐT">
+								</div>
+								<div class="form-group mb-3">
+									<input type="password" name="password"
+										class="form-control-auth" placeholder="Mật khẩu">
+								</div>
+
+								<div
+									class="d-flex justify-content-between align-items-center mb-4"
+									style="font-size: 14px;">
+									<div class="custom-control custom-checkbox">
+										<input type="checkbox" class="custom-control-input"
+											id="rememberMe" name="remember-me"> <label
+											class="custom-control-label" for="rememberMe"
+											style="color: #666;">Ghi nhớ đăng nhập</label>
+									</div>
+									<a href="#" class="text-dark font-weight-bold">Quên mật
+										khẩu?</a>
+								</div>
+
+								<div
+									class="d-flex justify-content-between mb-4 auth-links-secondary">
+									<a href="#">Đăng nhập bằng mã QR</a> <a href="#">Đăng nhập
+										bằng OTP</a>
+								</div>
+
+								<button type="submit" class="btn-auth-action">ĐĂNG NHẬP</button>
+							</form>
+						</div>
+					</div>
+
+					<div class="col-md-6 col-12 login-col-right">
+						<div class="register-prompt-box">
+							<h4 class="auth-title">Khách hàng mới của IVY moda</h4>
+							<p class="auth-desc">
+								Nếu bạn chưa có tài khoản trên ivymoda.com, hãy sử dụng tùy chọn
+								này để truy cập biểu mẫu đăng ký. <br> <br> Bằng cách
+								cung cấp cho IVY moda thông tin chi tiết của bạn, quá trình mua
+								hàng trên ivymoda.com sẽ là một trải nghiệm thú vị và nhanh
+								chóng hơn!
+							</p>
+							<a th:href="@{/register}" class="btn-auth-action">ĐĂNG KÝ</a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

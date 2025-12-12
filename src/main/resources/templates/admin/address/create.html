@@ -17,44 +17,56 @@
                 
                 <div class="row">
                     <div class="col-md-6 form-group">
-                        <label>Tên người nhận</label>
-                        <input type="text" class="form-control" th:field="*{receiverName}" required placeholder="Ví dụ: Anh Ba...">
+                        <label class="font-weight-bold">Tên người nhận <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" th:field="*{receiverName}" required placeholder="Họ và tên...">
                     </div>
                     <div class="col-md-6 form-group">
-                        <label>Số điện thoại nhận hàng</label>
+                        <label class="font-weight-bold">Số điện thoại <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" th:field="*{phone}" required>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-4 form-group">
-                        <label>Tỉnh / Thành phố</label>
+                        <label>Tỉnh / Thành phố <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" th:field="*{province}" required>
                     </div>
                     <div class="col-md-4 form-group">
-                        <label>Quận / Huyện</label>
+                        <label>Quận / Huyện <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" th:field="*{district}" required>
                     </div>
                     <div class="col-md-4 form-group">
-                        <label>Phường / Xã</label>
+                        <label>Phường / Xã <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" th:field="*{ward}" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Số nhà, tên đường</label>
+                    <label class="font-weight-bold">Số nhà, tên đường <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" th:field="*{street}" required placeholder="Ví dụ: 123 Đường ABC...">
                 </div>
 
                 <div class="form-group">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="defaultCheck" th:field="*{isDefault}">
-                        <label class="custom-control-label" for="defaultCheck">Đặt làm địa chỉ mặc định</label>
+                    <label class="font-weight-bold d-block">Loại địa chỉ:</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="typeHome" name="addressType" value="HOME" class="custom-control-input" th:field="*{addressType}">
+                        <label class="custom-control-label" for="typeHome">Nhà riêng / Chung cư</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="typeOffice" name="addressType" value="OFFICE" class="custom-control-input" th:field="*{addressType}">
+                        <label class="custom-control-label" for="typeOffice">Cơ quan / Công ty</label>
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Lưu địa chỉ</button>
-                <a th:href="@{/admin/users/{id}/addresses(id=${userId})}" class="btn btn-secondary">Hủy bỏ</a>
+                <div class="form-group border-top pt-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="defaultCheck" th:field="*{isDefault}">
+                        <label class="custom-control-label font-weight-bold text-primary" for="defaultCheck">Đặt làm địa chỉ mặc định</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary px-4"><i class="fas fa-save mr-1"></i> Lưu địa chỉ</button>
+                <a th:href="@{/admin/users/{id}/addresses(id=${userId})}" class="btn btn-secondary px-4 ml-2">Hủy bỏ</a>
             </form>
         </div>
     </div>

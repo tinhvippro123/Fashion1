@@ -249,7 +249,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> filterProducts(Long categoryId, List<String> sizes, List<String> colors, Double minPrice, Double maxPrice, Pageable pageable) {
-        return productRepository.filterProducts(categoryId, sizes, colors, minPrice, maxPrice, pageable);
+        // Gọi Repository (Logic lọc nằm ở đây)
+        return productRepository.findWithFilters(categoryId, sizes, colors, minPrice, maxPrice, pageable);
     }
     
     

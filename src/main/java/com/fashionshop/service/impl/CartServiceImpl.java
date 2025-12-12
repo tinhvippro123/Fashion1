@@ -112,20 +112,56 @@ public class CartServiceImpl implements CartService {
 		return cartRepository.save(cart);
 	}
 
+//	@Override
+//	@Transactional
+//	public Cart removeFromCart(Long userId, String sessionId, Long cartItemId) {
+//		Cart cart = findOrCreateCart(userId, sessionId);
+//
+//		// Dùng removeIf của Java 8 cho gọn
+//		boolean removed = cart.getItems().removeIf(item -> item.getId().equals(cartItemId));
+//
+//		if (!removed) {
+//			throw new RuntimeException("Không tìm thấy sản phẩm để xóa");
+//		}
+//
+//		return cartRepository.save(cart);
+//	}
+	
+	
+	
 	@Override
 	@Transactional
 	public Cart removeFromCart(Long userId, String sessionId, Long cartItemId) {
-		Cart cart = findOrCreateCart(userId, sessionId);
+	    // 1. Tìm giỏ hàng (Thay vì findOrCreate, ta chỉ tìm thôi)
+	    // Nếu chưa có giỏ hàng thì lấy đâu ra mà xóa? -> Return null luôn cho nhanh.
+	    Cart cart = null;
+	    if (userId != null) {
+	        cart = cartRepository.findByUserId(userId);
+	    } else {
+	        cart = cartRepository.findBySessionId(sessionId);
+	    }
 
-		// Dùng removeIf của Java 8 cho gọn
-		boolean removed = cart.getItems().removeIf(item -> item.getId().equals(cartItemId));
+	    // Nếu không tìm thấy giỏ hàng -> Không làm gì cả
+	    if (cart == null) {
+	        return null;
+	    }
 
-		if (!removed) {
-			throw new RuntimeException("Không tìm thấy sản phẩm để xóa");
-		}
+	    // 2. Dùng removeIf để xóa item khỏi danh sách trong bộ nhớ (Memory)
+	    // Khi save, Hibernate sẽ thấy list bị thiếu 1 cái -> Tự động xóa trong DB
+	    boolean removed = cart.getItems().removeIf(item -> item.getId().equals(cartItemId));
 
-		return cartRepository.save(cart);
+	    // 3. Nếu không có gì thay đổi thì return cart cũ
+	    if (!removed) {
+	        return cart; 
+	    }
+
+	    // 4. Lưu lại Cart (Hibernate sẽ xóa orphan item và cập nhật lại list)
+	    return cartRepository.save(cart);
 	}
+	
+	
+	
+	
 
 	@Override
 	@Transactional
@@ -137,9 +173,52 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	@Transactional
-	public void mergeCart(String sessionId, Long userId) {
-		// Logic nâng cao: Khi khách đăng nhập, gộp giỏ hàng Session vào giỏ hàng User
-		// (Bạn có thể để phần này làm sau cũng được)
+	public void mergeCart(String sessionId, User user) {
+	    // 1. Tìm giỏ hàng Session cũ
+	    Cart sessionCart = cartRepository.findBySessionId(sessionId);
+	    // Nếu giỏ Session không có gì thì thôi, thoát luôn
+	    if (sessionCart == null || sessionCart.getItems().isEmpty()) {
+	        return;
+	    }
+
+	    // 2. Lấy (hoặc tạo mới) giỏ hàng User
+	    Cart userCart = cartRepository.findByUserId(user.getId());
+	    if (userCart == null) {
+	        userCart = new Cart();
+	        userCart.setUser(user);
+	        userCart = cartRepository.save(userCart);
+	    }
+
+	    // 3. Chuyển item từ Session -> User
+	    for (CartItem sessionItem : sessionCart.getItems()) {
+	        boolean isExist = false;
+	        
+	        // Kiểm tra trùng sản phẩm
+	        for (CartItem userItem : userCart.getItems()) {
+	            if (userItem.getVariant().getId().equals(sessionItem.getVariant().getId())) {
+	                userItem.setQuantity(userItem.getQuantity() + sessionItem.getQuantity());
+	                isExist = true;
+	                break;
+	            }
+	        }
+
+	        // Nếu chưa có -> Thêm mới
+	        if (!isExist) {
+	            CartItem newItem = new CartItem();
+	            newItem.setCart(userCart);
+	            newItem.setVariant(sessionItem.getVariant());
+	            newItem.setQuantity(sessionItem.getQuantity());
+	            userCart.getItems().add(newItem);
+	        }
+	    }
+
+	    // --- XÓA ĐOẠN TÍNH TOÁN CŨ ĐI ---
+	    // Vì Model Cart của bạn sẽ tự động tính tổng khi gọi hàm cart.getTotalItems()
+	    // Không cần setTotalItems hay setTotalPrice nữa.
+
+	    // 4. Lưu giỏ User và Xóa giỏ Session
+	    cartRepository.save(userCart);      // Lưu danh sách item mới
+	    cartRepository.delete(sessionCart); // Xóa giỏ cũ
 	}
 
 	// --- PRIVATE HELPER METHODS ---
@@ -202,4 +281,11 @@ public class CartServiceImpl implements CartService {
 		}
 		return total;
 	}
+	
+	
+	
+	
+	
+	
+	
 }
