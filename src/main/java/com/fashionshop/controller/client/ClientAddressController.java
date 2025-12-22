@@ -15,7 +15,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/account/addresses")
-public class AddressController {
+public class ClientAddressController {
 
     @Autowired private AddressService addressService;
     @Autowired private UserService userService;

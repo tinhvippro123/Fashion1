@@ -50,97 +50,111 @@ public class ClientController {
 	}
 
 	@GetMapping("/new-arrival")
-	public String newArrivalPage(Model model,
-			@RequestParam(name = "gender", required = false, defaultValue = "women") String gender,
-			@RequestParam(name = "page", defaultValue = "0") int page,
-			@RequestParam(name = "size", required = false) List<String> sizes, // List size chọn (S, M...)
-			@RequestParam(name = "color", required = false) List<String> colors, // List màu chọn
-			@RequestParam(name = "minPrice", required = false) Double minPrice,
-			@RequestParam(name = "maxPrice", required = false) Double maxPrice) {
-		// 1. Xác định Category ID (Nam = 1, Nữ = 4 - Theo DB của bạn)
-		Long categoryId = gender.equals("men") ? 1L : 4L;
-		String breadcrumbName = gender.equals("men") ? "HÀNG NAM MỚI VỀ" : "HÀNG NỮ MỚI VỀ";
+    public String newArrivalPage(Model model,
+            @RequestParam(name = "gender", required = false, defaultValue = "women") String gender,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", required = false) List<String> sizes,
+            @RequestParam(name = "color", required = false) List<String> colors,
+            // 1. SỬA GIÁ: Bỏ defaultValue để nhận null
+            @RequestParam(name = "minPrice", required = false) Double minPrice,
+            @RequestParam(name = "maxPrice", required = false) Double maxPrice) {
+        
+        // Xác định ID danh mục (Nam/Nữ)
+        Long categoryId = gender.equals("men") ? 1L : 4L;
+        String breadcrumbName = gender.equals("men") ? "HÀNG NAM MỚI VỀ" : "HÀNG NỮ MỚI VỀ";
 
-		// 2. Cấu hình phân trang: 24 sản phẩm / trang
-		int pageSize = 24;
-		Pageable pageable = PageRequest.of(page, pageSize);
+        int pageSize = 24;
+        Pageable pageable = PageRequest.of(page, pageSize);
 
-		// 3. Gọi Service lọc sản phẩm (Hàm này sẽ viết ở Bước 2)
-		Page<Product> productPage = productService.filterProducts(categoryId, sizes, colors, minPrice, maxPrice,
-				pageable);
+        // 2. XỬ LÝ LIST RỖNG -> NULL (Cho cả Size và Color)
+        List<String> sizeParam = (sizes != null && !sizes.isEmpty()) ? sizes : null;
+        List<String> colorParam = (colors != null && !colors.isEmpty()) ? colors : null;
 
-		// 4. Gửi dữ liệu sang View
-		model.addAttribute("products", productPage.getContent());
-		model.addAttribute("currentPage", page);
-		model.addAttribute("totalPages", productPage.getTotalPages());
-		model.addAttribute("gender", gender); // Để giữ trạng thái tab
-		model.addAttribute("breadcrumb", breadcrumbName);
+        // 3. GỌI HÀM VẠN NĂNG (keyword = null)
+        Page<Product> productPage = productService.searchProductsWithFilters(
+                null,           // keyword
+                categoryId,     // categoryId
+                sizeParam,      // sizes
+                colorParam,     // colors
+                minPrice,       // minPrice
+                maxPrice,       // maxPrice
+                pageable);
 
-		// Gửi lại các bộ lọc đã chọn để UI tick vào
-		model.addAttribute("selectedSizes", sizes);
-		model.addAttribute("selectedColors", colors);
+        // 4. GỬI DỮ LIỆU RA VIEW
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        model.addAttribute("gender", gender);
+        model.addAttribute("breadcrumb", breadcrumbName);
 
-		return "client/products"; // File HTML mới
-	}
+        // Gửi lại bộ lọc để giữ trạng thái checkbox/slider
+        model.addAttribute("selectedSizes", sizes);
+        model.addAttribute("selectedColors", colors);
+        model.addAttribute("selectedMinPrice", minPrice);
+        model.addAttribute("selectedMaxPrice", maxPrice);
+
+        // 5. MẸO XỬ LÝ SLUG (QUAN TRỌNG)
+        // Vì HTML form đang action về: '/danh-muc/' + ${currentSlug}
+        // Nên ta dùng mẹo "../new-arrival" để khi ghép chuỗi nó thành "/danh-muc/../new-arrival"
+        // Trình duyệt sẽ tự hiểu là quay về "/new-arrival"
+        model.addAttribute("currentSlug", "../new-arrival?gender=" + gender);
+
+        return "client/products";
+    }
 
 	@GetMapping("/danh-muc/{slug}")
-	public String categoryPage(@PathVariable("slug") String slug,
-	        @RequestParam(name = "page", defaultValue = "0") int page,
-	        @RequestParam(name = "size", required = false) List<String> sizes,
-	        // THÊM 2 THAM SỐ NÀY (Có giá trị mặc định để tránh lỗi null)
-	        @RequestParam(name = "minPrice", defaultValue = "0") Double minPrice,
-	        @RequestParam(name = "maxPrice", defaultValue = "10000000") Double maxPrice,
-	        Model model) {
+    public String categoryPage(@PathVariable("slug") String slug,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", required = false) List<String> sizes,
+            @RequestParam(name = "color", required = false) List<String> colors,
+            // XÓA defaultValue ĐỂ NHẬN NULL
+            @RequestParam(name = "minPrice", required = false) Double minPrice,
+            @RequestParam(name = "maxPrice", required = false) Double maxPrice,
+            Model model) {
 
-	    Pageable pageable = PageRequest.of(page, 24);
-	    Page<Product> productPage;
-	    String breadcrumbTitle = "";
+        Pageable pageable = PageRequest.of(page, 24);
+        
+        // Xử lý list rỗng -> null
+        List<String> sizeParam = (sizes != null && !sizes.isEmpty()) ? sizes : null;
+     // --- XỬ LÝ MÀU: Rỗng -> Null ---
+        List<String> colorParam = (colors != null && !colors.isEmpty()) ? colors : null;
+        
+        Page<Product> productPage;
+        Category category = null;
+        String breadcrumbTitle = "";
 
-	    // --- LOGIC GỌI SERVICE (TRUYỀN THÊM minPrice) ---
-	    // Giả sử hàm filterProducts của bạn thứ tự là: (catId, sizes, colors, minPrice, maxPrice, pageable)
-	    
-	    if (slug.equals("hang-nam-moi-ve")) {
-	        Category catNam = categoryService.findBySlug("nam");
-	        if (catNam != null) {
-	            // Truyền minPrice vào vị trí tham số tương ứng
-	            productPage = productService.filterProducts(catNam.getId(), sizes, null, minPrice, maxPrice, pageable);
-	        } else {
-	            productPage = Page.empty();
-	        }
-	        breadcrumbTitle = "HÀNG NAM MỚI VỀ";
+        // Logic tìm Category ID
+        if (slug.equals("hang-nam-moi-ve")) {
+            category = categoryService.findBySlug("nam");
+            breadcrumbTitle = "HÀNG NAM MỚI VỀ";
+        } else if (slug.equals("hang-nu-moi-ve")) {
+            category = categoryService.findBySlug("nu");
+            breadcrumbTitle = "HÀNG NỮ MỚI VỀ";
+        } else {
+            category = categoryService.findBySlug(slug);
+            if (category != null) breadcrumbTitle = category.getName().toUpperCase();
+        }
 
-	    } else if (slug.equals("hang-nu-moi-ve")) {
-	        Category catNu = categoryService.findBySlug("nu");
-	        if (catNu != null) {
-	            productPage = productService.filterProducts(catNu.getId(), sizes, null, minPrice, maxPrice, pageable);
-	        } else {
-	            productPage = Page.empty();
-	        }
-	        breadcrumbTitle = "HÀNG NỮ MỚI VỀ";
+        if (category == null) return "redirect:/";
 
-	    } else {
-	        Category category = categoryService.findBySlug(slug);
-	        if (category == null) return "redirect:/";
+        // Gọi hàm Vạn Năng: Keyword để null vì đang xem danh mục
+        productPage = productService.searchProductsWithFilters(null, category.getId(), sizeParam, colorParam, minPrice, maxPrice, pageable);
 
-	        productPage = productService.filterProducts(category.getId(), sizes, null, minPrice, maxPrice, pageable);
-	        breadcrumbTitle = category.getName().toUpperCase();
-	    }
+        // Gửi dữ liệu ra View
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("breadcrumb", breadcrumbTitle);
+        model.addAttribute("currentSlug", slug);
 
-	    // 3. GỬI DỮ LIỆU RA FILE HTML
-	    model.addAttribute("products", productPage.getContent());
-	    model.addAttribute("totalPages", productPage.getTotalPages());
-	    model.addAttribute("currentPage", page);
-	    model.addAttribute("breadcrumb", breadcrumbTitle);
-	    model.addAttribute("currentSlug", slug);
+        // Gửi lại bộ lọc
+        model.addAttribute("selectedSizes", sizes);
+        model.addAttribute("selectedColors", colors);
+        model.addAttribute("selectedMinPrice", minPrice);
+        model.addAttribute("selectedMaxPrice", maxPrice);
 
-	    model.addAttribute("selectedSizes", sizes);
-	    
-	    // GỬI LẠI GIÁ TRỊ ĐỂ SLIDER HIỂN THỊ ĐÚNG VỊ TRÍ CŨ
-	    model.addAttribute("selectedMinPrice", minPrice);
-	    model.addAttribute("selectedMaxPrice", maxPrice);
-
-	    return "client/products";
-	}
+        return "client/products";
+    }
 
 	@GetMapping("/login")
 	public String loginPage(

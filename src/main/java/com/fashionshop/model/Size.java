@@ -10,7 +10,7 @@ public class Size {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 10)
 	private String name; // S, M, L, XL, 29, 30...
 
 	@Column(name = "sort_order")

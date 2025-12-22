@@ -35,8 +35,13 @@
 		<div class="d-flex justify-content-center gap-3">
 			<a th:href="@{/}" class="btn btn-outline-dark px-4 py-2 mx-2"> <i
 				class="fas fa-home"></i> VỀ TRANG CHỦ
-			</a> <a th:href="@{/account/orders}" class="btn btn-dark px-4 py-2 mx-2">
-				XEM ĐƠN HÀNG </a>
+			</a> <a th:if="${isLoggedIn}"
+				th:href="@{'/account/orders/' + ${orderId}}"
+				class="btn btn-outline-dark font-weight-bold"> XEM ĐƠN HÀNG </a> <a
+				th:if="${!isLoggedIn}"
+				th:href="@{'/order/tracking'(id=${orderId}, phone=${phone})}"
+				class="btn btn-outline-dark font-weight-bold"> XEM CHI TIẾT ĐƠN
+				HÀNG </a>
 		</div>
 
 	</div>

@@ -156,4 +156,12 @@ public class AdminProductController {
 		productService.toggleProductColorStatus(id);
 		return "redirect:/admin/products/variants/" + productId;
 	}
+	
+	
+	@GetMapping("/variants/set-default/{id}")
+	public String setDefaultColor(@PathVariable Long id, @RequestParam Long productId) {
+	    // Gọi Service thay vì viết logic ở đây
+	    productService.setDefaultColor(productId, id); 
+	    return "redirect:/admin/products/variants/" + productId;
+	}
 }

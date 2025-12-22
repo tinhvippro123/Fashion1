@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.fashionshop.model.Address;
+import com.fashionshop.model.User;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
  // Đếm số địa chỉ để biết có phải cái đầu tiên không
     long countByUserId(Long userId);
     
+    List<Address> findByUser(User user);
     
  // Set toàn bộ địa chỉ của user thành "không mặc định"
     @Modifying

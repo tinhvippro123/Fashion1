@@ -22,6 +22,6 @@ public interface AddressService {
     void save(Address address); // Client tự save chính mình
     void setDefaultAddress(Long addressId, Long userId); // Tính năng mới
 	
-    
+    Address getDefaultAddress(User user);
     
 }

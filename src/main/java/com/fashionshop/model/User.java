@@ -16,10 +16,10 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, unique = true, length = 255)
 	private String email;
 
-	@Column(name = "password_hash", nullable = false)
+	@Column(name = "password_hash", nullable = false, length = 255)
 	private String passwordHash;
 
 	@Column(name = "full_name", columnDefinition = "nvarchar(100)")
@@ -32,9 +32,11 @@ public class User {
 	@Column(name = "date_of_birth")
 	private LocalDate dateOfBirth;
 
+	@Column(length = 10)
 	private String phone;
 	
 	@Enumerated(EnumType.STRING)
+	@Column(length = 10)
 	private UserRole role; // Ví dụ: "ADMIN", "USER"
 
 	@Column(name = "is_active")
@@ -163,4 +165,20 @@ public class User {
 	public void setAddresses(List<Address> addresses) {
 		this.addresses = addresses;
 	}
+	
+	public String getLastName() {
+	    if (fullName != null && fullName.contains(" ")) {
+	        return fullName.substring(0, fullName.lastIndexOf(" "));
+	    }
+	    return "";
+	}
+
+	public String getFirstName() {
+	    if (fullName != null && fullName.contains(" ")) {
+	        return fullName.substring(fullName.lastIndexOf(" ") + 1);
+	    }
+	    return fullName;
+	}
+	
+	
 }

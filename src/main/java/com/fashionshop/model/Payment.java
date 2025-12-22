@@ -20,19 +20,19 @@ public class Payment {
 	private Order order;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "payment_method")
+	@Column(name = "payment_method", length = 20)
 	private PaymentMethod paymentMethod; // COD, VNPAY...
 
 	private Double amount;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "payment_status")
+	@Column(name = "payment_status", length = 20)
 	private PaymentStatus paymentStatus; // UNPAID, PAID...
 
 	@Column(name = "payment_date")
 	private LocalDateTime paymentDate;
 
-	@Column(name = "transaction_id")
+	@Column(name = "transaction_id", length = 100)
 	private String transactionId;
 
 	// --- CONSTRUCTOR ---

@@ -20,16 +20,16 @@ public class OrderItem {
 	private Variant variant;
 
 	// --- CÁC TRƯỜNG SNAPSHOT (Lưu cứng thông tin) ---
-	@Column(name = "product_name", columnDefinition = "nvarchar(100)")
+	@Column(name = "product_name", columnDefinition = "nvarchar(255)")
 	private String productName;
 
-	@Column(name = "color_name", columnDefinition = "nvarchar(100)")
+	@Column(name = "color_name", columnDefinition = "nvarchar(50)")
 	private String colorName;
 
-	@Column(name = "size_name", columnDefinition = "nvarchar(100)")
+	@Column(name = "size_name", columnDefinition = "nvarchar(10)")
 	private String sizeName;
 
-	@Column(name = "product_image")
+	@Column(name = "product_image", length = 500)
 	private String productImage;
 
 	private int quantity;

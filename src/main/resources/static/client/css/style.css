@@ -2354,4 +2354,141 @@
     background: #000;
 }
 
+/* ======================================================= */
+/* ===           CUSTOM COLOR FILTER STYLE             === */
+/* ======================================================= */
+
+/* Container chứa các ô màu: Dàn hàng ngang, tự xuống dòng */
+.filter-color-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Khoảng cách giữa các ô màu */
+    padding-top: 10px;
+}
+
+/* Ẩn checkbox mặc định đi */
+.color-checkbox-hidden {
+    display: none; 
+}
+
+/* Ô tròn màu sắc (Label) */
+.color-swatch {
+    display: block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; /* Làm tròn */
+    border: 1px solid #ddd; /* Viền mờ cho các màu sáng như Trắng */
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Hiệu ứng khi Hover: Phóng to nhẹ */
+.color-swatch:hover {
+    transform: scale(1.1);
+    border-color: #999;
+}
+
+/* --- TRẠNG THÁI ĐƯỢC CHỌN (CHECKED) --- */
+/* Khi checkbox ẩn được tick -> Đổi style của label liền kề */
+.color-checkbox-hidden:checked + .color-swatch {
+    border: 2px solid #fff; /* Tạo khoảng trắng */
+    box-shadow: 0 0 0 2px #000; /* Vòng tròn đen bao ngoài cùng */
+    transform: scale(1.1);
+}
+
+/* --- TOOLTIP (Hiện tên màu khi Hover) --- */
+/* 1. Hình chữ nhật đen chứa chữ */
+.color-swatch:hover::after {
+    content: attr(data-title); /* Lấy chữ từ data-title trong HTML */
+    position: absolute;
+    bottom: 125%; /* Đẩy lên trên */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 0;
+    animation: fadeInTooltip 0.2s forwards;
+}
+
+/* 2. Mũi tên tam giác nhỏ ở dưới tooltip */
+.color-swatch:hover::before {
+    content: '';
+    position: absolute;
+    bottom: 115%; /* Nằm ngay dưới hộp đen */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #000 transparent transparent transparent; /* Tam giác hướng xuống */
+    z-index: 10;
+    opacity: 0;
+    animation: fadeInTooltip 0.2s forwards;
+}
+
+/* Hiệu ứng hiện dần */
+@keyframes fadeInTooltip {
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+
+/* ======================================================= */
+/* ===           CUSTOM SIZE FILTER STYLE              === */
+/* ======================================================= */
+
+/* Container chứa các nút Size: Dàn hàng ngang, tự xuống dòng */
+.filter-size-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Khoảng cách giữa các nút */
+    padding-top: 10px;
+}
+
+/* Ẩn checkbox mặc định đi */
+.size-checkbox-hidden {
+    display: none; 
+}
+
+/* Nút Size (Label) */
+.size-swatch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 50px; /* Chiều rộng tối thiểu */
+    height: 35px;    /* Chiều cao cố định */
+    background-color: #fff;
+    border: 1px solid #e1e1e1; /* Viền mờ */
+    /* Bo góc chéo đặc trưng: Trên-Trái & Dưới-Phải */
+    border-radius: 8px 0 8px 0;
+    font-size: 14px;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0 10px;
+}
+
+/* Hiệu ứng khi Hover */
+.size-swatch:hover {
+    border-color: #000;
+    color: #000;
+}
+
+/* --- TRẠNG THÁI ĐƯỢC CHỌN (CHECKED) --- */
+/* Khi checkbox ẩn được tick -> Đổi style của label liền kề */
+.size-checkbox-hidden:checked + .size-swatch {
+    background-color: #000; /* Nền đen */
+    color: #fff;            /* Chữ trắng */
+    border-color: #000;
+    font-weight: 600;
+}
+
 

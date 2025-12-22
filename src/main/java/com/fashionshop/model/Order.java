@@ -22,7 +22,7 @@ public class Order {
 	@Column(name = "receiver_name", columnDefinition = "nvarchar(100)")
 	private String receiverName;
 
-	@Column(columnDefinition = "nvarchar(100)")
+	@Column(length = 10)
 	private String phone;
 	
 	@Column(columnDefinition = "nvarchar(100)")
@@ -45,6 +45,7 @@ public class Order {
 
 	// Status nên dùng String hoặc Integer (0: Pending, 1: Shipping...)
 	@Enumerated(EnumType.STRING)
+	@Column(length = 20)
 	private OrderStatus status;
 
 	@Column(name = "shipping_fee")

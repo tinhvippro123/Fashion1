@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{client/layout}">
+<head>
+    <title>Chi tiết đơn hàng</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="container-ivy mt-5 mb-5">
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    
+                    <div class="mb-4">
+                        <a th:href="@{/order/tracking}" class="text-muted small">
+                            <i class="fas fa-arrow-left mr-1"></i> Quay lại tra cứu
+                        </a>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                        <div>
+                            <h4 class="font-weight-bold mb-1">ĐƠN HÀNG <span th:text="'#' + ${order.id}"></span></h4>
+                            <span class="text-muted small">Ngày đặt: <span th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy HH:mm')}"></span></span>
+                        </div>
+                        <span class="font-weight-bold px-3 py-2 bg-light rounded" th:text="${order.status}"></span>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                             <h6 class="font-weight-bold text-uppercase mb-3">Địa chỉ nhận hàng</h6>
+                             <div class="bg-light p-3 rounded small h-100">
+                                <p class="font-weight-bold mb-1" th:text="${order.receiverName}"></p>
+                                <p class="mb-1">Điện thoại: <span th:text="${order.phone}"></span></p>
+                                <p class="mb-1">
+                                    Địa chỉ: <span th:text="${order.street} + ', ' + ${order.ward} + ', ' + ${order.district} + ', ' + ${order.province}"></span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                             <h6 class="font-weight-bold text-uppercase mb-3">Thanh toán</h6>
+                             <div class="bg-light p-3 rounded small h-100">
+                                <p class="mb-2">HTTT: <span class="font-weight-bold" th:text="${order.payment.paymentMethod}"></span></p>
+                                <p class="mb-0">Trạng thái: <span class="font-weight-bold" th:text="${order.payment.paymentStatus}"></span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive border rounded mb-4">
+                        <table class="table mb-0">
+                            <tbody>
+                                <tr th:each="item : ${order.orderItems}">
+                                    <td class="align-middle">
+                                        <div class="d-flex align-items-center">
+                                            <img th:if="${item.productImage != null}" 
+                                                 th:src="@{'/uploads/' + ${item.productImage}}" 
+                                                 style="width: 50px; height: 75px; object-fit: cover;" class="mr-3">
+                                            <div>
+                                                <div class="font-weight-bold small" th:text="${item.productName}"></div>
+                                                <div class="text-muted small" th:text="${item.colorName} + ' / ' + ${item.sizeName}"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle text-right font-weight-bold small"
+                                        th:text="${#numbers.formatDecimal(item.unitPrice * item.quantity, 0, 'POINT', 0, 'COMMA')} + 'đ'">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="text-right">
+                         <h5 class="font-weight-bold">TỔNG CỘNG: <span class="text-danger" th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'POINT', 0, 'COMMA')} + 'đ'"></span></h5>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

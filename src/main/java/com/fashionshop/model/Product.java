@@ -16,6 +16,7 @@ public class Product {
 	@Column(columnDefinition = "nvarchar(255)", nullable = false)
 	private String name;
 
+	@Column(length = 255)
 	private String slug;
 
 	@Column(columnDefinition = "nvarchar(MAX)") // Dùng MAX cho mô tả dài

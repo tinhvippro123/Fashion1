@@ -107,13 +107,13 @@
 
 		<div class="d-flex align-items-center">
 
-			<form action="#" class="d-none d-md-flex ivy-search-box">
-				<input type="text" class="ivy-search-input"
-					placeholder="TÌM KIẾM SẢN PHẨM">
-				<button type="submit" class="btn ivy-search-btn">
-					<i class="fas fa-search"></i>
-				</button>
-			</form>
+	<form th:action="@{/search}" method="get" class="d-none d-md-flex ivy-search-box">
+    <input type="text" name="keyword" class="ivy-search-input"
+           placeholder="TÌM KIẾM SẢN PHẨM"
+           th:value="${keyword}"> <button type="submit" class="btn ivy-search-btn">
+        <i class="fas fa-search"></i>
+    </button>
+</form>
 
 			<a href="#" class="ivy-icon-btn d-none d-sm-block"> <i
 				class="fas fa-headset"></i>

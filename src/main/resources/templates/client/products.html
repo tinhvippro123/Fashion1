@@ -19,40 +19,71 @@
 			<div class="row">
 				<div class="col-lg-3 d-none d-lg-block pr-5">
 
-					<form id="filterForm" th:action="@{'/danh-muc/' + ${currentSlug}}"
+                    <form id="filterForm"
+						th:action="${keyword != null} ? @{/search} : @{'/danh-muc/' + ${currentSlug}}"
 						method="get">
+                        
+                        <input th:if="${keyword != null}" type="hidden" name="keyword" th:value="${keyword}">
+
+<div class="filter-group">
+    <div class="filter-header">
+        <span>Size</span> <i class="fas fa-plus"></i>
+    </div>
+    <div class="filter-content">
+        <div class="filter-size-list">
+            
+            <div th:each="s : ${ {'S','M','L','XL','XXL'} }" class="size-item-wrapper">
+                
+                <input type="checkbox" class="size-checkbox-hidden"
+                    th:id="'size-'+${s}" name="size" th:value="${s}"
+                    th:checked="${selectedSizes != null && #lists.contains(selectedSizes, s)}">
+                
+                <label class="size-swatch" th:for="'size-'+${s}" th:text="${s}">
+                    S
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
 
 						<div class="filter-group">
-							<div class="filter-header">
-								<span>Size</span> <i class="fas fa-plus"></i>
-							</div>
-							<div class="filter-content">
-								<div class="custom-control custom-checkbox mb-2"
-									th:each="s : ${ {'S','M','L','XL','XXL'} }">
-									<input type="checkbox" class="custom-control-input"
-										th:id="'size-'+${s}" name="size" th:value="${s}"
-										th:checked="${selectedSizes != null && #lists.contains(selectedSizes, s)}">
-									<label class="custom-control-label" th:for="'size-'+${s}"
-										th:text="${s}"></label>
-								</div>
-							</div>
-						</div>
+    <div class="filter-header">
+        <span>Màu sắc</span> <i class="fas fa-plus"></i>
+    </div>
+    <div class="filter-content">
+        <div class="filter-color-list">
+            
+            <div th:each="c : ${ {'Đen','Trắng','Xanh dương','Vàng','Hồng','Đỏ','Xám','Be','Nâu','Xanh lá','Cam','Tím'} }" 
+                 class="color-item-wrapper">
+                
+                <th:block th:with="bgCode=${
+                    c == 'Đen' ? '#000000' : 
+                    c == 'Trắng' ? '#FFFFFF' : 
+                    c == 'Xanh dương' ? '#254a7e' : 
+                    c == 'Vàng' ? '#e8d653' :
+                    c == 'Hồng' ? '#f07da0' :
+                    c == 'Đỏ' ? '#ff0000' :
+                    c == 'Xám' ? '#696969' :
+                    c == 'Be' ? '#e6dcc8' :
+                    c == 'Nâu' ? '#6f4e37' :
+                    c == 'Xanh lá' ? '#2e6b47' :
+                    c == 'Cam' ? '#f28e2b' :
+                    c == 'Tím' ? '#917fb0' : '#cccccc'
+                }">
 
-						<div class="filter-group">
-							<div class="filter-header">
-								<span>Màu sắc</span> <i class="fas fa-plus"></i>
-							</div>
-							<div class="filter-content">
-								<div class="custom-control custom-checkbox mb-2"
-									th:each="c : ${ {'Trắng','Đen','Vàng','Xanh','Be','Nâu'} }">
-									<input type="checkbox" class="custom-control-input"
-										th:id="'color-'+${c}" name="color" th:value="${c}"
-										th:checked="${selectedColors != null && #lists.contains(selectedColors, c)}">
-									<label class="custom-control-label" th:for="'color-'+${c}"
-										th:text="${c}"></label>
-								</div>
-							</div>
-						</div>
+                    <input type="checkbox" class="color-checkbox-hidden"
+                        th:id="'color-'+${c}" name="color" th:value="${c}"
+                        th:checked="${selectedColors != null && #lists.contains(selectedColors, c)}">
+                    
+                    <label class="color-swatch" 
+                           th:for="'color-'+${c}" 
+                           th:style="'background-color: ' + ${bgCode}"
+                           th:data-title="${c}"> </label>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</div>
 
 						<div class="filter-group">
 							<div class="filter-header">
@@ -68,11 +99,11 @@
 										id="price-max-display">10.000.000đ</span>
 								</div>
 
-								<input type="hidden" name="minPrice" id="minPriceInput"
-									th:value="${selectedMinPrice != null ? #numbers.formatDecimal(selectedMinPrice, 0, 'NONE', 0, 'POINT') : 0}">
+                                <input type="hidden" name="minPrice" id="minPriceInput"
+									th:value="${selectedMinPrice != null ? #numbers.formatDecimal(selectedMinPrice, 0, 'NONE', 0, 'POINT') : ''}">
 
 								<input type="hidden" name="maxPrice" id="maxPriceInput"
-									th:value="${selectedMaxPrice != null ? #numbers.formatDecimal(selectedMaxPrice, 0, 'NONE', 0, 'POINT') : 10000000}">
+									th:value="${selectedMaxPrice != null ? #numbers.formatDecimal(selectedMaxPrice, 0, 'NONE', 0, 'POINT') : ''}">
 							</div>
 						</div>
 
@@ -95,7 +126,8 @@
 						</div>
 
 						<div class="filter-actions mt-5 d-flex justify-content-between">
-							<a th:href="@{'/danh-muc/' + ${currentSlug}}"
+
+							<a th:href="${keyword != null} ? @{/search(keyword=${keyword})} : @{'/danh-muc/' + ${currentSlug}}"
 								class="btn-filter-clear"> BỎ LỌC </a>
 
 							<button type="submit" class="btn-filter-submit">LỌC</button>
@@ -123,9 +155,10 @@
 								<ul class="pagination">
 									<li class="page-item"
 										th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
-										th:classappend="${currentPage == i} ? 'active'"><a
-										class="page-link text-dark font-weight-bold border-0 mx-1"
-										th:href="@{'/danh-muc/' + ${currentSlug}(page=${i}, size=${selectedSizes}, maxPrice=${selectedMaxPrice})}"
+										th:classappend="${currentPage == i} ? 'active'">
+                                        <a class="page-link text-dark font-weight-bold border-0 mx-1"
+										th:href="${keyword != null} ? @{/search(keyword=${keyword}, page=${i})} 
+                                  : @{'/danh-muc/' + ${currentSlug}(page=${i}, size=${selectedSizes}, minPrice=${selectedMinPrice}, maxPrice=${selectedMaxPrice})}"
 										th:text="${i + 1}">1</a></li>
 								</ul>
 							</nav>
@@ -154,116 +187,76 @@
 
 	<th:block layout:fragment="pageScripts">
 		<script>
-			$(document)
-					.ready(
-							function() {
-								// 1. Code Accordion cũ của bạn (Giữ nguyên)
-								$('.filter-header').click(
-										function() {
-											var content = $(this).next(
-													'.filter-content');
-											content.slideToggle(300);
-											var icon = $(this).find('i');
-											if (icon.hasClass('fa-plus')) {
-												icon.removeClass('fa-plus')
-														.addClass('fa-minus');
-											} else {
-												icon.removeClass('fa-minus')
-														.addClass('fa-plus');
-											}
-										});
+			$(document).ready(function() {
+                // 1. Code Accordion cũ của bạn (Giữ nguyên)
+                $('.filter-header').click(function() {
+                    $(this).next('.filter-content').slideToggle(300);
+                    var icon = $(this).find('i');
+                    if (icon.hasClass('fa-plus')) {
+                        icon.removeClass('fa-plus').addClass('fa-minus');
+                    } else {
+                        icon.removeClass('fa-minus').addClass('fa-plus');
+                    }
+                });
 
-								// Tự động mở tab nếu có ô input đang được chọn (Code cũ)
-								$('.filter-content')
-										.each(
-												function() {
-													if ($(this).find(
-															'input:checked').length > 0) {
-														$(this).show();
-														$(this)
-																.prev(
-																		'.filter-header')
-																.find('i')
-																.removeClass(
-																		'fa-plus')
-																.addClass(
-																		'fa-minus');
-													}
-												});
+                // 2. Tự động mở tab nếu có ô input đang được chọn
+                $('.filter-content').each(function() {
+                    if ($(this).find('input:checked').length > 0) {
+                        $(this).show();
+                        $(this).prev('.filter-header').find('i').removeClass('fa-plus').addClass('fa-minus');
+                    }
+                });
 
-								// ==========================================
-								// 2. CẤU HÌNH SLIDER (CODE MỚI)
-								// ==========================================
-								var slider = document
-										.getElementById('price-slider');
+                // ==========================================
+                // 3. CẤU HÌNH SLIDER (CODE ĐÃ UPDATE)
+                // ==========================================
+                var slider = document.getElementById('price-slider');
 
-								if (slider) { // Kiểm tra nếu có slider thì mới chạy
-									// Lấy giá trị hiện tại từ server (nếu user đã lọc trước đó)
-									var currentMin = parseInt($(
-											'#minPriceInput').val()) || 0;
-									var currentMax = parseInt($(
-											'#maxPriceInput').val()) || 10000000;
+                if (slider) { 
+                    var sliderLimit = 10000000; // Max 10 triệu
 
-									// Nếu đang lọc giá, tự động mở tab Mức giá ra
-									if (currentMin > 0 || currentMax < 10000000) {
-										$('#minPriceInput').closest(
-												'.filter-content').show();
-										$('#minPriceInput').closest(
-												'.filter-group').find(
-												'.fa-plus').removeClass(
-												'fa-plus').addClass('fa-minus');
-									}
+                    // Lấy giá trị từ Input (Rỗng -> Mặc định)
+                    var inputMin = $('#minPriceInput').val();
+                    var inputMax = $('#maxPriceInput').val();
 
-									noUiSlider.create(slider, {
-										start : [ currentMin, currentMax ], // Giá trị bắt đầu
-										connect : true, // Có đường nối màu đen giữa 2 điểm
-										range : {
-											'min' : 0,
-											'max' : 10000000
-										// Max 10 triệu
-										},
-										step : 100000, // Bước nhảy 100k
-										format : {
-											to : function(value) {
-												return Math.round(value);
-											},
-											from : function(value) {
-												return Number(value);
-											}
-										}
-									});
+                    var currentMin = inputMin ? parseInt(inputMin) : 0;
+                    var currentMax = inputMax ? parseInt(inputMax) : sliderLimit;
 
-									// Sự kiện khi kéo thanh trượt -> Cập nhật text và input ẩn
-									slider.noUiSlider
-											.on(
-													'update',
-													function(values, handle) {
-														var value = values[handle];
+                    // Nếu đang lọc giá (Có giá trị trong input), tự động mở tab
+                    if (inputMin && (currentMin > 0 || currentMax < sliderLimit)) {
+                        $('#minPriceInput').closest('.filter-content').show();
+                        $('#minPriceInput').closest('.filter-group').find('.fa-plus').removeClass('fa-plus').addClass('fa-minus');
+                    }
 
-														// Format tiền tệ (thêm dấu chấm và chữ đ)
-														var formattedValue = new Intl.NumberFormat(
-																'vi-VN')
-																.format(value)
-																+ 'đ';
+                    noUiSlider.create(slider, {
+                        start : [ currentMin, currentMax ], 
+                        connect : true, 
+                        range : {
+                            'min' : 0,
+                            'max' : sliderLimit
+                        },
+                        step : 100000, 
+                        format : {
+                            to : function(value) { return Math.round(value); },
+                            from : function(value) { return Number(value); }
+                        }
+                    });
 
-														if (handle === 0) {
-															$(
-																	'#price-min-display')
-																	.text(
-																			formattedValue);
-															$('#minPriceInput')
-																	.val(value);
-														} else {
-															$(
-																	'#price-max-display')
-																	.text(
-																			formattedValue);
-															$('#maxPriceInput')
-																	.val(value);
-														}
-													});
-								}
-							});
+                    slider.noUiSlider.on('update', function(values, handle) {
+                        var value = values[handle];
+                        // Format tiền tệ Việt Nam (dấu chấm)
+                        var formattedValue = new Intl.NumberFormat('vi-VN').format(value) + 'đ';
+
+                        if (handle === 0) {
+                            $('#price-min-display').text(formattedValue);
+                            $('#minPriceInput').val(value);
+                        } else {
+                            $('#price-max-display').text(formattedValue);
+                            $('#maxPriceInput').val(value);
+                        }
+                    });
+                }
+            });
 		</script>
 	</th:block>
 </body>

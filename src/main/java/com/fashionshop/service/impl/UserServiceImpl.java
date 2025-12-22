@@ -185,4 +185,9 @@ public class UserServiceImpl implements UserService {
         // 3. Lưu xuống DB
         userRepository.save(user);
     }
+	
+	public long countAllCustomers() {
+	    return userRepository.countByRole(UserRole.CUSTOMER);
+	}
+	
 }

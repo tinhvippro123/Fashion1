@@ -43,8 +43,11 @@ public interface ProductService {
 	
 	List<Product> findTop10NewestWomen(); // Lấy đồ Nữ
 	List<Product> findTop10NewestMen();   // Lấy đồ Nam
+	Page<Product> searchProductsWithFilters(String keyword, Long categoryId, List<String> sizes, List<String> colors, Double minPrice, Double maxPrice, Pageable pageable);
+
+	void setDefaultColor(Long productId, Long colorId);
 	
-	Page<Product> filterProducts(Long categoryId, List<String> sizes, List<String> colors, Double minPrice, Double maxPrice, Pageable pageable);
-
-
+	Product getProductWithActiveColors(Long id);
+	
+	long countAllProducts();
 }

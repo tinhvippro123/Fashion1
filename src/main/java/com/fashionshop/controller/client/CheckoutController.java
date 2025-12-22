@@ -117,8 +117,11 @@ public class CheckoutController {
 
     // 3. Trang Thông báo Thành công (Giữ nguyên)
     @GetMapping("/success/{orderId}")
-    public String successPage(@PathVariable Long orderId, Model model) {
+    public String successPage(@PathVariable Long orderId, Model model, Principal principal) {
+    	Order order = orderService.getOrderById(orderId);
         model.addAttribute("orderId", orderId);
+        model.addAttribute("phone", order.getPhone()); // Truyền SĐT xuống để tạo link tracking
+        model.addAttribute("isLoggedIn", principal != null);
         return "client/order-success";
     }
 

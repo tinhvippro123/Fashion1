@@ -19,7 +19,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/account")
-public class AccountController {
+public class ClientAccountController {
 
     @Autowired private UserService userService;
     @Autowired private OrderService orderService;
@@ -32,20 +32,11 @@ public class AccountController {
         User user = userService.findByEmail(principal.getName());
         
         // Tách họ tên (như code cũ của bạn)
-        String fullName = user.getFullName();
-        String lastName = "";
-        String firstName = "";
-        if (fullName != null && fullName.contains(" ")) {
-            int lastSpaceIdx = fullName.lastIndexOf(" ");
-            lastName = fullName.substring(0, lastSpaceIdx);
-            firstName = fullName.substring(lastSpaceIdx + 1);
-        } else {
-            firstName = fullName;
-        }
+
 
         model.addAttribute("user", user);
-        model.addAttribute("displayLastName", lastName);
-        model.addAttribute("displayFirstName", firstName);
+        model.addAttribute("displayLastName", user.getLastName());
+        model.addAttribute("displayFirstName", user.getFirstName());
 
         return "client/account/profile";
     }

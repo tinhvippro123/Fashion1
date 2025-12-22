@@ -13,7 +13,7 @@ public class Color {
 	@Column(columnDefinition = "nvarchar(50)", nullable = false)
 	private String name; // Tên màu: Đỏ, Xanh...
 
-	@Column(name = "hex_code")
+	@Column(name = "hex_code", length = 7)
 	private String hexCode; // Mã màu hiển thị: #FF0000
 
 	public Color() {

@@ -4,6 +4,33 @@
       layout:decorate="~{client/layout}">
 <head>
     <title th:text="${product.name} + ' - IVY moda'">Chi tiết sản phẩm</title>
+    <style>
+        /* CSS cho ô màu sắc */
+        .color-option-box {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            border-radius: 50%; /* Tròn */
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+        }
+        /* Viền khi màu đang được chọn */
+        .color-option-box.active-color {
+            border: 2px solid #222; /* Viền đen đậm */
+            transform: scale(1.1);
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+        /* Gạch chéo cho size hết hàng */
+        .size-box.disabled {
+            background-color: #f8f9fa;
+            color: #ccc;
+            cursor: not-allowed;
+            text-decoration: line-through;
+            border-color: #eee;
+        }
+    </style>
 </head>
 <body>
     <div layout:fragment="content">
@@ -19,32 +46,36 @@
             <div class="product-detail-row">
 
                 <div>
-                    <div th:if="${not #lists.isEmpty(product.productColors)}"
-                         th:with="firstColor=${product.productColors[0]}"
-                         class="gallery-wrapper">
+                    <div th:if="${selectedColor != null}" class="gallery-wrapper">
 
                         <div class="gallery-main">
                             <img id="mainImage"
-                                 th:src="@{'/uploads/' + ${firstColor.images[0].imageUrl}}"
+                                 th:if="${not #lists.isEmpty(selectedColor.images)}"
+                                 th:src="@{'/uploads/' + ${selectedColor.images[0].imageUrl}}"
                                  class="main-img-display" alt="Ảnh chính">
+                                 
+                            <img id="mainImage"
+                                 th:if="${#lists.isEmpty(selectedColor.images)}"
+                                 src="https://via.placeholder.com/500x750?text=No+Image"
+                                 class="main-img-display">
                         </div>
 
-                        <div class="gallery-thumbs-container">
+                        <div class="gallery-thumbs-container" th:if="${not #lists.isEmpty(selectedColor.images)}">
                             <button class="thumb-arrow up"
-                                    th:if="${firstColor.images.size() > 5}"
+                                    th:if="${selectedColor.images.size() > 5}"
                                     onclick="scrollThumbs('up')">
                                 <i class="fas fa-chevron-up"></i>
                             </button>
 
                             <div class="gallery-thumbs-scroll" id="thumbScroller">
-                                <img th:each="img, iter : ${firstColor.images}"
+                                <img th:each="img, iter : ${selectedColor.images}"
                                      th:src="@{'/uploads/' + ${img.imageUrl}}" class="thumb-img"
                                      th:classappend="${iter.index == 0} ? 'active'"
                                      th:onclick="'changeMainImage(this, \'' + @{'/uploads/' + ${img.imageUrl}} + '\')'">
                             </div>
 
                             <button class="thumb-arrow down"
-                                    th:if="${firstColor.images.size() > 5}"
+                                    th:if="${selectedColor.images.size() > 5}"
                                     onclick="scrollThumbs('down')">
                                 <i class="fas fa-chevron-down"></i>
                             </button>
@@ -63,19 +94,34 @@
                          th:text="${#numbers.formatDecimal(product.basePrice, 0, 'POINT', 0, 'COMMA')} + 'đ'">
                     </div>
 
-                    <div class="mb-4">
-                        <div class="color-label">
-                            Màu sắc: <span class="font-weight-normal"
-                                           th:text="${product.productColors[0].color.name}">Trắng ngà</span>
+                    <div class="mb-4 mt-3">
+                        <div class="color-label mb-2">
+                            Màu sắc: <span class="font-weight-bold"
+                                           th:text="${selectedColor.color.name}">Trắng ngà</span>
+                        </div>
+                        <div class="d-flex flex-wrap">
+                            <th:block th:each="pc : ${product.productColors}">
+                                <a th:if="${pc.isActive}" 
+                                   th:href="@{'/product/' + ${product.id} + '?color=' + ${pc.color.name}}"
+                                   th:title="${pc.color.name}"
+                                   style="text-decoration: none;">
+                                    
+                                    <span class="color-option-box"
+                                          th:classappend="${pc.id == selectedColor.id} ? 'active-color'"
+                                          th:style="'background-color:' + ${pc.color.hexCode}">
+                                    </span>
+                                </a>
+                            </th:block>
                         </div>
                     </div>
 
                     <div class="mb-4">
                         <div class="mb-4">
-                            <div th:each="variant : ${product.productColors[0].variants}"
+                            <div th:each="variant : ${selectedColor.variants}"
                                  class="size-box"
                                  th:classappend="${variant.stock <= 0} ? 'disabled'"
-                                 onclick="selectSize(this)">
+                                 th:onclick="${variant.stock > 0} ? 'selectSize(this)' : ''"
+                                 th:title="${variant.stock <= 0} ? 'Hết hàng' : 'Còn ' + ${variant.stock}">
                                 
                                 <span th:text="${variant.size.name}">S</span>
                                 
@@ -86,7 +132,12 @@
                                  style="display: none; font-size: 13px;">
                                 <i class="fas fa-exclamation-circle"></i> Vui lòng chọn kích cỡ (Size)
                             </div>
+                            
+                            <div th:if="${#lists.isEmpty(selectedColor.variants)}" class="text-danger mt-2 small">
+                                Tạm hết hàng màu này.
+                            </div>
                         </div>
+                        
                         <div class="mt-2 text-muted small">
                             <i class="fas fa-ruler-combined mr-1"></i> Kiểm tra size của bạn
                         </div>
@@ -103,11 +154,14 @@
                     </div>
 
                     <div class="action-buttons">
-                        <button type="button" onclick="addToCartFromDetail()" class="btn-add-cart-black">
+                        <button type="button" onclick="addToCartFromDetail()" 
+                                class="btn-add-cart-black"
+                                th:disabled="${#lists.isEmpty(selectedColor.variants)}">
                             THÊM VÀO GIỎ
                         </button>
 
-                        <button type="button" class="btn-buy-now-white" onclick="buyNow()">MUA HÀNG</button>
+                        <button type="button" class="btn-buy-now-white" onclick="buyNow()"
+                                th:disabled="${#lists.isEmpty(selectedColor.variants)}">MUA HÀNG</button>
 
                         <div class="btn-wishlist-box">
                             <i class="far fa-heart"></i>
@@ -150,20 +204,15 @@
                 else container.scrollTop += scrollAmount;
             }
 
-            // 3. Chọn Size (Cập nhật UI và Input)
+            // 3. Chọn Size
             function selectSize(element) {
+                // Nếu bị disabled (hết hàng) thì không làm gì
                 if (element.classList.contains('disabled')) return;
 
-                // Xóa active cũ
                 document.querySelectorAll('.size-box').forEach(el => el.classList.remove('active'));
-                
-                // Active cái mới
                 element.classList.add('active');
                 
-                // Đánh dấu input radio bên trong là checked để hàm addToCartFromDetail tìm thấy
                 element.querySelector('input').checked = true;
-
-                // Ẩn lỗi nếu đang hiện
                 document.getElementById('size-error').style.display = 'none';
             }
 
@@ -174,9 +223,6 @@
                 if (newVal < 1) newVal = 1;
                 input.value = newVal;
             }
-            
-            // LƯU Ý: Hàm addToCartFromDetail() đã nằm trong file script.js chung rồi,
-            // nên không cần khai báo lại ở đây nữa.
         </script>
     </th:block>
 </body>

@@ -19,7 +19,7 @@ public class Cart {
     private User user;
 
     // Khách vãng lai
-    @Column(name = "session_id")
+    @Column(name = "session_id", length = 100)
     private String sessionId;
 
     @Column(name = "created_at", updatable = false)

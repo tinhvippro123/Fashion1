@@ -24,6 +24,7 @@ public class Variant {
 	private Integer stock; // Số lượng tồn kho
 
 	@Enumerated(EnumType.STRING)
+	@Column(length = 20)
 	private VariantStatus status; // VD: "AVAILABLE", "OUT_OF_STOCK"
 
 	public Variant() {

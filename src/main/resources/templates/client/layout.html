@@ -83,5 +83,45 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
 	<th:block layout:fragment="pageScripts"></th:block>
 
+<script>
+    // Hàm nhận thêm tham số newHoverUrl
+    function changeProductImage(productId, newImageUrl, newHoverUrl, colorName, dotElement) {
+        
+        // 1. Đổi ảnh chính
+        var imgMain = document.getElementById('img-main-' + productId);
+        if (imgMain) {
+            imgMain.src = newImageUrl;
+        }
+
+        // 2. Đổi ảnh Hover (QUAN TRỌNG)
+        var imgHover = document.getElementById('img-hover-' + productId);
+        if (imgHover) {
+            imgHover.src = newHoverUrl;
+        }
+
+        // 3. Cập nhật Link ảnh
+        var productLink = document.getElementById('product-link-' + productId);
+        if (productLink) {
+            var currentHref = productLink.getAttribute('href');
+            if(currentHref.includes('?')) {
+                currentHref = currentHref.split('?')[0];
+            }
+            productLink.setAttribute('href', currentHref + '?color=' + encodeURIComponent(colorName));
+        }
+
+        // 4. Xử lý giao diện chấm màu (Active)
+        var parent = dotElement.closest('.list-colors');
+        var allDots = parent.querySelectorAll('.color-dot');
+        allDots.forEach(function(dot) {
+            dot.classList.remove('active');
+        });
+
+        var currentDot = dotElement.querySelector('.color-dot');
+        if (currentDot) {
+            currentDot.classList.add('active');
+        }
+    }
+</script>
+
 </body>
 </html>

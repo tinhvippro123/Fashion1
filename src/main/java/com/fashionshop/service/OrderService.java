@@ -28,8 +28,13 @@ public interface OrderService {
 	// ADMIN: Cập nhật trạng thái đơn hàng (Duyệt, Giao, Hủy)
 	void updateOrderStatus(Long orderId, OrderStatus newStatus);
 
-	
 	List<Order> getOrdersByUser(Long userId);
-	
+
 	void cancelOrder(Long orderId, Long userId);
+
+	Order findOrderForTracking(Long orderId, String phone);
+
+	Double calculateTotalRevenue();
+
+	long countByStatus(String statusName);
 }

@@ -42,31 +42,41 @@
 				th:classappend="${pc.isActive} ? '' : 'text-muted'">
 
 				<div class="card shadow"
-					th:style="${pc.isActive} ? '' : 'opacity: 0.6; border: 1px dashed red;'">
-					<div
-						class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						<h6 class="m-0 font-weight-bold text-primary">
-							Màu: <span th:text="${pc.color.name}"></span> <span
-								th:style="'background-color:' + ${pc.color.hexCode} + '; display:inline-block; width:20px; height:20px; ...'"></span>
+					th:style="${pc.isActive} ? '' : 'opacity: 0.8; border: 1px dashed red; background-color: #f8f9fa;'">
+					
+					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+						<h6 class="m-0 font-weight-bold text-primary d-flex align-items-center">
+							Màu: <span th:text="${pc.color.name}" class="ml-1 mr-2"></span> 
+							<span th:style="'background-color:' + ${pc.color.hexCode} + '; display:inline-block; width:20px; height:20px; border:1px solid #ccc; border-radius: 50%;'"></span>
 
-							<span th:if="${pc.isActive}" class="badge badge-success ml-2">Đang
-								hiển thị</span> <span th:unless="${pc.isActive}"
-								class="badge badge-secondary ml-2">Đang ẩn</span>
+							<span th:if="${pc.isActive}" class="badge badge-success ml-3">Đang hiển thị</span> 
+							<span th:unless="${pc.isActive}" class="badge badge-secondary ml-3">Đang ẩn</span>
+
+							<span th:if="${pc.isDefault}" class="badge badge-warning text-dark ml-2">
+								<i class="fas fa-star"></i> Mặc định
+							</span>
 						</h6>
 
 						<div>
-							<a
-								th:href="@{/admin/products/variants/toggle-color/{id}(id=${pc.id}, productId=${product.id})}"
+							<a th:unless="${pc.isDefault}"
+							   th:href="@{/admin/products/variants/set-default/{id}(id=${pc.id}, productId=${product.id})}"
+							   class="btn btn-outline-warning btn-sm mr-2"
+							   title="Đặt làm màu mặc định hiển thị đầu tiên">
+								<i class="far fa-star"></i> Đặt mặc định
+							</a>
+
+							<a th:href="@{/admin/products/variants/toggle-color/{id}(id=${pc.id}, productId=${product.id})}"
 								class="btn btn-sm mr-2"
-								th:classappend="${pc.isActive} ? 'btn-warning' : 'btn-success'">
-								<i class="fas"
-								th:classappend="${pc.isActive} ? 'fa-eye-slash' : 'fa-eye'"></i>
-								<span th:text="${pc.isActive} ? 'Ẩn màu này' : 'Hiện màu này'"></span>
-							</a> <a
-								th:href="@{/admin/products/variants/delete-color/{id}(id=${pc.id}, productId=${product.id})}"
+								th:classappend="${pc.isActive} ? 'btn-warning' : 'btn-success'"
+								th:title="${pc.isActive} ? 'Ẩn màu này đi' : 'Hiển thị màu này'">
+								<i class="fas" th:classappend="${pc.isActive} ? 'fa-eye-slash' : 'fa-eye'"></i>
+								<span th:text="${pc.isActive} ? 'Ẩn' : 'Hiện'"></span>
+							</a> 
+							
+							<a th:href="@{/admin/products/variants/delete-color/{id}(id=${pc.id}, productId=${product.id})}"
 								class="btn btn-danger btn-sm"
 								onclick="return confirm('CẢNH BÁO: Xóa màu này sẽ xóa hết tất cả Size và Ảnh bên trong. Bạn chắc chắn chứ?');">
-								<i class="fas fa-trash"></i> Xóa Màu này
+								<i class="fas fa-trash"></i> Xóa
 							</a>
 						</div>
 					</div>
@@ -75,18 +85,17 @@
 						<div class="row">
 
 							<div class="col-md-6 border-right">
-								<h5 class="font-weight-bold text-gray-800">1. Hình ảnh</h5>
+								<h5 class="font-weight-bold text-gray-800 border-bottom pb-2">1. Hình ảnh</h5>
 
 								<form th:action="@{/admin/products/variants/upload-image}"
-									method="post" enctype="multipart/form-data" class="mb-3">
+									method="post" enctype="multipart/form-data" class="mb-3 mt-3">
 									<input type="hidden" name="productId" th:value="${product.id}">
 									<input type="hidden" name="productColorId" th:value="${pc.id}">
 									<div class="input-group">
 										<div class="custom-file">
 											<input type="file" name="imageFile" class="custom-file-input"
 												id="inputGroupFile01" required> <label
-												class="custom-file-label" for="inputGroupFile01">Chọn
-												ảnh...</label>
+												class="custom-file-label" for="inputGroupFile01">Chọn ảnh...</label>
 										</div>
 										<div class="input-group-append">
 											<button class="btn btn-outline-primary" type="submit">Upload</button>
@@ -95,43 +104,46 @@
 								</form>
 
 								<div class="row">
-									<div class="col-md-4 mb-2" th:each="img : ${pc.images}">
-										<div class="card">
-
-											<span th:if="${img.imageType.name() == 'MAIN'}"
-												class="badge badge-success position-absolute"
-												style="top: 5px; left: 5px; z-index: 10;">Ảnh bìa</span> <span
-												th:if="${img.imageType.name() == 'HOVER'}"
-												class="badge badge-warning position-absolute"
-												style="top: 5px; left: 5px; z-index: 10;">Ảnh hover</span> <span
-												class="badge badge-secondary position-absolute"
-												style="top: 5px; right: 5px; z-index: 10;"
-												th:text="'#' + ${img.sortOrder}"></span> <img
-												th:src="@{'/uploads/' + ${img.imageUrl}}"
-												class="card-img-top"
-												style="height: 250px; object-fit: contain; background-color: #f8f9fa;">
-											<a
-												th:href="@{/admin/products/variants/delete-image/{id}(id=${img.id}, productId=${product.id})}"
-												class="btn btn-danger btn-sm btn-block"
-												onclick="return confirm('Xóa ảnh này?');"> <i
-												class="fas fa-trash"></i>
-											</a>
+									<div class="col-md-4 mb-3" th:each="img : ${pc.images}">
+										<div class="card h-100">
+											<div class="position-relative">
+												<span th:if="${img.imageType.name() == 'MAIN'}"
+													class="badge badge-success position-absolute"
+													style="top: 5px; left: 5px; z-index: 10;">Main</span> 
+												<span th:if="${img.imageType.name() == 'HOVER'}"
+													class="badge badge-warning position-absolute"
+													style="top: 5px; left: 5px; z-index: 10;">Hover</span> 
+												<span class="badge badge-light border position-absolute"
+													style="top: 5px; right: 5px; z-index: 10;"
+													th:text="'#' + ${img.sortOrder}"></span> 
+												
+												<img th:src="@{'/uploads/' + ${img.imageUrl}}"
+													class="card-img-top"
+													style="height: 150px; object-fit: contain; background-color: #fff; padding: 5px;">
+											</div>
+											
+											<div class="card-footer p-1 text-center bg-white border-top-0">
+												<a th:href="@{/admin/products/variants/delete-image/{id}(id=${img.id}, productId=${product.id})}"
+													class="btn btn-outline-danger btn-sm w-100"
+													onclick="return confirm('Xóa ảnh này?');"> 
+													<i class="fas fa-trash"></i>
+												</a>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 
 							<div class="col-md-6">
-								<h5 class="font-weight-bold text-gray-800">2. Kích cỡ & Tồn
-									kho</h5>
+								<h5 class="font-weight-bold text-gray-800 border-bottom pb-2">2. Kích cỡ & Tồn kho</h5>
 
 								<form th:action="@{/admin/products/variants/add-size}"
-									method="post" class="mb-3 p-3 bg-gray-100 rounded">
+									method="post" class="mb-3 mt-3 p-3 bg-gray-100 rounded border">
 									<input type="hidden" name="productId" th:value="${product.id}">
 									<input type="hidden" name="productColorId" th:value="${pc.id}">
 
-									<div class="form-row">
-										<div class="col-4">
+									<div class="form-row align-items-center">
+										<div class="col-3">
 											<select name="sizeId" class="form-control form-control-sm">
 												<option th:each="s : ${sizes}" th:value="${s.id}"
 													th:text="${s.name}"></option>
@@ -139,7 +151,7 @@
 										</div>
 										<div class="col-3">
 											<input type="number" name="price"
-												class="form-control form-control-sm" placeholder="Giá"
+												class="form-control form-control-sm" placeholder="Giá bán"
 												th:value="${product.basePrice}" required>
 										</div>
 										<div class="col-3">
@@ -147,17 +159,17 @@
 												class="form-control form-control-sm" placeholder="SL"
 												value="10" required>
 										</div>
-										<div class="col-2">
+										<div class="col-3">
 											<button type="submit"
 												class="btn btn-success btn-sm btn-block">
-												<i class="fas fa-plus"></i>
+												<i class="fas fa-plus"></i> Thêm
 											</button>
 										</div>
 									</div>
 								</form>
 
-								<table class="table table-sm table-bordered">
-									<thead class="thead-light">
+								<table class="table table-sm table-bordered table-hover">
+									<thead class="thead-light text-center">
 										<tr>
 											<th>Size</th>
 											<th>Giá</th>
@@ -167,28 +179,27 @@
 									</thead>
 									<tbody>
 										<tr th:each="v : ${pc.variants}">
-											<td class="text-center"><span th:text="${v.size.name}"
-												class="font-weight-bold d-block"></span> <span
-												th:if="${v.status.name() == 'AVAILABLE'}"
-												class="badge badge-success" style="font-size: 0.7em;">Bán</span>
-												<span th:if="${v.status.name() == 'OUT_OF_STOCK'}"
-												class="badge badge-warning" style="font-size: 0.7em;">Hết</span>
-												<span th:if="${v.status.name() == 'HIDDEN'}"
-												class="badge badge-secondary" style="font-size: 0.7em;">Ẩn</span>
+											<td class="text-center align-middle">
+												<span th:text="${v.size.name}" class="font-weight-bold"></span> 
+												<br>
+												<span th:if="${v.status.name() == 'AVAILABLE'}" class="badge badge-success">Bán</span>
+												<span th:if="${v.status.name() == 'OUT_OF_STOCK'}" class="badge badge-danger">Hết</span>
+												<span th:if="${v.status.name() == 'HIDDEN'}" class="badge badge-secondary">Ẩn</span>
 											</td>
-											<td
-												th:text="${#numbers.formatDecimal(v.price, 0, 'COMMA', 0, 'POINT')}"></td>
-											<td th:text="${v.stock}"></td>
-											<td class="text-center"><a
-												th:href="@{/admin/products/variants/edit-size/{id}(id=${v.id})}"
-												class="text-primary mr-2" title="Sửa giá/kho"> <i
-													class="fas fa-edit"></i>
-											</a> <a
-												th:href="@{/admin/products/variants/delete-size/{id}(id=${v.id}, productId=${product.id})}"
-												class="text-danger"
-												onclick="return confirm('Xóa size này?');"> <i
-													class="fas fa-trash"></i>
-											</a></td>
+											<td class="text-right align-middle"
+												th:text="${#numbers.formatDecimal(v.price, 0, 'POINT', 0, 'COMMA')}"></td>
+											<td class="text-center align-middle" th:text="${v.stock}"></td>
+											<td class="text-center align-middle">
+												<a th:href="@{/admin/products/variants/edit-size/{id}(id=${v.id})}"
+													class="btn btn-primary btn-sm" title="Sửa giá/kho"> 
+													<i class="fas fa-edit"></i>
+												</a> 
+												<a th:href="@{/admin/products/variants/delete-size/{id}(id=${v.id}, productId=${product.id})}"
+													class="btn btn-danger btn-sm"
+													onclick="return confirm('Xóa size này?');"> 
+													<i class="fas fa-trash"></i>
+												</a>
+											</td>
 										</tr>
 									</tbody>
 								</table>

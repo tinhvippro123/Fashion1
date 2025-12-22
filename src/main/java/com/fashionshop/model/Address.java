@@ -22,13 +22,13 @@ public class Address {
 	@Column(name = "receiver_name", columnDefinition = "nvarchar(100)")
 	private String receiverName;
 
+	@Column(length = 10)
 	private String phone;
 
 	@Column(columnDefinition = "nvarchar(100)")
 	private String province;
 
 	@Column(columnDefinition = "nvarchar(100)")
-
 	private String district;
 
 	@Column(columnDefinition = "nvarchar(100)")
@@ -41,7 +41,7 @@ public class Address {
 	private Boolean isDefault;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "address_type")
+	@Column(name = "address_type", length = 10)
 	private AddressType addressType = AddressType.HOME; // Mặc định
 
 	@Column(name = "created_at", updatable = false)

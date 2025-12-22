@@ -16,10 +16,10 @@ public class VariantImage {
 	@JoinColumn(name = "product_color_id")
 	private ProductColor productColor;
 
-	@Column(name = "image_url")
+	@Column(name = "image_url", length = 500)
 	private String imageUrl;
 
-	@Column(name = "image_type")
+	@Column(name = "image_type", length = 20)
 	private ProductImageType imageType; // Ví dụ: "MAIN" (Ảnh chính), "EXTRA" (Ảnh phụ)
 
 	@Column(name = "sort_order")

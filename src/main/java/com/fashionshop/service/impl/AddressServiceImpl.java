@@ -129,4 +129,21 @@ public class AddressServiceImpl implements AddressService {
             addressRepository.save(address);
         }
     }
+    
+    @Override
+    public Address getDefaultAddress(User user) {
+        // Lấy tất cả địa chỉ của user
+        List<Address> addresses = addressRepository.findByUser(user);
+        
+        if (addresses.isEmpty()) {
+            return null;
+        }
+
+        // Logic tìm cái mặc định (IsDefault = true)
+        // Nếu không có cái nào mặc định thì lấy cái đầu tiên
+        return addresses.stream()
+                .filter(Address::getIsDefault)
+                .findFirst()
+                .orElse(addresses.get(0));
+    }
 }

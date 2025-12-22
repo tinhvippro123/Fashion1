@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -236,7 +237,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
     public List<Product> findTop10NewestWomen() {
         // THAY SỐ 1 BẰNG ID DANH MỤC "NỮ" TRONG DB CỦA BẠN
-        Long categoryIdNu = 4L; 
+        Long categoryIdNu = 2L; 
         return productRepository.findTop10ByCategoryId(categoryIdNu, PageRequest.of(0, 10));
     }
 
@@ -247,11 +248,55 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findTop10ByCategoryId(categoryIdNam, PageRequest.of(0, 10));
     }
 
+ // Trong ProductServiceImpl.java
     @Override
-    public Page<Product> filterProducts(Long categoryId, List<String> sizes, List<String> colors, Double minPrice, Double maxPrice, Pageable pageable) {
-        // Gọi Repository (Logic lọc nằm ở đây)
-        return productRepository.findWithFilters(categoryId, sizes, colors, minPrice, maxPrice, pageable);
+    public Page<Product> searchProductsWithFilters(String keyword, Long categoryId, List<String> sizes, List<String> colors, Double minPrice, Double maxPrice, Pageable pageable) {
+        return productRepository.findProductsWithFilters(keyword, categoryId, sizes, colors, minPrice, maxPrice, pageable);
+    }
+
+    
+    public void setDefaultColor(Long productId, Long colorId) {
+        Product product = getProductById(productId);
+        if (product != null && product.getProductColors() != null) {
+            for (ProductColor pc : product.getProductColors()) {
+                if (pc.getId().equals(colorId)) {
+                    pc.setIsDefault(true);
+                    pc.setIsActive(true);
+                } else {
+                    pc.setIsDefault(false);
+                }
+            }
+            saveProduct(product);
+        }
     }
     
+    @Override
+    public Product getProductWithActiveColors(Long id) {
+        // 1. Lấy sản phẩm gốc
+        Product product = productRepository.findById(id).orElse(null);
+
+        // 2. Kiểm tra null hoặc bị ẩn
+        if (product == null || !product.getIsActive()) {
+            return null;
+        }
+
+        // 3. Logic lọc màu (Chuyển từ Controller sang đây)
+        List<ProductColor> activeColors = product.getProductColors().stream()
+                .filter(ProductColor::getIsActive)
+                .collect(Collectors.toList());
+
+        // Nếu không còn màu nào -> Coi như null
+        if (activeColors.isEmpty()) {
+            return null;
+        }
+
+        // Gán lại list màu đã lọc
+        product.setProductColors(activeColors);
+        
+        return product;
+    }
     
+    public long countAllProducts() {
+        return productRepository.count(); // Hàm count() có sẵn của JpaRepository
+    }
 }

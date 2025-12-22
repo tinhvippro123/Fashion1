@@ -15,6 +15,7 @@ public class Category {
 	@Column(columnDefinition = "nvarchar(100)", nullable = false)
 	private String name;
 
+	@Column(length = 200)
 	private String slug; // Dùng cho URL thân thiện (ví dụ: ao-so-mi)
 
 	@Column(name = "is_active")

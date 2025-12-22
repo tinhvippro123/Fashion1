@@ -111,18 +111,15 @@ public class OrderServiceImpl implements OrderService {
 		// 5. Tạo Payment
 		Payment payment = new Payment();
 		payment.setOrder(order);
-		
-		
-		
+
 //		payment.setPaymentMethod(PaymentMethod.COD); // "COD" hoặc "VNPAY"
-		
+
 		try {
-            payment.setPaymentMethod(PaymentMethod.valueOf(paymentMethod));
-        } catch (Exception e) {
-            payment.setPaymentMethod(PaymentMethod.COD); // Mặc định nếu lỗi
-        }
-		
-		
+			payment.setPaymentMethod(PaymentMethod.valueOf(paymentMethod));
+		} catch (Exception e) {
+			payment.setPaymentMethod(PaymentMethod.COD); // Mặc định nếu lỗi
+		}
+
 		payment.setAmount(order.getTotalAmount());
 		payment.setPaymentDate(LocalDateTime.now());
 		payment.setPaymentStatus(PaymentStatus.UNPAID); // Mặc định chưa thanh toán
@@ -245,42 +242,63 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-    public List<Order> getOrdersByUser(Long userId) {
-        // Gọi hàm repository vừa thêm ở bước 1
-        return orderRepository.findByUserIdOrderByOrderDateDesc(userId);
-    }
-	
+	public List<Order> getOrdersByUser(Long userId) {
+		// Gọi hàm repository vừa thêm ở bước 1
+		return orderRepository.findByUserIdOrderByOrderDateDesc(userId);
+	}
+
 	@Override
-    @Transactional
-    public void cancelOrder(Long orderId, Long userId) {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
+	@Transactional
+	public void cancelOrder(Long orderId, Long userId) {
+		Order order = orderRepository.findById(orderId)
+				.orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
 
-        // 1. Kiểm tra chủ sở hữu (Bảo mật)
-        if (!order.getUser().getId().equals(userId)) {
-            throw new RuntimeException("Bạn không có quyền hủy đơn hàng này");
-        }
+		// 1. Kiểm tra chủ sở hữu (Bảo mật)
+		if (!order.getUser().getId().equals(userId)) {
+			throw new RuntimeException("Bạn không có quyền hủy đơn hàng này");
+		}
 
-        // 2. Kiểm tra trạng thái (Chỉ cho hủy khi đang PENDING)
-        // Nếu bạn muốn cho hủy cả lúc CONFIRMED thì thêm vào điều kiện
-        if (order.getStatus() != OrderStatus.PENDING) {
-            throw new RuntimeException("Đơn hàng đang giao hoặc đã hoàn thành, không thể hủy!");
-        }
+		// 2. Kiểm tra trạng thái (Chỉ cho hủy khi đang PENDING)
+		// Nếu bạn muốn cho hủy cả lúc CONFIRMED thì thêm vào điều kiện
+		if (order.getStatus() != OrderStatus.PENDING) {
+			throw new RuntimeException("Đơn hàng đang giao hoặc đã hoàn thành, không thể hủy!");
+		}
 
-        // 3. Cập nhật trạng thái
-        order.setStatus(OrderStatus.CANCELLED);
-        orderRepository.save(order);
+		// 3. Cập nhật trạng thái
+		order.setStatus(OrderStatus.CANCELLED);
+		orderRepository.save(order);
 
-        // 4. HOÀN TRẢ TỒN KHO (Cộng lại số lượng sản phẩm)
-        for (OrderItem item : order.getOrderItems()) {
-            Variant variant = item.getVariant();
-            int currentStock = variant.getStock();
-            int quantityToReturn = item.getQuantity();
-            
-            variant.setStock(currentStock + quantityToReturn);
-            variantRepository.save(variant);
-        }
-    }
-	
-	
+		// 4. HOÀN TRẢ TỒN KHO (Cộng lại số lượng sản phẩm)
+		for (OrderItem item : order.getOrderItems()) {
+			Variant variant = item.getVariant();
+			int currentStock = variant.getStock();
+			int quantityToReturn = item.getQuantity();
+
+			variant.setStock(currentStock + quantityToReturn);
+			variantRepository.save(variant);
+		}
+	}
+
+	@Override
+	public Order findOrderForTracking(Long orderId, String phone) {
+		return orderRepository.findByIdAndPhone(orderId, phone)
+				.orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng hoặc số điện thoại không khớp!"));
+	}
+
+	// Hàm tính tổng doanh thu
+	public Double calculateTotalRevenue() {
+		return orderRepository.sumTotalRevenue();
+	}
+
+	// Hàm đếm đơn theo trạng thái (nhận vào String từ Controller và chuyển sang
+	// Enum)
+	public long countByStatus(String statusName) {
+		try {
+			// Chuyển chuỗi "PENDING" thành Enum OrderStatus.PENDING
+			OrderStatus status = OrderStatus.valueOf(statusName.toUpperCase());
+			return orderRepository.countByStatus(status);
+		} catch (IllegalArgumentException e) {
+			return 0; // Trả về 0 nếu tên trạng thái không đúng
+		}
+	}
 }

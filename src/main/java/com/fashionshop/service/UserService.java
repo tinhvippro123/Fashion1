@@ -25,4 +25,6 @@ public interface UserService {
 	boolean checkPassword(User user, String rawPassword);
 	
 	void updateProfile(User user, String newEmail, String genderStr);
+	
+	long countAllCustomers();
 }
