@@ -43,7 +43,6 @@ public class Order {
 	@Column(name = "order_date", updatable = false)
 	private LocalDateTime orderDate;
 
-	// Status nên dùng String hoặc Integer (0: Pending, 1: Shipping...)
 	@Enumerated(EnumType.STRING)
 	@Column(length = 20)
 	private OrderStatus status;
@@ -62,11 +61,9 @@ public class Order {
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
 	private Payment payment;
 
-	// --- CONSTRUCTOR ---
 	public Order() {
 	}
 
-	// --- GETTERS & SETTERS (Manual) ---
 	public Long getId() {
 		return id;
 	}
@@ -191,6 +188,6 @@ public class Order {
 	protected void onCreate() {
 		this.orderDate = LocalDateTime.now();
 		if (this.status == null)
-			this.status = OrderStatus.PENDING; // Mặc định
+			this.status = OrderStatus.PENDING; // Mặc định là PENDING
 	}
 }

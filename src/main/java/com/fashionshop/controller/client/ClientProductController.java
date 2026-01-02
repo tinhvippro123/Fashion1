@@ -22,20 +22,16 @@ public class ClientProductController {
 	@Autowired
 	private ProductService productService;
 
-	// Đây là cái bạn đang thiếu: Xử lý link /product/{id}
 	@GetMapping("/product/{id}")
 	public String productDetail(@PathVariable Long id,
 			@RequestParam(name = "color", required = false) String selectedColorName, Model model) {
 
-		// GỌI HÀM MỚI: Service đã lo hết việc lọc màu active rồi
 		Product product = productService.getProductWithActiveColors(id);
 
-		// Kiểm tra null (Do service trả về null nếu sp ẩn hoặc hết màu)
 		if (product == null) {
 			return "redirect:/";
 		}
 
-		// Logic chọn màu hiển thị (View Logic) thì vẫn để ở Controller là hợp lý
 		ProductColor selectedColor = product.getProductColors().get(0);
 
 		if (selectedColorName != null && !selectedColorName.isEmpty()) {
@@ -53,7 +49,6 @@ public class ClientProductController {
 		return "client/product-detail";
 	}
 
-	// TÌM KIẾM + LỌC
 	@GetMapping("/search")
 	public String search(@RequestParam(value = "keyword", required = false) String keyword,
 			@RequestParam(name = "page", defaultValue = "0") int page,
@@ -64,10 +59,8 @@ public class ClientProductController {
 
 		Pageable pageable = PageRequest.of(page, 24);
 
-		// Xử lý list rỗng -> null để Query hoạt động đúng
 		List<String> sizeParam = (sizes != null && !sizes.isEmpty()) ? sizes : null;
 		List<String> colorParam = (colors != null && !colors.isEmpty()) ? colors : null;
-		// Gọi hàm Vạn Năng: CategoryID để null vì đang tìm toàn sàn
 		Page<Product> productPage = productService.searchProductsWithFilters(keyword, null, sizeParam, colorParam,
 				minPrice, maxPrice, pageable);
 
@@ -78,10 +71,9 @@ public class ClientProductController {
 
 		// Setup giao diện
 		model.addAttribute("breadcrumb", "KẾT QUẢ: " + (keyword != null ? keyword.toUpperCase() : ""));
-		model.addAttribute("keyword", keyword); // Quan trọng để giữ ô input và form action
+		model.addAttribute("keyword", keyword);
 		model.addAttribute("currentSlug", "search");
 
-		// Gửi lại bộ lọc để giữ trạng thái
 		model.addAttribute("selectedSizes", sizes);
 		model.addAttribute("selectedColors", colors);
 		model.addAttribute("selectedMinPrice", minPrice);

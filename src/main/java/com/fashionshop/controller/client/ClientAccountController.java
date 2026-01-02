@@ -24,16 +24,12 @@ public class ClientAccountController {
     @Autowired private UserService userService;
     @Autowired private OrderService orderService;
 
-    // 1. Trang Hồ sơ cá nhân
     @GetMapping("/profile")
     public String viewProfile(Model model, Principal principal) {
         if (principal == null) return "redirect:/login";
 
         User user = userService.findByEmail(principal.getName());
         
-        // Tách họ tên (như code cũ của bạn)
-
-
         model.addAttribute("user", user);
         model.addAttribute("displayLastName", user.getLastName());
         model.addAttribute("displayFirstName", user.getFirstName());
@@ -41,7 +37,6 @@ public class ClientAccountController {
         return "client/account/profile";
     }
 
-    // 2. Cập nhật hồ sơ
     @PostMapping("/update")
     public String updateProfile(@RequestParam("email") String email,
                                 @RequestParam(value = "gender", required = false) String gender,
@@ -58,7 +53,6 @@ public class ClientAccountController {
         return "redirect:/account/profile";
     }
 
-    // 3. Đổi mật khẩu
     @PostMapping("/change-password")
     public String changePassword(@RequestParam("currentPassword") String currentPassword,
                                  @RequestParam("newPassword") String newPassword, 
@@ -81,7 +75,6 @@ public class ClientAccountController {
         return "redirect:/account/profile";
     }
 
-    // 4. Quản lý đơn hàng (SỬA CHỖ NÀY CHO CHUẨN)
     @GetMapping("/orders")
     public String myOrders(Model model, Principal principal) {
         if (principal == null) return "redirect:/login";
@@ -89,14 +82,12 @@ public class ClientAccountController {
         User user = userService.findByEmail(principal.getName());
         model.addAttribute("user", user);
 
-        // Lấy danh sách đơn hàng từ Service
         List<Order> orders = orderService.getOrdersByUser(user.getId());
         model.addAttribute("orders", orders);
 
-        return "client/account/orders"; // Trả về file HTML danh sách đơn hàng
+        return "client/account/orders";
     }
     
- // 5. Hủy đơn hàng
     @GetMapping("/orders/cancel/{id}")
     public String cancelOrder(@PathVariable Long id, 
                               Principal principal, 

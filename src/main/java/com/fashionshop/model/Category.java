@@ -16,7 +16,7 @@ public class Category {
 	private String name;
 
 	@Column(length = 200)
-	private String slug; // Dùng cho URL thân thiện (ví dụ: ao-so-mi)
+	private String slug;
 
 	@Column(name = "is_active")
 	private Boolean isActive;
@@ -30,7 +30,7 @@ public class Category {
 	@OneToMany(mappedBy = "parent")
 	private List<Category> children;
 
-	@Column(name = "created_at")
+	@Column(name = "created_at", updatable = false)
 	private LocalDateTime createdAt;
 
 	@Column(name = "updated_at")
@@ -39,7 +39,6 @@ public class Category {
 	public Category() {
 	}
 
-	// Getters & Setters thủ công (Bắt buộc)
 	public Long getId() {
 		return id;
 	}

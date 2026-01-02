@@ -8,6 +8,9 @@ import com.fashionshop.repository.CartRepository;
 import com.fashionshop.repository.UserRepository;
 import com.fashionshop.repository.VariantRepository; // Giả sử đã có
 import com.fashionshop.service.CartService;
+
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,7 +64,7 @@ public class CartServiceImpl implements CartService {
 		if (existingItem != null) {
 			// Trường hợp A: Đã có -> Cộng dồn
 			existingItem.setQuantity(currentQuantityInCart + quantity);
-			// existingItem.setAddedAt(LocalDateTime.now()); // Có thể update lại thời gian
+			existingItem.setAddedAt(LocalDateTime.now());
 			// nếu muốn
 		} else {
 			// Trường hợp B: Chưa có -> Tạo mới
@@ -69,12 +72,10 @@ public class CartServiceImpl implements CartService {
 			newItem.setCart(cart);
 			newItem.setVariant(variant);
 			newItem.setQuantity(quantity);
-			// newItem.setAddedAt(LocalDateTime.now()); // Entity đã có @PrePersist xử lý
 
 			cart.getItems().add(newItem);
 		}
 
-		// 5. Lưu và Trả về
 		return cartRepository.save(cart);
 	}
 
@@ -126,42 +127,36 @@ public class CartServiceImpl implements CartService {
 //
 //		return cartRepository.save(cart);
 //	}
-	
-	
-	
+
 	@Override
 	@Transactional
 	public Cart removeFromCart(Long userId, String sessionId, Long cartItemId) {
-	    // 1. Tìm giỏ hàng (Thay vì findOrCreate, ta chỉ tìm thôi)
-	    // Nếu chưa có giỏ hàng thì lấy đâu ra mà xóa? -> Return null luôn cho nhanh.
-	    Cart cart = null;
-	    if (userId != null) {
-	        cart = cartRepository.findByUserId(userId);
-	    } else {
-	        cart = cartRepository.findBySessionId(sessionId);
-	    }
+		// 1. Tìm giỏ hàng (Thay vì findOrCreate, ta chỉ tìm thôi)
+		// Nếu chưa có giỏ hàng thì lấy đâu ra mà xóa? -> Return null luôn cho nhanh.
+		Cart cart = null;
+		if (userId != null) {
+			cart = cartRepository.findByUserId(userId);
+		} else {
+			cart = cartRepository.findBySessionId(sessionId);
+		}
 
-	    // Nếu không tìm thấy giỏ hàng -> Không làm gì cả
-	    if (cart == null) {
-	        return null;
-	    }
+		// Nếu không tìm thấy giỏ hàng -> Không làm gì cả
+		if (cart == null) {
+			return null;
+		}
 
-	    // 2. Dùng removeIf để xóa item khỏi danh sách trong bộ nhớ (Memory)
-	    // Khi save, Hibernate sẽ thấy list bị thiếu 1 cái -> Tự động xóa trong DB
-	    boolean removed = cart.getItems().removeIf(item -> item.getId().equals(cartItemId));
+		// 2. Dùng removeIf để xóa item khỏi danh sách trong bộ nhớ (Memory)
+		// Khi save, Hibernate sẽ thấy list bị thiếu 1 cái -> Tự động xóa trong DB
+		boolean removed = cart.getItems().removeIf(item -> item.getId().equals(cartItemId));
 
-	    // 3. Nếu không có gì thay đổi thì return cart cũ
-	    if (!removed) {
-	        return cart; 
-	    }
+		// 3. Nếu không có gì thay đổi thì return cart cũ
+		if (!removed) {
+			return cart;
+		}
 
-	    // 4. Lưu lại Cart (Hibernate sẽ xóa orphan item và cập nhật lại list)
-	    return cartRepository.save(cart);
+		// 4. Lưu lại Cart (Hibernate sẽ xóa orphan item và cập nhật lại list)
+		return cartRepository.save(cart);
 	}
-	
-	
-	
-	
 
 	@Override
 	@Transactional
@@ -174,54 +169,48 @@ public class CartServiceImpl implements CartService {
 	@Override
 	@Transactional
 	public void mergeCart(String sessionId, User user) {
-	    // 1. Tìm giỏ hàng Session cũ
-	    Cart sessionCart = cartRepository.findBySessionId(sessionId);
-	    // Nếu giỏ Session không có gì thì thôi, thoát luôn
-	    if (sessionCart == null || sessionCart.getItems().isEmpty()) {
-	        return;
-	    }
+		// 1. Tìm giỏ hàng Session cũ
+		Cart sessionCart = cartRepository.findBySessionId(sessionId);
+		// Nếu giỏ Session không có gì thì thôi, thoát luôn
+		if (sessionCart == null || sessionCart.getItems().isEmpty()) {
+			return;
+		}
 
-	    // 2. Lấy (hoặc tạo mới) giỏ hàng User
-	    Cart userCart = cartRepository.findByUserId(user.getId());
-	    if (userCart == null) {
-	        userCart = new Cart();
-	        userCart.setUser(user);
-	        userCart = cartRepository.save(userCart);
-	    }
+		// 2. Lấy (hoặc tạo mới) giỏ hàng User
+		Cart userCart = cartRepository.findByUserId(user.getId());
+		if (userCart == null) {
+			userCart = new Cart();
+			userCart.setUser(user);
+			userCart = cartRepository.save(userCart);
+		}
 
-	    // 3. Chuyển item từ Session -> User
-	    for (CartItem sessionItem : sessionCart.getItems()) {
-	        boolean isExist = false;
-	        
-	        // Kiểm tra trùng sản phẩm
-	        for (CartItem userItem : userCart.getItems()) {
-	            if (userItem.getVariant().getId().equals(sessionItem.getVariant().getId())) {
-	                userItem.setQuantity(userItem.getQuantity() + sessionItem.getQuantity());
-	                isExist = true;
-	                break;
-	            }
-	        }
+		// 3. Chuyển item từ Session -> User
+		for (CartItem sessionItem : sessionCart.getItems()) {
+			boolean isExist = false;
 
-	        // Nếu chưa có -> Thêm mới
-	        if (!isExist) {
-	            CartItem newItem = new CartItem();
-	            newItem.setCart(userCart);
-	            newItem.setVariant(sessionItem.getVariant());
-	            newItem.setQuantity(sessionItem.getQuantity());
-	            userCart.getItems().add(newItem);
-	        }
-	    }
+			// Kiểm tra trùng sản phẩm
+			for (CartItem userItem : userCart.getItems()) {
+				if (userItem.getVariant().getId().equals(sessionItem.getVariant().getId())) {
+					userItem.setQuantity(userItem.getQuantity() + sessionItem.getQuantity());
+					isExist = true;
+					break;
+				}
+			}
 
-	    // --- XÓA ĐOẠN TÍNH TOÁN CŨ ĐI ---
-	    // Vì Model Cart của bạn sẽ tự động tính tổng khi gọi hàm cart.getTotalItems()
-	    // Không cần setTotalItems hay setTotalPrice nữa.
+			// Nếu chưa có -> Thêm mới
+			if (!isExist) {
+				CartItem newItem = new CartItem();
+				newItem.setCart(userCart);
+				newItem.setVariant(sessionItem.getVariant());
+				newItem.setQuantity(sessionItem.getQuantity());
+				userCart.getItems().add(newItem);
+			}
+		}
 
-	    // 4. Lưu giỏ User và Xóa giỏ Session
-	    cartRepository.save(userCart);      // Lưu danh sách item mới
-	    cartRepository.delete(sessionCart); // Xóa giỏ cũ
+		// 4. Lưu giỏ User và Xóa giỏ Session
+		cartRepository.save(userCart); // Lưu danh sách item mới
+		cartRepository.delete(sessionCart); // Xóa giỏ cũ
 	}
-
-	// --- PRIVATE HELPER METHODS ---
 
 	private Cart findOrCreateCart(Long userId, String sessionId) {
 		Cart cart = null;
@@ -233,7 +222,6 @@ public class CartServiceImpl implements CartService {
 				cart = new Cart();
 				User user = userRepository.findById(userId).orElse(null);
 				cart.setUser(user);
-				// cart.setCreatedAt(...) // Entity tự lo
 			}
 		}
 		// Nếu không thì tìm theo Session
@@ -281,11 +269,5 @@ public class CartServiceImpl implements CartService {
 		}
 		return total;
 	}
-	
-	
-	
-	
-	
-	
-	
+
 }

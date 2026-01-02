@@ -25,12 +25,10 @@ public class CartController {
     private CartService cartService;
     
     @Autowired
-    private UserService userService; // BẮT BUỘC PHẢI CÓ để lấy ID thật
+    private UserService userService;
 
-    // Hằng số cho tên Session
     private static final String CART_SESSION_KEY = "CART_SESSION_ID";
 
-    // 1. Xem giỏ hàng
     @GetMapping
     public String viewCart(Model model, Principal principal, HttpSession session) {
         Cart cart = resolveCart(principal, session);
@@ -47,7 +45,6 @@ public class CartController {
         return "client/cart";
     }
 
-    // 2. Thêm vào giỏ (Form Submit - Trang thường)
     @PostMapping("/add")
     public String addToCart(@RequestParam(value = "variantId", required = false) Long variantId,
             @RequestParam(value = "quantity", defaultValue = "1") int quantity, 
@@ -72,7 +69,6 @@ public class CartController {
         return "redirect:/cart";
     }
 
-    // 3. Cập nhật số lượng
     @PostMapping("/update")
     public String updateQuantity(@RequestParam("itemId") Long cartItemId, 
                                  @RequestParam("quantity") int quantity,
@@ -85,7 +81,6 @@ public class CartController {
         return "redirect:/cart";
     }
 
-    // 4. Xóa sản phẩm
     @GetMapping("/remove/{itemId}")
     public String removeFromCart(@PathVariable("itemId") Long cartItemId, 
                                  Principal principal, 
@@ -97,7 +92,6 @@ public class CartController {
         return "redirect:/cart";
     }
 
-    // 5. API Thêm vào giỏ (AJAX - Quick Buy / Detail Page)
     @PostMapping("/api/add")
     @ResponseBody
     public ResponseEntity<?> addToCartApi(@RequestParam("variantId") Long variantId,
@@ -108,11 +102,10 @@ public class CartController {
 
         try {
             Long userId = getUserId(principal);
-            String sessionId = getCartSessionId(session); // Quan trọng: Nếu chưa có session ID, nó sẽ tạo và lưu vào session
+            String sessionId = getCartSessionId(session);
 
             cartService.addToCart(userId, sessionId, variantId, quantity);
 
-            // Lấy lại giỏ hàng để cập nhật số liệu
             Cart updatedCart = resolveCart(principal, session);
             int totalItems = (updatedCart != null) ? updatedCart.getTotalItems() : 0;
 
@@ -129,7 +122,6 @@ public class CartController {
         }
     }
     
-    // 6. API Xóa item bằng AJAX (Nếu bạn dùng nút xóa không reload trang)
     @PostMapping("/api/remove")
     @ResponseBody
     public ResponseEntity<?> removeCartItemApi(@RequestParam("id") Long cartItemId,
@@ -144,7 +136,6 @@ public class CartController {
         return ResponseEntity.ok("Deleted");
     }
 
-    // 7. Fragment Mini Cart
     @GetMapping("/fragment")
     public String getCartFragment(Model model, Principal principal, HttpSession session) {
         Cart cart = resolveCart(principal, session);
@@ -161,7 +152,6 @@ public class CartController {
         return "client/fragments/mini-cart :: mini-cart-content";
     }
 
-    // --- PRIVATE HELPER METHODS ---
 
     private Cart resolveCart(Principal principal, HttpSession session) {
         if (principal != null) {
@@ -181,7 +171,6 @@ public class CartController {
         return sessionId;
     }
 
-    // HÀM LẤY ID THẬT TỪ DATABASE (Đã sửa lại chuẩn)
     private Long getUserId(Principal principal) {
         if (principal == null) return null;
         User user = userService.findByEmail(principal.getName());

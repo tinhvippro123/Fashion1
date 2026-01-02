@@ -11,15 +11,14 @@ public class Color {
 	private Long id;
 
 	@Column(columnDefinition = "nvarchar(50)", nullable = false)
-	private String name; // Tên màu: Đỏ, Xanh...
+	private String name;
 
 	@Column(name = "hex_code", length = 7)
-	private String hexCode; // Mã màu hiển thị: #FF0000
+	private String hexCode;
 
 	public Color() {
 	}
 
-	// Getters & Setters
 	public Long getId() {
 		return id;
 	}

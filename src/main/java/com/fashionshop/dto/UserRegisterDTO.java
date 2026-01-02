@@ -1,28 +1,24 @@
 package com.fashionshop.dto;
 
 public class UserRegisterDTO {
-	// Thông tin từ Form
-	private String lastName; // Họ
-	private String firstName; // Tên
+	private String lastName;
+	private String firstName;
 	private String email;
 	private String phoneNumber;
-	private String dob; // Ngày sinh (String từ input date)
+	private String dob;
 	private String gender;
 
-	// Địa chỉ
-	private String city; // Form gửi lên name="city" (Tương ứng province trong DB)
+	private String city;
 	private String district;
 	private String ward;
-	private String detailAddress; // Form gửi lên name="detailAddress" (Tương ứng street trong DB)
+	private String detailAddress;
 
-	// Mật khẩu
 	private String password;
 	private String confirmPassword;
 
 	public UserRegisterDTO() {
 	}
 
-	// --- GETTER & SETTER (No Lombok) ---
 	public String getLastName() {
 		return lastName;
 	}

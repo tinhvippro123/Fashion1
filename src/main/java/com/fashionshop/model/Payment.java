@@ -21,13 +21,13 @@ public class Payment {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "payment_method", length = 20)
-	private PaymentMethod paymentMethod; // COD, VNPAY...
+	private PaymentMethod paymentMethod;
 
 	private Double amount;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "payment_status", length = 20)
-	private PaymentStatus paymentStatus; // UNPAID, PAID...
+	private PaymentStatus paymentStatus;
 
 	@Column(name = "payment_date")
 	private LocalDateTime paymentDate;
@@ -35,11 +35,9 @@ public class Payment {
 	@Column(name = "transaction_id", length = 100)
 	private String transactionId;
 
-	// --- CONSTRUCTOR ---
 	public Payment() {
 	}
 
-	// --- GETTERS & SETTERS ---
 	public Long getId() {
 		return id;
 	}

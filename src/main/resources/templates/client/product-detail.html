@@ -61,25 +61,25 @@
                         </div>
 
                         <div class="gallery-thumbs-container" th:if="${not #lists.isEmpty(selectedColor.images)}">
-                            <button class="thumb-arrow up"
-                                    th:if="${selectedColor.images.size() > 5}"
-                                    onclick="scrollThumbs('up')">
-                                <i class="fas fa-chevron-up"></i>
-                            </button>
+    <button class="thumb-arrow up"
+            th:if="${selectedColor.images.size() > 4}" 
+            onclick="scrollThumbs('up')">
+        <i class="fas fa-chevron-up"></i>
+    </button>
 
-                            <div class="gallery-thumbs-scroll" id="thumbScroller">
-                                <img th:each="img, iter : ${selectedColor.images}"
-                                     th:src="@{'/uploads/' + ${img.imageUrl}}" class="thumb-img"
-                                     th:classappend="${iter.index == 0} ? 'active'"
-                                     th:onclick="'changeMainImage(this, \'' + @{'/uploads/' + ${img.imageUrl}} + '\')'">
-                            </div>
+    <div class="gallery-thumbs-scroll" id="thumbScroller">
+        <img th:each="img, iter : ${selectedColor.images}"
+             th:src="@{'/uploads/' + ${img.imageUrl}}" class="thumb-img"
+             th:classappend="${iter.index == 0} ? 'active'"
+             th:onclick="'changeMainImage(this, \'' + @{'/uploads/' + ${img.imageUrl}} + '\')'">
+    </div>
 
-                            <button class="thumb-arrow down"
-                                    th:if="${selectedColor.images.size() > 5}"
-                                    onclick="scrollThumbs('down')">
-                                <i class="fas fa-chevron-down"></i>
-                            </button>
-                        </div>
+    <button class="thumb-arrow down"
+            th:if="${selectedColor.images.size() > 4}"
+            onclick="scrollThumbs('down')">
+        <i class="fas fa-chevron-down"></i>
+    </button>
+</div>
                     </div>
                 </div>
 
@@ -143,43 +143,51 @@
                         </div>
                     </div>
 
-                    <div class="mb-4">
-                        <label class="font-weight-bold d-block mb-2">Số lượng</label>
-                        <div class="qty-control">
-                            <button type="button" class="qty-btn" onclick="updateQty(-1)">-</button>
-                            <input type="text" name="quantity" id="qtyInput" value="1"
-                                   class="qty-input" readonly>
-                            <button type="button" class="qty-btn" onclick="updateQty(1)">+</button>
-                        </div>
-                    </div>
+<div class="mb-4">
+    <label class="font-weight-bold d-block mb-2">Số lượng</label>
+    <div class="qty-control">
+        <button type="button" class="qty-btn" onclick="updateQty(-1)">-</button>
+        <input type="text" name="quantity" id="qtyInput" value="1" class="qty-input" readonly>
+        <button type="button" class="qty-btn" onclick="updateQty(1)">+</button>
+    </div>
+</div>
 
-                    <div class="action-buttons">
-                        <button type="button" onclick="addToCartFromDetail()" 
-                                class="btn-add-cart-black"
-                                th:disabled="${#lists.isEmpty(selectedColor.variants)}">
-                            THÊM VÀO GIỎ
-                        </button>
+<div class="action-buttons">
+    <button type="button" onclick="addToCartFromDetail()" class="btn-add-cart-black">
+        THÊM VÀO GIỎ
+    </button>
 
-                        <button type="button" class="btn-buy-now-white" onclick="buyNow()"
-                                th:disabled="${#lists.isEmpty(selectedColor.variants)}">MUA HÀNG</button>
+    <button type="button" class="btn-buy-now-white" onclick="buyNow()">
+        MUA HÀNG
+    </button>
 
-                        <div class="btn-wishlist-box">
-                            <i class="far fa-heart"></i>
-                        </div>
-                    </div>
+    <div class="btn-wishlist-box">
+        <i class="far fa-heart"></i>
+    </div>
+</div>
                     
-                    <div class="mt-5">
-                        <div class="single-tab-header">
-                            <span class="tab-title">CHI TIẾT SẢN PHẨM</span>
-                        </div>
-                        <div class="text-muted" style="font-size: 14px; line-height: 1.8;">
-                            <p th:text="${product.description}" style="white-space: pre-line;"></p>
-                        </div>
-                        <div class="text-center mt-3">
-                            <i class="fas fa-chevron-down text-muted border rounded-circle p-2"
-                               style="cursor: pointer;"></i>
-                        </div>
-                    </div>
+                    
+                    
+                    
+    <div class="mt-5">
+    <div class="single-tab-header">
+        <span class="tab-title">CHI TIẾT SẢN PHẨM</span>
+    </div>
+    
+    <div id="productDescription" class="product-desc-wrapper collapsed">
+        <div class="text-muted product-desc-content" style="font-size: 14px; line-height: 1.8;">
+            <p th:text="${product.description}" style="white-space: pre-line;"></p>
+            
+            </div>
+    </div>
+
+    <div class="text-center mt-3 toggle-container">
+        <div class="toggle-line"></div>
+        <button type="button" class="btn-toggle-desc" onclick="toggleDescription()">
+            <i id="toggleIcon" class="fas fa-chevron-down"></i>
+        </button>
+    </div>
+</div>
 
                 </div>
 
@@ -197,12 +205,16 @@
             }
 
             // 2. Cuộn Thumbnails
-            function scrollThumbs(direction) {
-                const container = document.getElementById('thumbScroller');
-                const scrollAmount = 100;
-                if (direction === 'up') container.scrollTop -= scrollAmount;
-                else container.scrollTop += scrollAmount;
-            }
+ function scrollThumbs(direction) {
+    const container = document.getElementById('thumbScroller');
+    const scrollAmount = 165; // Cuộn đúng chiều cao 1 ảnh + margin
+    
+    if (direction === 'up') {
+        container.scrollTop -= scrollAmount;
+    } else {
+        container.scrollTop += scrollAmount;
+    }
+}
 
             // 3. Chọn Size
             function selectSize(element) {
@@ -223,6 +235,36 @@
                 if (newVal < 1) newVal = 1;
                 input.value = newVal;
             }
+            
+            
+            function toggleDescription() {
+                const wrapper = document.getElementById('productDescription');
+                const icon = document.getElementById('toggleIcon');
+                
+                if (wrapper.classList.contains('collapsed')) {
+                    // MỞ RỘNG
+                    wrapper.classList.remove('collapsed');
+                    // Cho phép chiều cao mở rộng tự động theo nội dung
+                    wrapper.style.maxHeight = wrapper.scrollHeight + "px";
+                    
+                    // Đổi icon thành mũi tên lên
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    // THU GỌN
+                    wrapper.classList.add('collapsed');
+                    wrapper.style.maxHeight = "150px"; // Trở về chiều cao giới hạn ban đầu
+                    
+                    // Đổi icon thành mũi tên xuống
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                    
+                    // Cuộn nhẹ lên đầu phần chi tiết để người dùng không bị lạc
+                    wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+            
+            
         </script>
     </th:block>
 </body>

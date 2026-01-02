@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 
 	@Autowired
-	private PasswordEncoder passwordEncoder; // Inject Bean BCryptPasswordEncoder từ file Config
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private AddressRepository addressRepository;
@@ -42,14 +42,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User createUser(User user) {
-		// Logic nghiệp vụ: Mã hóa mật khẩu
+//		 Logic nghiệp vụ: Mã hóa mật khẩu
 		user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
 
-		// Logic nghiệp vụ: Set thời gian tạo
+//		 Logic nghiệp vụ: Set thời gian tạo
 		user.setCreatedAt(LocalDateTime.now());
 		user.setUpdatedAt(LocalDateTime.now());
 
-		// Nếu chưa có role, mặc định là USER
+//		 Nếu chưa có role, mặc định là CUSTOMER
 		if (user.getRole() == null) {
 			user.setRole(UserRole.CUSTOMER);
 		}
@@ -120,23 +120,21 @@ public class UserServiceImpl implements UserService {
 			} else if (g.equals("NU") || g.equals("FEMALE")) {
 				user.setGender(UserGender.FEMALE);
 			} else {
-				user.setGender(UserGender.OTHER); // Hoặc để null tùy bạn
+				user.setGender(UserGender.OTHER);
 			}
 		}
 
-		// --- XỬ LÝ NGÀY SINH --- (Giữ nguyên)
 		if (dto.getDob() != null && !dto.getDob().isEmpty()) {
 			user.setDateOfBirth(LocalDate.parse(dto.getDob()));
 		}
 
-		// --- SET ROLE MẶC ĐỊNH ---
 		user.setRole(UserRole.CUSTOMER); // Role mới là CUSTOMER
 		user.setIsActive(true);
 
 		// Lưu User
 		User savedUser = userRepository.save(user);
 
-		// 3. Map DTO -> ADDRESS Entity (Giữ nguyên logic cũ)
+//		Map DTO -> ADDRESS Entity
 		Address address = new Address();
 		address.setUser(savedUser);
 		address.setReceiverName(savedUser.getFullName());
@@ -161,33 +159,33 @@ public class UserServiceImpl implements UserService {
 		user.setPasswordHash(passwordEncoder.encode(newPassword));
 		userRepository.save(user);
 	}
-	
+
 	@Override
-    @Transactional
-    public void updateProfile(User user, String newEmail, String genderStr) {
-        // 1. Cập nhật Email
-        if (newEmail != null && !newEmail.isEmpty()) {
-            user.setEmail(newEmail);
-        }
+	@Transactional
+	public void updateProfile(User user, String newEmail, String genderStr) {
+		// 1. Cập nhật Email
+		if (newEmail != null && !newEmail.isEmpty()) {
+			user.setEmail(newEmail);
+		}
 
-        // 2. Cập nhật Giới tính (Convert từ String sang Enum)
-        if (genderStr != null) {
-            try {
-                // Chuyển "male", "female" thành Enum
-                UserGender gender = UserGender.valueOf(genderStr.toUpperCase());
-                user.setGender(gender);
-            } catch (IllegalArgumentException e) {
-                // Nếu giá trị không hợp lệ thì bỏ qua hoặc set OTHER
-                user.setGender(UserGender.OTHER);
-            }
-        }
+		// 2. Cập nhật Giới tính (Convert từ String sang Enum)
+		if (genderStr != null) {
+			try {
+				// Chuyển "male", "female" thành Enum
+				UserGender gender = UserGender.valueOf(genderStr.toUpperCase());
+				user.setGender(gender);
+			} catch (IllegalArgumentException e) {
+				// Nếu giá trị không hợp lệ thì bỏ qua hoặc set OTHER
+				user.setGender(UserGender.OTHER);
+			}
+		}
 
-        // 3. Lưu xuống DB
-        userRepository.save(user);
-    }
-	
-	public long countAllCustomers() {
-	    return userRepository.countByRole(UserRole.CUSTOMER);
+		// 3. Lưu xuống DB
+		userRepository.save(user);
 	}
-	
+
+	public long countAllCustomers() {
+		return userRepository.countByRole(UserRole.CUSTOMER);
+	}
+
 }

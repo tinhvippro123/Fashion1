@@ -32,22 +32,18 @@ public class CheckoutController {
     private UserService userService;
 
     @Autowired
-    private AddressService addressService; // Inject thêm Service Địa chỉ
+    private AddressService addressService;
 
-    // 1. Hiển thị trang Checkout (GET)
     @GetMapping("/checkout")
     public String checkoutPage(Model model, Principal principal, HttpSession session) {
         Cart cart = resolveCart(principal, session);
 
-        // Nếu giỏ trống -> Đá về trang chủ
         if (cart == null || cart.getItems().isEmpty()) {
             return "redirect:/";
         }
 
-        // Tính toán tiền
         double totalAmount = cartService.calculateTotalPrice(cart);
-        // Lưu ý: Logic phí ship thực tế có thể phức tạp hơn
-        double shippingFee = 0; // Để 0đ cho giống ảnh bạn gửi, hoặc tính toán tùy ý
+        double shippingFee = 0;
         double finalTotal = totalAmount + shippingFee;
 
         model.addAttribute("cart", cart);
@@ -55,17 +51,14 @@ public class CheckoutController {
         model.addAttribute("shippingFee", shippingFee);
         model.addAttribute("finalTotal", finalTotal);
 
-        // --- PHẦN XỬ LÝ ĐỊA CHỈ & LOGIN ---
         if (principal != null) {
             User user = userService.findByEmail(principal.getName());
             model.addAttribute("isLoggedIn", true);
             model.addAttribute("user", user);
 
-            // Lấy danh sách địa chỉ của User để hiển thị Card
             List<Address> addresses = addressService.findByUser(user);
             model.addAttribute("userAddresses", addresses);
 
-            // Tìm địa chỉ mặc định để hiển thị sẵn
             Address defaultAddr = addresses.stream()
                     .filter(Address::getIsDefault)
                     .findFirst()
@@ -79,7 +72,6 @@ public class CheckoutController {
         return "client/checkout";
     }
 
-    // 2. Xử lý Đặt hàng (POST)
     @PostMapping("/place-order")
     public String placeOrder(
             @RequestParam("receiverName") String receiverName,
@@ -102,10 +94,8 @@ public class CheckoutController {
         String sessionId = (String) session.getAttribute("CART_SESSION_ID");
 
         try {
-            // GỌI SERVICE ĐỂ CHỐT ĐƠN
             Order order = orderService.placeOrder(user, sessionId, receiverName, phone, province, district, ward, street, note, paymentMethod);
 
-            // Thành công -> Chuyển sang trang Cảm ơn
             return "redirect:/order/success/" + order.getId();
 
         } catch (Exception e) {
@@ -115,17 +105,15 @@ public class CheckoutController {
         }
     }
 
-    // 3. Trang Thông báo Thành công (Giữ nguyên)
     @GetMapping("/success/{orderId}")
     public String successPage(@PathVariable Long orderId, Model model, Principal principal) {
     	Order order = orderService.getOrderById(orderId);
         model.addAttribute("orderId", orderId);
-        model.addAttribute("phone", order.getPhone()); // Truyền SĐT xuống để tạo link tracking
+        model.addAttribute("phone", order.getPhone());
         model.addAttribute("isLoggedIn", principal != null);
         return "client/order-success";
     }
 
-    // --- Helper lấy giỏ hàng ---
     private Cart resolveCart(Principal principal, HttpSession session) {
         if (principal != null) {
             User user = userService.findByEmail(principal.getName());

@@ -25,7 +25,6 @@ public class ColorServiceImpl implements ColorService {
 
 	@Override
 	public void saveColor(Color color) {
-		// Logic: Không cần xử lý phức tạp, lưu thẳng
 		colorRepository.save(color);
 	}
 

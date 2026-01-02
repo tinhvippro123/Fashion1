@@ -16,24 +16,20 @@ public class AdminOrderController {
 	@Autowired
 	private OrderService orderService;
 
-	// 1. Danh sách đơn hàng
 	@GetMapping
 	public String listOrders(Model model) {
 		model.addAttribute("orders", orderService.getAllOrders());
-		return "admin/order/list"; // admin/order/list.html
+		return "admin/order/list";
 	}
 
-	// 2. Chi tiết đơn hàng
 	@GetMapping("/detail/{id}")
 	public String orderDetail(@PathVariable Long id, Model model) {
 		Order order = orderService.getOrderById(id);
 		model.addAttribute("order", order);
-		// Đẩy Enum ra view để admin chọn trạng thái cập nhật
 		model.addAttribute("orderStatuses", OrderStatus.values());
-		return "admin/order/detail"; // admin/order/detail.html
+		return "admin/order/detail";
 	}
 
-	// 3. Cập nhật trạng thái (Duyệt đơn, Hủy đơn...)
 	@PostMapping("/update-status/{id}")
 	public String updateStatus(@PathVariable Long id, @RequestParam("status") OrderStatus status) {
 		orderService.updateOrderStatus(id, status);

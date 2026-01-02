@@ -9,7 +9,6 @@ import com.fashionshop.model.Cart;
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
 	// Tìm giỏ hàng theo User ID (dành cho khách đã đăng nhập)
-	// Spring Data JPA sẽ tự động hiểu: Tìm trong Cart -> cột User -> cột Id
 	Cart findByUserId(Long userId);
 
 	// Tìm giỏ hàng theo Session ID (dành cho khách vãng lai)

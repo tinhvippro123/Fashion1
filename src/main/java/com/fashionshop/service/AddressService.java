@@ -18,9 +18,9 @@ public interface AddressService {
 	void updateAddress(Long addressId, Address address);
 	
 //	Client
-	List<Address> findByUser(User user); // Client thường có object User sẵn
+	List<Address> findByUser(User user);
     void save(Address address); // Client tự save chính mình
-    void setDefaultAddress(Long addressId, Long userId); // Tính năng mới
+    void setDefaultAddress(Long addressId, Long userId);
 	
     Address getDefaultAddress(User user);
     

@@ -42,7 +42,7 @@ public class Address {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "address_type", length = 10)
-	private AddressType addressType = AddressType.HOME; // Mặc định
+	private AddressType addressType = AddressType.HOME;
 
 	@Column(name = "created_at", updatable = false)
 	private LocalDateTime createdAt;
@@ -63,7 +63,6 @@ public class Address {
 	public Address() {
 	}
 
-	// Getters và Setters thủ công
 	public Long getId() {
 		return id;
 	}

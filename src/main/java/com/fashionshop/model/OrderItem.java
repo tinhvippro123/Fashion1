@@ -14,12 +14,10 @@ public class OrderItem {
 	@JoinColumn(name = "order_id")
 	private Order order;
 
-	// Vẫn link variant_id để track tồn kho nếu cần
 	@ManyToOne
 	@JoinColumn(name = "variant_id")
 	private Variant variant;
 
-	// --- CÁC TRƯỜNG SNAPSHOT (Lưu cứng thông tin) ---
 	@Column(name = "product_name", columnDefinition = "nvarchar(255)")
 	private String productName;
 
@@ -37,11 +35,9 @@ public class OrderItem {
 	@Column(name = "unit_price")
 	private Double unitPrice;
 
-	// --- CONSTRUCTOR ---
 	public OrderItem() {
 	}
 
-	// --- GETTERS & SETTERS ---
 	public Long getId() {
 		return id;
 	}

@@ -23,7 +23,6 @@ public class AdminCategoryController {
 	@GetMapping("/new")
 	public String createForm(Model model) {
 		model.addAttribute("category", new Category());
-		// Lấy danh sách danh mục để chọn làm cha (Parent)
 		model.addAttribute("categories", categoryService.getAllCategories());
 		return "admin/category/form";
 	}

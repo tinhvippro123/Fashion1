@@ -21,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
 	private VariantRepository variantRepository;
 
 	@Override
-	@Transactional // Quan trọng: Nếu lỗi ở bước nào thì rollback toàn bộ
+	@Transactional
 	public Order placeOrder(User user, String sessionId, String receiverName, String phone, String province,
 			String district, String ward, String street, String note, String paymentMethod) {
 
@@ -62,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
 		order.setDistrict(district);
 		order.setWard(ward);
 		order.setStreet(street);
-		// order.setNote(note); // Nếu Entity Order có trường note
+		order.setNote(note); // Nếu Entity Order có trường note
 		order.setStatus(OrderStatus.PENDING); // Chờ xử lý
 
 		// 3. Chuyển đổi CartItem -> OrderItem (SNAPSHOT DỮ LIỆU)
@@ -198,10 +199,10 @@ public class OrderServiceImpl implements OrderService {
 			}
 		}
 
-		// 4. CẬP NHẬT TRẠNG THÁI
+//		CẬP NHẬT TRẠNG THÁI
 		order.setStatus(newStatus);
 
-		// 5. CẬP NHẬT THANH TOÁN (Nếu giao thành công -> Đánh dấu đã trả tiền)
+//		CẬP NHẬT THANH TOÁN (Nếu giao thành công -> Đánh dấu đã trả tiền)
 		if (newStatus == OrderStatus.COMPLETED) {
 			if (order.getPayment() != null) {
 				order.getPayment().setPaymentStatus(PaymentStatus.PAID);
@@ -285,7 +286,7 @@ public class OrderServiceImpl implements OrderService {
 				.orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng hoặc số điện thoại không khớp!"));
 	}
 
-	// Hàm tính tổng doanh thu
+//	 Hàm tính tổng doanh thu
 	public Double calculateTotalRevenue() {
 		return orderRepository.sumTotalRevenue();
 	}
@@ -301,4 +302,38 @@ public class OrderServiceImpl implements OrderService {
 			return 0; // Trả về 0 nếu tên trạng thái không đúng
 		}
 	}
+	
+//	dashboard
+	// 1. Hàm lấy dữ liệu cho biểu đồ tròn (Pie Chart)
+	public List<Long> getOrderStatusCounts() {
+	    List<Long> counts = new ArrayList<>();
+	    // Thứ tự này phải khớp với thứ tự label trong biểu đồ JS: [Hoàn thành, Đang giao, Chờ xử lý]
+	    counts.add(orderRepository.countByStatus(OrderStatus.COMPLETED)); // Hoặc COMPLETED
+	    counts.add(orderRepository.countByStatus(OrderStatus.SHIPPING));
+	    counts.add(orderRepository.countByStatus(OrderStatus.PENDING));
+	    return counts;
+	}
+
+	// 2. Hàm lấy doanh thu 7 ngày gần nhất (Area Chart)
+	public List<Double> getRevenueLast7Days() {
+	    List<Double> revenueList = new ArrayList<>();
+	    LocalDate today = LocalDate.now();
+
+	    // Lặp từ 6 ngày trước đến hôm nay
+	    for (int i = 6; i >= 0; i--) {
+	        LocalDate date = today.minusDays(i);
+	        
+	        // Gọi Repository để tính tổng tiền theo ngày (Bạn cần viết thêm hàm này trong Repo)
+	        Double dailyRevenue = orderRepository.sumRevenueByDate(date);
+	        
+	        if (dailyRevenue == null) {
+	            revenueList.add(0.0);
+	        } else {
+	            revenueList.add(dailyRevenue);
+	        }
+	    }
+	    return revenueList;
+	}
+	
+	
 }

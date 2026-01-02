@@ -11,10 +11,10 @@ public class Size {
 	private Long id;
 
 	@Column(nullable = false, length = 10)
-	private String name; // S, M, L, XL, 29, 30...
+	private String name;
 
 	@Column(name = "sort_order")
-	private Integer sortOrder; // Để sắp xếp: S đứng trước M
+	private Integer sortOrder;
 
 	public Size() {
 	}

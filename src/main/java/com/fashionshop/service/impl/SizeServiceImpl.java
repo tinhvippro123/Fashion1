@@ -26,7 +26,6 @@ public class SizeServiceImpl implements SizeService {
 
     @Override
     public void saveSize(Size size) {
-        // Logic nghiệp vụ đơn giản: Chuẩn hóa tên (Viết hoa hết: s -> S)
         if (size.getName() != null) {
             size.setName(size.getName().toUpperCase());
         }

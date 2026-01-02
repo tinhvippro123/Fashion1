@@ -19,11 +19,11 @@ public class Product {
 	@Column(length = 255)
 	private String slug;
 
-	@Column(columnDefinition = "nvarchar(MAX)") // Dùng MAX cho mô tả dài
+	@Column(columnDefinition = "nvarchar(MAX)")
 	private String description;
 
 	@Column(name = "base_price")
-	private Double basePrice; // Giá gốc tham khảo
+	private Double basePrice;
 
 	@Column(name = "is_active")
 	private Boolean isActive;
@@ -45,7 +45,6 @@ public class Product {
 	public Product() {
 	}
 
-	// Getters & Setters
 	public Long getId() {
 		return id;
 	}
@@ -129,7 +128,6 @@ public class Product {
 	@Transient 
     public boolean isNew() {
         if (createdAt == null) return false;
-        // Nếu ngày tạo + 14 ngày vẫn còn lớn hơn ngày hiện tại -> Còn mới
         return ChronoUnit.DAYS.between(createdAt, LocalDateTime.now()) < 14;
     }
 }

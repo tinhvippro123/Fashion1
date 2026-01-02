@@ -38,16 +38,16 @@ public interface ProductService {
 
 	List<Product> getProductsByCategorySlug(String slug);
 
-//	List<Product> getNewArrivalsByCategorySlug(String slug);
-	
-	
 	List<Product> findTop10NewestWomen(); // Lấy đồ Nữ
-	List<Product> findTop10NewestMen();   // Lấy đồ Nam
-	Page<Product> searchProductsWithFilters(String keyword, Long categoryId, List<String> sizes, List<String> colors, Double minPrice, Double maxPrice, Pageable pageable);
+
+	List<Product> findTop10NewestMen(); // Lấy đồ Nam
+
+	Page<Product> searchProductsWithFilters(String keyword, Long categoryId, List<String> sizes, List<String> colors,
+			Double minPrice, Double maxPrice, Pageable pageable);
 
 	void setDefaultColor(Long productId, Long colorId);
-	
+
 	Product getProductWithActiveColors(Long id);
-	
+
 	long countAllProducts();
 }

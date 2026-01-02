@@ -20,17 +20,16 @@ public class Variant {
 	@JoinColumn(name = "size_id")
 	private Size size;
 
-	private Double price; // Giá bán thực tế cho size này (có thể khác giá gốc)
-	private Integer stock; // Số lượng tồn kho
+	private Double price;
+	private Integer stock;
 
 	@Enumerated(EnumType.STRING)
 	@Column(length = 20)
-	private VariantStatus status; // VD: "AVAILABLE", "OUT_OF_STOCK"
+	private VariantStatus status;
 
 	public Variant() {
 	}
 
-	// Getters & Setters
 	public Long getId() {
 		return id;
 	}

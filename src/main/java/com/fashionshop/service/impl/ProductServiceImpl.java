@@ -34,15 +34,15 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductRepository productRepository;
 	@Autowired
-	private ProductColorRepository productColorRepository; // Mới
+	private ProductColorRepository productColorRepository;
 	@Autowired
-	private VariantRepository variantRepository; // Mới
+	private VariantRepository variantRepository;
 	@Autowired
-	private VariantImageRepository variantImageRepository; // Mới
+	private VariantImageRepository variantImageRepository;
 	@Autowired
-	private ColorRepository colorRepository; // Mới
+	private ColorRepository colorRepository;
 	@Autowired
-	private SizeRepository sizeRepository; // Mới
+	private SizeRepository sizeRepository;
 
 	@Autowired
 	private StorageService storageService;
@@ -109,7 +109,6 @@ public class ProductServiceImpl implements ProductService {
 			variant.setPrice(price);
 			variant.setStock(stock);
 
-			// --- LOGIC TỰ ĐỘNG ---
 			if (stock <= 0) {
 				variant.setStatus(VariantStatus.OUT_OF_STOCK);
 			} else {
@@ -128,15 +127,14 @@ public class ProductServiceImpl implements ProductService {
 			img.setProductColor(pc);
 			img.setImageUrl(imageUrl);
 
-			// --- LOGIC MỚI CẬP NHẬT ---
 
-			// 1. Lấy danh sách ảnh hiện tại để đếm
+//			Lấy danh sách ảnh hiện tại để đếm
 			List<VariantImage> currentImages = pc.getImages();
 
-			// 2. Tự động set thứ tự (Sort Order)
+//			Tự động set thứ tự (Sort Order)
 			img.setSortOrder(currentImages.size() + 1);
 
-			// 3. Tự động set Loại ảnh (MAIN / HOVER / EXTRA)
+//			Tự động set Loại ảnh (MAIN / HOVER / EXTRA)
 			if (currentImages.isEmpty()) {
 				img.setImageType(ProductImageType.MAIN); // Ảnh đầu tiên là MAIN
 			} else if (currentImages.size() == 1) {
@@ -158,9 +156,9 @@ public class ProductServiceImpl implements ProductService {
 	public void deleteVariantImage(Long imageId) {
 		VariantImage image = variantImageRepository.findById(imageId).orElse(null);
 		if (image != null) {
-			// 1. Xóa file vật lý trên ổ cứng
+//			Xóa file vật lý trên ổ cứng
 			storageService.delete(image.getImageUrl());
-			// 2. Xóa dữ liệu trong DB
+//			Xóa dữ liệu trong DB
 			variantImageRepository.delete(image);
 		}
 	}
@@ -186,20 +184,19 @@ public class ProductServiceImpl implements ProductService {
 			variant.setPrice(newPrice);
 			variant.setStock(newStock);
 
-			// --- LOGIC TỰ ĐỘNG CẬP NHẬT TRẠNG THÁI ---
 
 			if (newStock <= 0) {
-				// 1. Nếu tồn kho về 0 -> Bắt buộc chuyển thành HẾT HÀNG
+//				 1. Nếu tồn kho về 0 -> Bắt buộc chuyển thành HẾT HÀNG
 				variant.setStatus(VariantStatus.OUT_OF_STOCK);
 			} else {
-				// 2. Nếu có hàng (Stock > 0)
+//				 2. Nếu có hàng (Stock > 0)
 
-				// Trường hợp Admin đang chọn nhầm "Hết hàng" trong dropdown -> Tự sửa thành
-				// "Đang bán"
+//				 Trường hợp Admin đang chọn nhầm "Hết hàng" trong dropdown -> Tự sửa thành
+//				 "Đang bán"
 				if (newStatus == VariantStatus.OUT_OF_STOCK) {
 					variant.setStatus(VariantStatus.AVAILABLE);
 				} else {
-					// Còn lại thì tôn trọng lựa chọn của Admin (Có thể là AVAILABLE hoặc HIDDEN)
+//					 Còn lại thì tôn trọng lựa chọn của Admin (Có thể là AVAILABLE hoặc HIDDEN)
 					variant.setStatus(newStatus);
 				}
 			}
@@ -212,8 +209,8 @@ public class ProductServiceImpl implements ProductService {
 	public void toggleProductColorStatus(Long productColorId) {
 		ProductColor pc = productColorRepository.findById(productColorId).orElse(null);
 		if (pc != null) {
-			// Đảo ngược trạng thái: True thành False, False thành True
-			// Nếu null thì coi như là false -> set thành true
+//			 Đảo ngược trạng thái: True thành False, False thành True
+//			 Nếu null thì coi như là false -> set thành true
 			boolean currentStatus = pc.getIsActive() == null ? false : pc.getIsActive();
 			pc.setIsActive(!currentStatus);
 
@@ -224,15 +221,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> getProductsByCategorySlug(String slug) {
 	    return productRepository.findByRootCategorySlug(slug);
-	}
-
-//	@Override
-//	public List<Product> getNewArrivalsByCategorySlug(String slug) {
-//	    // Logic: Lấy ngày hiện tại trừ đi 30 ngày
-//	    LocalDateTime oneMonthAgo = LocalDateTime.now().minusDays(30);
-//	    return productRepository.findNewArrivals(slug, oneMonthAgo);
-//	}
-	
+	}	
 	
 	@Override
     public List<Product> findTop10NewestWomen() {
@@ -248,7 +237,6 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findTop10ByCategoryId(categoryIdNam, PageRequest.of(0, 10));
     }
 
- // Trong ProductServiceImpl.java
     @Override
     public Page<Product> searchProductsWithFilters(String keyword, Long categoryId, List<String> sizes, List<String> colors, Double minPrice, Double maxPrice, Pageable pageable) {
         return productRepository.findProductsWithFilters(keyword, categoryId, sizes, colors, minPrice, maxPrice, pageable);
@@ -297,6 +285,6 @@ public class ProductServiceImpl implements ProductService {
     }
     
     public long countAllProducts() {
-        return productRepository.count(); // Hàm count() có sẵn của JpaRepository
+        return productRepository.count();
     }
 }

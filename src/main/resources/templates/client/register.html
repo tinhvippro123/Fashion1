@@ -75,34 +75,27 @@
 							</div>
 						</div>
 
-						<div class="row">
-							<div class="col-md-6 mb-3">
-								<label class="auth-label">Tỉnh/TP:<span
-									class="text-danger">*</span></label> <select class="form-control-ivy">
-									<option>Chọn Tỉnh/Tp</option>
-									<option>Hà Nội</option>
-									<option>TP. Hồ Chí Minh</option>
-								</select>
-							</div>
-							<div class="col-md-6 mb-3">
-								<label class="auth-label">Quận/Huyện:<span
-									class="text-danger">*</span></label> <select class="form-control-ivy">
-									<option>Chọn Quận/Huyện</option>
-									<option>Quận 1</option>
-									<option>Quận 3</option>
-								</select>
-							</div>
-						</div>
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label class="auth-label">Tỉnh/TP:<span class="text-danger">*</span></label> 
+        <select id="provinceSelect" name="city" class="form-control-ivy" required>
+            <option value="">Chọn Tỉnh/Tp</option>
+        </select>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label class="auth-label">Quận/Huyện:<span class="text-danger">*</span></label> 
+        <select id="districtSelect" name="district" class="form-control-ivy" required>
+            <option value="">Chọn Quận/Huyện</option>
+        </select>
+    </div>
+</div>
 
-						<div class="form-group mb-3">
-							<label class="auth-label">Phường/Xã:<span
-								class="text-danger">*</span></label> <select class="form-control-ivy">
-								<option>Chọn Phường/Xã</option>
-								<option>Phường 1</option>
-								<option>Phường 2</option>
-
-							</select>
-						</div>
+<div class="form-group mb-3">
+    <label class="auth-label">Phường/Xã:<span class="text-danger">*</span></label> 
+    <select id="wardSelect" name="ward" class="form-control-ivy" required>
+        <option value="">Chọn Phường/Xã</option>
+    </select>
+</div>
 
 						<div class="form-group mb-3">
 							<label class="auth-label">Địa chỉ:<span
@@ -164,5 +157,71 @@
 			</form>
 		</div>
 	</div>
+	
+	
+	
+	<th:block layout:fragment="pageScripts">
+   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const provinceSelect = document.getElementById('provinceSelect');
+        const districtSelect = document.getElementById('districtSelect');
+        const wardSelect = document.getElementById('wardSelect');
+
+        // 1. Lấy danh sách Tỉnh/Thành phố
+        fetch('https://provinces.open-api.vn/api/?depth=1')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(province => {
+                    let option = new Option(province.name, province.name);
+                    option.dataset.code = province.code; // Lưu mã code để lấy quận huyện
+                    provinceSelect.add(option);
+                });
+            });
+
+        // 2. Khi chọn Tỉnh -> Lấy Quận/Huyện
+        provinceSelect.addEventListener('change', function () {
+            districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
+            wardSelect.innerHTML = '<option value="">Chọn Phường/Xã</option>';
+            
+            const selectedOption = this.options[this.selectedIndex];
+            const provinceCode = selectedOption.dataset.code;
+
+            if (provinceCode) {
+                fetch(`https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.districts.forEach(district => {
+                            let option = new Option(district.name, district.name);
+                            option.dataset.code = district.code;
+                            districtSelect.add(option);
+                        });
+                    });
+            }
+        });
+
+        // 3. Khi chọn Quận -> Lấy Phường/Xã
+        districtSelect.addEventListener('change', function () {
+            wardSelect.innerHTML = '<option value="">Chọn Phường/Xã</option>';
+            
+            const selectedOption = this.options[this.selectedIndex];
+            const districtCode = selectedOption.dataset.code;
+
+            if (districtCode) {
+                fetch(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.wards.forEach(ward => {
+                            let option = new Option(ward.name, ward.name);
+                            wardSelect.add(option);
+                        });
+                    });
+            }
+        });
+    });
+</script>
+</th:block>
+	
+	
+	
 </body>
 </html>

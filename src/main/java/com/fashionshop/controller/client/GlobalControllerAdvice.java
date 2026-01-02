@@ -28,22 +28,17 @@ public class GlobalControllerAdvice {
     // --- 1. LẤY MENU RIÊNG BIỆT CHO NAM VÀ NỮ ---
     @ModelAttribute
     public void populateMenuCategories(Model model) {
-        // Tìm danh mục gốc NAM (slug phải đúng là 'nam' trong database)
         Category menCat = categoryService.findBySlug("nam");
         if (menCat != null) {
-            // Gửi danh sách con (Áo, Quần, Phụ kiện...) của Nam ra view
             model.addAttribute("menCategories", menCat.getChildren());
         }
 
-        // Tìm danh mục gốc NỮ (slug phải đúng là 'nu' trong database)
         Category womenCat = categoryService.findBySlug("nu"); 
         if (womenCat != null) {
-            // Gửi danh sách con (Áo, Quần, Đầm...) của Nữ ra view
             model.addAttribute("womenCategories", womenCat.getChildren());
         }
     }
     
-    // --- 2. GIỎ HÀNG (GIỮ NGUYÊN CŨ) ---
     @ModelAttribute
     public void addGlobalAttributes(Model model, Principal principal, HttpSession session) {
         Cart cart = null;

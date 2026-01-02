@@ -21,20 +21,18 @@ public class OrderTrackingController {
                                @RequestParam(value = "phone", required = false) String phone,
                                Model model) {
         
-        // Nếu URL có tham số (từ trang Success bấm sang) -> Tự động tìm luôn
         if (id != null && phone != null && !phone.isEmpty()) {
             try {
                 Order order = orderService.findOrderForTracking(id, phone);
                 model.addAttribute("order", order);
                 model.addAttribute("trackingId", id);
                 model.addAttribute("trackingPhone", phone);
-                return "client/tracking-result"; // Trang kết quả
+                return "client/tracking-result";
             } catch (Exception e) {
                 model.addAttribute("errorMessage", "Không tìm thấy đơn hàng #" + id + " với số điện thoại này.");
             }
         }
 
-        // Mặc định hiển thị form nhập
         return "client/tracking-form";
     }
 }

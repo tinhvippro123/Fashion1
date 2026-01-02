@@ -24,11 +24,9 @@ public class CartItem {
     @Column(name = "added_at")
     private LocalDateTime addedAt;
 
-    // --- CONSTRUCTORS ---
     public CartItem() {
     }
 
-    // --- GETTERS & SETTERS (Manual) ---
     public Long getId() {
         return id;
     }
@@ -69,7 +67,6 @@ public class CartItem {
         this.addedAt = addedAt;
     }
 
-    // --- AUTOMATIC TIMESTAMP ---
     @PrePersist
     protected void onCreate() {
         this.addedAt = LocalDateTime.now();

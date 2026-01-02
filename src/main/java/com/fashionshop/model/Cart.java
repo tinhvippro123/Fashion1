@@ -32,11 +32,9 @@ public class Cart {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CartItem> items = new ArrayList<>();
 
-    // --- CONSTRUCTORS ---
     public Cart() {
     }
 
-    // --- GETTERS & SETTERS (Manual) ---
     public Long getId() {
         return id;
     }
@@ -85,7 +83,6 @@ public class Cart {
         this.items = items;
     }
 
-    // --- AUTOMATIC TIMESTAMP ---
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
@@ -97,7 +94,6 @@ public class Cart {
         this.updatedAt = LocalDateTime.now();
     }
     
-    // --- HELPER METHODS (Logic bổ trợ) ---
     public int getTotalItems() {
         int total = 0;
         if (items != null) {

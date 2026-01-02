@@ -34,10 +34,10 @@ public class User {
 
 	@Column(length = 10)
 	private String phone;
-	
+
 	@Enumerated(EnumType.STRING)
 	@Column(length = 10)
-	private UserRole role; // Ví dụ: "ADMIN", "USER"
+	private UserRole role;
 
 	@Column(name = "is_active")
 	private Boolean isActive;
@@ -53,23 +53,23 @@ public class User {
 	private List<Address> addresses;
 
 	@PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-        if(this.isActive == null) this.isActive = true; // Mặc định active
-        if(this.role == null) this.role = UserRole.CUSTOMER;    // Mặc định role Customer
-    }
+	protected void onCreate() {
+		this.createdAt = LocalDateTime.now();
+		this.updatedAt = LocalDateTime.now();
+		if (this.isActive == null)
+			this.isActive = true;
+		if (this.role == null)
+			this.role = UserRole.CUSTOMER;
+	}
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
-	
-	// Constructor rỗng
+	@PreUpdate
+	protected void onUpdate() {
+		this.updatedAt = LocalDateTime.now();
+	}
+
 	public User() {
 	}
 
-	// Getters và Setters thủ công
 	public Long getId() {
 		return id;
 	}
@@ -165,20 +165,19 @@ public class User {
 	public void setAddresses(List<Address> addresses) {
 		this.addresses = addresses;
 	}
-	
+
 	public String getLastName() {
-	    if (fullName != null && fullName.contains(" ")) {
-	        return fullName.substring(0, fullName.lastIndexOf(" "));
-	    }
-	    return "";
+		if (fullName != null && fullName.contains(" ")) {
+			return fullName.substring(0, fullName.lastIndexOf(" "));
+		}
+		return "";
 	}
 
 	public String getFirstName() {
-	    if (fullName != null && fullName.contains(" ")) {
-	        return fullName.substring(fullName.lastIndexOf(" ") + 1);
-	    }
-	    return fullName;
+		if (fullName != null && fullName.contains(" ")) {
+			return fullName.substring(fullName.lastIndexOf(" ") + 1);
+		}
+		return fullName;
 	}
-	
-	
+
 }

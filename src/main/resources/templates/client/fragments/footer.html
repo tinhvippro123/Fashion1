@@ -1,31 +1,27 @@
-<footer xmlns:th="http://www.thymeleaf.org" th:fragment="footer"
-	class="site-footer">
+<footer class="site-footer">
 	<div class="container-ivy">
+		<div class="footer-flex-container">
 
-		<div class="row">
-
-			<div class="col-lg-3 mb-5">
+			<div class="footer-col-social">
 				<div class="mb-3 d-flex align-items-center">
 					<h2 class="font-weight-bold m-0 mr-3" style="font-size: 24px;">IVY
 						moda</h2>
-					<img src="https://pubcdn.ivymoda.com/ivy2/images/logo-dmca.png"
-						width="50" class="mr-2" alt="DMCA"> <img
+					<img src="https://pubcdn.ivymoda.com/ivy2/images/dmca.png"
+						width="69" class="mr-2" alt="DMCA"> <img
 						src="https://pubcdn.ivymoda.com/ivy2/images/img-congthuong.png"
-						width="80" alt="BCT">
+						width="84" alt="BCT">
 				</div>
-
 				<div class="social-list mb-4">
 					<a href="#"><i class="fab fa-facebook-f"></i></a> <a href="#"><i
 						class="fab fa-google"></i></a> <a href="#"><i
-						class="fab fa-instagram"></i></a> <a href="#"
-						style="font-weight: 700; font-family: sans-serif;">Zalo</a> <a
-						href="#"><i class="fab fa-youtube"></i></a>
+						class="fab fa-instagram"></i></a> <a href="#" class="zalo-icon"
+						style="font-weight: 700;">Zalo</a> <a href="#"><i
+						class="fab fa-youtube"></i></a>
 				</div>
-
-				<div class="hotline-btn mb-3">HOTLINE: 0246 662 3434</div>
+				<div class="hotline-btn">HOTLINE: 0246 662 3434</div>
 			</div>
 
-			<div class="col-lg-2 col-md-6 mb-4">
+			<div class="footer-col-intro">
 				<h5 class="footer-title">Giới thiệu</h5>
 				<ul class="footer-links">
 					<li><a href="#">Về IVY moda</a></li>
@@ -34,20 +30,25 @@
 				</ul>
 			</div>
 
-			<div class="col-lg-3 col-md-6 mb-4">
+			<div class="footer-col-service">
 				<h5 class="footer-title">Dịch vụ khách hàng</h5>
 				<ul class="footer-links">
 					<li><a href="#">Chính sách điều khoản</a></li>
 					<li><a href="#">Hướng dẫn mua hàng</a></li>
 					<li><a href="#">Chính sách thanh toán</a></li>
 					<li><a href="#">Chính sách đổi trả</a></li>
-					<li><a th:href="@{/order/tracking}"> Tra cứu đơn hàng </a></li>
+					<li><a th:href="@{order/tracking}">Tra cứu đơn hàng</a></li>
 					<li><a href="#">Chính sách bảo hành</a></li>
-					<li><a href="#">Chính sách giao nhận vận chuyển</a></li>
+					<li><a href="#">Chính sách giao nhận vận chuện</a></li>
+					<li><a href="#">Chính sách thẻ thành viên</a></li>
+					<li><a href="#">Q&A</a></li>
+
+
+
 				</ul>
 			</div>
 
-			<div class="col-lg-1 col-md-6 mb-4">
+			<div class="footer-col-contact">
 				<h5 class="footer-title">Liên hệ</h5>
 				<ul class="footer-links">
 					<li><a href="#">Hotline</a></li>
@@ -58,34 +59,32 @@
 				</ul>
 			</div>
 
-			<div class="col-lg-3 mb-4">
-
-				<div class="newsletter-box mb-4">
-					<h6 class="font-weight-bold mb-3">Nhận thông tin các chương
-						trình của IVY moda</h6>
+			<div class="footer-col-newsletter">
+				<div class="newsletter-box">
+					<h6>Nhận thông tin các chương trình của IVY moda</h6>
 					<form action="#">
 						<div class="newsletter-group">
-							<input type="email" placeholder="Nhập địa chỉ email" required>
+							<input type="email" placeholder="Nhập địa chỉ email">
 							<button type="submit">Đăng ký</button>
 						</div>
 					</form>
 				</div>
-
-				<h5 class="footer-title">Download App</h5>
+				<h5 class="footer-title" style="margin-top: 20px;">Download
+					App</h5>
 				<div class="d-flex flex-column">
-					<a href="#" class="mb-2"> <img
+					<a href="#" class="mb-2"><img
 						src="https://pubcdn.ivymoda.com/ivy2/images/appstore.png"
-						height="35" alt="App Store">
-					</a> <a href="#"> <img
+						with="178px"></a> <a href="#"><img
 						src="https://pubcdn.ivymoda.com/ivy2/images/googleplay.png"
-						height="35" alt="Google Play">
-					</a>
+						with="178px"></a>
 				</div>
 			</div>
 
 		</div>
-
-		<div class="footer-bottom text-center py-3 border-top mt-4 text-muted">
-			©IVYmoda All rights reserved</div>
 	</div>
+	<div class="footer-bottom text-center py-3 mt-4 text-muted">
+
+		©IVYmoda All rights reserved</div>
+
+</footer>
 </footer>

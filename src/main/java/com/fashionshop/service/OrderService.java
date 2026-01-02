@@ -16,10 +16,9 @@ public interface OrderService {
 			String receiverName, String phone, String province, String district, String ward, String street,
 			String note,
 
-			// Phương thức thanh toán (COD, VNPAY...)
 			String paymentMethod);
 
-	// ADMIN: Lấy tất cả đơn hàng (có phân trang thì tốt)
+	// ADMIN: Lấy tất cả đơn hàng
 	List<Order> getAllOrders();
 
 	// ADMIN: Lấy chi tiết 1 đơn
@@ -37,4 +36,8 @@ public interface OrderService {
 	Double calculateTotalRevenue();
 
 	long countByStatus(String statusName);
+	
+	List<Long> getOrderStatusCounts();
+	
+	List<Double> getRevenueLast7Days();
 }

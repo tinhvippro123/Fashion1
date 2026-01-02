@@ -20,15 +20,14 @@ public class VariantImage {
 	private String imageUrl;
 
 	@Column(name = "image_type", length = 20)
-	private ProductImageType imageType; // Ví dụ: "MAIN" (Ảnh chính), "EXTRA" (Ảnh phụ)
+	private ProductImageType imageType;
 
 	@Column(name = "sort_order")
-	private Integer sortOrder; // Ví dụ: 1, 2, 3...
+	private Integer sortOrder;
 
 	public VariantImage() {
 	}
 
-	// Getters & Setters
 	public Long getId() {
 		return id;
 	}
@@ -52,11 +51,20 @@ public class VariantImage {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
-	
-	// Getter Setter mới
-    public ProductImageType getImageType() { return imageType; }
-    public void setImageType(ProductImageType imageType) { this.imageType = imageType; }
 
-    public Integer getSortOrder() { return sortOrder; }
-    public void setSortOrder(Integer sortOrder) { this.sortOrder = sortOrder; }
+	public ProductImageType getImageType() {
+		return imageType;
+	}
+
+	public void setImageType(ProductImageType imageType) {
+		this.imageType = imageType;
+	}
+
+	public Integer getSortOrder() {
+		return sortOrder;
+	}
+
+	public void setSortOrder(Integer sortOrder) {
+		this.sortOrder = sortOrder;
+	}
 }
