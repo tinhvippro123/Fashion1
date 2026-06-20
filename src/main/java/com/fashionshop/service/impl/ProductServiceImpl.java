@@ -6,12 +6,14 @@ import com.fashionshop.model.ProductColor;
 import com.fashionshop.model.Size;
 import com.fashionshop.model.Variant;
 import com.fashionshop.model.VariantImage;
+import com.fashionshop.model.Category;
 import com.fashionshop.repository.ColorRepository;
 import com.fashionshop.repository.ProductColorRepository;
 import com.fashionshop.repository.ProductRepository;
 import com.fashionshop.repository.SizeRepository;
 import com.fashionshop.repository.VariantImageRepository;
 import com.fashionshop.repository.VariantRepository;
+import com.fashionshop.repository.CategoryRepository;
 import com.fashionshop.service.ProductService;
 import com.fashionshop.service.StorageService;
 import com.fashionshop.utils.SlugUtil;
@@ -43,6 +45,8 @@ public class ProductServiceImpl implements ProductService {
 	private ColorRepository colorRepository;
 	@Autowired
 	private SizeRepository sizeRepository;
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	@Autowired
 	private StorageService storageService;
@@ -225,16 +229,16 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
     public List<Product> findTop10NewestWomen() {
-        // THAY SỐ 1 BẰNG ID DANH MỤC "NỮ" TRONG DB CỦA BẠN
-        Long categoryIdNu = 2L; 
-        return productRepository.findTop10ByCategoryId(categoryIdNu, PageRequest.of(0, 10));
+        Category categoryNu = categoryRepository.findBySlug("nu");
+        if (categoryNu == null) return new java.util.ArrayList<>();
+        return productRepository.findTop10ByCategoryId(categoryNu.getId(), PageRequest.of(0, 10));
     }
 
     @Override
     public List<Product> findTop10NewestMen() {
-        // THAY SỐ 2 BẰNG ID DANH MỤC "NAM" TRONG DB CỦA BẠN
-        Long categoryIdNam = 1L;
-        return productRepository.findTop10ByCategoryId(categoryIdNam, PageRequest.of(0, 10));
+        Category categoryNam = categoryRepository.findBySlug("nam");
+        if (categoryNam == null) return new java.util.ArrayList<>();
+        return productRepository.findTop10ByCategoryId(categoryNam.getId(), PageRequest.of(0, 10));
     }
 
     @Override
