@@ -20,7 +20,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 
-                .requestMatchers("/admin/css/**", "/admin/js/**", "/admin/vendor/**", "/admin/img/**", "/favicon.ico").permitAll()
+                .requestMatchers("/admin/css/**", "/admin/js/**", "/admin/vendor/**", "/admin/img/**", "/favicon.ico", "/favicon.png").permitAll()
                 .requestMatchers("/client/css/**", "/client/js/**", "/client/img/**", "/uploads/**").permitAll()
 
                 .requestMatchers("/", "/home", "/login", "/register").permitAll()
