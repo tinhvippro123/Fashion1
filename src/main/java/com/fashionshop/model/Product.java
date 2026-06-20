@@ -47,4 +47,10 @@ public class Product {
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ProductColor> productColors;
 	
+	@Transient
+	public boolean getIsNew() {
+		if (createdAt == null) return false;
+		return ChronoUnit.DAYS.between(createdAt, LocalDateTime.now()) <= 7;
+	}
+	
 }
