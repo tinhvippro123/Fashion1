@@ -1,12 +1,14 @@
 package com.fashionshop.service;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.fashionshop.dto.UserRegisterDTO;
 import com.fashionshop.model.User;
 
 public interface UserService {
-	List<User> getAllUsers();
+	Page<User> getAllUsers(Pageable pageable);
 
 	User getUserById(Long id);
 

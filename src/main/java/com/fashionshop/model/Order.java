@@ -7,6 +7,12 @@ import java.util.List;
 
 import com.fashionshop.enums.OrderStatus;
 
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -19,25 +25,25 @@ public class Order {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@Column(name = "receiver_name", columnDefinition = "nvarchar(100)")
+	@Column(name = "receiver_name", columnDefinition = "varchar(100)")
 	private String receiverName;
 
 	@Column(length = 10)
 	private String phone;
 	
-	@Column(columnDefinition = "nvarchar(100)")
+	@Column(columnDefinition = "varchar(100)")
 	private String province;
 	
-	@Column(columnDefinition = "nvarchar(100)")
+	@Column(columnDefinition = "varchar(100)")
 	private String district;
 	
-	@Column(columnDefinition = "nvarchar(100)")
+	@Column(columnDefinition = "varchar(100)")
 	private String ward;
 	
-	@Column(columnDefinition = "nvarchar(100)")
+	@Column(columnDefinition = "varchar(100)")
 	private String street;
 
-	@Column(columnDefinition = "nvarchar(100)")
+	@Column(columnDefinition = "varchar(100)")
 	private String note;
 
 	@Column(name = "order_date", updatable = false)
@@ -60,129 +66,6 @@ public class Order {
 	// Quan hệ 1-1 với Payment (Một đơn có 1 giao dịch thanh toán)
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
 	private Payment payment;
-
-	public Order() {
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public String getReceiverName() {
-		return receiverName;
-	}
-
-	public void setReceiverName(String receiverName) {
-		this.receiverName = receiverName;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getProvince() {
-		return province;
-	}
-
-	public void setProvince(String province) {
-		this.province = province;
-	}
-
-	public String getDistrict() {
-		return district;
-	}
-
-	public void setDistrict(String district) {
-		this.district = district;
-	}
-
-	public String getWard() {
-		return ward;
-	}
-
-	public void setWard(String ward) {
-		this.ward = ward;
-	}
-
-	public String getStreet() {
-		return street;
-	}
-
-	public void setStreet(String street) {
-		this.street = street;
-	}
-
-	public LocalDateTime getOrderDate() {
-		return orderDate;
-	}
-
-	public void setOrderDate(LocalDateTime orderDate) {
-		this.orderDate = orderDate;
-	}
-
-	public OrderStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(OrderStatus status) {
-		this.status = status;
-	}
-
-	public Double getShippingFee() {
-		return shippingFee;
-	}
-
-	public void setShippingFee(Double shippingFee) {
-		this.shippingFee = shippingFee;
-	}
-
-	public Double getTotalAmount() {
-		return totalAmount;
-	}
-
-	public void setTotalAmount(Double totalAmount) {
-		this.totalAmount = totalAmount;
-	}
-
-	public List<OrderItem> getOrderItems() {
-		return orderItems;
-	}
-
-	public void setOrderItems(List<OrderItem> orderItems) {
-		this.orderItems = orderItems;
-	}
-
-	public Payment getPayment() {
-		return payment;
-	}
-
-	public void setPayment(Payment payment) {
-		this.payment = payment;
-	}
-
-	public String getNote() {
-		return note;
-	}
-
-	public void setNote(String note) {
-		this.note = note;
-	}
 
 	@PrePersist
 	protected void onCreate() {

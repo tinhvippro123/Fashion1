@@ -25,6 +25,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -143,9 +145,9 @@ public class OrderServiceImpl implements OrderService {
 	// --- ADMIN METHODS ---
 
 	@Override
-	public List<Order> getAllOrders() {
-		// Lấy tất cả, sắp xếp mới nhất lên đầu
-		return orderRepository.findAll(Sort.by(Sort.Direction.DESC, "orderDate"));
+	public Page<Order> getAllOrders(Pageable pageable) {
+		// Lấy tất cả theo phân trang
+		return orderRepository.findAll(pageable);
 	}
 
 	@Override

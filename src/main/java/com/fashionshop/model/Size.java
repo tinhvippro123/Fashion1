@@ -2,6 +2,12 @@ package com.fashionshop.model;
 
 import jakarta.persistence.*;
 
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "sizes")
 public class Size {
@@ -16,31 +22,5 @@ public class Size {
 	@Column(name = "sort_order")
 	private Integer sortOrder;
 
-	public Size() {
-	}
-
 	// Getters & Setters
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Integer getSortOrder() {
-		return sortOrder;
-	}
-
-	public void setSortOrder(Integer sortOrder) {
-		this.sortOrder = sortOrder;
-	}
 }

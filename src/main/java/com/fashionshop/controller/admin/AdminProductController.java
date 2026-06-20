@@ -12,6 +12,8 @@ import com.fashionshop.enums.VariantStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,8 +35,10 @@ public class AdminProductController {
 	private StorageService storageService;
 
 	@GetMapping
-	public String list(Model model) {
-		model.addAttribute("products", productService.getAllProducts());
+	public String list(@RequestParam(defaultValue = "0") int page, Model model) {
+		Page<Product> productPage = productService.getAllProducts(PageRequest.of(page, 10));
+		model.addAttribute("products", productPage.getContent());
+		model.addAttribute("page", productPage);
 		return "admin/product/list";
 	}
 

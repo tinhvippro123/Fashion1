@@ -48,8 +48,8 @@ public class ProductServiceImpl implements ProductService {
 	private StorageService storageService;
 
 	@Override
-	public List<Product> getAllProducts() {
-		return productRepository.findAll();
+	public Page<Product> getAllProducts(Pageable pageable) {
+		return productRepository.findAll(pageable);
 	}
 
 	@Override

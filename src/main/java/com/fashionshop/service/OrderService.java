@@ -1,6 +1,8 @@
 package com.fashionshop.service;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.fashionshop.enums.OrderStatus;
 import com.fashionshop.model.Order;
@@ -19,7 +21,7 @@ public interface OrderService {
 			String paymentMethod);
 
 	// ADMIN: Lấy tất cả đơn hàng
-	List<Order> getAllOrders();
+	Page<Order> getAllOrders(Pageable pageable);
 
 	// ADMIN: Lấy chi tiết 1 đơn
 	Order getOrderById(Long id);

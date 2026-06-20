@@ -7,6 +7,9 @@ import com.fashionshop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -17,8 +20,10 @@ public class AdminOrderController {
 	private OrderService orderService;
 
 	@GetMapping
-	public String listOrders(Model model) {
-		model.addAttribute("orders", orderService.getAllOrders());
+	public String listOrders(@RequestParam(defaultValue = "0") int page, Model model) {
+		Page<Order> orderPage = orderService.getAllOrders(PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "orderDate")));
+		model.addAttribute("orders", orderPage.getContent());
+		model.addAttribute("page", orderPage);
 		return "admin/order/list";
 	}
 

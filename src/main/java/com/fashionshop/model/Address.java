@@ -6,6 +6,12 @@ import com.fashionshop.enums.AddressType;
 
 import jakarta.persistence.*;
 
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "addresses")
 public class Address {
@@ -19,22 +25,22 @@ public class Address {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
-	@Column(name = "receiver_name", columnDefinition = "nvarchar(100)")
+	@Column(name = "receiver_name", columnDefinition = "varchar(100)")
 	private String receiverName;
 
 	@Column(length = 10)
 	private String phone;
 
-	@Column(columnDefinition = "nvarchar(100)")
+	@Column(columnDefinition = "varchar(100)")
 	private String province;
 
-	@Column(columnDefinition = "nvarchar(100)")
+	@Column(columnDefinition = "varchar(100)")
 	private String district;
 
-	@Column(columnDefinition = "nvarchar(100)")
+	@Column(columnDefinition = "varchar(100)")
 	private String ward;
 
-	@Column(columnDefinition = "nvarchar(100)")
+	@Column(columnDefinition = "varchar(100)")
 	private String street;
 
 	@Column(name = "is_default")
@@ -59,108 +65,5 @@ public class Address {
 	protected void onUpdate() {
 		this.updatedAt = LocalDateTime.now();
 	}
-
-	public Address() {
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public String getReceiverName() {
-		return receiverName;
-	}
-
-	public void setReceiverName(String receiverName) {
-		this.receiverName = receiverName;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getProvince() {
-		return province;
-	}
-
-	public void setProvince(String province) {
-		this.province = province;
-	}
-
-	public String getDistrict() {
-		return district;
-	}
-
-	public void setDistrict(String district) {
-		this.district = district;
-	}
-
-	public String getWard() {
-		return ward;
-	}
-
-	public void setWard(String ward) {
-		this.ward = ward;
-	}
-
-	public String getStreet() {
-		return street;
-	}
-
-	public void setStreet(String street) {
-		this.street = street;
-	}
-
-	public Boolean getIsDefault() {
-		return isDefault;
-	}
-
-	public void setIsDefault(Boolean isDefault) {
-		this.isDefault = isDefault;
-	}
-
-	public AddressType getAddressType() {
-		return addressType;
-	}
-
-	public void setAddressType(AddressType addressType) {
-		this.addressType = addressType;
-	}
-
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	public String getFullAddress() {
-        return street + ", " + ward + ", " + district + ", " + province;
-    }
 	
 }

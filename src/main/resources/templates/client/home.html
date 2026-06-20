@@ -16,16 +16,22 @@
 					<li data-target="#homeCarousel" data-slide-to="1"></li>
 				</ol>
 				<div class="carousel-inner">
-					<div class="carousel-item active">
-						<a th:href="@{/danh-muc/hang-nu-moi-ve}">
-							<img th:src="@{/client/img/banner-1.jpg}" class="d-block w-100"
-								alt="Banner 1">
+					<div th:each="banner, iterStat : ${banners}" 
+						 th:classappend="${iterStat.index == 0} ? 'carousel-item active' : 'carousel-item'">
+						<a th:href="@{${banner.targetUrl}}">
+							<img th:src="@{'/uploads/' + ${banner.imageName}}" class="d-block w-100"
+								alt="Banner">
 						</a>
 					</div>
-					<div class="carousel-item">
+					<!-- Nếu không có banner nào trong DB, hiển thị ảnh mẫu tĩnh -->
+					<div th:if="${#lists.isEmpty(banners)}" class="carousel-item active">
+						<a th:href="@{/danh-muc/hang-nu-moi-ve}">
+							<img th:src="@{/client/img/banner-1.jpg}" class="d-block w-100" alt="Banner 1">
+						</a>
+					</div>
+					<div th:if="${#lists.isEmpty(banners)}" class="carousel-item">
 						<a th:href="@{/danh-muc/hang-nam-moi-ve}">
-							<img th:src="@{/client/img/banner-2.jpg}" class="d-block w-100"
-								alt="Banner 2">
+							<img th:src="@{/client/img/banner-2.jpg}" class="d-block w-100" alt="Banner 2">
 						</a>
 					</div>
 				</div>

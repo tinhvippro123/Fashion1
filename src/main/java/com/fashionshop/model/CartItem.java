@@ -3,6 +3,12 @@ package com.fashionshop.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "cart_item")
 public class CartItem {
@@ -23,49 +29,6 @@ public class CartItem {
 
     @Column(name = "added_at")
     private LocalDateTime addedAt;
-
-    public CartItem() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
-
-    public Variant getVariant() {
-        return variant;
-    }
-
-    public void setVariant(Variant variant) {
-        this.variant = variant;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public LocalDateTime getAddedAt() {
-        return addedAt;
-    }
-
-    public void setAddedAt(LocalDateTime addedAt) {
-        this.addedAt = addedAt;
-    }
 
     @PrePersist
     protected void onCreate() {

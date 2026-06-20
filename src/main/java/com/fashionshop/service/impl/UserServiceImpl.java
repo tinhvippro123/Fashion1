@@ -16,7 +16,10 @@ import com.fashionshop.enums.UserRole;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,8 +34,8 @@ public class UserServiceImpl implements UserService {
 	private AddressRepository addressRepository;
 
 	@Override
-	public List<User> getAllUsers() {
-		return userRepository.findAll();
+	public Page<User> getAllUsers(Pageable pageable) {
+		return userRepository.findAll(pageable);
 	}
 
 	@Override

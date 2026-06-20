@@ -15,8 +15,10 @@ public class AdminCategoryController {
 	private CategoryService categoryService;
 
 	@GetMapping
-	public String list(Model model) {
-		model.addAttribute("categories", categoryService.getAllCategories());
+	public String list(@RequestParam(defaultValue = "0") int page, Model model) {
+		org.springframework.data.domain.Page<Category> categoryPage = categoryService.getAllCategories(org.springframework.data.domain.PageRequest.of(page, 10));
+		model.addAttribute("categories", categoryPage.getContent());
+		model.addAttribute("page", categoryPage);
 		return "admin/category/list";
 	}
 

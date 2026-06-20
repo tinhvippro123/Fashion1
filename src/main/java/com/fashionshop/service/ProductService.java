@@ -10,7 +10,7 @@ import com.fashionshop.model.Variant;
 import com.fashionshop.enums.VariantStatus;
 
 public interface ProductService {
-	List<Product> getAllProducts();
+	Page<Product> getAllProducts(Pageable pageable);
 
 	Product getProductById(Long id);
 

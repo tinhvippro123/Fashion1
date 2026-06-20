@@ -31,6 +31,8 @@ public class ClientController {
 	private CategoryService categoryService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private com.fashionshop.service.BannerService bannerService;
 
 	@GetMapping(value = { "/", "/home" })
 	public String home(Model model) {
@@ -43,6 +45,7 @@ public class ClientController {
 
 		model.addAttribute("womenProducts", womenProducts);
 		model.addAttribute("menProducts", menProducts);
+		model.addAttribute("banners", bannerService.getActiveBanners());
 		return "client/home";
 	}
 

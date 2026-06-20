@@ -16,8 +16,10 @@ public class AdminUserController {
 	private UserService userService;
 
 	@GetMapping
-	public String listUsers(Model model) {
-		model.addAttribute("users", userService.getAllUsers());
+	public String listUsers(@RequestParam(defaultValue = "0") int page, Model model) {
+		org.springframework.data.domain.Page<User> userPage = userService.getAllUsers(org.springframework.data.domain.PageRequest.of(page, 10));
+		model.addAttribute("users", userPage.getContent());
+		model.addAttribute("page", userPage);
 		return "admin/user/list";
 	}
 
