@@ -2648,13 +2648,14 @@ a.btn-auth-action{
 
 /* Giới hạn chiều cao của banner để không bị quá to trên Desktop */
 .ivy-banner-wrapper .carousel-item img {
-    height: 600px;
+    aspect-ratio: 21 / 9; /* Tỷ lệ ngang chuẩn Panorama để thấy chữ NEW ARRIVAL */
+    width: 100%;
     object-fit: cover;
     object-position: top center; /* Giữ phần trên của ảnh (chứa chữ) */
 }
 
 @media (max-width: 768px) {
     .ivy-banner-wrapper .carousel-item img {
-        height: 300px; /* Nhỏ hơn trên Mobile */
+        aspect-ratio: 16 / 9; /* Trên Mobile cho tỷ lệ thấp hơn xíu */
     }
 }
