@@ -54,7 +54,7 @@
 			</th:block>
 		</div>
 
-		<div class="mini-cart-footer">
+		<div class="mini-cart-footer" th:if="${globalCart != null && not #lists.isEmpty(globalCart.items)}">
 
 			<div class="d-flex justify-content-between mb-3">
 				<span class="font-weight-bold">Tổng cộng:</span> <span
