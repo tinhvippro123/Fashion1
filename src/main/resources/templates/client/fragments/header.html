@@ -7,7 +7,7 @@
 		<nav class="d-none d-lg-flex">
 
 			<div class="ivy-menu-item">
-				<a th:href="@{/danh-muc/nu}" class="ivy-nav-link">NỮ</a>
+				<a href="javascript:void(0)" class="ivy-nav-link">NỮ</a>
 
 				<div class="ivy-mega-menu">
 					<div class="container-ivy">
@@ -47,7 +47,7 @@
 			</div>
 
 			<div class="ivy-menu-item">
-				<a th:href="@{/danh-muc/nam}" class="ivy-nav-link">NAM</a>
+				<a href="javascript:void(0)" class="ivy-nav-link">NAM</a>
 
 				<div class="ivy-mega-menu">
 					<div class="container-ivy">
@@ -105,16 +105,16 @@
 
 		<!-- Mobile Menu Overlay & Sidebar -->
 		<div id="mobileMenuOverlay" class="cart-overlay" onclick="closeMobileMenu()"></div>
-		<div id="mobileMenuSidebar" class="mini-cart-sidebar" style="left: -400px; right: auto; width: 85%; max-width: 400px; transition: 0.3s; background: #fff; z-index: 1050; padding: 20px;">
+		<div id="mobileMenuSidebar" class="mini-cart-sidebar" style="left: -400px; right: auto; width: 85%; max-width: 400px; transition: 0.3s; background: #fff; z-index: 1050; padding: 20px; overflow-y: auto;">
 			<!-- Nút Đóng -->
-			<div class="mb-4">
+			<div class="mb-4 d-flex justify-content-between align-items-center">
 				<span style="font-size: 24px; cursor: pointer; color: #333;" onclick="closeMobileMenu()">&times;</span>
 			</div>
 			
 			<!-- Nút Đăng Nhập / Xin chào -->
 			<div class="mb-4">
 				<!-- Hiển thị khi chưa đăng nhập -->
-				<a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn btn-dark btn-block py-2" style="border-radius: 8px; font-weight: 600; font-size: 16px;">Đăng nhập</a>
+				<a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn btn-dark btn-block py-2" style="border-radius: 8px; font-weight: 600; font-size: 16px; background-color: #222; border-color: #222;">Đăng nhập</a>
 				
 				<!-- Hiển thị khi đã đăng nhập -->
 				<div sec:authorize="isAuthenticated()" class="d-flex align-items-center p-2 rounded" style="background: #f8f9fa;">
@@ -129,14 +129,48 @@
 			<!-- Danh sách Menu -->
 			<div>
 				<ul class="list-unstyled mobile-menu-list">
-					<li class="py-3 border-bottom d-flex justify-content-between align-items-center">
-						<a th:href="@{/danh-muc/nu}" class="text-dark font-weight-bold d-block w-100" style="font-size: 14px;">NỮ</a>
-						<i class="fas fa-plus text-muted" style="font-size: 12px;"></i>
+					<!-- NỮ -->
+					<li class="border-bottom">
+						<div class="py-3 d-flex justify-content-between align-items-center" data-toggle="collapse" data-target="#collapseWomenMobile" aria-expanded="false" style="cursor: pointer;">
+							<span class="text-dark font-weight-bold d-block w-100" style="font-size: 14px;">NỮ</span>
+							<i class="fas fa-plus text-muted" style="font-size: 12px;"></i>
+						</div>
+						<!-- Sub-menu Nữ -->
+						<div class="collapse" id="collapseWomenMobile">
+							<div class="pl-3 pb-3">
+								<a th:href="@{/danh-muc/hang-nu-moi-ve}" class="d-block mb-2 text-danger font-weight-bold" style="font-size: 13px;">NEW ARRIVAL</a>
+								<a th:href="@{/danh-muc/nu}" class="d-block mb-2 font-weight-bold text-dark" style="font-size: 13px;">ALL ITEMS</a>
+								<div th:each="parent : ${womenCategories}" class="mt-2">
+									<a th:href="@{'/danh-muc/' + ${parent.slug}}" class="d-block font-weight-bold text-dark mb-1" style="font-size: 13px;" th:text="${parent.name}">ÁO</a>
+									<div class="pl-2">
+										<a th:each="child : ${parent.children}" th:href="@{'/danh-muc/' + ${child.slug}}" class="d-block text-muted mb-1" style="font-size: 13px; text-decoration: none;" th:text="${child.name}">Áo sơ mi</a>
+									</div>
+								</div>
+							</div>
+						</div>
 					</li>
-					<li class="py-3 border-bottom d-flex justify-content-between align-items-center">
-						<a th:href="@{/danh-muc/nam}" class="text-dark font-weight-bold d-block w-100" style="font-size: 14px;">NAM</a>
-						<i class="fas fa-plus text-muted" style="font-size: 12px;"></i>
+					
+					<!-- NAM -->
+					<li class="border-bottom">
+						<div class="py-3 d-flex justify-content-between align-items-center" data-toggle="collapse" data-target="#collapseMenMobile" aria-expanded="false" style="cursor: pointer;">
+							<span class="text-dark font-weight-bold d-block w-100" style="font-size: 14px;">NAM</span>
+							<i class="fas fa-plus text-muted" style="font-size: 12px;"></i>
+						</div>
+						<!-- Sub-menu Nam -->
+						<div class="collapse" id="collapseMenMobile">
+							<div class="pl-3 pb-3">
+								<a th:href="@{/danh-muc/hang-nam-moi-ve}" class="d-block mb-2 text-danger font-weight-bold" style="font-size: 13px;">NEW ARRIVAL</a>
+								<a th:href="@{/danh-muc/nam}" class="d-block mb-2 font-weight-bold text-dark" style="font-size: 13px;">ALL ITEMS</a>
+								<div th:each="parent : ${menCategories}" class="mt-2">
+									<a th:href="@{'/danh-muc/' + ${parent.slug}}" class="d-block font-weight-bold text-dark mb-1" style="font-size: 13px;" th:text="${parent.name}">ÁO</a>
+									<div class="pl-2">
+										<a th:each="child : ${parent.children}" th:href="@{'/danh-muc/' + ${child.slug}}" class="d-block text-muted mb-1" style="font-size: 13px; text-decoration: none;" th:text="${child.name}">Áo thun</a>
+									</div>
+								</div>
+							</div>
+						</div>
 					</li>
+					
 					<li class="py-3 border-bottom d-flex justify-content-between align-items-center">
 						<a th:href="@{/sale}" class="text-danger font-weight-bold d-block w-100" style="font-size: 14px;">SUMMER SPECIAL – ƯU ĐÃI từ 150k</a>
 						<i class="fas fa-plus text-danger" style="font-size: 12px;"></i>
@@ -146,7 +180,7 @@
 						<i class="fas fa-plus text-danger" style="font-size: 12px;"></i>
 					</li>
 					<li class="py-3 border-bottom d-flex justify-content-between align-items-center">
-						<a href="#" class="text-dark font-weight-bold d-block w-100" style="font-size: 14px;">LIFESTYLE</a>
+						<a href="javascript:void(0)" class="text-dark font-weight-bold d-block w-100" style="font-size: 14px;">LIFESTYLE</a>
 					</li>
 					<li class="py-3 border-bottom d-flex justify-content-between align-items-center">
 						<a th:href="@{/about}" class="text-dark font-weight-bold d-block w-100" style="font-size: 14px;">Về Chúng Tôi</a>
