@@ -2648,8 +2648,7 @@ a.btn-auth-action{
 
 /* Giới hạn chiều cao của banner để không bị quá to trên Desktop */
 .ivy-banner-wrapper .carousel-item img {
-    height: 55vh;
-    max-height: 480px; /* Không quá to trên màn hình lớn */
+    aspect-ratio: 2.5 / 1; /* Tỷ lệ vàng chính xác của IVY moda */
     width: 100%;
     object-fit: cover;
     object-position: center; /* Đưa về căn giữa chuẩn xác để không bị cắt mất đầu người mẫu */
