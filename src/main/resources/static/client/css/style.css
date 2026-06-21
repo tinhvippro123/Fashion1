@@ -460,11 +460,16 @@
 		margin-right: 0;
 		padding-right: 15px;
 		margin-bottom: 30px;
+		box-sizing: border-box; /* QUAN TRỌNG: Ngăn tràn viền do padding */
 	}
 
 	/* Newsletter full width trên mobile */
 	.footer-col-newsletter {
 		width: 100%;
+	}
+	
+	.newsletter-box {
+	    box-sizing: border-box; /* Ngăn ô nhập email tràn ra khỏi màn hình */
 	}
 }
 
