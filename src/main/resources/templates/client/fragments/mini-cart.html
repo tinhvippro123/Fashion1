@@ -16,8 +16,10 @@
 		<div class="mini-cart-body">
 			<div
 				th:if="${globalCart == null || #lists.isEmpty(globalCart.items)}"
-				class="text-center py-5">
-				<p>Giỏ hàng đang trống</p>
+				class="text-center d-flex flex-column justify-content-center align-items-center h-100 py-5">
+				<img th:src="@{/client/img/shopping-bag-check.png}" alt="Empty Cart" style="width: 80px; opacity: 0.3; margin-bottom: 20px; filter: grayscale(100%);">
+				<p class="font-weight-bold text-muted mb-4">Giỏ hàng của bạn đang trống</p>
+				<a th:href="@{/}" class="btn btn-dark px-4 py-2" style="border-radius: 4px 0 4px 0;">TIẾP TỤC MUA SẮM</a>
 			</div>
 
 			<th:block th:if="${globalCart != null}">
