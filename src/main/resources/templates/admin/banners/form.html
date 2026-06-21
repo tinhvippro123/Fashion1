@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout}">
+<head>
+<title>Thêm / Sửa Banner</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<h1 class="h3 mb-4 text-gray-800" th:text="${banner.id == null ? 'Thêm Banner Mới' : 'Sửa Banner'}"></h1>
+
+		<div class="card shadow mb-4">
+			<div class="card-body">
+				<form th:action="@{/admin/banners/save}" th:object="${banner}" method="post" enctype="multipart/form-data">
+					<input type="hidden" th:field="*{id}" />
+
+					<div class="form-group">
+						<label>Hình ảnh Banner (Khuyến nghị: Tỷ lệ Panorama, kích thước ngang khoảng 1920x600px hoặc 1920x800px)</label>
+						<div class="mb-2" th:if="${banner.imageName != null}">
+							<img th:src="@{'/uploads/' + ${banner.imageName}}" class="img-thumbnail" style="height: 150px;">
+						</div>
+						<input type="file" name="file" class="form-control-file" accept="image/*" th:required="${banner.id == null}">
+						<small class="form-text text-muted">Nếu bạn đang sửa và không chọn ảnh mới, ảnh cũ sẽ được giữ nguyên.</small>
+					</div>
+
+					<div class="form-group">
+						<label>Đường link (Target URL)</label>
+						<input type="text" class="form-control" th:field="*{targetUrl}" placeholder="VD: /danh-muc/hang-nu-moi-ve">
+					</div>
+
+					<div class="form-group">
+						<label>Thứ tự hiển thị</label>
+						<input type="number" class="form-control" th:field="*{displayOrder}" value="1" required>
+					</div>
+
+					<div class="form-group">
+						<div class="custom-control custom-switch">
+							<input type="checkbox" class="custom-control-input" id="isActiveSwitch" th:field="*{active}">
+							<label class="custom-control-label" for="isActiveSwitch">Hiển thị (Active)</label>
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary">Lưu thông tin</button>
+					<a th:href="@{/admin/banners}" class="btn btn-secondary">Hủy bỏ</a>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
