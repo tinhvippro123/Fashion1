@@ -212,3 +212,6 @@ document.addEventListener("click", function(event) {
     }
 });
 
+
+function openMobileMenu() { document.getElementById('mobileMenuOverlay').style.display = 'block'; setTimeout(() => { document.getElementById('mobileMenuSidebar').style.left = '0'; }, 10); }
+function closeMobileMenu() { document.getElementById('mobileMenuSidebar').style.left = '-400px'; setTimeout(() => { document.getElementById('mobileMenuOverlay').style.display = 'none'; }, 300); }
