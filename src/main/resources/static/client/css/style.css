@@ -468,6 +468,20 @@
 	}
 }
 
+/* Với màn hình Mobile: Chuyển về 1 cột (100% width) để không bị đè chữ */
+@media ( max-width : 768px) {
+	.footer-col-social, .footer-col-intro, .footer-col-service,
+		.footer-col-contact {
+		width: 100%; /* Chiếm trọn màn hình */
+	}
+	
+	/* Fix lỗi các icon BCT / DMCA quá to chèn ép layout */
+	.footer-col-social .d-flex {
+	    flex-wrap: wrap;
+	    gap: 10px;
+	}
+}
+
 
 .fa-facebook-f{
 	color:#4267b2;
