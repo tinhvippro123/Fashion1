@@ -77,19 +77,19 @@
                                         
                                         <div class="custom-control custom-radio mr-4">
                                             <input type="radio" id="g-nam" name="gender" value="MALE" class="custom-control-input" 
-                                                   th:checked="${user.gender.name() == 'MALE'}">
+                                                   th:checked="${user.gender?.name() == 'MALE'}">
                                             <label class="custom-control-label" for="g-nam">Nam</label>
                                         </div>
 
                                         <div class="custom-control custom-radio mr-4">
                                             <input type="radio" id="g-nu" name="gender" value="FEMALE" class="custom-control-input"
-                                                   th:checked="${user.gender.name() == 'FEMALE'}">
+                                                   th:checked="${user.gender?.name() == 'FEMALE'}">
                                             <label class="custom-control-label" for="g-nu">Nữ</label>
                                         </div>
 
                                         <div class="custom-control custom-radio">
                                             <input type="radio" id="g-khac" name="gender" value="OTHER" class="custom-control-input"
-                                                   th:checked="${user.gender.name() == 'OTHER'}">
+                                                   th:checked="${user.gender?.name() == 'OTHER'}">
                                             <label class="custom-control-label" for="g-khac">Khác</label>
                                         </div>
 
