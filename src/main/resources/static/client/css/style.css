@@ -2648,8 +2648,8 @@ a.btn-auth-action{
 
 /* Giới hạn chiều cao của banner để không bị quá to trên Desktop */
 .ivy-banner-wrapper .carousel-item img {
-    height: 60vh;
-    max-height: 550px; /* Không quá to trên màn hình lớn */
+    height: 55vh;
+    max-height: 480px; /* Không quá to trên màn hình lớn */
     width: 100%;
     object-fit: cover;
     object-position: top center; /* Giữ phần trên của ảnh (chứa chữ) */
