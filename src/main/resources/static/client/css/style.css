@@ -1,3 +1,13 @@
+/* Reset CSS toàn cục để tránh lỗi tràn viền (overflow-x) trên mobile */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
 /* 1. Cấu hình Container đặc biệt (Cách lề 85px) */
 .container-ivy {
 	width: 100%;
