@@ -2646,6 +2646,15 @@ a.btn-auth-action{
     color: #333;
 }
 
+/* Giới hạn chiều cao của banner để không bị quá to trên Desktop */
+.ivy-banner-wrapper .carousel-item img {
+    height: 600px;
+    object-fit: cover;
+    object-position: top center; /* Giữ phần trên của ảnh (chứa chữ) */
+}
 
-
-
+@media (max-width: 768px) {
+    .ivy-banner-wrapper .carousel-item img {
+        height: 300px; /* Nhỏ hơn trên Mobile */
+    }
+}
