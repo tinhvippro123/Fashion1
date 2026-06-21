@@ -2652,7 +2652,7 @@ a.btn-auth-action{
     max-height: 480px; /* Không quá to trên màn hình lớn */
     width: 100%;
     object-fit: cover;
-    object-position: top center; /* Giữ phần trên của ảnh (chứa chữ) */
+    object-position: center; /* Đưa về căn giữa chuẩn xác để không bị cắt mất đầu người mẫu */
 }
 
 @media (max-width: 768px) {
