@@ -107,12 +107,28 @@
 						</table>
 					</div>
 
-					<div class="d-flex justify-content-center mt-4"
-						th:if="${not #lists.isEmpty(orders)}">
+					<div class="d-flex justify-content-center mt-4" th:if="${page.totalPages > 1}">
 						<nav>
 							<ul class="pagination pagination-sm">
-								<li class="page-item active"><a
-									class="page-link bg-dark border-dark" href="#">1</a></li>
+								<!-- Nút Previous -->
+								<li class="page-item" th:classappend="${page.first} ? 'disabled'">
+									<a class="page-link text-dark" th:href="@{/account/orders(page=${page.number - 1})}" tabindex="-1">Trước</a>
+								</li>
+								
+								<!-- Danh sách trang -->
+								<li class="page-item" 
+									th:each="pageNum : ${#numbers.sequence(0, page.totalPages - 1)}"
+									th:classappend="${pageNum == page.number} ? 'active'">
+									<a class="page-link" 
+									   th:classappend="${pageNum == page.number} ? 'bg-dark border-dark text-white' : 'text-dark'" 
+									   th:href="@{/account/orders(page=${pageNum})}" 
+									   th:text="${pageNum + 1}">1</a>
+								</li>
+								
+								<!-- Nút Next -->
+								<li class="page-item" th:classappend="${page.last} ? 'disabled'">
+									<a class="page-link text-dark" th:href="@{/account/orders(page=${page.number + 1})}">Sau</a>
+								</li>
 							</ul>
 						</nav>
 					</div>

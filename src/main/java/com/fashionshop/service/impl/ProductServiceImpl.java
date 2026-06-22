@@ -57,6 +57,14 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	public Page<Product> searchAdminProducts(String keyword, Pageable pageable) {
+		if (keyword == null || keyword.trim().isEmpty()) {
+			return productRepository.findAll(pageable);
+		}
+		return productRepository.searchProducts(keyword.trim(), pageable);
+	}
+
+	@Override
 	public Product getProductById(Long id) {
 		return productRepository.findById(id).orElse(null);
 	}
@@ -135,19 +143,36 @@ public class ProductServiceImpl implements ProductService {
 //			Lấy danh sách ảnh hiện tại để đếm
 			List<VariantImage> currentImages = pc.getImages();
 
-//			Tự động set thứ tự (Sort Order)
-			img.setSortOrder(currentImages.size() + 1);
-
-//			Tự động set Loại ảnh (MAIN / HOVER / EXTRA)
-			if (currentImages.isEmpty()) {
-				img.setImageType(ProductImageType.MAIN); // Ảnh đầu tiên là MAIN
-			} else if (currentImages.size() == 1) {
-				img.setImageType(ProductImageType.HOVER); // Ảnh thứ 2 là HOVER
+//			Nếu chưa có ảnh nào thì nó là MAIN
+			if (currentImages == null || currentImages.isEmpty()) {
+				img.setImageType(ProductImageType.MAIN);
+				img.setSortOrder(1);
 			} else {
-				img.setImageType(ProductImageType.EXTRA); // Còn lại là ảnh phụ
+//				Mặc định là ảnh phụ (EXTRA)
+				img.setImageType(ProductImageType.EXTRA);
+				img.setSortOrder(currentImages.size() + 1);
 			}
 
 			variantImageRepository.save(img);
+		}
+	}
+
+	@Override
+	public void setImageType(Long imageId, ProductImageType type) {
+		VariantImage targetImg = variantImageRepository.findById(imageId).orElse(null);
+		if (targetImg != null) {
+			ProductColor pc = targetImg.getProductColor();
+			// Nếu muốn set làm MAIN hoặc HOVER, cần tìm ảnh nào đang giữ vai trò này và hạ cấp nó xuống EXTRA
+			if (type == ProductImageType.MAIN || type == ProductImageType.HOVER) {
+				for (VariantImage img : pc.getImages()) {
+					if (img.getImageType() == type) {
+						img.setImageType(ProductImageType.EXTRA);
+						variantImageRepository.save(img);
+					}
+				}
+			}
+			targetImg.setImageType(type);
+			variantImageRepository.save(targetImg);
 		}
 	}
 

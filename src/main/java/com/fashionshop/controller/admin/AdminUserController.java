@@ -16,8 +16,16 @@ public class AdminUserController {
 	private UserService userService;
 
 	@GetMapping
-	public String listUsers(@RequestParam(defaultValue = "0") int page, Model model) {
-		org.springframework.data.domain.Page<User> userPage = userService.getAllUsers(org.springframework.data.domain.PageRequest.of(page, 10));
+	public String list(@RequestParam(defaultValue = "0") int page, 
+	                   @RequestParam(value = "keyword", required = false) String keyword, 
+	                   Model model) {
+		org.springframework.data.domain.Page<User> userPage;
+		if (keyword != null && !keyword.isEmpty()) {
+			userPage = userService.searchUsers(keyword, org.springframework.data.domain.PageRequest.of(page, 10));
+			model.addAttribute("keyword", keyword);
+		} else {
+			userPage = userService.getAllUsers(org.springframework.data.domain.PageRequest.of(page, 10));
+		}
 		model.addAttribute("users", userPage.getContent());
 		model.addAttribute("page", userPage);
 		return "admin/user/list";

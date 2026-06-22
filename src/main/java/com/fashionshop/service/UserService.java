@@ -9,6 +9,7 @@ import com.fashionshop.model.User;
 
 public interface UserService {
 	Page<User> getAllUsers(Pageable pageable);
+	Page<User> searchUsers(String keyword, Pageable pageable);
 
 	User getUserById(Long id);
 

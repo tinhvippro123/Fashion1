@@ -9,6 +9,7 @@ import com.fashionshop.model.Category;
 public interface CategoryService {
 	List<Category> getAllCategories();
 	Page<Category> getAllCategories(Pageable pageable);
+	Page<Category> searchCategories(String keyword, Pageable pageable);
 
 	Category getCategoryById(Long id);
 

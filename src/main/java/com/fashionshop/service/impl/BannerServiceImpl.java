@@ -22,7 +22,20 @@ public class BannerServiceImpl implements BannerService {
 
     @Override
     public List<Banner> getAllBanners() {
-        return bannerRepository.findAll(Sort.by(Sort.Direction.ASC, "displayOrder"));
+        return bannerRepository.findAll(org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.ASC, "displayOrder"));
+    }
+
+    @Override
+    public org.springframework.data.domain.Page<Banner> getAllBanners(org.springframework.data.domain.Pageable pageable) {
+        return bannerRepository.findAll(pageable);
+    }
+
+    @Override
+    public org.springframework.data.domain.Page<Banner> searchBanners(String keyword, org.springframework.data.domain.Pageable pageable) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return bannerRepository.findAll(pageable);
+        }
+        return bannerRepository.findByNameContainingIgnoreCase(keyword.trim(), pageable);
     }
 
     @Override

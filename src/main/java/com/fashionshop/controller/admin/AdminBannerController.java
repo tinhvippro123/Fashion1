@@ -20,8 +20,18 @@ public class AdminBannerController {
     private StorageService storageService;
 
     @GetMapping
-    public String listBanners(Model model) {
-        model.addAttribute("banners", bannerService.getAllBanners());
+    public String index(@RequestParam(defaultValue = "0") int page, 
+                        @RequestParam(value = "keyword", required = false) String keyword, 
+                        Model model) {
+        org.springframework.data.domain.Page<Banner> bannerPage;
+        if (keyword != null && !keyword.isEmpty()) {
+            bannerPage = bannerService.searchBanners(keyword, org.springframework.data.domain.PageRequest.of(page, 10, org.springframework.data.domain.Sort.by("displayOrder").ascending()));
+            model.addAttribute("keyword", keyword);
+        } else {
+            bannerPage = bannerService.getAllBanners(org.springframework.data.domain.PageRequest.of(page, 10, org.springframework.data.domain.Sort.by("displayOrder").ascending()));
+        }
+        model.addAttribute("banners", bannerPage.getContent());
+        model.addAttribute("page", bannerPage);
         return "admin/banners/index";
     }
 

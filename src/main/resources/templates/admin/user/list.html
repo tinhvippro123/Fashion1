@@ -20,6 +20,12 @@
                 </a>
             </div>
             <div class="card-body">
+                <form th:action="@{/admin/users}" method="get" class="form-inline mb-3">
+                    <input type="text" name="keyword" th:value="${keyword}" class="form-control mr-sm-2 mb-2 mb-sm-0" placeholder="Tìm kiếm tên, email...">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Tìm kiếm</button>
+                    <a th:href="@{/admin/users}" class="btn btn-secondary ml-2" th:if="${keyword != null}">Làm mới</a>
+                </form>
+
                 <div class="table-responsive">
                     <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>

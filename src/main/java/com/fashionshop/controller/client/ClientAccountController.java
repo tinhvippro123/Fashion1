@@ -76,14 +76,15 @@ public class ClientAccountController {
     }
 
     @GetMapping("/orders")
-    public String myOrders(Model model, Principal principal) {
+    public String myOrders(@RequestParam(defaultValue = "0") int page, Model model, Principal principal) {
         if (principal == null) return "redirect:/login";
 
         User user = userService.findByEmail(principal.getName());
         model.addAttribute("user", user);
 
-        List<Order> orders = orderService.getOrdersByUser(user.getId());
-        model.addAttribute("orders", orders);
+        org.springframework.data.domain.Page<Order> orderPage = orderService.getOrdersByUser(user.getId(), org.springframework.data.domain.PageRequest.of(page, 5));
+        model.addAttribute("orders", orderPage.getContent());
+        model.addAttribute("page", orderPage);
 
         return "client/account/orders";
     }

@@ -22,6 +22,7 @@ public interface OrderService {
 
 	// ADMIN: Lấy tất cả đơn hàng
 	Page<Order> getAllOrders(Pageable pageable);
+	Page<Order> searchOrders(String keyword, Pageable pageable);
 
 	// ADMIN: Lấy chi tiết 1 đơn
 	Order getOrderById(Long id);
@@ -30,6 +31,7 @@ public interface OrderService {
 	void updateOrderStatus(Long orderId, OrderStatus newStatus);
 
 	List<Order> getOrdersByUser(Long userId);
+	Page<Order> getOrdersByUser(Long userId, Pageable pageable);
 
 	void cancelOrder(Long orderId, Long userId);
 

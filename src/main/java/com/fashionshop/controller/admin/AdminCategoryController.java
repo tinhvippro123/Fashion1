@@ -15,8 +15,16 @@ public class AdminCategoryController {
 	private CategoryService categoryService;
 
 	@GetMapping
-	public String list(@RequestParam(defaultValue = "0") int page, Model model) {
-		org.springframework.data.domain.Page<Category> categoryPage = categoryService.getAllCategories(org.springframework.data.domain.PageRequest.of(page, 10));
+	public String list(@RequestParam(defaultValue = "0") int page, 
+	                   @RequestParam(value = "keyword", required = false) String keyword, 
+	                   Model model) {
+		org.springframework.data.domain.Page<Category> categoryPage;
+		if (keyword != null && !keyword.isEmpty()) {
+			categoryPage = categoryService.searchCategories(keyword, org.springframework.data.domain.PageRequest.of(page, 10));
+			model.addAttribute("keyword", keyword);
+		} else {
+			categoryPage = categoryService.getAllCategories(org.springframework.data.domain.PageRequest.of(page, 10));
+		}
 		model.addAttribute("categories", categoryPage.getContent());
 		model.addAttribute("page", categoryPage);
 		return "admin/category/list";

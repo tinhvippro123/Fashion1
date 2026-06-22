@@ -20,8 +20,16 @@ public class AdminOrderController {
 	private OrderService orderService;
 
 	@GetMapping
-	public String listOrders(@RequestParam(defaultValue = "0") int page, Model model) {
-		Page<Order> orderPage = orderService.getAllOrders(PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "orderDate")));
+	public String list(@RequestParam(defaultValue = "0") int page, 
+	                   @RequestParam(value = "keyword", required = false) String keyword, 
+	                   Model model) {
+		Page<Order> orderPage;
+		if (keyword != null && !keyword.isEmpty()) {
+			orderPage = orderService.searchOrders(keyword, PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "orderDate")));
+			model.addAttribute("keyword", keyword);
+		} else {
+			orderPage = orderService.getAllOrders(PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "orderDate")));
+		}
 		model.addAttribute("orders", orderPage.getContent());
 		model.addAttribute("page", orderPage);
 		return "admin/order/list";

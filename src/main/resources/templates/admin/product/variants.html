@@ -86,6 +86,7 @@
 
 							<div class="col-md-6 border-right">
 								<h5 class="font-weight-bold text-gray-800 border-bottom pb-2">1. Hình ảnh</h5>
+								<p class="text-muted small mb-2"><i class="fas fa-info-circle"></i> Khuyến nghị: Ảnh tỉ lệ 3:4 (VD: 600x800px) để hiển thị đẹp nhất. Bạn có thể chọn nhiều ảnh cùng lúc.</p>
 
 								<form th:action="@{/admin/products/variants/upload-image}"
 									method="post" enctype="multipart/form-data" class="mb-3 mt-3">
@@ -93,8 +94,8 @@
 									<input type="hidden" name="productColorId" th:value="${pc.id}">
 									<div class="input-group">
 										<div class="custom-file">
-											<input type="file" name="imageFile" class="custom-file-input"
-												id="inputGroupFile01" required> <label
+											<input type="file" name="imageFiles" class="custom-file-input"
+												id="inputGroupFile01" multiple required> <label
 												class="custom-file-label" for="inputGroupFile01">Chọn ảnh...</label>
 										</div>
 										<div class="input-group-append">
@@ -122,11 +123,21 @@
 													style="height: 150px; object-fit: contain; background-color: #fff; padding: 5px;">
 											</div>
 											
-											<div class="card-footer p-1 text-center bg-white border-top-0">
+											<div class="card-footer p-1 text-center bg-white border-top-0 d-flex flex-column">
+												<div class="btn-group w-100 mb-1" role="group">
+													<button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													  Loại ảnh
+													</button>
+													<div class="dropdown-menu">
+													  <a class="dropdown-item" th:href="@{/admin/products/variants/set-image-type/{id}(id=${img.id}, type='MAIN', productId=${product.id})}">Đặt làm MAIN</a>
+													  <a class="dropdown-item" th:href="@{/admin/products/variants/set-image-type/{id}(id=${img.id}, type='HOVER', productId=${product.id})}">Đặt làm HOVER</a>
+													  <a class="dropdown-item" th:href="@{/admin/products/variants/set-image-type/{id}(id=${img.id}, type='EXTRA', productId=${product.id})}">Đặt làm EXTRA</a>
+													</div>
+												</div>
 												<a th:href="@{/admin/products/variants/delete-image/{id}(id=${img.id}, productId=${product.id})}"
 													class="btn btn-outline-danger btn-sm w-100"
 													onclick="return confirm('Xóa ảnh này?');"> 
-													<i class="fas fa-trash"></i>
+													<i class="fas fa-trash"></i> Xóa
 												</a>
 											</div>
 										</div>

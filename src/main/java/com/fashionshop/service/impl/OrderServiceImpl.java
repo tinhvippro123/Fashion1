@@ -146,8 +146,15 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Page<Order> getAllOrders(Pageable pageable) {
-		// Lấy tất cả theo phân trang
 		return orderRepository.findAll(pageable);
+	}
+
+	@Override
+	public Page<Order> searchOrders(String keyword, Pageable pageable) {
+		if (keyword == null || keyword.trim().isEmpty()) {
+			return orderRepository.findAll(pageable);
+		}
+		return orderRepository.searchOrders(keyword.trim(), pageable);
 	}
 
 	@Override
@@ -246,8 +253,12 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List<Order> getOrdersByUser(Long userId) {
-		// Gọi hàm repository vừa thêm ở bước 1
 		return orderRepository.findByUserIdOrderByOrderDateDesc(userId);
+	}
+
+	@Override
+	public Page<Order> getOrdersByUser(Long userId, Pageable pageable) {
+		return orderRepository.findByUserIdOrderByOrderDateDesc(userId, pageable);
 	}
 
 	@Override

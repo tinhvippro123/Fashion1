@@ -29,6 +29,14 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	public Page<Category> searchCategories(String keyword, Pageable pageable) {
+		if (keyword == null || keyword.trim().isEmpty()) {
+			return categoryRepository.findAll(pageable);
+		}
+		return categoryRepository.findByNameContainingIgnoreCase(keyword.trim(), pageable);
+	}
+
+	@Override
 	public Category getCategoryById(Long id) {
 		return categoryRepository.findById(id).orElse(null);
 	}

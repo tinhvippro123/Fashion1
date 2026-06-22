@@ -16,12 +16,18 @@
 				</a>
 			</div>
 			<div class="card-body">
+				<form th:action="@{/admin/banners}" method="get" class="form-inline mb-3">
+					<input type="text" name="keyword" th:value="${keyword}" class="form-control mr-sm-2 mb-2 mb-sm-0" placeholder="Tìm kiếm tên banner...">
+					<button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Tìm kiếm</button>
+					<a th:href="@{/admin/banners}" class="btn btn-secondary ml-2" th:if="${keyword != null}">Làm mới</a>
+				</form>
 				<div class="table-responsive">
 					<table class="table table-bordered" width="100%" cellspacing="0">
 						<thead>
 							<tr>
 								<th class="d-none d-md-table-cell">ID</th>
 								<th width="300">Hình ảnh</th>
+								<th>Tên banner</th>
 								<th class="d-none d-md-table-cell">Đường link (Target URL)</th>
 								<th class="d-none d-md-table-cell">Thứ tự</th>
 								<th class="d-none d-md-table-cell">Trạng thái</th>
@@ -36,6 +42,7 @@
 										 th:src="@{'/uploads/' + ${b.imageName}}" 
 										 class="img-thumbnail" style="width: 280px; height: 100px; object-fit: cover;">
 								</td>
+								<td th:text="${b.name}"></td>
 								<td class="d-none d-md-table-cell">
 									<a th:href="${b.targetUrl}" target="_blank" th:text="${b.targetUrl}"></a>
 								</td>
@@ -57,6 +64,8 @@
 						</tbody>
 					</table>
 				</div>
+				<!-- Phân trang -->
+				<div th:replace="~{admin/fragments/pagination :: pagination(${page}, '/admin/banners')}"></div>
 			</div>
 		</div>
 	</div>

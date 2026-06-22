@@ -39,6 +39,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public Page<User> searchUsers(String keyword, Pageable pageable) {
+		if (keyword == null || keyword.trim().isEmpty()) {
+			return userRepository.findAll(pageable);
+		}
+		return userRepository.findByFullNameContainingIgnoreCaseOrEmailContainingIgnoreCase(keyword.trim(), keyword.trim(), pageable);
+	}
+
+	@Override
 	public User getUserById(Long id) {
 		return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 	}

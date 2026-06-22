@@ -10,5 +10,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 	List<Category> findByParentIsNull();
 
 	Category findBySlug(String slug);
+	
+	org.springframework.data.domain.Page<Category> findByNameContainingIgnoreCase(String name, org.springframework.data.domain.Pageable pageable);
 
 }

@@ -16,10 +16,18 @@ import java.util.Optional;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 //	Tìm đơn hàng theo User ID (để xem lịch sử mua hàng)
 	List<Order> findByUserIdOrderByOrderDateDesc(Long userId);
+	org.springframework.data.domain.Page<Order> findByUserIdOrderByOrderDateDesc(Long userId, org.springframework.data.domain.Pageable pageable);
 	
 //	tra cứu đơn hàng
 	Optional<Order> findByIdAndPhone(Long id, String phone);
 	
+	@Query("SELECT o FROM Order o WHERE " +
+	       "LOWER(o.user.fullName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+	       "LOWER(o.user.email) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+	       "o.phone LIKE CONCAT('%', :keyword, '%') OR " +
+	       "CAST(o.id AS string) LIKE CONCAT('%', :keyword, '%')")
+	org.springframework.data.domain.Page<Order> searchOrders(@Param("keyword") String keyword, org.springframework.data.domain.Pageable pageable);
+
 	long countByStatus(OrderStatus status);
 	
 	@Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o WHERE o.status = 'COMPLETED'")

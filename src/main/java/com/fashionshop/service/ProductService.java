@@ -5,13 +5,14 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.fashionshop.enums.ProductImageType;
 import com.fashionshop.model.Product;
 import com.fashionshop.model.Variant;
 import com.fashionshop.enums.VariantStatus;
 
 public interface ProductService {
 	Page<Product> getAllProducts(Pageable pageable);
-
+	Page<Product> searchAdminProducts(String keyword, Pageable pageable);
 	Product getProductById(Long id);
 
 	Product saveProduct(Product product);
@@ -23,6 +24,8 @@ public interface ProductService {
 	void addVariantToProductColor(Long productColorId, Long sizeId, Double price, Integer stock);
 
 	void addImageToProductColor(Long productColorId, String imageUrl);
+
+	void setImageType(Long imageId, ProductImageType type);
 
 	void deleteVariant(Long variantId);
 

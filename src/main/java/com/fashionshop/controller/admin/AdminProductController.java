@@ -35,8 +35,16 @@ public class AdminProductController {
 	private StorageService storageService;
 
 	@GetMapping
-	public String list(@RequestParam(defaultValue = "0") int page, Model model) {
-		Page<Product> productPage = productService.getAllProducts(PageRequest.of(page, 10));
+	public String list(@RequestParam(defaultValue = "0") int page, 
+	                   @RequestParam(value = "keyword", required = false) String keyword, 
+	                   Model model) {
+		Page<Product> productPage;
+		if (keyword != null && !keyword.isEmpty()) {
+			productPage = productService.searchAdminProducts(keyword, PageRequest.of(page, 10));
+			model.addAttribute("keyword", keyword);
+		} else {
+			productPage = productService.getAllProducts(PageRequest.of(page, 10));
+		}
 		model.addAttribute("products", productPage.getContent());
 		model.addAttribute("page", productPage);
 		return "admin/product/list";
@@ -95,10 +103,12 @@ public class AdminProductController {
 
 	@PostMapping("/variants/upload-image")
 	public String uploadImage(@RequestParam("productId") Long productId,
-			@RequestParam("productColorId") Long productColorId, @RequestParam("imageFile") MultipartFile file) {
-		if (!file.isEmpty()) {
-			String fileName = storageService.store(file);
-			productService.addImageToProductColor(productColorId, fileName);
+			@RequestParam("productColorId") Long productColorId, @RequestParam("imageFiles") MultipartFile[] imageFiles) {
+		for (MultipartFile file : imageFiles) {
+			if (!file.isEmpty()) {
+				String fileName = storageService.store(file);
+				productService.addImageToProductColor(productColorId, fileName);
+			}
 		}
 		return "redirect:/admin/products/variants/" + productId;
 	}
@@ -147,5 +157,11 @@ public class AdminProductController {
 	public String setDefaultColor(@PathVariable Long id, @RequestParam Long productId) {
 	    productService.setDefaultColor(productId, id); 
 	    return "redirect:/admin/products/variants/" + productId;
+	}
+
+	@GetMapping("/variants/set-image-type/{imageId}")
+	public String setImageType(@PathVariable Long imageId, @RequestParam("type") String type, @RequestParam("productId") Long productId) {
+		productService.setImageType(imageId, com.fashionshop.enums.ProductImageType.valueOf(type));
+		return "redirect:/admin/products/variants/" + productId;
 	}
 }
