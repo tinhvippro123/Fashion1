@@ -10,6 +10,57 @@
 
     <link th:href="@{/admin/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
     <link th:href="@{/admin/css/sb-admin-2.min.css}" rel="stylesheet">
+    
+    <style>
+    /* Off-canvas sidebar cho mobile, giống bên client */
+    @media (max-width: 768px) {
+        body.sidebar-toggled .sidebar,
+        .sidebar.toggled,
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -14rem;
+            height: 100vh;
+            z-index: 1050 !important;
+            transition: left 0.3s ease-in-out;
+            width: 14rem !important; /* Ép luôn 14rem để ko bị lỗi css của SB admin */
+        }
+        .sidebar .nav-item .nav-link {
+            text-align: left !important;
+            padding: 1rem !important;
+            width: 14rem !important;
+        }
+        .sidebar .nav-item .nav-link span {
+            font-size: 0.85rem !important;
+            display: inline !important;
+        }
+        .sidebar .sidebar-brand {
+            width: 14rem !important;
+        }
+        .sidebar .sidebar-brand .sidebar-brand-text {
+            display: inline !important;
+        }
+        .sidebar.toggled,
+        body.sidebar-toggled .sidebar.toggled {
+            left: 0 !important;
+        }
+    }
+    
+    /* Overlay mờ */
+    #adminMobileOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.5);
+        z-index: 1040;
+        display: none;
+        transition: all 0.3s;
+    }
+    body.sidebar-toggled #adminMobileOverlay {
+        display: block;
+    }
+    </style>
 </head>

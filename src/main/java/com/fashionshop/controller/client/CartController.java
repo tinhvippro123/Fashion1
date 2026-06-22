@@ -136,6 +136,21 @@ public class CartController {
         return ResponseEntity.ok("Deleted");
     }
 
+    @PostMapping("/api/update")
+    @ResponseBody
+    public ResponseEntity<?> updateCartItemApi(@RequestParam("itemId") Long cartItemId,
+            @RequestParam("quantity") int quantity, 
+            Principal principal,
+            HttpSession session) {
+        
+        Long userId = getUserId(principal);
+        String sessionId = getCartSessionId(session);
+        
+        cartService.updateQuantity(userId, sessionId, cartItemId, quantity);
+        
+        return ResponseEntity.ok("Updated");
+    }
+
     @GetMapping("/fragment")
     public String getCartFragment(Model model, Principal principal, HttpSession session) {
         Cart cart = resolveCart(principal, session);

@@ -6,7 +6,6 @@
 
 		<div class="product-image">
 			<div class="badge-new" th:if="${p.isNew}">NEW</div>
-
 			<a th:id="'product-link-' + ${p.id}"
 				th:href="@{/product/{id}(id=${p.id})}"> <th:block
 					th:if="${not #lists.isEmpty(p.productColors)}">
@@ -50,7 +49,9 @@
 
 								<span class="color-dot"
 									th:classappend="${iter.index == 0} ? 'active'"
-									th:style="'background-color:' + ${pc.color.hexCode}"> </span>
+									th:style="'background-color:' + ${pc.color.hexCode}"> 
+									<i class="fas fa-check" th:if="${iter.index == 0}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 8px; mix-blend-mode: difference;"></i>
+								</span>
 							</div>
 
 						</th:block>
@@ -71,7 +72,7 @@
 				<div class="product-price">
 					<span
 						th:text="${#numbers.formatDecimal(p.basePrice, 0, 'POINT', 0, 'COMMA')} + 'đ'">
-						990.000đ </span>
+						750.500đ </span>
 				</div>
 				<a href="javascript:void(0)" class="btn-bag-black"
 					th:onclick="'toggleSizeList(' + ${p.id} + ', event)'"> <i

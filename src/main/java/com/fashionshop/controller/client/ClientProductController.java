@@ -55,9 +55,18 @@ public class ClientProductController {
 			@RequestParam(name = "size", required = false) List<String> sizes,
 			@RequestParam(name = "color", required = false) List<String> colors,
 			@RequestParam(name = "minPrice", required = false) Double minPrice,
-			@RequestParam(name = "maxPrice", required = false) Double maxPrice, Model model) {
+			@RequestParam(name = "maxPrice", required = false) Double maxPrice,
+			@RequestParam(name = "sort", required = false, defaultValue = "default") String sort, Model model) {
 
-		Pageable pageable = PageRequest.of(page, 24);
+		org.springframework.data.domain.Sort sortObj = org.springframework.data.domain.Sort.unsorted();
+        if ("price_asc".equals(sort)) {
+            sortObj = org.springframework.data.domain.Sort.by("basePrice").ascending();
+        } else if ("price_desc".equals(sort)) {
+            sortObj = org.springframework.data.domain.Sort.by("basePrice").descending();
+        } else if ("newest".equals(sort)) {
+            sortObj = org.springframework.data.domain.Sort.by("createdAt").descending();
+        }
+		Pageable pageable = PageRequest.of(page, 24, sortObj);
 
 		List<String> sizeParam = (sizes != null && !sizes.isEmpty()) ? sizes : null;
 		List<String> colorParam = (colors != null && !colors.isEmpty()) ? colors : null;
@@ -78,6 +87,7 @@ public class ClientProductController {
 		model.addAttribute("selectedColors", colors);
 		model.addAttribute("selectedMinPrice", minPrice);
 		model.addAttribute("selectedMaxPrice", maxPrice);
+		model.addAttribute("selectedSort", sort);
 
 		return "client/products";
 	}

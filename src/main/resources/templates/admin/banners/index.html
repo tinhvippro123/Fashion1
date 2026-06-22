@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout}">
+<head>
+<title>Quản lý Banner</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<h1 class="h3 mb-4 text-gray-800">Danh sách Banner</h1>
+
+		<div class="card shadow mb-4">
+			<div class="card-header py-3">
+				<a th:href="@{/admin/banners/add}" class="btn btn-primary btn-sm">
+					<i class="fas fa-plus"></i> Thêm banner mới
+				</a>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-bordered" width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th class="d-none d-md-table-cell">ID</th>
+								<th width="300">Hình ảnh</th>
+								<th class="d-none d-md-table-cell">Đường link (Target URL)</th>
+								<th class="d-none d-md-table-cell">Thứ tự</th>
+								<th class="d-none d-md-table-cell">Trạng thái</th>
+								<th>Hành động</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="b : ${banners}">
+								<td class="d-none d-md-table-cell" th:text="${b.id}"></td>
+								<td>
+									<img th:if="${b.imageName != null}" 
+										 th:src="@{'/uploads/' + ${b.imageName}}" 
+										 class="img-thumbnail" style="width: 280px; height: 100px; object-fit: cover;">
+								</td>
+								<td class="d-none d-md-table-cell">
+									<a th:href="${b.targetUrl}" target="_blank" th:text="${b.targetUrl}"></a>
+								</td>
+								<td class="d-none d-md-table-cell" th:text="${b.displayOrder}"></td>
+								<td class="d-none d-md-table-cell">
+									<span th:if="${b.isActive}" class="badge badge-success">Hiển thị</span>
+									<span th:unless="${b.isActive}" class="badge badge-secondary">Đã ẩn</span>
+								</td>
+								<td>
+									<a th:href="@{/admin/banners/edit/{id}(id=${b.id})}" class="btn btn-info btn-sm" title="Sửa">
+										<i class="fas fa-edit"></i>
+									</a>
+									<a th:href="@{/admin/banners/delete/{id}(id=${b.id})}" class="btn btn-danger btn-sm"
+									   onclick="return confirm('Bạn có chắc muốn xóa banner này?');" title="Xóa">
+										<i class="fas fa-trash"></i>
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

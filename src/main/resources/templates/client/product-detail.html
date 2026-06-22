@@ -49,6 +49,11 @@
                     <div th:if="${selectedColor != null}" class="gallery-wrapper">
 
                         <div class="gallery-main">
+                            <!-- Nút Back -->
+                            <button type="button" class="main-arrow prev" onclick="prevMainImage()" th:if="${not #lists.isEmpty(selectedColor.images) and selectedColor.images.size() > 1}">
+                                <svg width="24" height="40" viewBox="0 0 24 40" fill="none" stroke="#777" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 5 5 20 20 35"></polyline></svg>
+                            </button>
+
                             <img id="mainImage"
                                  th:if="${not #lists.isEmpty(selectedColor.images)}"
                                  th:src="@{'/uploads/' + ${selectedColor.images[0].imageUrl}}"
@@ -58,6 +63,11 @@
                                  th:if="${#lists.isEmpty(selectedColor.images)}"
                                  src="https://via.placeholder.com/500x750?text=No+Image"
                                  class="main-img-display">
+
+                            <!-- Nút Next -->
+                            <button type="button" class="main-arrow next" onclick="nextMainImage()" th:if="${not #lists.isEmpty(selectedColor.images) and selectedColor.images.size() > 1}">
+                                <svg width="24" height="40" viewBox="0 0 24 40" fill="none" stroke="#777" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 5 19 20 4 35"></polyline></svg>
+                            </button>
                         </div>
 
                         <div class="gallery-thumbs-container" th:if="${not #lists.isEmpty(selectedColor.images)}">
@@ -87,17 +97,26 @@
                     
                     <input type="hidden" name="productId" th:value="${product.id}">
 
-                    <h2 class="font-weight-bold text-uppercase mb-2"
-                        style="font-size: 24px;" th:text="${product.name}"></h2>
+                    <h2 class="font-weight-bold text-uppercase mb-3"
+                        style="font-size: 20px;" th:text="${product.name}"></h2>
 
-                    <div class="product-price-large"
-                         th:text="${#numbers.formatDecimal(product.basePrice, 0, 'POINT', 0, 'COMMA')} + 'đ'">
+                    <div class="mb-2 text-muted" style="font-size: 14px;">
+                        <span>SKU: <span th:text="${product.id}"></span>M9377</span>
+                    </div>
+                    <div class="d-flex align-items-center mb-4 text-muted" style="font-size: 14px;">
+                        <div class="text-warning mr-2">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <span>(0 đánh giá)</span>
+                    </div>
+
+                    <div class="product-price-large mb-4"
+                         th:text="${#numbers.formatDecimal(product.basePrice, 0, 'POINT', 0, 'COMMA')} + 'đ'" style="font-size: 24px;">
                     </div>
 
                     <div class="mb-4 mt-3">
-                        <div class="color-label mb-2">
-                            Màu sắc: <span class="font-weight-bold"
-                                           th:text="${selectedColor.color.name}">Trắng ngà</span>
+                        <div class="color-label mb-2 font-weight-bold" style="font-size: 16px;">
+                            Màu sắc: <span th:text="${selectedColor.color.name}">Trắng ngà</span>
                         </div>
                         <div class="d-flex flex-wrap">
                             <th:block th:each="pc : ${product.productColors}">
@@ -108,7 +127,8 @@
                                     
                                     <span class="color-option-box"
                                           th:classappend="${pc.id == selectedColor.id} ? 'active-color'"
-                                          th:style="'background-color:' + ${pc.color.hexCode}">
+                                          th:style="'background-color:' + ${pc.color.hexCode} + '; ' + (${pc.color.hexCode} == '#FFFFFF' ? 'border: 1px solid #ccc;' : '')">
+                                        <i class="fas fa-check" th:if="${pc.id == selectedColor.id}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 12px; mix-blend-mode: difference;"></i>
                                     </span>
                                 </a>
                             </th:block>
@@ -116,7 +136,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <div class="mb-4">
+                        <div class="mb-3">
                             <div th:each="variant : ${selectedColor.variants}"
                                  class="size-box"
                                  th:classappend="${variant.stock <= 0} ? 'disabled'"
@@ -138,57 +158,76 @@
                             </div>
                         </div>
                         
-                        <div class="mt-2 text-muted small">
-                            <i class="fas fa-ruler-combined mr-1"></i> Kiểm tra size của bạn
+                        <div class="text-muted small" style="cursor: pointer;">
+                            <i class="fas fa-ruler mr-1"></i> Kiểm tra size của bạn
                         </div>
                     </div>
 
-<div class="mb-4">
-    <label class="font-weight-bold d-block mb-2">Số lượng</label>
-    <div class="qty-control">
-        <button type="button" class="qty-btn" onclick="updateQty(-1)">-</button>
-        <input type="text" name="quantity" id="qtyInput" value="1" class="qty-input" readonly>
-        <button type="button" class="qty-btn" onclick="updateQty(1)">+</button>
-    </div>
-</div>
-
-<div class="action-buttons">
-    <button type="button" onclick="addToCartFromDetail()" class="btn-add-cart-black">
-        THÊM VÀO GIỎ
-    </button>
-
-    <button type="button" class="btn-buy-now-white" onclick="buyNow()">
-        MUA HÀNG
-    </button>
-
-    <div class="btn-wishlist-box">
-        <i class="far fa-heart"></i>
-    </div>
-</div>
-                    
-                    
-                    
-                    
-    <div class="mt-5">
-    <div class="single-tab-header">
-        <span class="tab-title">CHI TIẾT SẢN PHẨM</span>
-    </div>
-    
-    <div id="productDescription" class="product-desc-wrapper collapsed">
-        <div class="text-muted product-desc-content" style="font-size: 14px; line-height: 1.8;">
-            <p th:text="${product.description}" style="white-space: pre-line;"></p>
-            
-            </div>
-    </div>
-
-    <div class="text-center mt-3 toggle-container">
-        <div class="toggle-line"></div>
-        <button type="button" class="btn-toggle-desc" onclick="toggleDescription()">
-            <i id="toggleIcon" class="fas fa-chevron-down"></i>
-        </button>
-    </div>
-</div>
-
+					<div class="mb-4 d-flex align-items-center">
+					    <label class="font-weight-normal mr-4 mb-0" style="font-size: 15px;">Số lượng</label>
+					    <div class="qty-control">
+					        <button type="button" class="qty-btn" onclick="updateQty(-1)">-</button>
+					        <input type="text" name="quantity" id="qtyInput" value="1" class="qty-input" readonly>
+					        <button type="button" class="qty-btn" onclick="updateQty(1)">+</button>
+					    </div>
+					</div>
+					
+					<div class="action-buttons mb-4">
+					    <button type="button" onclick="addToCartFromDetail()" class="btn-add-cart-black">
+					        THÊM VÀO GIỎ
+					    </button>
+					
+					    <button type="button" class="btn-buy-now-white" onclick="buyNow()">
+					        MUA HÀNG
+					    </button>
+					
+					    <button type="button" class="btn-wishlist-box">
+					        <i class="far fa-heart"></i>
+					    </button>
+					</div>
+					
+					<div class="mb-5">
+					    <a href="#" class="text-dark" style="text-decoration: underline; font-size: 14px;">Tìm tại cửa hàng</a>
+					</div>
+                                        
+				    <div class="mt-4">
+				        <ul class="nav nav-tabs mb-4" id="detailTab" role="tablist" style="border-bottom: 1px solid #f0f0f0; display: flex; gap: 30px;">
+				            <li class="nav-item">
+				                <a class="nav-link active text-dark font-weight-bold p-0 pb-2 text-uppercase" style="border: none; border-bottom: 2px solid #000; font-size: 13px; background: none;" id="intro-tab" data-toggle="tab" href="#intro" role="tab" aria-controls="intro" aria-selected="true">Giới thiệu</a>
+				            </li>
+				            <li class="nav-item">
+				                <a class="nav-link text-muted font-weight-bold p-0 pb-2 text-uppercase" style="border: none; font-size: 13px; background: none;" id="detail-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="false">Chi tiết sản phẩm</a>
+				            </li>
+				            <li class="nav-item">
+				                <a class="nav-link text-muted font-weight-bold p-0 pb-2 text-uppercase" style="border: none; font-size: 13px; background: none;" id="preserve-tab" data-toggle="tab" href="#preserve" role="tab" aria-controls="preserve" aria-selected="false">Bảo quản</a>
+				            </li>
+				        </ul>
+				        <div class="tab-content" id="detailTabContent">
+				            <div class="tab-pane fade show active" id="intro" role="tabpanel" aria-labelledby="intro-tab">
+				                <div id="productDescription" class="product-desc-wrapper collapsed" style="max-height: 150px; overflow: hidden; position: relative;">
+				                    <div class="text-muted product-desc-content" style="font-size: 14px; line-height: 1.8;">
+				                        <p th:text="${product.description}" style="white-space: pre-line;"></p>
+				                    </div>
+				                </div>
+				                <div class="text-center mt-3 toggle-container">
+				                    <div class="toggle-line" style="height: 1px; background: #eee; width: 100%; position: relative;"></div>
+				                    <button type="button" class="btn-toggle-desc bg-white" onclick="toggleDescription()" style="position: relative; top: -15px; border: 1px solid #eee; border-radius: 50%; width: 30px; height: 30px;">
+				                        <i id="toggleIcon" class="fas fa-chevron-down"></i>
+				                    </button>
+				                </div>
+				            </div>
+				            <div class="tab-pane fade" id="detail" role="tabpanel" aria-labelledby="detail-tab">
+				                <div class="text-muted" style="font-size: 14px; line-height: 1.8;">
+				                    Thông tin chi tiết đang được cập nhật.
+				                </div>
+				            </div>
+				            <div class="tab-pane fade" id="preserve" role="tabpanel" aria-labelledby="preserve-tab">
+				                <div class="text-muted" style="font-size: 14px; line-height: 1.8;">
+				                    Thông tin bảo quản đang được cập nhật.
+				                </div>
+				            </div>
+				        </div>
+				    </div>
                 </div>
 
             </div>
@@ -204,7 +243,7 @@
                 thumbElement.classList.add('active');
             }
 
-            // 2. Cuộn Thumbnails
+            // 2. Cuộn Thumbnails bằng nút mũi tên dọc (Máy tính)
  function scrollThumbs(direction) {
     const container = document.getElementById('thumbScroller');
     const scrollAmount = 165; // Cuộn đúng chiều cao 1 ảnh + margin
@@ -215,6 +254,25 @@
         container.scrollTop += scrollAmount;
     }
 }
+
+            // 2.5 Nút qua lại trên ảnh chính (Slider)
+            function nextMainImage() {
+                const thumbs = Array.from(document.querySelectorAll('.thumb-img'));
+                if (thumbs.length === 0) return;
+                let activeIdx = thumbs.findIndex(t => t.classList.contains('active'));
+                let nextIdx = (activeIdx + 1) % thumbs.length;
+                thumbs[nextIdx].click();
+                thumbs[nextIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+
+            function prevMainImage() {
+                const thumbs = Array.from(document.querySelectorAll('.thumb-img'));
+                if (thumbs.length === 0) return;
+                let activeIdx = thumbs.findIndex(t => t.classList.contains('active'));
+                let prevIdx = (activeIdx - 1 + thumbs.length) % thumbs.length;
+                thumbs[prevIdx].click();
+                thumbs[prevIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
 
             // 3. Chọn Size
             function selectSize(element) {

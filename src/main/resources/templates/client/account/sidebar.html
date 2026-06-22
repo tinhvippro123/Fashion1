@@ -2,54 +2,112 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 
-	<div th:fragment="account-sidebar(activePage)" class="account-sidebar">
-		<div class="user-profile-summary mb-4">
-			<div class="d-flex align-items-center">
-				<div class="avatar-circle mr-3">
-					<i class="fas fa-user"></i>
+	<div th:fragment="account-sidebar(activePage)">
+	    <div style="border: 1px solid #f0f0f0; border-radius: 30px 0 30px 0; padding: 30px 25px; background: #fff; margin-bottom: 30px;">
+	        <!-- User Profile Summary -->
+			<div class="d-flex align-items-center justify-content-between mb-4 pb-4 border-bottom"
+				 id="accountSidebarHeader"
+				 style="cursor: pointer;">
+				<div class="d-flex align-items-center">
+					<div style="width: 45px; height: 45px; background-color: #e5e5e5; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+						<i class="fas fa-user" style="color: #b3b3b3; font-size: 20px;"></i>
+					</div>
+					<div>
+						<div style="font-weight: 600; font-size: 16px; color: #333;" th:if="${user != null}" th:text="${user.fullName}">Tên User</div>
+						<div style="font-weight: 600; font-size: 16px; color: #333;" th:if="${user == null}">Khách hàng</div>
+					</div>
 				</div>
-				<div>
-					<div class="font-weight-bold" th:if="${user != null}"
-						th:text="${user.fullName}">Tên User</div>
-
-					<div class="font-weight-bold" th:if="${user == null}">Khách
-						hàng</div>
-
-					<div class="small text-muted">Member</div>
-				</div>
+				<i class="fas fa-chevron-down d-block d-md-none" style="color: #999; font-size: 14px; transition: transform 0.3s;" id="accountSidebarChevron"></i>
 			</div>
+	
+	        <!-- Navigation Menu -->
+			<ul class="list-unstyled mb-0 collapse" id="accountSidebarMenu" style="font-size: 15px;">
+				<script>
+					// Initialize sidebar state based on screen size
+					(function() {
+						var menu = document.getElementById('accountSidebarMenu');
+						var icon = document.getElementById('accountSidebarChevron');
+						var header = document.getElementById('accountSidebarHeader');
+						
+						if (window.innerWidth >= 768) {
+							menu.classList.add('show');
+							header.style.cursor = 'default';
+						} else {
+							menu.classList.remove('show');
+							icon.style.transform = 'rotate(-90deg)';
+						}
+
+						// Handle icon rotation and toggle on click ONLY for mobile
+						header.addEventListener('click', function() {
+							if (window.innerWidth < 768) {
+								if (menu.classList.contains('show')) {
+									$(menu).collapse('hide');
+									icon.style.transform = 'rotate(-90deg)'; // point right when collapsed
+								} else {
+									$(menu).collapse('show');
+									icon.style.transform = 'rotate(0deg)'; // point down when open
+								}
+							}
+						});
+					})();
+				</script>
+				<li class="mb-4 pb-1">
+				    <a th:href="@{/account/profile}" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s;"
+					   th:styleappend="${activePage == 'profile'} ? 'color: #111; font-weight: 600;' : 'color: #666; font-weight: 500;'"> 
+					   <i class="far fa-user" style="width: 30px; text-align: center; margin-right: 15px; font-size: 18px;" th:styleappend="${activePage == 'profile'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Thông tin tài khoản
+				    </a>
+				</li>
+	
+				<li class="mb-4 pb-1">
+				    <a href="javascript:void(0)" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s;"
+					   th:styleappend="${activePage == 'login_history'} ? 'color: #111; font-weight: 600;' : 'color: #666; font-weight: 500;'"> 
+					   <i class="fas fa-lock" style="width: 30px; text-align: center; margin-right: 15px; font-size: 18px;" th:styleappend="${activePage == 'login_history'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Lịch sử đăng nhập
+				    </a>
+				</li>
+	
+				<li class="mb-4 pb-1">
+				    <a th:href="@{/account/orders}" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s;"
+					   th:styleappend="${activePage == 'orders'} ? 'color: #111; font-weight: 600;' : 'color: #666; font-weight: 500;'"> 
+					   <i class="fas fa-sync" style="width: 30px; text-align: center; margin-right: 15px; font-size: 18px;" th:styleappend="${activePage == 'orders'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Quản lý đơn hàng
+				    </a>
+				</li>
+	
+				<li class="mb-4 pb-1">
+				    <a th:href="@{/account/addresses}" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s;"
+					   th:styleappend="${activePage == 'addresses'} ? 'color: #111; font-weight: 600;' : 'color: #666; font-weight: 500;'"> 
+					   <i class="fas fa-map-marker-alt" style="width: 30px; text-align: center; margin-right: 15px; font-size: 18px;" th:styleappend="${activePage == 'addresses'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Sổ địa chỉ
+				    </a>
+				</li>
+	
+				<li class="mb-4 pb-1">
+				    <a href="javascript:void(0)" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s;"
+					   th:styleappend="${activePage == 'viewed_products'} ? 'color: #111; font-weight: 600;' : 'color: #666; font-weight: 500;'"> 
+					   <i class="fas fa-glasses" style="width: 30px; text-align: center; margin-right: 15px; font-size: 18px;" th:styleappend="${activePage == 'viewed_products'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Sản phẩm đã xem
+				    </a>
+				</li>
+				
+				<li class="mb-4 pb-1">
+				    <a href="javascript:void(0)" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s;"
+					   th:styleappend="${activePage == 'favorite_products'} ? 'color: #111; font-weight: 600;' : 'color: #666; font-weight: 500;'"> 
+					   <i class="far fa-heart" style="width: 30px; text-align: center; margin-right: 15px; font-size: 18px;" th:styleappend="${activePage == 'favorite_products'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Sản phẩm yêu thích
+				    </a>
+				</li>
+				
+				<li class="mb-4 pb-1">
+				    <a href="javascript:void(0)" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s;"
+					   th:styleappend="${activePage == 'faq'} ? 'color: #111; font-weight: 600;' : 'color: #666; font-weight: 500;'"> 
+					   <i class="fas fa-headset" style="width: 30px; text-align: center; margin-right: 15px; font-size: 18px;" th:styleappend="${activePage == 'faq'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Hỏi đáp sản phẩm
+				    </a>
+				</li>
+				
+				<li>
+				    <a href="javascript:void(0)" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s;"
+					   th:styleappend="${activePage == 'support'} ? 'color: #111; font-weight: 600;' : 'color: #666; font-weight: 500;'"> 
+					   <i class="far fa-hand-point-right" style="width: 30px; text-align: center; margin-right: 15px; font-size: 18px;" th:styleappend="${activePage == 'support'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Hỗ trợ - IVY
+				    </a>
+				</li>
+			</ul>
 		</div>
-
-		<ul class="account-nav">
-			<li><a th:href="@{/account/profile}" class="account-nav-link"
-				th:classappend="${activePage == 'profile'} ? 'active'"> <i
-					class="far fa-user mr-3"></i> Thông tin tài khoản
-			</a></li>
-
-			<li><a href="#" class="account-nav-link"> <i
-					class="fas fa-history mr-3"></i> Lịch sử đăng nhập
-			</a></li>
-
-			<li><a th:href="@{/account/orders}" class="account-nav-link"
-				th:classappend="${activePage == 'orders'} ? 'active'"> <i
-					class="fas fa-sync-alt mr-3"></i> Quản lý đơn hàng
-			</a></li>
-
-			<li><a th:href="@{/account/addresses}" class="account-nav-link"
-				th:classappend="${activePage == 'addresses'} ? 'active'"> <i
-					class="fas fa-map-marker-alt mr-3"></i> Sổ địa chỉ
-			</a></li>
-
-			<li><a href="#" class="account-nav-link"> <i
-					class="fas fa-eye mr-3"></i> Sản phẩm đã xem
-			</a></li>
-			<li><a href="#" class="account-nav-link"> <i
-					class="far fa-heart mr-3"></i> Sản phẩm yêu thích
-			</a></li>
-			<li><a href="#" class="account-nav-link"> <i
-					class="fas fa-headset mr-3"></i> Hỗ trợ - IVY
-			</a></li>
-		</ul>
 	</div>
 </body>
 </html>

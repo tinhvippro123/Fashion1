@@ -91,6 +91,44 @@ function closeSuccessModal() {
 }
 
 
+// --- 4. XỬ LÝ CẬP NHẬT SỐ LƯỢNG GIỎ HÀNG MINI ---
+function updateMiniCartQty(itemId, newQty) {
+    if (newQty < 1) {
+        // If quantity is < 1, you might want to call the remove API, or just ignore
+        // For now, let's call the remove API to delete the item
+        $.ajax({
+            url: '/cart/api/remove',
+            type: 'POST',
+            data: { id: itemId },
+            success: function() {
+                $('#miniCartSidebar').load('/cart/fragment');
+                // Reload the page if we're on the cart page
+                if(window.location.pathname === '/cart') {
+                    window.location.reload();
+                }
+            }
+        });
+        return;
+    }
+    
+    $.ajax({
+        url: '/cart/api/update',
+        type: 'POST',
+        data: { itemId: itemId, quantity: newQty },
+        success: function() {
+            $('#miniCartSidebar').load('/cart/fragment');
+            // Update total badge if needed, though fragment load handles the UI
+            // Reload the page if we're on the cart page
+            if(window.location.pathname === '/cart') {
+                window.location.reload();
+            }
+        },
+        error: function(xhr) {
+            alert("Lỗi cập nhật giỏ hàng!");
+        }
+    });
+}
+
 // --- 5. XỬ LÝ THÊM GIỎ HÀNG TỪ TRANG CHI TIẾT ---
 function addToCartFromDetail() {
 	// 1. Lấy variantId (Size) mà khách đã chọn

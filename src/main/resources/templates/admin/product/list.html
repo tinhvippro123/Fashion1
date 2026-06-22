@@ -20,18 +20,18 @@
 					<table class="table table-bordered" width="100%" cellspacing="0">
 						<thead>
 							<tr>
-								<th>ID</th>
+								<th class="d-none d-md-table-cell">ID</th>
 								<th width="100">Hình ảnh</th>
 								<th>Tên sản phẩm</th>
-								<th>Danh mục</th>
-								<th>Giá gốc</th>
-								<th>Trạng thái</th>
+								<th class="d-none d-md-table-cell">Danh mục</th>
+								<th class="d-none d-md-table-cell">Giá gốc</th>
+								<th class="d-none d-md-table-cell">Trạng thái</th>
 								<th>Hành động</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="p : ${products}">
-								<td th:text="${p.id}"></td>
+								<td class="d-none d-md-table-cell" th:text="${p.id}"></td>
 
 								<td><img
 									th:if="${not #lists.isEmpty(p.productColors) 
@@ -53,13 +53,13 @@
 									class="font-weight-bold text-primary"></span> <br> <small
 									th:text="${p.slug}"></small></td>
 
-								<td
+								<td class="d-none d-md-table-cell"
 									th:text="${p.category != null ? p.category.name : 'Chưa phân loại'}"></td>
 
-								<td
+								<td class="d-none d-md-table-cell"
 									th:text="${#numbers.formatDecimal(p.basePrice, 0, 'COMMA', 0, 'POINT')} + ' đ'"></td>
 
-								<td><span th:if="${p.isActive}" class="badge badge-success">Đang
+								<td class="d-none d-md-table-cell"><span th:if="${p.isActive}" class="badge badge-success">Đang
 										bán</span> <span th:unless="${p.isActive}"
 									class="badge badge-secondary">Ngừng bán</span></td>
 

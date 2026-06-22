@@ -24,29 +24,29 @@
 					<table class="table table-bordered" width="100%" cellspacing="0">
 						<thead>
 							<tr>
-								<th>ID</th>
+								<th class="d-none d-md-table-cell">ID</th>
 								<th>Tên danh mục</th>
-								<th>Đường dẫn (Slug)</th>
-								<th>Danh mục cha</th>
-								<th>Trạng thái</th>
+								<th class="d-none d-md-table-cell">Đường dẫn (Slug)</th>
+								<th class="d-none d-md-table-cell">Danh mục cha</th>
+								<th class="d-none d-md-table-cell">Trạng thái</th>
 								<th>Hành động</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="cat : ${categories}">
-								<td th:text="${cat.id}">1</td>
+								<td class="d-none d-md-table-cell" th:text="${cat.id}">1</td>
 								<td th:text="${cat.name}" class="font-weight-bold text-primary">Áo
 									nam</td>
-								<td th:text="${cat.slug}">ao-nam</td>
+								<td class="d-none d-md-table-cell" th:text="${cat.slug}">ao-nam</td>
 
-								<td><span th:if="${cat.parent == null}"
-									class="badge badge-secondary">--- Danh mục gốc ---</span> <span
-									th:if="${cat.parent != null}" th:text="${cat.parent.name}"
-									class="text-info">Thời trang nam</span></td>
+								<td class="d-none d-md-table-cell"><span th:if="${cat.parent == null}"
+									class="text-muted font-italic">Không có</span> <span
+									th:unless="${cat.parent == null}" th:text="${cat.parent.name}">Quần
+										áo</span></td>
 
-								<td><span th:if="${cat.isActive}"
+								<td class="d-none d-md-table-cell"><span th:if="${cat.isActive}"
 									class="badge badge-success">Hiển thị</span> <span
-									th:unless="${cat.isActive}" class="badge badge-danger">Ẩn</span>
+									th:unless="${cat.isActive}" class="badge badge-secondary">Ẩn</span>
 								</td>
 
 								<td><a

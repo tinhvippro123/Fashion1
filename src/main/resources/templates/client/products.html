@@ -16,8 +16,8 @@
 				<span th:text="${breadcrumb}">DANH MỤC</span>
 			</div>
 
-			<div class="row">
-				<div class="col-lg-3 d-none d-lg-block pr-5">
+			<div class="row position-relative">
+				<div class="col-lg-3 collapse d-lg-block pr-5" id="mobileFilter">
 
                     <form id="filterForm"
 						th:action="${keyword != null} ? @{/search} : @{'/danh-muc/' + ${currentSlug}}"
@@ -104,6 +104,8 @@
 
 								<input type="hidden" name="maxPrice" id="maxPriceInput"
 									th:value="${selectedMaxPrice != null ? #numbers.formatDecimal(selectedMaxPrice, 0, 'NONE', 0, 'POINT') : ''}">
+									
+								<input type="hidden" name="sort" id="sortInput" th:value="${selectedSort}">
 							</div>
 						</div>
 
@@ -138,8 +140,26 @@
 
 				<div class="col-lg-9 col-12">
 
-					<h2 class="font-weight-bold mb-4" th:text="${breadcrumb}">TIÊU
-						ĐỀ</h2>
+					<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center mb-4">
+					    <h2 class="font-weight-bold m-0 mb-3 mb-lg-0 text-nowrap" style="text-transform: uppercase; font-size: 24px;" th:text="${breadcrumb}">TIÊU ĐỀ</h2>
+					    <div class="d-flex align-items-center justify-content-lg-end flex-grow-1 ml-lg-4" style="gap: 15px;">
+						    <div class="dropdown custom-sort-dropdown sort-btn-wrapper w-100" style="max-width: 250px;">
+						        <button class="btn dropdown-toggle d-flex justify-content-between align-items-center w-100" type="button" id="sortDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border: 1px solid #e5e5e5; border-radius: 25px; height: 45px; padding: 0 20px; color: #333; font-size: 15px; background: #fff; outline: none; box-shadow: none;">
+						            <span id="selectedSortText" th:text="${selectedSort == 'price_desc' ? 'Giá: cao đến thấp' : (selectedSort == 'price_asc' ? 'Giá: thấp đến cao' : (selectedSort == 'newest' ? 'Mới nhất' : 'Mặc định'))}">Sắp xếp theo</span>
+						            <i class="fas fa-chevron-down" style="font-size: 14px; color: #666;"></i>
+						        </button>
+						        <div class="dropdown-menu w-100" aria-labelledby="sortDropdownMenu" style="border-radius: 15px; border: 1px solid #eee; box-shadow: 0 5px 15px rgba(0,0,0,0.08); padding: 10px 0; margin-top: 5px;">
+						            <a class="dropdown-item py-2 px-4" href="javascript:void(0)" onclick="document.getElementById('sortInput').value = 'default'; document.getElementById('filterForm').submit();">Mặc định</a>
+						            <a class="dropdown-item py-2 px-4" href="javascript:void(0)" onclick="document.getElementById('sortInput').value = 'newest'; document.getElementById('filterForm').submit();">Mới nhất</a>
+						            <a class="dropdown-item py-2 px-4" href="javascript:void(0)" onclick="document.getElementById('sortInput').value = 'price_desc'; document.getElementById('filterForm').submit();">Giá: cao đến thấp</a>
+						            <a class="dropdown-item py-2 px-4" href="javascript:void(0)" onclick="document.getElementById('sortInput').value = 'price_asc'; document.getElementById('filterForm').submit();">Giá: thấp đến cao</a>
+						        </div>
+						    </div>
+						    <button class="btn d-lg-none" type="button" data-toggle="collapse" data-target="#mobileFilter" style="border: 1px solid #e5e5e5; border-radius: 5px; height: 45px; width: 45px; background: #fff; color: #666; display: flex; align-items: center; justify-content: center; padding: 0;">
+					            <i class="fas fa-filter"></i>
+					        </button>
+					    </div>
+					</div>
 
 					<div th:if="${not #lists.isEmpty(products)}">
 						<div class="row">

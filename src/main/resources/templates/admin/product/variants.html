@@ -44,29 +44,29 @@
 				<div class="card shadow"
 					th:style="${pc.isActive} ? '' : 'opacity: 0.8; border: 1px dashed red; background-color: #f8f9fa;'">
 					
-					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						<h6 class="m-0 font-weight-bold text-primary d-flex align-items-center">
+					<div class="card-header py-3 d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+						<h6 class="m-0 font-weight-bold text-primary d-flex flex-wrap align-items-center mb-3 mb-md-0">
 							Màu: <span th:text="${pc.color.name}" class="ml-1 mr-2"></span> 
 							<span th:style="'background-color:' + ${pc.color.hexCode} + '; display:inline-block; width:20px; height:20px; border:1px solid #ccc; border-radius: 50%;'"></span>
 
-							<span th:if="${pc.isActive}" class="badge badge-success ml-3">Đang hiển thị</span> 
-							<span th:unless="${pc.isActive}" class="badge badge-secondary ml-3">Đang ẩn</span>
+							<span th:if="${pc.isActive}" class="badge badge-success ml-3 mb-1">Đang hiển thị</span> 
+							<span th:unless="${pc.isActive}" class="badge badge-secondary ml-3 mb-1">Đang ẩn</span>
 
-							<span th:if="${pc.isDefault}" class="badge badge-warning text-dark ml-2">
+							<span th:if="${pc.isDefault}" class="badge badge-warning text-dark ml-2 mb-1">
 								<i class="fas fa-star"></i> Mặc định
 							</span>
 						</h6>
 
-						<div>
+						<div class="d-flex flex-wrap">
 							<a th:unless="${pc.isDefault}"
 							   th:href="@{/admin/products/variants/set-default/{id}(id=${pc.id}, productId=${product.id})}"
-							   class="btn btn-outline-warning btn-sm mr-2"
+							   class="btn btn-outline-warning btn-sm mr-2 mb-2 mb-md-0"
 							   title="Đặt làm màu mặc định hiển thị đầu tiên">
 								<i class="far fa-star"></i> Đặt mặc định
 							</a>
 
 							<a th:href="@{/admin/products/variants/toggle-color/{id}(id=${pc.id}, productId=${product.id})}"
-								class="btn btn-sm mr-2"
+								class="btn btn-sm mr-2 mb-2 mb-md-0"
 								th:classappend="${pc.isActive} ? 'btn-warning' : 'btn-success'"
 								th:title="${pc.isActive} ? 'Ẩn màu này đi' : 'Hiển thị màu này'">
 								<i class="fas" th:classappend="${pc.isActive} ? 'fa-eye-slash' : 'fa-eye'"></i>
@@ -74,7 +74,7 @@
 							</a> 
 							
 							<a th:href="@{/admin/products/variants/delete-color/{id}(id=${pc.id}, productId=${product.id})}"
-								class="btn btn-danger btn-sm"
+								class="btn btn-danger btn-sm mb-2 mb-md-0"
 								onclick="return confirm('CẢNH BÁO: Xóa màu này sẽ xóa hết tất cả Size và Ảnh bên trong. Bạn chắc chắn chứ?');">
 								<i class="fas fa-trash"></i> Xóa
 							</a>

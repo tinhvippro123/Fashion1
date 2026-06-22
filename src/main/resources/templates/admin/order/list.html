@@ -22,9 +22,9 @@
                             <tr>
                                 <th>Mã đơn</th>
                                 <th>Khách hàng</th>
-                                <th>Ngày đặt</th>
-                                <th>Tổng tiền</th>
-                                <th>TT Thanh toán</th>
+                                <th class="d-none d-md-table-cell">Ngày đặt</th>
+                                <th class="d-none d-md-table-cell">Tổng tiền</th>
+                                <th class="d-none d-md-table-cell">TT Thanh toán</th>
                                 <th>Trạng thái</th>
                                 <th>Hành động</th>
                             </tr>
@@ -40,13 +40,13 @@
 
                                 <td th:text="${order.receiverName}">Nguyễn Văn A</td>
 
-                                <td th:text="${#temporals.format(order.orderDate, 'dd-MM-yyyy HH:mm')}">12-12-2024 10:30</td>
+                                <td class="d-none d-md-table-cell" th:text="${#temporals.format(order.orderDate, 'dd-MM-yyyy HH:mm')}">12-12-2024 10:30</td>
 
-                                <td th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">
+                                <td class="d-none d-md-table-cell" th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">
                                     1.500.000đ
                                 </td>
 
-                                <td>
+                                <td class="d-none d-md-table-cell">
                                     <span th:if="${order.payment.paymentStatus.name() == 'PAID'}" class="badge badge-success">Đã thanh toán</span>
                                     <span th:if="${order.payment.paymentStatus.name() == 'UNPAID'}" class="badge badge-secondary">Chưa thanh toán</span>
                                     <span th:if="${order.payment.paymentStatus.name() == 'REFUNDED'}" class="badge badge-warning">Đã hoàn tiền</span>

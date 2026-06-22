@@ -13,7 +13,7 @@
 }
 
 /* Trên mobile thì không cần cách lề 85px, chỉ cần 15px */
-@media ( max-width : 992px) {
+@media ( max-width : 1199px) {
 	.container-ivy {
 		padding-right: 15px;
 		padding-left: 15px;
@@ -453,7 +453,7 @@
 }
 
 /* Với màn hình Tablet & Mobile: Chuyển về dạng lưới (Grid) hoặc Cột dọc */
-@media ( max-width : 992px) {
+@media ( max-width : 1199px) {
 	.footer-flex-container {
 		flex-wrap: wrap; /* Cho phép xuống dòng */
 	}
@@ -621,6 +621,41 @@ a.zalo-icon{
 	font-size: 15px;
 }
 
+/* --- CUSTOM SORT DROPDOWN --- */
+.custom-sort-dropdown .dropdown-toggle::after {
+    display: none !important;
+}
+.custom-sort-dropdown.show .fa-chevron-down {
+    transform: rotate(180deg) !important;
+    transition: transform 0.2s;
+}
+.custom-sort-dropdown .fa-chevron-down {
+    transition: transform 0.2s;
+}
+.custom-sort-dropdown .dropdown-item {
+    color: #333;
+    font-size: 15px;
+    font-weight: 300;
+}
+.custom-sort-dropdown .dropdown-item:hover,
+.custom-sort-dropdown .dropdown-item:active {
+    background-color: #f8f9fa;
+    color: #000;
+}
+
+.sort-btn-wrapper {
+    flex: 1;
+}
+.sort-btn-wrapper button {
+    width: 100%;
+}
+@media (min-width: 992px) {
+    .sort-btn-wrapper {
+        flex: 0 0 260px;
+        max-width: 260px;
+    }
+}
+
 /* --------------------------------- SECTION HEADER (NEW ARRIVAL) --------------------------------- */
 .ivy-section-header {
 	text-align: center;
@@ -683,10 +718,27 @@ a.zalo-icon{
 	margin-bottom: 30px;
 }
 
-/* Responsive: Mobile 2 cột, Tablet 3 cột */
-@media ( max-width : 992px) {
+@media ( max-width : 1199px) {
 	.col-ivy-5 {
 		width: 33.33%;
+	}
+	body {
+	    padding-bottom: 60px; /* Space for mobile bottom nav */
+	}
+	
+	/* Mobile Filter Popup Overlay */
+	#mobileFilter.show {
+	    position: absolute;
+	    top: 110px; /* Positioned below title and sort bar */
+	    left: 15px;
+	    right: 15px;
+	    width: auto;
+	    z-index: 1040;
+	    background: #fff;
+	    border: 1px solid #e5e5e5;
+	    border-radius: 10px;
+	    padding: 20px;
+	    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 	}
 }
 
@@ -793,13 +845,14 @@ a.zalo-icon{
 .btn-bag-black {
 	background: #222;
 	color: #fff;
-	width: 30px;
-	height: 30px;
+	width: 35px;
+	height: 35px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border-radius: 3px;
+	border-radius: 10px 0 10px 0;
 	transition: background 0.2s;
+	font-size: 14px;
 }
 
 .btn-bag-black:hover {
@@ -849,6 +902,49 @@ a.zalo-icon{
 	padding: 4px 10px;
 	z-index: 5;
 	text-transform: uppercase;
+}
+
+/* 1b. Nhãn Best Seller (Màu đỏ gấp khúc) */
+.badge-best-seller {
+	position: absolute;
+	top: 10px;
+	left: -5px;
+	background: #b8232a; /* Màu đỏ đô */
+	color: #fff;
+	font-size: 11px;
+	font-weight: 500;
+	padding: 4px 12px;
+	z-index: 5;
+	border-radius: 0 15px 15px 0;
+	box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+.badge-best-seller::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 5px solid #7a151b; /* Màu tối tạo độ sâu góc gấp */
+    border-left: 5px solid transparent;
+}
+
+/* Nhãn giảm giá -5% (Hình tròn vàng) */
+.badge-discount {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background: #f7941d; /* Màu vàng cam */
+	color: #fff;
+	font-size: 12px;
+	font-weight: 700;
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 5;
 }
 
 /* 2. Ảnh sản phẩm */
@@ -1027,6 +1123,27 @@ a.zalo-icon{
 	display: block;
 }
 
+/* Nút chuyển ảnh trên Main Image */
+.main-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    z-index: 10;
+    cursor: pointer;
+    padding: 10px;
+    outline: none;
+}
+.main-arrow.prev { left: 5px; }
+.main-arrow.next { right: 5px; }
+.main-arrow svg {
+    transition: stroke 0.3s ease;
+}
+.main-arrow:hover svg {
+    stroke: #000;
+}
+
 /* Cột Thumbnail (Ảnh nhỏ bên cạnh ảnh lớn) */
 .gallery-thumbs-container {
 	width: 100px; /* Kích thước thumb ~100px */
@@ -1132,36 +1249,68 @@ a.zalo-icon{
 }
 
 /* Khi màn hình nhỏ hơn 992px (Mobile/Tablet dọc) -> Xếp dọc */
-@media ( max-width : 992px) {
+@media ( max-width : 1199px) {
 	.product-detail-row {
 		flex-direction: column;
 	}
 	.gallery-wrapper {
 		width: 100%;
 		height: auto;
-		flex-direction: column-reverse;
+		flex-direction: column;
 		margin-bottom: 30px;
 	}
 	.gallery-main {
 		width: 100%;
 		height: auto;
-		aspect-ratio: 2/3;
+		aspect-ratio: 2/3; /* Match desktop exact proportions */
 	}
 	.gallery-thumbs-container {
 		width: 100%;
 		height: auto;
 		flex-direction: row;
 		padding: 0 0 10px 0;
-		overflow-x: auto;
+	}
+	.gallery-thumbs-scroll {
+		flex-direction: row;
+		flex-wrap: nowrap; /* Tắt rớt dòng để có thể vuốt ngang */
+		width: 100%;
+		height: auto;
+		overflow-x: auto; /* Bật thanh cuộn ngang */
+		overflow-y: hidden;
+		gap: 10px;
+		justify-content: flex-start;
+		scroll-snap-type: x mandatory; /* Snap từng ảnh khi vuốt */
+		-webkit-overflow-scrolling: touch; /* Mượt mà trên iOS */
 	}
 	.product-info-col {
 		padding-left: 0 !important; /* Mobile thì bỏ padding trái */
 		padding-right: 0;
 	}
+	/* Ép các nút bấm nằm ngang trên 1 dòng trên mobile */
+	.action-buttons {
+		flex-wrap: nowrap !important;
+		gap: 8px !important;
+	}
+	.btn-add-cart-black, .btn-buy-now-white {
+		padding: 0 15px !important; /* Padding nhỏ lại gọn gàng */
+		font-size: 12px !important; /* Cỡ chữ nhỏ lại chút */
+		height: 40px !important; /* Nút thấp lại */
+		white-space: nowrap; /* Không cho chữ rớt dòng */
+	}
+	.btn-wishlist-box {
+		flex-shrink: 0;
+		width: 40px !important;
+		height: 40px !important;
+	}
 	.thumb-img {
-		width: 80px;
-		margin-right: 10px;
+		/* Tính toán width chính xác cho 4 ảnh hiển thị: 100% trừ đi 3 khoảng cách 10px = 30px, chia đều 4 */
+		width: calc((100% - 30px) / 4); 
+		height: auto; 
+		aspect-ratio: 2/3; /* Force 2:3 aspect ratio */
+		flex-shrink: 0; /* Ngăn chặn bị bóp méo khi flex row */
+		margin-right: 0; /* Dùng gap thay cho margin */
 		margin-bottom: 0;
+		scroll-snap-align: start; /* Điểm dừng khi vuốt */
 	}
 	.thumb-arrow {
 		display: none;
@@ -1220,6 +1369,32 @@ a.zalo-icon{
     height: 45px;
 }
 
+.detail-tabs {
+    border-bottom: 1px solid #eee;
+}
+.detail-tabs .nav-item {
+    margin-bottom: -1px;
+}
+.detail-tabs .nav-link {
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #777;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 14px;
+    padding: 15px 15px;
+}
+.detail-tabs .nav-link:hover {
+    border-color: transparent;
+    color: #333;
+}
+.detail-tabs .nav-link.active {
+    border: none;
+    border-bottom: 2px solid #000;
+    color: #333;
+    background: transparent;
+}
+
 .qty-btn {
     width: 40px;
     height: 100%;
@@ -1257,7 +1432,7 @@ a.zalo-icon{
     background: #222;
     color: #fff;
     border: 1px solid #222;
-    padding: 0 35px;
+    padding: 0 20px;
     height: 50px;
     font-weight: 700;
     text-transform: uppercase;
@@ -1276,7 +1451,7 @@ a.zalo-icon{
     background: #fff;
     color: #222;
     border: 1px solid #222;
-    padding: 0 35px;
+    padding: 0 20px;
     height: 50px;
     font-weight: 700;
     text-transform: uppercase;
@@ -2046,7 +2221,7 @@ a.zalo-icon{
 }
 
 /* Responsive: Mobile bỏ đường kẻ và padding */
-@media ( max-width : 992px) {
+@media ( max-width : 1199px) {
 	.login-wrapper-90 {
 		margin-left: 0;
 		margin-right: 0;
@@ -2682,4 +2857,11 @@ a.btn-auth-action{
     .ivy-banner-wrapper .carousel-item img {
         height: 35vh; /* Thấp hơn trên Mobile */
     }
+}
+
+@media ( max-width : 576px) {
+	.mini-cart-sidebar {
+		width: 85%;
+		right: -85%;
+	}
 }

@@ -4,7 +4,7 @@
 	<div
 		class="container-ivy d-flex align-items-center justify-content-between position-relative">
 
-		<nav class="d-none d-lg-flex">
+		<nav class="d-none d-xl-flex">
 
 			<div class="ivy-menu-item">
 				<a href="javascript:void(0)" class="ivy-nav-link">NỮ</a>
@@ -99,110 +99,103 @@
 		</nav>
 
 		<!-- Nút Hamburger Mở Mobile Menu -->
-		<button class="btn d-lg-none" type="button" onclick="openMobileMenu()">
+		<button class="btn d-xl-none" type="button" onclick="openMobileMenu()">
 			<i class="fas fa-bars"></i>
 		</button>
 
 		<!-- Mobile Menu Overlay & Sidebar -->
-		<div id="mobileMenuOverlay" class="cart-overlay" style="display: none;" onclick="closeMobileMenu()"></div>
-		<div id="mobileMenuSidebar" class="mini-cart-sidebar" style="left: -100%; right: auto; width: 100%; max-width: 100%; height: 100vh; transition: left 0.3s ease; background: #fff; z-index: 1050; padding: 20px; overflow-y: auto;">
-			<!-- Nút Đóng -->
-			<div class="mb-3">
-				<span style="font-size: 28px; cursor: pointer; color: #333; font-weight: 300; line-height: 1; padding: 10px 0; display: inline-block;" onclick="closeMobileMenu()">&times;</span>
-			</div>
+		<style>
+			.mobile-toggle-btn.collapsed .toggle-icon::before { content: '+'; }
+			.mobile-toggle-btn:not(.collapsed) .toggle-icon::before { content: '–'; }
+		</style>
+		<div id="mobileMenuOverlay" class="cart-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 1040;" onclick="closeMobileMenu()"></div>
+		<div id="mobileMenuSidebar" class="mini-cart-sidebar" style="position: fixed; top: 0; left: -100%; width: 85%; max-width: 400px; height: 100vh; transition: left 0.3s ease; background: #fff; z-index: 1050; display: flex; flex-direction: column;">
 			
-			<!-- Nút Đăng Nhập / Xin chào -->
-			<div class="mb-4">
-				<!-- Hiển thị khi chưa đăng nhập -->
-				<a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn btn-dark btn-block" style="border-radius: 8px; font-weight: 600; font-size: 15px; background-color: #2c2c2c; border-color: #2c2c2c; padding: 12px 0;">Đăng nhập</a>
+			<!-- Phần nội dung chính (cuộn được) -->
+			<div style="flex-grow: 1; overflow-y: auto; padding: 15px 20px 80px 20px;">
+				<!-- Nút Đóng -->
+				<div class="mb-3">
+					<span style="font-size: 28px; cursor: pointer; color: #333; font-weight: 300; line-height: 1; display: inline-block;" onclick="closeMobileMenu()">&times;</span>
+				</div>
 				
-				<!-- Hiển thị khi đã đăng nhập -->
-				<div sec:authorize="isAuthenticated()" class="d-flex align-items-center p-2 rounded" style="background: #f8f9fa;">
-					<i class="far fa-user-circle fa-2x mr-3 text-dark"></i>
-					<div>
-						<p class="mb-0 font-weight-bold" style="font-size: 14px;">Xin chào, <span sec:authentication="name">User</span>!</p>
-						<a th:href="@{/account/profile}" class="text-muted" style="font-size: 12px; text-decoration: underline;">Tài khoản của tôi</a>
-					</div>
+
+				<!-- Danh sách Menu -->
+				<div>
+					<ul class="list-unstyled mobile-menu-list mb-0">
+						<!-- NỮ -->
+						<li>
+							<div class="d-flex justify-content-between align-items-center mb-4 mobile-toggle-btn collapsed" data-toggle="collapse" data-target="#collapseWomenMobile" aria-expanded="false" style="cursor: pointer;">
+								<span class="text-dark font-weight-bold d-block w-100" style="font-size: 14px;">NỮ</span>
+								<span class="text-muted toggle-icon" style="font-size: 22px; font-weight: 300; line-height: 1;"></span>
+							</div>
+							<div class="collapse" id="collapseWomenMobile">
+								<div class="pl-3">
+									<a th:href="@{/danh-muc/nu}" class="d-block mb-4 text-danger text-uppercase" style="font-size: 13px;">ALL ITEMS</a>
+									<a th:href="@{/danh-muc/hang-nu-moi-ve}" class="d-block mb-4 text-muted text-uppercase" style="font-size: 13px;">NEW ARRIVAL</a>
+									<div th:each="parent : ${womenCategories}">
+										<div class="d-flex justify-content-between align-items-center mb-4 mobile-toggle-btn collapsed" data-toggle="collapse" th:data-target="'#collapseWomenSub_' + ${parent.id}" aria-expanded="false" style="cursor: pointer;">
+											<span class="d-block text-muted text-uppercase" style="font-size: 13px;" th:text="${parent.name}">ÁO</span>
+											<span class="text-muted toggle-icon" style="font-size: 20px; font-weight: 300; line-height: 1;"></span>
+										</div>
+										<div class="collapse pl-3" th:id="'collapseWomenSub_' + ${parent.id}">
+											<a th:each="child : ${parent.children}" th:href="@{'/danh-muc/' + ${child.slug}}" class="d-block text-muted mb-4" style="font-size: 13px; text-decoration: none;" th:text="${child.name}">Áo sơ mi</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+						
+						<!-- NAM -->
+						<li>
+							<div class="d-flex justify-content-between align-items-center mb-4 mobile-toggle-btn collapsed" data-toggle="collapse" data-target="#collapseMenMobile" aria-expanded="false" style="cursor: pointer;">
+								<span class="text-dark font-weight-bold d-block w-100" style="font-size: 14px;">NAM</span>
+								<span class="text-muted toggle-icon" style="font-size: 22px; font-weight: 300; line-height: 1;"></span>
+							</div>
+							<div class="collapse" id="collapseMenMobile">
+								<div class="pl-3">
+									<a th:href="@{/danh-muc/nam}" class="d-block mb-4 text-danger text-uppercase" style="font-size: 13px;">ALL ITEMS</a>
+									<a th:href="@{/danh-muc/hang-nam-moi-ve}" class="d-block mb-4 text-muted text-uppercase" style="font-size: 13px;">NEW ARRIVAL</a>
+									<div th:each="parent : ${menCategories}">
+										<div class="d-flex justify-content-between align-items-center mb-4 mobile-toggle-btn collapsed" data-toggle="collapse" th:data-target="'#collapseMenSub_' + ${parent.id}" aria-expanded="false" style="cursor: pointer;">
+											<span class="d-block text-muted text-uppercase" style="font-size: 13px;" th:text="${parent.name}">ÁO</span>
+											<span class="text-muted toggle-icon" style="font-size: 20px; font-weight: 300; line-height: 1;"></span>
+										</div>
+										<div class="collapse pl-3" th:id="'collapseMenSub_' + ${parent.id}">
+											<a th:each="child : ${parent.children}" th:href="@{'/danh-muc/' + ${child.slug}}" class="d-block text-muted mb-4" style="font-size: 13px; text-decoration: none;" th:text="${child.name}">Áo thun</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+						
+						<li>
+							<div class="d-flex justify-content-between align-items-center mb-4">
+								<a th:href="@{/sale}" class="text-danger font-weight-bold d-block w-100" style="font-size: 14px; text-decoration: none;">SUMMER SPECIAL – ƯU ĐÃI từ 150k</a>
+								<span class="text-danger" style="font-size: 22px; font-weight: 300; line-height: 1;">+</span>
+							</div>
+						</li>
+						<li>
+							<div class="d-flex justify-content-between align-items-center mb-4">
+								<a th:href="@{/collection}" class="text-dark font-weight-bold d-block w-100" style="font-size: 14px; text-decoration: none;">Bộ sưu tập</a>
+								<span class="text-muted" style="font-size: 22px; font-weight: 300; line-height: 1;">+</span>
+							</div>
+						</li>
+						<li>
+							<div class="d-flex justify-content-between align-items-center mb-4">
+								<a href="javascript:void(0)" class="text-dark font-weight-bold d-block w-100" style="font-size: 14px; text-decoration: none;">LIFESTYLE</a>
+							</div>
+						</li>
+						<li class="pb-4">
+							<div class="d-flex justify-content-between align-items-center mb-4">
+								<a th:href="@{/about}" class="text-dark font-weight-bold d-block w-100" style="font-size: 14px; text-decoration: none;">Về Chúng Tôi</a>
+								<span class="text-muted" style="font-size: 22px; font-weight: 300; line-height: 1;">+</span>
+							</div>
+						</li>
+					</ul>
 				</div>
 			</div>
+			
 
-			<!-- Danh sách Menu -->
-			<div>
-				<ul class="list-unstyled mobile-menu-list">
-					<!-- NỮ -->
-					<li class="mb-2">
-						<div class="py-2 d-flex justify-content-between align-items-center" data-toggle="collapse" data-target="#collapseWomenMobile" aria-expanded="false" style="cursor: pointer;">
-							<span class="text-dark font-weight-bold d-block w-100" style="font-size: 14px;">NỮ</span>
-							<i class="fas fa-plus text-muted" style="font-size: 14px; font-weight: 300;"></i>
-						</div>
-						<!-- Sub-menu Nữ -->
-						<div class="collapse" id="collapseWomenMobile">
-							<div class="pl-3 pb-2 pt-1">
-								<a th:href="@{/danh-muc/hang-nu-moi-ve}" class="d-block mb-3 text-danger font-weight-bold" style="font-size: 13px;">NEW ARRIVAL</a>
-								<a th:href="@{/danh-muc/nu}" class="d-block mb-3 font-weight-bold text-dark" style="font-size: 13px;">ALL ITEMS</a>
-								<div th:each="parent : ${womenCategories}" class="mb-3">
-									<a th:href="@{'/danh-muc/' + ${parent.slug}}" class="d-block font-weight-bold text-dark mb-2" style="font-size: 13px;" th:text="${parent.name}">ÁO</a>
-									<div class="pl-2">
-										<a th:each="child : ${parent.children}" th:href="@{'/danh-muc/' + ${child.slug}}" class="d-block text-muted mb-2" style="font-size: 13px; text-decoration: none;" th:text="${child.name}">Áo sơ mi</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</li>
-					
-					<!-- NAM -->
-					<li class="mb-2">
-						<div class="py-2 d-flex justify-content-between align-items-center" data-toggle="collapse" data-target="#collapseMenMobile" aria-expanded="false" style="cursor: pointer;">
-							<span class="text-dark font-weight-bold d-block w-100" style="font-size: 14px;">NAM</span>
-							<i class="fas fa-plus text-muted" style="font-size: 14px; font-weight: 300;"></i>
-						</div>
-						<!-- Sub-menu Nam -->
-						<div class="collapse" id="collapseMenMobile">
-							<div class="pl-3 pb-2 pt-1">
-								<a th:href="@{/danh-muc/hang-nam-moi-ve}" class="d-block mb-3 text-danger font-weight-bold" style="font-size: 13px;">NEW ARRIVAL</a>
-								<a th:href="@{/danh-muc/nam}" class="d-block mb-3 font-weight-bold text-dark" style="font-size: 13px;">ALL ITEMS</a>
-								<div th:each="parent : ${menCategories}" class="mb-3">
-									<a th:href="@{'/danh-muc/' + ${parent.slug}}" class="d-block font-weight-bold text-dark mb-2" style="font-size: 13px;" th:text="${parent.name}">ÁO</a>
-									<div class="pl-2">
-										<a th:each="child : ${parent.children}" th:href="@{'/danh-muc/' + ${child.slug}}" class="d-block text-muted mb-2" style="font-size: 13px; text-decoration: none;" th:text="${child.name}">Áo thun</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</li>
-					
-					<li class="mb-2">
-						<div class="py-2 d-flex justify-content-between align-items-center">
-							<a th:href="@{/sale}" class="text-danger font-weight-bold d-block w-100" style="font-size: 14px; text-decoration: none;">SUMMER SPECIAL – ƯU ĐÃI từ 150k</a>
-							<i class="fas fa-plus text-danger" style="font-size: 14px; font-weight: 300;"></i>
-						</div>
-					</li>
-					<li class="mb-2">
-						<div class="py-2 d-flex justify-content-between align-items-center">
-							<a th:href="@{/collection}" class="text-dark font-weight-bold d-block w-100" style="font-size: 14px; text-decoration: none;">Bộ sưu tập</a>
-							<i class="fas fa-plus text-muted" style="font-size: 14px; font-weight: 300;"></i>
-						</div>
-					</li>
-					<li class="mb-2">
-						<div class="py-2 d-flex justify-content-between align-items-center">
-							<a href="javascript:void(0)" class="text-dark font-weight-bold d-block w-100" style="font-size: 14px; text-decoration: none;">LIFESTYLE</a>
-						</div>
-					</li>
-					<li class="mb-2">
-						<div class="py-2 d-flex justify-content-between align-items-center">
-							<a th:href="@{/about}" class="text-dark font-weight-bold d-block w-100" style="font-size: 14px; text-decoration: none;">Về Chúng Tôi</a>
-							<i class="fas fa-plus text-muted" style="font-size: 14px; font-weight: 300;"></i>
-						</div>
-					</li>
-					
-					<!-- Nút Đăng xuất ở cuối Menu nếu đã đăng nhập -->
-					<li sec:authorize="isAuthenticated()" class="mt-4">
-						<form th:action="@{/logout}" method="post">
-							<button type="submit" class="btn btn-outline-dark btn-block py-2" style="border-radius: 8px; font-weight: 600; font-size: 14px;">Đăng xuất</button>
-						</form>
-					</li>
-				</ul>
-			</div>
 		</div>
 
 		<a th:href="@{/}" class="ivy-logo text-center">
@@ -211,7 +204,7 @@
 
 		<div class="d-flex align-items-center">
 
-	<form th:action="@{/search}" method="get" class="d-none d-md-flex ivy-search-box">
+	<form th:action="@{/search}" method="get" class="d-none d-xl-flex ivy-search-box">
     <input type="text" name="keyword" class="ivy-search-input"
            placeholder="TÌM KIẾM SẢN PHẨM"
            th:value="${keyword}"> <button type="submit" class="btn ivy-search-btn">
@@ -219,13 +212,13 @@
     </button>
 </form>
 
-			<a href="#" class="ivy-icon-btn d-none d-sm-block"> <i
+			<a href="#" class="ivy-icon-btn d-none d-xl-block"> <i
 				class="fas fa-headset"></i>
 			</a> <a sec:authorize="!isAuthenticated()" th:href="@{/login}"
-				class="ivy-icon-btn"> <i class="far fa-user"></i>
+				class="ivy-icon-btn d-none d-xl-block"> <i class="far fa-user"></i>
 			</a>
 
-			<div sec:authorize="isAuthenticated()" class="ivy-icon-btn user-dropdown-container">
+			<div sec:authorize="isAuthenticated()" class="ivy-icon-btn user-dropdown-container d-none d-xl-block">
     
     <a href="javascript:void(0)" class="text-dark" onclick="toggleUserMenu(event)">
         <i class="far fa-user"></i>
