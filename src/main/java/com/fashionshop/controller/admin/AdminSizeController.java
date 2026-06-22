@@ -15,8 +15,18 @@ public class AdminSizeController {
     private SizeService sizeService;
 
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("sizes", sizeService.getAllSizes());
+    public String list(@RequestParam(defaultValue = "0") int page,
+                       @RequestParam(value = "keyword", required = false) String keyword,
+                       Model model) {
+        org.springframework.data.domain.Page<Size> sizePage;
+        if (keyword != null && !keyword.isEmpty()) {
+            sizePage = sizeService.searchSizes(keyword, org.springframework.data.domain.PageRequest.of(page, 10));
+            model.addAttribute("keyword", keyword);
+        } else {
+            sizePage = sizeService.getAllSizes(org.springframework.data.domain.PageRequest.of(page, 10));
+        }
+        model.addAttribute("sizes", sizePage.getContent());
+        model.addAttribute("page", sizePage);
         return "admin/size/list";
     }
 

@@ -11,6 +11,11 @@
             <a th:href="@{/admin/sizes/new}" class="btn btn-primary btn-sm">Thêm mới Size</a>
         </div>
         <div class="card-body">
+            <form th:action="@{/admin/sizes}" method="get" class="form-inline mb-3">
+                <input type="text" name="keyword" th:value="${keyword}" class="form-control mr-sm-2 mb-2 mb-sm-0" placeholder="Tìm kiếm tên size...">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Tìm kiếm</button>
+                <a th:href="@{/admin/sizes}" class="btn btn-secondary ml-2" th:if="${keyword != null}">Làm mới</a>
+            </form>
             <div class="table-responsive">
                 <table class="table table-bordered" width="100%" cellspacing="0">
                     <thead>
@@ -34,6 +39,8 @@
                     </tbody>
                 </table>
             </div>
+            <!-- Phân trang -->
+            <div th:replace="~{admin/fragments/pagination :: pagination(${page}, '/admin/sizes')}"></div>
         </div>
     </div>
 </div>

@@ -7,5 +7,5 @@ import com.fashionshop.model.Size;
 
 @Repository
 public interface SizeRepository extends JpaRepository<Size, Long> {
-
+    org.springframework.data.domain.Page<Size> findByNameContainingIgnoreCase(String name, org.springframework.data.domain.Pageable pageable);
 }

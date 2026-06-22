@@ -15,8 +15,18 @@ public class AdminColorController {
 	private ColorService colorService;
 
 	@GetMapping
-	public String list(Model model) {
-		model.addAttribute("colors", colorService.getAllColors());
+	public String list(@RequestParam(defaultValue = "0") int page,
+					   @RequestParam(value = "keyword", required = false) String keyword,
+					   Model model) {
+		org.springframework.data.domain.Page<Color> colorPage;
+		if (keyword != null && !keyword.isEmpty()) {
+			colorPage = colorService.searchColors(keyword, org.springframework.data.domain.PageRequest.of(page, 10));
+			model.addAttribute("keyword", keyword);
+		} else {
+			colorPage = colorService.getAllColors(org.springframework.data.domain.PageRequest.of(page, 10));
+		}
+		model.addAttribute("colors", colorPage.getContent());
+		model.addAttribute("page", colorPage);
 		return "admin/color/list";
 	}
 

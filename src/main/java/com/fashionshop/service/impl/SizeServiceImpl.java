@@ -15,8 +15,20 @@ public class SizeServiceImpl implements SizeService {
 
     @Override
     public List<Size> getAllSizes() {
-        // Có thể thêm sort theo sortOrder nếu muốn: return sizeRepository.findAll(Sort.by("sortOrder"));
         return sizeRepository.findAll();
+    }
+
+    @Override
+    public org.springframework.data.domain.Page<Size> getAllSizes(org.springframework.data.domain.Pageable pageable) {
+        return sizeRepository.findAll(pageable);
+    }
+
+    @Override
+    public org.springframework.data.domain.Page<Size> searchSizes(String keyword, org.springframework.data.domain.Pageable pageable) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return sizeRepository.findAll(pageable);
+        }
+        return sizeRepository.findByNameContainingIgnoreCase(keyword.trim(), pageable);
     }
 
     @Override

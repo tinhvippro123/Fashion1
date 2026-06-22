@@ -19,6 +19,19 @@ public class ColorServiceImpl implements ColorService {
 	}
 
 	@Override
+	public org.springframework.data.domain.Page<Color> getAllColors(org.springframework.data.domain.Pageable pageable) {
+		return colorRepository.findAll(pageable);
+	}
+
+	@Override
+	public org.springframework.data.domain.Page<Color> searchColors(String keyword, org.springframework.data.domain.Pageable pageable) {
+		if (keyword == null || keyword.trim().isEmpty()) {
+			return colorRepository.findAll(pageable);
+		}
+		return colorRepository.findByNameContainingIgnoreCase(keyword.trim(), pageable);
+	}
+
+	@Override
 	public Color getColorById(Long id) {
 		return colorRepository.findById(id).orElse(null);
 	}
