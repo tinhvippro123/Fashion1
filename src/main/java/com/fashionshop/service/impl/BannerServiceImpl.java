@@ -35,7 +35,7 @@ public class BannerServiceImpl implements BannerService {
         if (keyword == null || keyword.trim().isEmpty()) {
             return bannerRepository.findAll(pageable);
         }
-        return bannerRepository.findByNameContainingIgnoreCase(keyword.trim(), pageable);
+        return bannerRepository.findByTargetUrlContainingIgnoreCase(keyword.trim(), pageable);
     }
 
     @Override
