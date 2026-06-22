@@ -45,6 +45,9 @@
         body.sidebar-toggled .sidebar.toggled {
             left: 0 !important;
         }
+        body.sidebar-toggled #adminMobileOverlay {
+            display: block;
+        }
     }
     
     /* Overlay mờ */
@@ -59,8 +62,11 @@
         display: none;
         transition: all 0.3s;
     }
-    body.sidebar-toggled #adminMobileOverlay {
-        display: block;
+
+    /* Fix cho sticky-top header */
+    body, #wrapper, #content-wrapper, #content {
+        overflow-x: visible !important;
+        overflow-y: visible !important;
     }
     </style>
 </head>
