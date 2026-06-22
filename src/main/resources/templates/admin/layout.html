@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:replace="~{admin/fragments/head :: head}"></head>
+<head>
+    <th:block th:replace="~{admin/fragments/head :: head}"></th:block>
+    <style>
+        /* Override SB Admin 2 overflow-x: hidden on content-wrapper to allow sticky-top to work */
+        #content-wrapper {
+            overflow-x: visible !important;
+        }
+    </style>
+</head>
 
 <body id="page-top">
     <!-- Overlay mờ khi mở sidebar trên mobile -->
