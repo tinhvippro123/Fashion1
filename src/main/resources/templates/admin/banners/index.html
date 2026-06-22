@@ -50,10 +50,10 @@
 									<span th:unless="${b.isActive}" class="badge badge-secondary">Đã ẩn</span>
 								</td>
 								<td>
-									<a th:href="@{/admin/banners/edit/{id}(id=${b.id})}" class="btn btn-info btn-sm" title="Sửa">
+									<a th:href="@{/admin/banners/edit/{id}(id=${b.id})}" class="btn btn-info btn-sm mb-1 mr-1" title="Sửa">
 										<i class="fas fa-edit"></i>
 									</a>
-									<a th:href="@{/admin/banners/delete/{id}(id=${b.id})}" class="btn btn-danger btn-sm"
+									<a th:href="@{/admin/banners/delete/{id}(id=${b.id})}" class="btn btn-danger btn-sm mb-1 mr-1"
 									   onclick="return confirm('Bạn có chắc muốn xóa banner này?');" title="Xóa">
 										<i class="fas fa-trash"></i>
 									</a>

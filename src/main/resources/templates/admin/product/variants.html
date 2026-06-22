@@ -235,6 +235,15 @@
 						$(this).siblings(".custom-file-label").addClass(
 								"selected").html(fileName);
 					});
+
+			// Restore scroll position after reload
+			$(window).on('beforeunload', function() {
+				sessionStorage.setItem('scrollPosition', $(window).scrollTop());
+			});
+			if (sessionStorage.getItem('scrollPosition')) {
+				$(window).scrollTop(sessionStorage.getItem('scrollPosition'));
+				sessionStorage.removeItem('scrollPosition');
+			}
 		</script>
 	</th:block>
 </body>

@@ -32,8 +32,8 @@
                             <td th:text="${item.name}"></td>
                             <td th:text="${item.sortOrder}"></td>
                             <td>
-                                <a th:href="@{/admin/sizes/edit/{id}(id=${item.id})}" class="btn btn-info btn-sm">Sửa</a>
-                                <a th:href="@{/admin/sizes/delete/{id}(id=${item.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Xóa size này?');">Xóa</a>
+                                <a th:href="@{/admin/sizes/edit/{id}(id=${item.id})}" class="btn btn-info btn-sm mb-1 mr-1">Sửa</a>
+                                <a th:href="@{/admin/sizes/delete/{id}(id=${item.id})}" class="btn btn-danger btn-sm mb-1 mr-1" onclick="return confirm('Xóa size này?');">Xóa</a>
                             </td>
                         </tr>
                     </tbody>

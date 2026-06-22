@@ -63,11 +63,11 @@
                         </td>
                         <td>
                             <a th:href="@{/admin/users/{uid}/addresses/edit/{aid}(uid=${userId}, aid=${addr.id})}" 
-                               class="btn btn-warning btn-sm" title="Sửa">
+                               class="btn btn-warning btn-sm mb-1 mr-1" title="Sửa">
                                 <i class="fas fa-pen"></i>
                             </a>
                             <a th:href="@{/admin/users/{uid}/addresses/delete/{aid}(uid=${userId}, aid=${addr.id})}" 
-                               class="btn btn-danger btn-sm ml-1" 
+                               class="btn btn-danger btn-sm mb-1 mr-1" 
                                title="Xóa"
                                onclick="return confirm('Bạn có chắc muốn xóa địa chỉ này? Hành động không thể hoàn tác.');">
                                 <i class="fas fa-trash"></i>

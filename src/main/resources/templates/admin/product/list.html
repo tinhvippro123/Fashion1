@@ -70,13 +70,13 @@
 									class="badge badge-secondary">Ngừng bán</span></td>
 
 								<td><a th:href="@{/admin/products/edit/{id}(id=${p.id})}"
-									class="btn btn-info btn-sm" title="Sửa thông tin"> <i
+									class="btn btn-info btn-sm mb-1 mr-1" title="Sửa thông tin"> <i
 										class="fas fa-edit"></i>
 								</a> <a th:href="@{/admin/products/variants/{id}(id=${p.id})}"
-									class="btn btn-warning btn-sm" title="Quản lý Màu & Size">
+									class="btn btn-warning btn-sm mb-1 mr-1" title="Quản lý Màu & Size">
 										<i class="fas fa-layer-group"></i> Biến thể
 								</a> <a th:href="@{/admin/products/delete/{id}(id=${p.id})}"
-									class="btn btn-danger btn-sm"
+									class="btn btn-danger btn-sm mb-1 mr-1"
 									onclick="return confirm('Xóa sản phẩm này?');" title="Xóa">
 										<i class="fas fa-trash"></i>
 								</a></td>
