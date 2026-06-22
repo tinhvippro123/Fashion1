@@ -1,6 +1,8 @@
 /* Reset CSS toàn cục để tránh lỗi tràn viền (overflow-x) trên mobile */
-*, *::before, *::after {
-    box-sizing: border-box;
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
 }
 
 /* 1. Cấu hình Container đặc biệt (Cách lề 85px) */
@@ -13,7 +15,7 @@
 }
 
 /* Trên mobile thì không cần cách lề 85px, chỉ cần 15px */
-@media ( max-width : 1199px) {
+@media (max-width : 1199px) {
 	.container-ivy {
 		padding-right: 15px;
 		padding-left: 15px;
@@ -23,9 +25,9 @@
 /* 2. Style cho Header */
 .site-header {
 	background: #fff;
-/*	border-bottom: 1px solid #e1e1e1; /* Đường kẻ mờ bên dưới */
+	/*	border-bottom: 1px solid #e1e1e1; /* Đường kẻ mờ bên dưới */
 	padding: 17px 0;
-	
+
 }
 
 .site-header .container-ivy {
@@ -37,20 +39,27 @@
 }
 
 .site-header .container-ivy::after {
-    content: "";
-    position: absolute;
-    bottom: -17px; /* Đẩy đường kẻ xuống dưới đáy Header (khớp với padding 17px) */
-    left: 85px;    /* Cách lề trái đúng 85px */
-    right: 85px;   /* Cách lề phải đúng 85px */
-    height: 1px;   /* Độ dày đường kẻ */
-    background-color: #e1e1e1; /* Màu đường kẻ xám nhạt */
+	content: "";
+	position: absolute;
+	bottom: -17px;
+	/* Đẩy đường kẻ xuống dưới đáy Header (khớp với padding 17px) */
+	left: 85px;
+	/* Cách lề trái đúng 85px */
+	right: 85px;
+	/* Cách lề phải đúng 85px */
+	height: 1px;
+	/* Độ dày đường kẻ */
+	background-color: #e1e1e1;
+	/* Màu đường kẻ xám nhạt */
 }
 
 /* Menu bên trái */
 .ivy-nav-link {
 	color: #333 !important;
-	font-weight: 600; /* Chữ đậm vừa */
-	text-transform: uppercase; /* Chữ IN HOA */
+	font-weight: 600;
+	/* Chữ đậm vừa */
+	text-transform: uppercase;
+	/* Chữ IN HOA */
 	font-size: 12px;
 	margin-right: 14px;
 	letter-spacing: 0.5px;
@@ -69,8 +78,10 @@
 
 /* Logo ở giữa */
 .ivy-logo {
-	position: absolute; /* Thoát khỏi dòng chảy Flexbox */
-	left: 50%; /* Đẩy sang 50% container */
+	position: absolute;
+	/* Thoát khỏi dòng chảy Flexbox */
+	left: 50%;
+	/* Đẩy sang 50% container */
 	transform: translateX(-50%);
 	font-size: 28px;
 	font-weight: 700;
@@ -81,7 +92,8 @@
 }
 
 .ivy-logo span {
-	font-weight: 300; /* Chữ 'moda' mỏng hơn */
+	font-weight: 300;
+	/* Chữ 'moda' mỏng hơn */
 }
 
 /* Thanh tìm kiếm bên phải */
@@ -93,7 +105,8 @@
 .ivy-search-input {
 	width: 100%;
 	border: 1px solid #e1e1e1;
-	border-radius: 4px 0 0 4px; /* Bo góc trái */
+	border-radius: 4px 0 0 4px;
+	/* Bo góc trái */
 	padding: 6px 12px;
 	font-size: 13px;
 	outline: none;
@@ -103,7 +116,8 @@
 	background: #fff;
 	border: 1px solid #e1e1e1;
 	border-left: none;
-	border-radius: 0 4px 4px 0; /* Bo góc phải */
+	border-radius: 0 4px 4px 0;
+	/* Bo góc phải */
 	color: #666;
 }
 
@@ -130,7 +144,8 @@
 
 /* Container cho mỗi item menu cha */
 .ivy-menu-item {
-	position: static; /* Quan trọng để Mega menu full width */
+	position: static;
+	/* Quan trọng để Mega menu full width */
 }
 
 /* Mega Menu ẩn mặc định */
@@ -138,9 +153,12 @@
 	display: none;
 	position: absolute;
 	/* 1. ĐỊNH VỊ CHUẨN XÁC: Bắt đầu và kết thúc tại lề 85px */
-	left: 85px; /* Cách mép trái 85px */
-	right: 85px; /* Cách mép phải 85px */
-	width: auto; /* Tự động tính toán chiều rộng (Không dùng 100% nữa) */
+	left: 85px;
+	/* Cách mép trái 85px */
+	right: 85px;
+	/* Cách mép phải 85px */
+	width: auto;
+	/* Tự động tính toán chiều rộng (Không dùng 100% nữa) */
 	top: 100%;
 	background: #fff;
 	border: 1px solid #f1f1f1;
@@ -158,10 +176,13 @@
 	top: -20px;
 	left: 0;
 	width: 100%;
-	height: 20px; /* Chiều cao bằng khoảng hở */
-	background: transparent; /* Trong suốt */
+	height: 20px;
+	/* Chiều cao bằng khoảng hở */
+	background: transparent;
+	/* Trong suốt */
 	display: block;
-	z-index: 1001; /* Đè lên tất cả */
+	z-index: 1001;
+	/* Đè lên tất cả */
 }
 
 /* Hiện Mega Menu khi Hover */
@@ -194,19 +215,30 @@
 
 /* Khu vực chứa các cột danh mục (ÁO, QUẦN...) */
 .ivy-col-categories {
-	flex-grow: 1; /* Chiếm hết không gian còn lại bên phải */
-	display: flex; /* QUAN TRỌNG: Kích hoạt chế độ dàn trang Flex */
-	flex-direction: row; /* QUAN TRỌNG: Bắt buộc xếp theo hàng NGANG */
-	flex-wrap: wrap; /* Hết chỗ mới được xuống dòng */
-	gap: 30px; /* Khoảng cách giữa các cột (giảm xuống 30px cho vừa đẹp) */
-	padding-left: 40px; /* Cách đường kẻ dọc bên trái ra một chút */
-	align-content: flex-start; /* Dồn nội dung lên trên */
+	flex-grow: 1;
+	/* Chiếm hết không gian còn lại bên phải */
+	display: flex;
+	/* QUAN TRỌNG: Kích hoạt chế độ dàn trang Flex */
+	flex-direction: row;
+	/* QUAN TRỌNG: Bắt buộc xếp theo hàng NGANG */
+	flex-wrap: wrap;
+	/* Hết chỗ mới được xuống dòng */
+	gap: 30px;
+	/* Khoảng cách giữa các cột (giảm xuống 30px cho vừa đẹp) */
+	padding-left: 40px;
+	/* Cách đường kẻ dọc bên trái ra một chút */
+	align-content: flex-start;
+	/* Dồn nội dung lên trên */
 }
+
 /* Mỗi cột danh mục con */
 .ivy-sub-cat-item {
-	width: 200px; /* Đặt chiều rộng cố định cho mỗi cột */
-	min-width: 180px; /* Không được co nhỏ hơn mức này */
-	margin-bottom: 30px; /* Khoảng cách dưới chân mỗi cột */
+	width: 200px;
+	/* Đặt chiều rộng cố định cho mỗi cột */
+	min-width: 180px;
+	/* Không được co nhỏ hơn mức này */
+	margin-bottom: 30px;
+	/* Khoảng cách dưới chân mỗi cột */
 	/* Đảm bảo không dính thuộc tính block cũ */
 	display: block;
 	box-sizing: border-box;
@@ -236,7 +268,8 @@
 
 .ivy-mega-menu .container-ivy {
 	width: 100%;
-	padding: 0; /* Xóa padding 85px đi để tránh bị cộng dồn thành 170px */
+	padding: 0;
+	/* Xóa padding 85px đi để tránh bị cộng dồn thành 170px */
 	margin: 0;
 }
 
@@ -245,22 +278,29 @@
 .site-footer {
 	background: #fff;
 	/* 1. TĂNG PADDING CỰC MẠNH */
-	padding-top: 60px; /* Đẩy nội dung xuống sâu hơn */
-	padding-bottom: 10px; /* Khoảng trống bên dưới nhiều hơn */
+	padding-top: 60px;
+	/* Đẩy nội dung xuống sâu hơn */
+	padding-bottom: 10px;
+	/* Khoảng trống bên dưới nhiều hơn */
 	border-top: 1px solid #e1e1e1;
-	font-size: 14px; /* 2. TĂNG CỠ CHỮ TOÀN BỘ (gốc 14-16px) */
+	font-size: 14px;
+	/* 2. TĂNG CỠ CHỮ TOÀN BỘ (gốc 14-16px) */
 	color: #333;
-	line-height: 1.2; /* Giãn dòng thoáng hơn */
+	line-height: 1.2;
+	/* Giãn dòng thoáng hơn */
 	margin-top: 40px;
 }
 
 /* 1. Tiêu đề cột (Giới thiệu, Liên hệ...) */
 /* Tiêu đề cột */
 .footer-title {
-	font-size: 20px; /* Tiêu đề to đùng */
-	font-weight: 600; /* Rất đậm */
+	font-size: 20px;
+	/* Tiêu đề to đùng */
+	font-weight: 600;
+	/* Rất đậm */
 	text-transform: uppercase;
-	margin-bottom: 20px; /* Cách nội dung xa hơn (gốc 25px) */
+	margin-bottom: 20px;
+	/* Cách nội dung xa hơn (gốc 25px) */
 	color: #000;
 	letter-spacing: 0px;
 }
@@ -281,25 +321,29 @@
 	color: #555;
 	text-decoration: none;
 	transition: all 0.2s;
-	font-weight: 500; /* Chữ đậm hơn một chút cho dễ đọc */
+	font-weight: 500;
+	/* Chữ đậm hơn một chút cho dễ đọc */
 	display: block;
 	padding: 2px 0;
 }
 
 .footer-links a:hover {
 	color: #000;
-	padding-left: 5px; /* Hiệu ứng đẩy nhẹ sang phải khi hover */
+	padding-left: 5px;
+	/* Hiệu ứng đẩy nhẹ sang phải khi hover */
 }
 
 /* 3. Mạng xã hội */
 .social-list {
 	display: flex;
-	gap: 29px; /* Cách xa nhau hơn */
+	gap: 29px;
+	/* Cách xa nhau hơn */
 	margin-bottom: 30px !important;
 }
 
 .social-list i {
-	font-size: 24px; /* 4. PHÓNG TO ICON (gốc 18px) */
+	font-size: 24px;
+	/* 4. PHÓNG TO ICON (gốc 18px) */
 }
 
 .social-list a {
@@ -316,21 +360,26 @@
 	background: #222;
 	color: #fff;
 	display: inline-block;
-	padding: 15px 22px; /* Nút to hơn */
+	padding: 15px 22px;
+	/* Nút to hơn */
 	border-radius: 15px 0 15px 0;
 	font-weight: 600;
-	font-size: 15px; /* Chữ trong nút to hơn */
+	font-size: 15px;
+	/* Chữ trong nút to hơn */
 }
 
 /* 5. Khung Newsletter (To và Nổi bật) */
 .newsletter-box {
 	border: 1px solid #ccc;
-	padding: 30px 22px; /* Tăng khoảng cách bên trong cho khung "mập" ra */
-	border-top-left-radius: 50px; /* Bo góc mạnh hơn */
+	padding: 30px 22px;
+	/* Tăng khoảng cách bên trong cho khung "mập" ra */
+	border-top-left-radius: 50px;
+	/* Bo góc mạnh hơn */
 	border-bottom-right-radius: 50px;
 	position: relative;
 	background: #fff;
-	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03); /* Thêm bóng nhẹ cho nổi */
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+	/* Thêm bóng nhẹ cho nổi */
 }
 
 .newsletter-box h6 {
@@ -342,7 +391,8 @@
 
 .newsletter-group {
 	display: flex;
-	border-bottom: 1px solid #999; /* Đường kẻ đậm hơn chút */
+	border-bottom: 1px solid #999;
+	/* Đường kẻ đậm hơn chút */
 	padding-bottom: 10px;
 }
 
@@ -350,7 +400,8 @@
 	border: none;
 	width: 100%;
 	outline: none;
-	font-size: 14px; /* Chữ nhập to hơn */
+	font-size: 14px;
+	/* Chữ nhập to hơn */
 	color: #333;
 	background: transparent;
 	padding: 10px 0px;
@@ -360,7 +411,8 @@
 	background: #fff;
 	border: 1px solid #333;
 	border-radius: 20px 0 20px 0;
-	padding: 8px 25px; /* Nút to hơn */
+	padding: 8px 25px;
+	/* Nút to hơn */
 	font-size: 14px;
 	font-weight: 700;
 	text-transform: uppercase;
@@ -387,15 +439,19 @@
 /* Container Flex bao quanh toàn bộ footer */
 .footer-flex-container {
 	display: flex;
-	justify-content: flex-start; /* Căn trái */
-	align-items: flex-start; /* Căn thẳng hàng trên cùng */
-	flex-wrap: nowrap; /* Không cho xuống dòng ở màn hình to */
+	justify-content: flex-start;
+	/* Căn trái */
+	align-items: flex-start;
+	/* Căn thẳng hàng trên cùng */
+	flex-wrap: nowrap;
+	/* Không cho xuống dòng ở màn hình to */
 	padding-bottom: 30px;
 }
 
 /* 1. Cột Social & Hotline */
 .footer-col-social {
-	width: 298px; /* Đặt chiều rộng cố định để không bị co */
+	width: 298px;
+	/* Đặt chiều rộng cố định để không bị co */
 	flex-shrink: 0;
 	/* YÊU CẦU: Cách cột Giới thiệu 61px */
 	margin-right: 61px;
@@ -403,7 +459,8 @@
 
 /* 2. Cột Giới thiệu */
 .footer-col-intro {
-	width: 136px; /* Chiều rộng đủ chứa chữ */
+	width: 136px;
+	/* Chiều rộng đủ chứa chữ */
 	flex-shrink: 0;
 	/* YÊU CẦU: Cách cột Dịch vụ 68px */
 	margin-right: 68px;
@@ -427,25 +484,29 @@
 
 /* 5. Cột Newsletter */
 .footer-col-newsletter {
-	flex-grow: 1; /* Chiếm hết phần còn lại */
+	flex-grow: 1;
+	/* Chiếm hết phần còn lại */
 	min-width: 293px;
 }
 
 /* --- RESPONSIVE --- */
 /* Với màn hình nhỏ hơn 1400px (Laptop nhỏ), ta phải giảm khoảng cách đi một chút kẻo vỡ giao diện */
-@media ( max-width : 1440px) {
+@media (max-width : 1440px) {
 	.footer-col-social {
 		margin-right: 30px;
 		width: 250px;
 	}
+
 	.footer-col-intro {
 		margin-right: 30px;
 		width: 140px;
 	}
+
 	.footer-col-service {
 		margin-right: 30px;
 		width: 220px;
 	}
+
 	.footer-col-contact {
 		margin-right: 30px;
 		width: 120px;
@@ -453,87 +514,100 @@
 }
 
 /* Với màn hình Tablet & Mobile: Chuyển về dạng lưới (Grid) hoặc Cột dọc */
-@media ( max-width : 1199px) {
+@media (max-width : 1199px) {
 	.footer-flex-container {
-		flex-wrap: wrap; /* Cho phép xuống dòng */
+		flex-wrap: wrap;
+		/* Cho phép xuống dòng */
 	}
 
 	/* Reset margin cứng để layout không bị lệch */
-	.footer-col-social, .footer-col-intro, .footer-col-service,
-		.footer-col-contact, .footer-col-newsletter {
-		width: 50%; /* Mỗi cột chiếm 50% màn hình */
+	.footer-col-social,
+	.footer-col-intro,
+	.footer-col-service,
+	.footer-col-contact,
+	.footer-col-newsletter {
+		width: 50%;
+		/* Mỗi cột chiếm 50% màn hình */
 		margin-right: 0;
 		padding-right: 15px;
 		margin-bottom: 30px;
-		box-sizing: border-box; /* QUAN TRỌNG: Ngăn tràn viền do padding */
+		box-sizing: border-box;
+		/* QUAN TRỌNG: Ngăn tràn viền do padding */
 	}
 
 	/* Newsletter full width trên mobile */
 	.footer-col-newsletter {
 		width: 100%;
 	}
-	
+
 	.newsletter-box {
-	    box-sizing: border-box; /* Ngăn ô nhập email tràn ra khỏi màn hình */
+		box-sizing: border-box;
+		/* Ngăn ô nhập email tràn ra khỏi màn hình */
 	}
 }
 
 /* Với màn hình Mobile: Chuyển về 1 cột (100% width) để không bị đè chữ */
-@media ( max-width : 768px) {
-	.footer-col-social, .footer-col-intro, .footer-col-service,
-		.footer-col-contact {
-		width: 100%; /* Chiếm trọn màn hình */
+@media (max-width : 768px) {
+
+	.footer-col-social,
+	.footer-col-intro,
+	.footer-col-service,
+	.footer-col-contact {
+		width: 100%;
+		/* Chiếm trọn màn hình */
 	}
-	
+
 	/* Fix lỗi các icon BCT / DMCA quá to chèn ép layout */
 	.footer-col-social .d-flex {
-	    flex-wrap: wrap;
-	    gap: 10px;
+		flex-wrap: wrap;
+		gap: 10px;
 	}
 }
 
 
-.fa-facebook-f{
-	color:#4267b2;
+.fa-facebook-f {
+	color: #4267b2;
 }
 
 
-.fa-google{
-    color:#ea4335;
+.fa-google {
+	color: #ea4335;
 }
 
 
-.fa-instagram{
-    /*color: #E4405F */
-  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+.fa-instagram {
+	/*color: #E4405F */
+	background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
 
-    /* 2. Kỹ thuật cắt nền theo hình dạng của chữ/icon (Giữ nguyên) */
-    -webkit-background-clip: text;
-    background-clip: text;
-    
-    /* 3. Làm cho màu gốc của icon trong suốt (Giữ nguyên) */
-    -webkit-text-fill-color: transparent;
-    color: transparent !important;
-    
-    /* Đảm bảo hiển thị đúng */
-    display: inline-block;
+	/* 2. Kỹ thuật cắt nền theo hình dạng của chữ/icon (Giữ nguyên) */
+	-webkit-background-clip: text;
+	background-clip: text;
+
+	/* 3. Làm cho màu gốc của icon trong suốt (Giữ nguyên) */
+	-webkit-text-fill-color: transparent;
+	color: transparent !important;
+
+	/* Đảm bảo hiển thị đúng */
+	display: inline-block;
 }
 
-.fa-youtube{
-	color:#ff0000;
+.fa-youtube {
+	color: #ff0000;
 }
 
-a.zalo-icon{
-    color:#0068ff;
-    text-decoration: none;
+a.zalo-icon {
+	color: #0068ff;
+	text-decoration: none;
 }
 
 
 /* --------------------------------- BANNER SLIDER STYLE --------------------------------- */
 .ivy-banner-wrapper {
 	/* Tạo độ bo góc chéo đặc trưng */
-	border-top-left-radius: 80px; /* Bo góc trên trái */
-	border-bottom-right-radius: 80px; /* Bo góc dưới phải */
+	border-top-left-radius: 80px;
+	/* Bo góc trên trái */
+	border-bottom-right-radius: 80px;
+	/* Bo góc dưới phải */
 	/* QUAN TRỌNG: Cắt phần ảnh thừa bị lòi ra ngoài góc bo */
 	overflow: hidden;
 	/* Thêm chút bóng đổ cho nổi bật (Optional) */
@@ -544,14 +618,17 @@ a.zalo-icon{
 }
 
 /* Chỉnh mũi tên chuyển slide cho đẹp hơn */
-.carousel-control-prev, .carousel-control-next {
-	width: 5%; /* Thu nhỏ vùng bấm lại */
+.carousel-control-prev,
+.carousel-control-next {
+	width: 5%;
+	/* Thu nhỏ vùng bấm lại */
 }
 
 .carousel-indicators li {
 	width: 10px;
 	height: 10px;
-	border-radius: 50%; /* Chấm tròn thay vì gạch ngang */
+	border-radius: 50%;
+	/* Chấm tròn thay vì gạch ngang */
 	margin: 0 5px;
 }
 
@@ -565,14 +642,17 @@ a.zalo-icon{
 /* Khung chứa ảnh */
 .product-image {
 	position: relative;
-	overflow: hidden; /* Cắt phần thừa */
-	aspect-ratio: 2/3; /* Tỷ lệ khung hình chuẩn thời trang (dọc) */
+	overflow: hidden;
+	/* Cắt phần thừa */
+	aspect-ratio: 2/3;
+	/* Tỷ lệ khung hình chuẩn thời trang (dọc) */
 }
 
 .product-image img {
 	width: 100%;
 	height: 100%;
-	object-fit: cover; /* Đảm bảo ảnh phủ kín khung */
+	object-fit: cover;
+	/* Đảm bảo ảnh phủ kín khung */
 	transition: transform 0.5s ease;
 }
 
@@ -581,8 +661,10 @@ a.zalo-icon{
 	position: absolute;
 	top: 0;
 	left: 0;
-	opacity: 0; /* Mặc định ẩn đi */
-	z-index: 2; /* Nằm đè lên ảnh chính */
+	opacity: 0;
+	/* Mặc định ẩn đi */
+	z-index: 2;
+	/* Nằm đè lên ảnh chính */
 }
 
 /* Khi rê chuột vào khung ảnh -> Hiện ảnh Hover */
@@ -598,7 +680,8 @@ a.zalo-icon{
 /* Thông tin sản phẩm */
 .product-info {
 	padding-top: 15px;
-	text-align: left; /* IvyModa thường căn giữa hoặc trái */
+	text-align: left;
+	/* IvyModa thường căn giữa hoặc trái */
 }
 
 .product-title a {
@@ -623,63 +706,78 @@ a.zalo-icon{
 
 /* --- CUSTOM SORT DROPDOWN --- */
 .custom-sort-dropdown .dropdown-toggle::after {
-    display: none !important;
+	display: none !important;
 }
+
 .custom-sort-dropdown.show .fa-chevron-down {
-    transform: rotate(180deg) !important;
-    transition: transform 0.2s;
+	transform: rotate(180deg) !important;
+	transition: transform 0.2s;
 }
+
 .custom-sort-dropdown .fa-chevron-down {
-    transition: transform 0.2s;
+	transition: transform 0.2s;
 }
+
 .custom-sort-dropdown .dropdown-item {
-    color: #333;
-    font-size: 15px;
-    font-weight: 300;
+	color: #333;
+	font-size: 15px;
+	font-weight: 300;
 }
+
 .custom-sort-dropdown .dropdown-item:hover,
 .custom-sort-dropdown .dropdown-item:active {
-    background-color: #f8f9fa;
-    color: #000;
+	background-color: #f8f9fa;
+	color: #000;
 }
 
 .sort-btn-wrapper {
-    flex: 1;
+	flex: 1;
 }
+
 .sort-btn-wrapper button {
-    width: 100%;
+	width: 100%;
 }
+
 @media (min-width: 992px) {
-    .sort-btn-wrapper {
-        flex: 0 0 260px;
-        max-width: 260px;
-    }
+	.sort-btn-wrapper {
+		flex: 0 0 260px;
+		max-width: 260px;
+	}
 }
 
 /* --------------------------------- SECTION HEADER (NEW ARRIVAL) --------------------------------- */
 .ivy-section-header {
 	text-align: center;
-	margin-bottom: 40px; /* Cách xa sản phẩm một chút */
+	margin-bottom: 25px;
+	/* Cách xa sản phẩm một chút */
 	/* border-bottom: 1px solid #eee; -> Bỏ dòng kẻ này đi vì IvyModa kẻ ở tab active */
 }
 
 /* 1. Dòng chữ NEW ARRIVAL to đùng */
 .ivy-section-title {
-	font-size: 32px; /* Chữ to */
-	font-weight: 700; /* In đậm */
+	font-size: 32px;
+	/* Chữ to */
+	font-weight: 700;
+	/* In đậm */
 	text-transform: uppercase;
-	letter-spacing: 3px; /* Giãn cách chữ cho sang */
+	letter-spacing: 3px;
+	/* Giãn cách chữ cho sang */
 	color: #000;
-	margin-bottom: 15px; /* Cách 2 cái tab bên dưới */
+	margin-bottom: 15px;
+	/* Cách 2 cái tab bên dưới */
 }
 
 /* 2. Hai cái tab IVY moda | Metagent */
 .ivy-tab-item {
 	display: inline-block;
-	font-size: 18px; /* Chữ tab nhỏ hơn tiêu đề */
-	font-weight: 400; /* Mảnh hơn */
-	color: #6c757d; /* Màu xám (Metagent) */
-	padding: 0 15px 10px; /* Padding để tạo khoảng cách gạch chân */
+	font-size: 18px;
+	/* Chữ tab nhỏ hơn tiêu đề */
+	font-weight: 400;
+	/* Mảnh hơn */
+	color: #6c757d;
+	/* Màu xám (Metagent) */
+	padding: 0 15px 5px;
+	/* Đưa gạch chân sát lên chữ */
 	cursor: pointer;
 	position: relative;
 	text-decoration: none !important;
@@ -688,9 +786,11 @@ a.zalo-icon{
 
 /* Tab đang chọn (IVY moda) */
 .ivy-tab-item.active {
-	color: #000; /* Màu đen đậm */
+	color: #000;
+	/* Màu đen đậm */
 	font-weight: 500;
-	border-bottom: 2px solid #000; /* Gạch chân màu đen */
+	border-bottom: 2px solid #000;
+	/* Gạch chân màu đen */
 }
 
 /* Hiệu ứng hover cho tab chưa chọn */
@@ -712,37 +812,41 @@ a.zalo-icon{
 
 .col-ivy-5 {
 	position: relative;
-	width: 20%; /* 100% chia 5 = 20% */
+	width: 20%;
+	/* 100% chia 5 = 20% */
 	padding-right: 10px;
 	padding-left: 10px;
 	margin-bottom: 30px;
 }
 
-@media ( max-width : 1199px) {
+@media (max-width : 1199px) {
 	.col-ivy-5 {
 		width: 33.33%;
 	}
+
 	body {
-	    padding-bottom: 60px; /* Space for mobile bottom nav */
+		padding-bottom: 60px;
+		/* Space for mobile bottom nav */
 	}
-	
+
 	/* Mobile Filter Popup Overlay */
 	#mobileFilter.show {
-	    position: absolute;
-	    top: 110px; /* Positioned below title and sort bar */
-	    left: 15px;
-	    right: 15px;
-	    width: auto;
-	    z-index: 1040;
-	    background: #fff;
-	    border: 1px solid #e5e5e5;
-	    border-radius: 10px;
-	    padding: 20px;
-	    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+		position: absolute;
+		top: 110px;
+		/* Positioned below title and sort bar */
+		left: 15px;
+		right: 15px;
+		width: auto;
+		z-index: 1040;
+		background: #fff;
+		border: 1px solid #e5e5e5;
+		border-radius: 10px;
+		padding: 20px;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 	}
 }
 
-@media ( max-width : 576px) {
+@media (max-width : 576px) {
 	.col-ivy-5 {
 		width: 50%;
 	}
@@ -760,7 +864,7 @@ a.zalo-icon{
 	top: 0;
 	left: 0;
 	background: #f7941d; /* Màu cam Ivy */
-	/*color: #fff;
+/*color: #fff;
 	font-size: 10px;
 	font-weight: 700;
 	padding: 2px 8px;
@@ -864,8 +968,10 @@ a.zalo-icon{
 .btn-ivy-see-all {
 	background: #fff;
 	color: #333;
-	border: 1px solid #333; /* Viền đen */
-	padding: 12px 40px; /* Nút dài */
+	border: 1px solid #333;
+	/* Viền đen */
+	padding: 12px 40px;
+	/* Nút dài */
 	font-size: 14px;
 	font-weight: 400;
 	/* TẠO HÌNH CHIẾC LÁ: Bo góc trên-trái và dưới-phải */
@@ -895,7 +1001,8 @@ a.zalo-icon{
 	position: absolute;
 	top: 0;
 	left: 0;
-	background: #f7941d; /* Màu cam Ivy */
+	background: #f7941d;
+	/* Màu cam Ivy */
 	color: #fff;
 	font-size: 11px;
 	font-weight: 700;
@@ -909,24 +1016,27 @@ a.zalo-icon{
 	position: absolute;
 	top: 10px;
 	left: -5px;
-	background: #b8232a; /* Màu đỏ đô */
+	background: #b8232a;
+	/* Màu đỏ đô */
 	color: #fff;
 	font-size: 11px;
 	font-weight: 500;
 	padding: 4px 12px;
 	z-index: 5;
 	border-radius: 0 15px 15px 0;
-	box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
+
 .badge-best-seller::before {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-top: 5px solid #7a151b; /* Màu tối tạo độ sâu góc gấp */
-    border-left: 5px solid transparent;
+	content: '';
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 0;
+	height: 0;
+	border-top: 5px solid #7a151b;
+	/* Màu tối tạo độ sâu góc gấp */
+	border-left: 5px solid transparent;
 }
 
 /* Nhãn giảm giá -5% (Hình tròn vàng) */
@@ -934,7 +1044,8 @@ a.zalo-icon{
 	position: absolute;
 	top: 10px;
 	right: 10px;
-	background: #f7941d; /* Màu vàng cam */
+	background: #f7941d;
+	/* Màu vàng cam */
 	color: #fff;
 	font-size: 12px;
 	font-weight: 700;
@@ -951,7 +1062,8 @@ a.zalo-icon{
 .product-image {
 	position: relative;
 	overflow: hidden;
-	aspect-ratio: 2/3; /* Tỷ lệ ảnh dọc */
+	aspect-ratio: 2/3;
+	/* Tỷ lệ ảnh dọc */
 }
 
 .product-image img {
@@ -980,7 +1092,8 @@ a.zalo-icon{
 
 /* 3. Phần thông tin bên dưới */
 .product-info {
-	padding: 15px 0 0 0; /* Cách ảnh ra một chút */
+	padding: 15px 0 0 0;
+	/* Cách ảnh ra một chút */
 }
 
 /* Dòng 1: List Màu + Tim */
@@ -993,7 +1106,8 @@ a.zalo-icon{
 
 .list-colors {
 	display: flex;
-	gap: 6px; /* Khoảng cách giữa các chấm màu */
+	gap: 6px;
+	/* Khoảng cách giữa các chấm màu */
 }
 
 /* Chấm tròn màu sắc */
@@ -1015,7 +1129,8 @@ a.zalo-icon{
 	left: -3px;
 	right: -3px;
 	bottom: -3px;
-	border: 1px solid #000; /* Vòng tròn đen bao ngoài */
+	border: 1px solid #000;
+	/* Vòng tròn đen bao ngoài */
 	border-radius: 50%;
 }
 
@@ -1040,12 +1155,16 @@ a.zalo-icon{
 .product-title a {
 	color: #333;
 	font-size: 14px;
-	font-weight: 400; /* Chữ thường, không đậm */
+	font-weight: 400;
+	/* Chữ thường, không đậm */
 	text-decoration: none;
 	display: block;
-	white-space: nowrap; /* Không xuống dòng */
-	overflow: hidden; /* Cắt chữ thừa */
-	text-overflow: ellipsis; /* Thêm dấu ... */
+	white-space: nowrap;
+	/* Không xuống dòng */
+	overflow: hidden;
+	/* Cắt chữ thừa */
+	text-overflow: ellipsis;
+	/* Thêm dấu ... */
 }
 
 .product-title a:hover {
@@ -1061,7 +1180,8 @@ a.zalo-icon{
 
 .product-price {
 	font-size: 16px;
-	font-weight: 700; /* Giá in đậm */
+	font-weight: 700;
+	/* Giá in đậm */
 	color: #000;
 }
 
@@ -1074,7 +1194,8 @@ a.zalo-icon{
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border-radius: 4px; /* Bo góc nhẹ */
+	border-radius: 4px;
+	/* Bo góc nhẹ */
 	transition: background 0.2s;
 	text-decoration: none !important;
 }
@@ -1093,7 +1214,8 @@ a.zalo-icon{
 .product-detail-row {
 	display: flex;
 	width: 100%;
-	align-items: flex-start; /* Căn hàng từ trên xuống */
+	align-items: flex-start;
+	/* Căn hàng từ trên xuống */
 }
 
 /* ------------------------------------------------------- */
@@ -1103,8 +1225,10 @@ a.zalo-icon{
 	display: flex;
 	/* Chiều cao khớp ảnh lớn bạn đo */
 	height: 845px;
-	gap: 20px; /* Khoảng cách giữa Ảnh to và Thumb nhỏ */
-	flex-shrink: 0; /* Không cho phép co lại */
+	gap: 20px;
+	/* Khoảng cách giữa Ảnh to và Thumb nhỏ */
+	flex-shrink: 0;
+	/* Không cho phép co lại */
 	align-items: center;
 }
 
@@ -1119,34 +1243,44 @@ a.zalo-icon{
 .main-img-display {
 	width: 100%;
 	height: 100%;
-	object-fit: cover; /* Ảnh phủ kín, không méo */
+	object-fit: cover;
+	/* Ảnh phủ kín, không méo */
 	display: block;
 }
 
 /* Nút chuyển ảnh trên Main Image */
 .main-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: transparent;
-    border: none;
-    z-index: 10;
-    cursor: pointer;
-    padding: 10px;
-    outline: none;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	background: transparent;
+	border: none;
+	z-index: 10;
+	cursor: pointer;
+	padding: 10px;
+	outline: none;
 }
-.main-arrow.prev { left: 5px; }
-.main-arrow.next { right: 5px; }
+
+.main-arrow.prev {
+	left: 5px;
+}
+
+.main-arrow.next {
+	right: 5px;
+}
+
 .main-arrow svg {
-    transition: stroke 0.3s ease;
+	transition: stroke 0.3s ease;
 }
+
 .main-arrow:hover svg {
-    stroke: #000;
+	stroke: #000;
 }
 
 /* Cột Thumbnail (Ảnh nhỏ bên cạnh ảnh lớn) */
 .gallery-thumbs-container {
-	width: 100px; /* Kích thước thumb ~100px */
+	width: 100px;
+	/* Kích thước thumb ~100px */
 	height: auto;
 	display: flex;
 	flex-direction: column;
@@ -1156,12 +1290,15 @@ a.zalo-icon{
 
 /* Khung cuộn ảnh nhỏ */
 .gallery-thumbs-scroll {
-    overflow-y: hidden; /* Ẩn thanh cuộn để dùng mũi tên */
-    height: 645px;      /* CHỐT: Chiều cao vừa đủ cho 4 ảnh (4*150 + 3*15) */
-    display: flex;
-    flex-direction: column;
-    scroll-behavior: smooth; /* Hiệu ứng cuộn mượt */
-    
+	overflow-y: hidden;
+	/* Ẩn thanh cuộn để dùng mũi tên */
+	height: 645px;
+	/* CHỐT: Chiều cao vừa đủ cho 4 ảnh (4*150 + 3*15) */
+	display: flex;
+	flex-direction: column;
+	scroll-behavior: smooth;
+	/* Hiệu ứng cuộn mượt */
+
 }
 
 .gallery-thumbs-scroll::-webkit-scrollbar {
@@ -1170,48 +1307,51 @@ a.zalo-icon{
 
 /* Ảnh nhỏ */
 .thumb-img {
-    width: 100px;
-    height: 150px;      /* Cố định chiều cao ảnh nhỏ */
-    object-fit: cover;
-    margin-bottom: 15px;
-    cursor: pointer;
-    border: 1px solid transparent;
-    opacity: 0.7;
-    transition: all 0.3s;
-    flex-shrink: 0;     /* Không cho ảnh bị bóp méo khi cuộn */
+	width: 100px;
+	height: 150px;
+	/* Cố định chiều cao ảnh nhỏ */
+	object-fit: cover;
+	margin-bottom: 15px;
+	cursor: pointer;
+	border: 1px solid transparent;
+	opacity: 0.7;
+	transition: all 0.3s;
+	flex-shrink: 0;
+	/* Không cho ảnh bị bóp méo khi cuộn */
 }
 
 .thumb-img:last-child {
-    margin-bottom: 0;
+	margin-bottom: 0;
 }
 
-.thumb-img.active, .thumb-img:hover {
+.thumb-img.active,
+.thumb-img:hover {
 	opacity: 1;
 	border-color: #000;
 }
 
 /* Mũi tên điều hướng thumb */
 .thumb-arrow {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 30px;
-    height: 30px;
-    background: #fff;
-    border: 1px solid #eee;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 10;
-    color: #333;
-    transition: 0.3s;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 30px;
+	height: 30px;
+	background: #fff;
+	border: 1px solid #eee;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	z-index: 10;
+	color: #333;
+	transition: 0.3s;
 }
 
 .thumb-arrow:hover {
-    background: #000;
-    color: #fff;
+	background: #000;
+	color: #fff;
 }
 
 .thumb-arrow.up {
@@ -1226,7 +1366,8 @@ a.zalo-icon{
 /* CỘT PHẢI: THÔNG TIN (INFO) - CÁCH 105PX */
 /* ------------------------------------------------------- */
 .product-info-col {
-	flex-grow: 1; /* Chiếm hết phần còn lại của màn hình */
+	flex-grow: 1;
+	/* Chiếm hết phần còn lại của màn hình */
 	/* QUAN TRỌNG: Padding trái 105px như bạn đo */
 	padding-left: 105px !important;
 	/* Canh chỉnh nội dung */
@@ -1235,83 +1376,112 @@ a.zalo-icon{
 
 /* --- RESPONSIVE (Mobile & Tablet) --- */
 /* Khi màn hình nhỏ hơn 1400px (Laptop nhỏ) -> Giảm padding kẻo vỡ layout */
-@media ( max-width : 1400px) {
+@media (max-width : 1400px) {
 	.product-info-col {
-		padding-left: 50px !important; /* Giảm xuống còn 50px */
+		padding-left: 50px !important;
+		/* Giảm xuống còn 50px */
 	}
+
 	.gallery-main {
-		width: 450px; /* Thu nhỏ ảnh lại chút */
+		width: 450px;
+		/* Thu nhỏ ảnh lại chút */
 		height: 675px;
 	}
+
 	.gallery-wrapper {
 		height: 675px;
 	}
 }
 
 /* Khi màn hình nhỏ hơn 992px (Mobile/Tablet dọc) -> Xếp dọc */
-@media ( max-width : 1199px) {
+@media (max-width : 1199px) {
 	.product-detail-row {
 		flex-direction: column;
 	}
+
 	.gallery-wrapper {
 		width: 100%;
 		height: auto;
 		flex-direction: column;
 		margin-bottom: 30px;
 	}
+
 	.gallery-main {
 		width: 100%;
 		height: auto;
-		aspect-ratio: 2/3; /* Match desktop exact proportions */
+		aspect-ratio: 2/3;
+		/* Match desktop exact proportions */
 	}
+
 	.gallery-thumbs-container {
 		width: 100%;
 		height: auto;
 		flex-direction: row;
 		padding: 0 0 10px 0;
 	}
+
 	.gallery-thumbs-scroll {
 		flex-direction: row;
-		flex-wrap: nowrap; /* Tắt rớt dòng để có thể vuốt ngang */
+		flex-wrap: nowrap;
+		/* Tắt rớt dòng để có thể vuốt ngang */
 		width: 100%;
 		height: auto;
-		overflow-x: auto; /* Bật thanh cuộn ngang */
+		overflow-x: auto;
+		/* Bật thanh cuộn ngang */
 		overflow-y: hidden;
 		gap: 10px;
 		justify-content: flex-start;
-		scroll-snap-type: x mandatory; /* Snap từng ảnh khi vuốt */
-		-webkit-overflow-scrolling: touch; /* Mượt mà trên iOS */
+		scroll-snap-type: x mandatory;
+		/* Snap từng ảnh khi vuốt */
+		-webkit-overflow-scrolling: touch;
+		/* Mượt mà trên iOS */
 	}
+
 	.product-info-col {
-		padding-left: 0 !important; /* Mobile thì bỏ padding trái */
+		padding-left: 0 !important;
+		/* Mobile thì bỏ padding trái */
 		padding-right: 0;
 	}
+
 	/* Ép các nút bấm nằm ngang trên 1 dòng trên mobile */
 	.action-buttons {
 		flex-wrap: nowrap !important;
 		gap: 8px !important;
 	}
-	.btn-add-cart-black, .btn-buy-now-white {
-		padding: 0 15px !important; /* Padding nhỏ lại gọn gàng */
-		font-size: 12px !important; /* Cỡ chữ nhỏ lại chút */
-		height: 40px !important; /* Nút thấp lại */
-		white-space: nowrap; /* Không cho chữ rớt dòng */
+
+	.btn-add-cart-black,
+	.btn-buy-now-white {
+		padding: 0 15px !important;
+		/* Padding nhỏ lại gọn gàng */
+		font-size: 12px !important;
+		/* Cỡ chữ nhỏ lại chút */
+		height: 40px !important;
+		/* Nút thấp lại */
+		white-space: nowrap;
+		/* Không cho chữ rớt dòng */
 	}
+
 	.btn-wishlist-box {
 		flex-shrink: 0;
 		width: 40px !important;
 		height: 40px !important;
 	}
+
 	.thumb-img {
 		/* Tính toán width chính xác cho 4 ảnh hiển thị: 100% trừ đi 3 khoảng cách 10px = 30px, chia đều 4 */
-		width: calc((100% - 30px) / 4); 
-		height: auto; 
-		aspect-ratio: 2/3; /* Force 2:3 aspect ratio */
-		flex-shrink: 0; /* Ngăn chặn bị bóp méo khi flex row */
-		margin-right: 0; /* Dùng gap thay cho margin */
+		width: calc((100% - 30px) / 4);
+		height: auto;
+		aspect-ratio: 2/3;
+		/* Force 2:3 aspect ratio */
+		flex-shrink: 0;
+		/* Ngăn chặn bị bóp méo khi flex row */
+		margin-right: 0;
+		/* Dùng gap thay cho margin */
 		margin-bottom: 0;
-		scroll-snap-align: start; /* Điểm dừng khi vuốt */
+		scroll-snap-align: start;
+		/* Điểm dừng khi vuốt */
 	}
+
 	.thumb-arrow {
 		display: none;
 	}
@@ -1361,85 +1531,91 @@ a.zalo-icon{
 
 /* Input Số lượng */
 .qty-control {
-    display: inline-flex;
-    align-items: center;
-    border: 1px solid #e1e1e1;
-    border-radius: 20px 0 20px 0; /* Bo góc hình chiếc lá */
-    overflow: hidden;
-    height: 45px;
+	display: inline-flex;
+	align-items: center;
+	border: 1px solid #e1e1e1;
+	border-radius: 20px 0 20px 0;
+	/* Bo góc hình chiếc lá */
+	overflow: hidden;
+	height: 45px;
 }
 
 .detail-tabs {
-    border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #eee;
 }
+
 .detail-tabs .nav-item {
-    margin-bottom: -1px;
+	margin-bottom: -1px;
 }
+
 .detail-tabs .nav-link {
-    border: none;
-    border-bottom: 2px solid transparent;
-    color: #777;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 14px;
-    padding: 15px 15px;
+	border: none;
+	border-bottom: 2px solid transparent;
+	color: #777;
+	font-weight: 600;
+	text-transform: uppercase;
+	font-size: 14px;
+	padding: 15px 15px;
 }
+
 .detail-tabs .nav-link:hover {
-    border-color: transparent;
-    color: #333;
+	border-color: transparent;
+	color: #333;
 }
+
 .detail-tabs .nav-link.active {
-    border: none;
-    border-bottom: 2px solid #000;
-    color: #333;
-    background: transparent;
+	border: none;
+	border-bottom: 2px solid #000;
+	color: #333;
+	background: transparent;
 }
 
 .qty-btn {
-    width: 40px;
-    height: 100%;
-    background: #fff;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-    transition: 0.3s;
+	width: 40px;
+	height: 100%;
+	background: #fff;
+	border: none;
+	font-size: 18px;
+	cursor: pointer;
+	transition: 0.3s;
 }
 
 .qty-btn:hover {
-    background: #f5f5f5;
+	background: #f5f5f5;
 }
 
 .qty-input {
-    width: 50px;
-    height: 100%;
-    border-left: 1px solid #e1e1e1;
-    border-right: 1px solid #e1e1e1;
-    border-top: none;
-    border-bottom: none;
-    text-align: center;
-    font-weight: 600;
-    outline: none;
+	width: 50px;
+	height: 100%;
+	border-left: 1px solid #e1e1e1;
+	border-right: 1px solid #e1e1e1;
+	border-top: none;
+	border-bottom: none;
+	text-align: center;
+	font-weight: 600;
+	outline: none;
 }
 
 /* Group Button Mua hàng */
 .action-buttons {
-    display: flex;
-    gap: 15px;
-    align-items: center;
+	display: flex;
+	gap: 15px;
+	align-items: center;
 }
 
 .btn-add-cart-black {
-    background: #222;
-    color: #fff;
-    border: 1px solid #222;
-    padding: 0 20px;
-    height: 50px;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 15px;
-    border-radius: 20px 0 20px 0 !important; /* Ép bo góc chiếc lá */
-    cursor: pointer;
-    transition: 0.3s;
+	background: #222;
+	color: #fff;
+	border: 1px solid #222;
+	padding: 0 20px;
+	height: 50px;
+	font-weight: 700;
+	text-transform: uppercase;
+	font-size: 15px;
+	border-radius: 20px 0 20px 0 !important;
+	/* Ép bo góc chiếc lá */
+	cursor: pointer;
+	transition: 0.3s;
 }
 
 .btn-add-cart-black:hover {
@@ -1448,17 +1624,17 @@ a.zalo-icon{
 }
 
 .btn-buy-now-white {
-    background: #fff;
-    color: #222;
-    border: 1px solid #222;
-    padding: 0 20px;
-    height: 50px;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 15px;
-    border-radius: 20px 0 20px 0 !important;
-    cursor: pointer;
-    transition: 0.3s;
+	background: #fff;
+	color: #222;
+	border: 1px solid #222;
+	padding: 0 20px;
+	height: 50px;
+	font-weight: 700;
+	text-transform: uppercase;
+	font-size: 15px;
+	border-radius: 20px 0 20px 0 !important;
+	cursor: pointer;
+	transition: 0.3s;
 }
 
 .btn-buy-now-white:hover {
@@ -1467,16 +1643,17 @@ a.zalo-icon{
 }
 
 .btn-wishlist-box {
-    width: 50px;
-    height: 50px;
-    border: 1px solid #222;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 15px 0 15px 0 !important; /* Bo góc nhẹ hơn nút to */
-    cursor: pointer;
-    font-size: 20px;
+	width: 50px;
+	height: 50px;
+	border: 1px solid #222;
+	background: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 15px 0 15px 0 !important;
+	/* Bo góc nhẹ hơn nút to */
+	cursor: pointer;
+	font-size: 20px;
 }
 
 /* Tab Chi tiết sản phẩm */
@@ -1492,7 +1669,8 @@ a.zalo-icon{
 	font-weight: 700;
 	text-transform: uppercase;
 	font-size: 14px;
-	margin-bottom: -1px; /* Đè lên đường kẻ mờ */
+	margin-bottom: -1px;
+	/* Đè lên đường kẻ mờ */
 }
 
 /* ------------------------------------ TRANG GIỎ HÀNG (CART PAGE) ------------------------------------ */
@@ -1524,7 +1702,8 @@ a.zalo-icon{
 	position: relative;
 	z-index: 2;
 	text-align: center;
-	background: #fff; /* Để che đường kẻ */
+	background: #fff;
+	/* Để che đường kẻ */
 	padding: 0 10px;
 }
 
@@ -1676,7 +1855,8 @@ a.zalo-icon{
 
 .warning-text {
 	font-size: 13px;
-	color: #cc0000; /* Màu đỏ cảnh báo */
+	color: #cc0000;
+	/* Màu đỏ cảnh báo */
 	margin-top: 15px;
 	line-height: 1.5;
 	background: #fff5f5;
@@ -1729,7 +1909,8 @@ a.zalo-icon{
 /* 1. Các ô nhập liệu (Input) */
 .form-control-ivy {
 	border: 1px solid #ddd;
-	border-radius: 4px 0 4px 0; /* Bo góc chéo đặc trưng */
+	border-radius: 4px 0 4px 0;
+	/* Bo góc chéo đặc trưng */
 	padding: 10px 15px;
 	height: 45px;
 	font-size: 14px;
@@ -1866,22 +2047,25 @@ a.zalo-icon{
 
 /* Style cho khung Phương thức thanh toán */
 .payment-box {
-    border: 1px solid #e1e1e1;
-    border-radius: 10px; /* Bo góc tròn 10px */
-    padding: 25px;
-    background: #fff;
+	border: 1px solid #e1e1e1;
+	border-radius: 10px;
+	/* Bo góc tròn 10px */
+	padding: 25px;
+	background: #fff;
 }
 
 /* Tinh chỉnh Radio button cho to rõ hơn */
 .payment-box .custom-control-label {
-    cursor: pointer;
-    font-size: 15px;
-    padding-left: 5px; /* Cách xa nút tròn một chút */
+	cursor: pointer;
+	font-size: 15px;
+	padding-left: 5px;
+	/* Cách xa nút tròn một chút */
 }
 
-.payment-box .custom-control-input:checked ~ .custom-control-label::before {
-    background-color: #000; /* Màu đen khi chọn */
-    border-color: #000;
+.payment-box .custom-control-input:checked~.custom-control-label::before {
+	background-color: #000;
+	/* Màu đen khi chọn */
+	border-color: #000;
 }
 
 
@@ -1909,7 +2093,8 @@ a.zalo-icon{
 	position: absolute;
 	top: 0;
 	right: 0;
-	background: #222; /* Màu đen hoặc đỏ tùy bạn */
+	background: #222;
+	/* Màu đen hoặc đỏ tùy bạn */
 	color: #fff;
 	font-size: 11px;
 	font-weight: bold;
@@ -1929,7 +2114,8 @@ a.zalo-icon{
 	height: 100%;
 	background: rgba(0, 0, 0, 0.5);
 	z-index: 1040;
-	display: none; /* Mặc định ẩn */
+	display: none;
+	/* Mặc định ẩn */
 	opacity: 0;
 	transition: opacity 0.3s;
 }
@@ -1943,7 +2129,8 @@ a.zalo-icon{
 .mini-cart-sidebar {
 	position: fixed;
 	top: 0;
-	right: -400px; /* Giấu sang bên phải */
+	right: -400px;
+	/* Giấu sang bên phải */
 	width: 400px;
 	height: 100%;
 	background: #fff;
@@ -1956,7 +2143,8 @@ a.zalo-icon{
 }
 
 .mini-cart-sidebar.open {
-	right: 0; /* Trượt ra */
+	right: 0;
+	/* Trượt ra */
 }
 
 /* Nội dung bên trong */
@@ -1966,7 +2154,8 @@ a.zalo-icon{
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	flex-shrink: 0; /* Không bao giờ được co nhỏ lại */
+	flex-shrink: 0;
+	/* Không bao giờ được co nhỏ lại */
 }
 
 .close-btn {
@@ -1979,10 +2168,14 @@ a.zalo-icon{
 .mini-cart-body {
 	padding: 20px;
 	/* --- SỬA/THÊM CÁC DÒNG NÀY --- */
-	flex-grow: 1; /* Chiếm TẤT CẢ khoảng trống còn lại ở giữa */
-	overflow-y: auto; /* Nếu dài quá thì hiện thanh cuộn dọc */
-	overflow-x: hidden; /* Ẩn thanh cuộn ngang */
-	height: auto; /* Bỏ height cố định nếu có */
+	flex-grow: 1;
+	/* Chiếm TẤT CẢ khoảng trống còn lại ở giữa */
+	overflow-y: auto;
+	/* Nếu dài quá thì hiện thanh cuộn dọc */
+	overflow-x: hidden;
+	/* Ẩn thanh cuộn ngang */
+	height: auto;
+	/* Bỏ height cố định nếu có */
 	/* Tùy chỉnh thanh cuộn cho đẹp (giống Ivy) */
 	scrollbar-width: thin;
 	scrollbar-color: #ccc #fff;
@@ -2004,7 +2197,8 @@ a.zalo-icon{
 	padding: 20px;
 	border-top: 1px solid #eee;
 	background: #f9f9f9;
-	flex-shrink: 0; /* Không bao giờ được co nhỏ lại */
+	flex-shrink: 0;
+	/* Không bao giờ được co nhỏ lại */
 	z-index: 10;
 }
 
@@ -2044,39 +2238,41 @@ a.zalo-icon{
 
 
 /* --- OWL CAROUSEL NAV (MŨI TÊN) --- */
-.owl-nav button.owl-prev, 
+.owl-nav button.owl-prev,
 .owl-nav button.owl-next {
-    position: absolute;
-    top: 40%; /* Căn giữa theo chiều dọc của khung ảnh */
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background: #fff !important;
-    border-radius: 50% !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* Đổ bóng nhẹ */
-    color: #333 !important;
-    font-size: 18px !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-    outline: none;
+	position: absolute;
+	top: 40%;
+	/* Căn giữa theo chiều dọc của khung ảnh */
+	transform: translateY(-50%);
+	width: 40px;
+	height: 40px;
+	background: #fff !important;
+	border-radius: 50% !important;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	/* Đổ bóng nhẹ */
+	color: #333 !important;
+	font-size: 18px !important;
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s;
+	outline: none;
 }
 
-.owl-nav button.owl-prev:hover, 
+.owl-nav button.owl-prev:hover,
 .owl-nav button.owl-next:hover {
-    background: #000 !important;
-    color: #fff !important;
+	background: #000 !important;
+	color: #fff !important;
 }
 
 /* Mũi tên Trái: Đẩy sang trái -20px để nằm chườm ra ngoài */
 .owl-nav button.owl-prev {
-    left: -10px; 
+	left: -10px;
 }
 
 /* Mũi tên Phải: Đẩy sang phải -20px */
 .owl-nav button.owl-next {
-    right: -10px;
+	right: -10px;
 }
 
 
@@ -2099,10 +2295,11 @@ a.zalo-icon{
 	cursor: pointer;
 }
 
-.custom-control-input:checked ~ .custom-control-label::before {
+.custom-control-input:checked~.custom-control-label::before {
 	color: #fff;
 	border-color: #000;
-	background-color: #000; /* Checkbox màu đen giống Ivy */
+	background-color: #000;
+	/* Checkbox màu đen giống Ivy */
 }
 
 /* Pagination Style */
@@ -2114,12 +2311,15 @@ a.zalo-icon{
 
 /* ------------------------------------ 1. QUICK SIZE POPUP (Danh sách size) ------------------------------------ */
 .quick-size-popup {
-	display: none; /* Mặc định ẩn */
+	display: none;
+	/* Mặc định ẩn */
 	position: absolute;
-	bottom: 45px; /* Hiện ngay phía trên nút giỏ hàng */
+	bottom: 45px;
+	/* Hiện ngay phía trên nút giỏ hàng */
 	right: 0;
 	background: #fff;
-	width: 60px; /* Chiều rộng nhỏ gọn */
+	width: 60px;
+	/* Chiều rộng nhỏ gọn */
 	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 	border: 1px solid #eee;
 	z-index: 100;
@@ -2161,7 +2361,8 @@ a.zalo-icon{
 	top: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5); /* Nền tối mờ */
+	background-color: rgba(0, 0, 0, 0.5);
+	/* Nền tối mờ */
 	align-items: center;
 	justify-content: center;
 }
@@ -2172,7 +2373,8 @@ a.zalo-icon{
 	text-align: center;
 	width: 450px;
 	position: relative;
-	border-radius: 0; /* IvyModa vuông vức */
+	border-radius: 0;
+	/* IvyModa vuông vức */
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 	animation: zoomIn 0.3s ease;
 }
@@ -2208,9 +2410,11 @@ a.zalo-icon{
 }
 
 .login-col-left {
-	border-right: 1px solid #e1e1e1; /* Đường kẻ dọc chia đôi */
+	border-right: 1px solid #e1e1e1;
+	/* Đường kẻ dọc chia đôi */
 	padding-right: 40px;
-	padding-left: 15px; /* Khoảng đệm 15px */
+	padding-left: 15px;
+	/* Khoảng đệm 15px */
 	padding-right: 105px;
 }
 
@@ -2221,11 +2425,12 @@ a.zalo-icon{
 }
 
 /* Responsive: Mobile bỏ đường kẻ và padding */
-@media ( max-width : 1199px) {
+@media (max-width : 1199px) {
 	.login-wrapper-90 {
 		margin-left: 0;
 		margin-right: 0;
 	}
+
 	.login-col-left {
 		border-right: none;
 		padding-right: 15px;
@@ -2233,6 +2438,7 @@ a.zalo-icon{
 		padding-bottom: 30px;
 		margin-bottom: 30px;
 	}
+
 	.login-col-right {
 		padding-left: 15px;
 	}
@@ -2245,7 +2451,8 @@ a.zalo-icon{
 	text-transform: uppercase;
 	color: #000;
 	margin-bottom: 20px;
-	text-align: center; /* Căn giữa giống ảnh */
+	text-align: center;
+	/* Căn giữa giống ảnh */
 }
 
 /* Mô tả ngắn */
@@ -2277,7 +2484,8 @@ a.zalo-icon{
 .auth-links-secondary a {
 	font-size: 14px;
 	color: #333;
-	text-decoration: underline; /* Gạch chân */
+	text-decoration: underline;
+	/* Gạch chân */
 }
 
 .auth-links-secondary a:hover {
@@ -2295,10 +2503,12 @@ a.zalo-icon{
 	padding: 12px 0;
 	text-align: center;
 	border: 1px solid #222;
-	border-radius: 15px 0 15px 0; /* Bo góc chéo đặc trưng */
+	border-radius: 15px 0 15px 0;
+	/* Bo góc chéo đặc trưng */
 	cursor: pointer;
 	transition: all 0.3s;
-	text-decoration: none; /* Dùng cho thẻ a */
+	text-decoration: none;
+	/* Dùng cho thẻ a */
 	font-size: 16px;
 }
 
@@ -2307,7 +2517,7 @@ a.zalo-icon{
 	color: #000;
 }
 
-a.btn-auth-action{
+a.btn-auth-action {
 	text-decoration: none;
 }
 
@@ -2316,7 +2526,8 @@ a.btn-auth-action{
 	position: relative;
 	display: inline-block;
 	cursor: pointer;
-	padding: 10px 0; /* Tạo vùng hover rộng hơn */
+	padding: 10px 0;
+	/* Tạo vùng hover rộng hơn */
 }
 
 /* Ẩn menu mặc định */
@@ -2324,7 +2535,8 @@ a.btn-auth-action{
 	display: none;
 	position: absolute;
 	top: 100%;
-	right: -10px; /* Căn lề phải */
+	right: -10px;
+	/* Căn lề phải */
 	width: 220px;
 	background: #fff;
 	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
@@ -2372,7 +2584,8 @@ a.btn-auth-action{
 	margin-bottom: 8px;
 }
 
-.user-menu-list a, .btn-logout-link {
+.user-menu-list a,
+.btn-logout-link {
 	font-size: 13px;
 	color: #555;
 	text-decoration: none;
@@ -2386,7 +2599,8 @@ a.btn-auth-action{
 	cursor: pointer;
 }
 
-.user-menu-list a:hover, .btn-logout-link:hover {
+.user-menu-list a:hover,
+.btn-logout-link:hover {
 	color: #000;
 }
 
@@ -2397,7 +2611,8 @@ a.btn-auth-action{
 /* Nhãn (Label) phía trên ô input */
 .auth-label {
 	font-size: 14px;
-	color: #666; /* Màu chữ xám giống ảnh */
+	color: #666;
+	/* Màu chữ xám giống ảnh */
 	margin-bottom: 5px;
 	font-weight: 400;
 }
@@ -2484,14 +2699,16 @@ a.btn-auth-action{
 }
 
 .account-nav-link i {
-	width: 25px; /* Cố định chiều rộng icon để chữ thẳng hàng */
+	width: 25px;
+	/* Cố định chiều rộng icon để chữ thẳng hàng */
 	text-align: center;
 }
 
 /* Form Styles */
 .col-form-label {
 	font-size: 14px;
-	padding-top: 12px; /* Căn giữa với input */
+	padding-top: 12px;
+	/* Căn giữa với input */
 }
 
 /* Input readonly (màu xám nhạt giống ảnh) */
@@ -2502,7 +2719,8 @@ a.btn-auth-action{
 }
 
 /* Table bên phải */
-.table-bordered td, .table-bordered th {
+.table-bordered td,
+.table-bordered th {
 	border-color: #e1e1e1;
 	vertical-align: middle;
 }
@@ -2513,129 +2731,141 @@ a.btn-auth-action{
 
 /* 1. Accordion Header (Tiêu đề Size, Màu sắc...) */
 .filter-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 0; /* Giãn cách trên dưới */
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 600; /* Đậm vừa phải */
-    color: #333;
-    transition: color 0.2s;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 0;
+	/* Giãn cách trên dưới */
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: 600;
+	/* Đậm vừa phải */
+	color: #333;
+	transition: color 0.2s;
 }
 
 .filter-header:hover {
-    color: #000;
+	color: #000;
 }
 
 /* Icon cộng/trừ */
 .filter-header i {
-    font-size: 12px; /* Icon nhỏ gọn */
-    color: #999;
+	font-size: 12px;
+	/* Icon nhỏ gọn */
+	color: #999;
 }
 
 /* 2. Nội dung bên trong (Size list, Color list) */
 .filter-content {
-    display: none; /* Mặc định đóng */
-    padding-bottom: 20px;
-    padding-left: 5px; /* Thụt lề một chút */
+	display: none;
+	/* Mặc định đóng */
+	padding-bottom: 20px;
+	padding-left: 5px;
+	/* Thụt lề một chút */
 }
 
 /* 3. Slider Giá (noUiSlider Custom) */
 .noUi-target {
-    background: #e1e1e1; /* Đường nền xám nhạt */
-    border: none;
-    box-shadow: none;
-    height: 4px; /* Độ dày thanh */
-    margin-top: 15px;
-    margin-bottom: 15px;
+	background: #e1e1e1;
+	/* Đường nền xám nhạt */
+	border: none;
+	box-shadow: none;
+	height: 4px;
+	/* Độ dày thanh */
+	margin-top: 15px;
+	margin-bottom: 15px;
 }
 
 .noUi-connect {
-    background: #000; /* Đoạn giữa 2 nút màu đen */
+	background: #000;
+	/* Đoạn giữa 2 nút màu đen */
 }
 
 .noUi-horizontal .noUi-handle {
-    width: 16px;
-    height: 16px;
-    right: -8px;
-    top: -6px;
-    background: #000; /* Nút tròn màu đen */
-    border: 2px solid #fff; /* Viền trắng để tách biệt */
-    border-radius: 50%;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    cursor: pointer;
-    outline: none;
+	width: 16px;
+	height: 16px;
+	right: -8px;
+	top: -6px;
+	background: #000;
+	/* Nút tròn màu đen */
+	border: 2px solid #fff;
+	/* Viền trắng để tách biệt */
+	border-radius: 50%;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	outline: none;
 }
 
 /* Ẩn vạch kẻ mặc định của thư viện */
-.noUi-handle:before, .noUi-handle:after {
-    display: none; 
+.noUi-handle:before,
+.noUi-handle:after {
+	display: none;
 }
 
 /* Hiển thị giá tiền dưới slider */
 .price-values {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    font-size: 14px;
-    font-weight: 700;
-    color: #333;
+	display: flex;
+	justify-content: space-between;
+	margin-top: 10px;
+	font-size: 14px;
+	font-weight: 700;
+	color: #333;
 }
 
 /* 4. Hai nút chức năng dưới cùng (BỎ LỌC - LỌC) */
 .filter-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
+	display: flex;
+	justify-content: space-between;
+	margin-top: 30px;
 }
 
 /* Nút BỎ LỌC (Trắng) */
 .btn-filter-clear {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 48%; /* Chia đôi hàng */
-    height: 40px;
-    background: #fff;
-    color: #333;
-    border: 1px solid #333;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    text-decoration: none;
-    /* Bo góc chéo: Trên-Trái & Dưới-Phải */
-    border-radius: 12px 0 12px 0; 
-    transition: all 0.3s;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	width: 48%;
+	/* Chia đôi hàng */
+	height: 40px;
+	background: #fff;
+	color: #333;
+	border: 1px solid #333;
+	font-size: 13px;
+	font-weight: 600;
+	text-transform: uppercase;
+	text-decoration: none;
+	/* Bo góc chéo: Trên-Trái & Dưới-Phải */
+	border-radius: 12px 0 12px 0;
+	transition: all 0.3s;
 }
 
 .btn-filter-clear:hover {
-    background: #f9f9f9;
-    color: #000;
-    text-decoration: none;
+	background: #f9f9f9;
+	color: #000;
+	text-decoration: none;
 }
 
 /* Nút LỌC (Đen) */
 .btn-filter-submit {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 48%;
-    height: 40px;
-    background: #222;
-    color: #fff;
-    border: 1px solid #222;
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    /* Bo góc chéo giống nút trắng */
-    border-radius: 12px 0 12px 0;
-    cursor: pointer;
-    transition: all 0.3s;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	width: 48%;
+	height: 40px;
+	background: #222;
+	color: #fff;
+	border: 1px solid #222;
+	font-size: 13px;
+	font-weight: 700;
+	text-transform: uppercase;
+	/* Bo góc chéo giống nút trắng */
+	border-radius: 12px 0 12px 0;
+	cursor: pointer;
+	transition: all 0.3s;
 }
 
 .btn-filter-submit:hover {
-    background: #000;
+	background: #000;
 }
 
 /* ======================================================= */
@@ -2644,84 +2874,93 @@ a.btn-auth-action{
 
 /* Container chứa các ô màu: Dàn hàng ngang, tự xuống dòng */
 .filter-color-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Khoảng cách giữa các ô màu */
-    padding-top: 10px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	/* Khoảng cách giữa các ô màu */
+	padding-top: 10px;
 }
 
 /* Ẩn checkbox mặc định đi */
 .color-checkbox-hidden {
-    display: none; 
+	display: none;
 }
 
 /* Ô tròn màu sắc (Label) */
 .color-swatch {
-    display: block;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%; /* Làm tròn */
-    border: 1px solid #ddd; /* Viền mờ cho các màu sáng như Trắng */
-    cursor: pointer;
-    position: relative;
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	display: block;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	/* Làm tròn */
+	border: 1px solid #ddd;
+	/* Viền mờ cho các màu sáng như Trắng */
+	cursor: pointer;
+	position: relative;
+	transition: all 0.2s ease;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /* Hiệu ứng khi Hover: Phóng to nhẹ */
 .color-swatch:hover {
-    transform: scale(1.1);
-    border-color: #999;
+	transform: scale(1.1);
+	border-color: #999;
 }
 
 /* --- TRẠNG THÁI ĐƯỢC CHỌN (CHECKED) --- */
 /* Khi checkbox ẩn được tick -> Đổi style của label liền kề */
-.color-checkbox-hidden:checked + .color-swatch {
-    border: 2px solid #fff; /* Tạo khoảng trắng */
-    box-shadow: 0 0 0 2px #000; /* Vòng tròn đen bao ngoài cùng */
-    transform: scale(1.1);
+.color-checkbox-hidden:checked+.color-swatch {
+	border: 2px solid #fff;
+	/* Tạo khoảng trắng */
+	box-shadow: 0 0 0 2px #000;
+	/* Vòng tròn đen bao ngoài cùng */
+	transform: scale(1.1);
 }
 
 /* --- TOOLTIP (Hiện tên màu khi Hover) --- */
 /* 1. Hình chữ nhật đen chứa chữ */
 .color-swatch:hover::after {
-    content: attr(data-title); /* Lấy chữ từ data-title trong HTML */
-    position: absolute;
-    bottom: 125%; /* Đẩy lên trên */
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #000;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: nowrap;
-    z-index: 10;
-    opacity: 0;
-    animation: fadeInTooltip 0.2s forwards;
+	content: attr(data-title);
+	/* Lấy chữ từ data-title trong HTML */
+	position: absolute;
+	bottom: 125%;
+	/* Đẩy lên trên */
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: #000;
+	color: #fff;
+	padding: 5px 10px;
+	border-radius: 4px;
+	font-size: 12px;
+	white-space: nowrap;
+	z-index: 10;
+	opacity: 0;
+	animation: fadeInTooltip 0.2s forwards;
 }
 
 /* 2. Mũi tên tam giác nhỏ ở dưới tooltip */
 .color-swatch:hover::before {
-    content: '';
-    position: absolute;
-    bottom: 115%; /* Nằm ngay dưới hộp đen */
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 5px;
-    border-style: solid;
-    border-color: #000 transparent transparent transparent; /* Tam giác hướng xuống */
-    z-index: 10;
-    opacity: 0;
-    animation: fadeInTooltip 0.2s forwards;
+	content: '';
+	position: absolute;
+	bottom: 115%;
+	/* Nằm ngay dưới hộp đen */
+	left: 50%;
+	transform: translateX(-50%);
+	border-width: 5px;
+	border-style: solid;
+	border-color: #000 transparent transparent transparent;
+	/* Tam giác hướng xuống */
+	z-index: 10;
+	opacity: 0;
+	animation: fadeInTooltip 0.2s forwards;
 }
 
 /* Hiệu ứng hiện dần */
 @keyframes fadeInTooltip {
-    to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(-5px);
-    }
+	to {
+		opacity: 1;
+		transform: translateX(-50%) translateY(-5px);
+	}
 }
 
 
@@ -2731,48 +2970,54 @@ a.btn-auth-action{
 
 /* Container chứa các nút Size: Dàn hàng ngang, tự xuống dòng */
 .filter-size-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Khoảng cách giữa các nút */
-    padding-top: 10px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	/* Khoảng cách giữa các nút */
+	padding-top: 10px;
 }
 
 /* Ẩn checkbox mặc định đi */
 .size-checkbox-hidden {
-    display: none; 
+	display: none;
 }
 
 /* Nút Size (Label) */
 .size-swatch {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 50px; /* Chiều rộng tối thiểu */
-    height: 35px;    /* Chiều cao cố định */
-    background-color: #fff;
-    border: 1px solid #e1e1e1; /* Viền mờ */
-    /* Bo góc chéo đặc trưng: Trên-Trái & Dưới-Phải */
-    border-radius: 8px 0 8px 0;
-    font-size: 14px;
-    color: #666;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    padding: 0 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-width: 50px;
+	/* Chiều rộng tối thiểu */
+	height: 35px;
+	/* Chiều cao cố định */
+	background-color: #fff;
+	border: 1px solid #e1e1e1;
+	/* Viền mờ */
+	/* Bo góc chéo đặc trưng: Trên-Trái & Dưới-Phải */
+	border-radius: 8px 0 8px 0;
+	font-size: 14px;
+	color: #666;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	padding: 0 10px;
 }
 
 /* Hiệu ứng khi Hover */
 .size-swatch:hover {
-    border-color: #000;
-    color: #000;
+	border-color: #000;
+	color: #000;
 }
 
 /* --- TRẠNG THÁI ĐƯỢC CHỌN (CHECKED) --- */
 /* Khi checkbox ẩn được tick -> Đổi style của label liền kề */
-.size-checkbox-hidden:checked + .size-swatch {
-    background-color: #000; /* Nền đen */
-    color: #fff;            /* Chữ trắng */
-    border-color: #000;
-    font-weight: 600;
+.size-checkbox-hidden:checked+.size-swatch {
+	background-color: #000;
+	/* Nền đen */
+	color: #fff;
+	/* Chữ trắng */
+	border-color: #000;
+	font-weight: 600;
 }
 
 
@@ -2785,81 +3030,85 @@ a.btn-auth-action{
 
 /* Khung bao ngoài nội dung */
 .product-desc-wrapper {
-    overflow: hidden;
-    transition: max-height 0.5s ease-in-out;
-    position: relative;
+	overflow: hidden;
+	transition: max-height 0.5s ease-in-out;
+	position: relative;
 }
 
 /* Trạng thái thu gọn: Giới hạn chiều cao (ví dụ 150px) */
 .product-desc-wrapper.collapsed {
-    max-height: 110px; 
+	max-height: 110px;
 }
 
 /* Hiệu ứng mờ dần ở đáy khi bị thu gọn */
 .product-desc-wrapper.collapsed::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background: linear-gradient(to bottom, transparent, #fff);
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 60px;
+	background: linear-gradient(to bottom, transparent, #fff);
 }
 
 /* Container chứa nút và đường kẻ */
 .toggle-container {
-    position: relative;
+	position: relative;
 }
 
 /* Đường kẻ ngang xuyên qua nút */
 .toggle-line {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #e1e1e1;
-    z-index: 1;
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	height: 1px;
+	background-color: #e1e1e1;
+	z-index: 1;
 }
 
 /* Nút bấm hình tròn */
 .btn-toggle-desc {
-    position: relative;
-    z-index: 2; /* Nằm đè lên đường kẻ */
-    background: #fff;
-    border: 1px solid #e1e1e1;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: #666;
-    outline: none;
-    transition: 0.3s;
+	position: relative;
+	z-index: 2;
+	/* Nằm đè lên đường kẻ */
+	background: #fff;
+	border: 1px solid #e1e1e1;
+	border-radius: 50%;
+	width: 35px;
+	height: 35px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	color: #666;
+	outline: none;
+	transition: 0.3s;
 }
 
 .btn-toggle-desc:hover {
-    background-color: #f5f5f5;
-    color: #333;
+	background-color: #f5f5f5;
+	color: #333;
 }
 
 /* Giới hạn chiều cao của banner để không bị quá to trên Desktop */
 .ivy-banner-wrapper .carousel-item img {
-    aspect-ratio: 2.5 / 1; /* Tỷ lệ vàng chính xác của IVY moda */
-    width: 100%;
-    object-fit: cover;
-    object-position: center; /* Đưa về căn giữa chuẩn xác để không bị cắt mất đầu người mẫu */
+	aspect-ratio: 2.5 / 1;
+	/* Tỷ lệ vàng chính xác của IVY moda */
+	width: 100%;
+	object-fit: cover;
+	object-position: center;
+	/* Đưa về căn giữa chuẩn xác để không bị cắt mất đầu người mẫu */
 }
 
 @media (max-width: 768px) {
-    .ivy-banner-wrapper .carousel-item img {
-        height: 35vh; /* Thấp hơn trên Mobile */
-    }
+	.ivy-banner-wrapper .carousel-item img {
+		height: 35vh;
+		/* Thấp hơn trên Mobile */
+	}
 }
 
-@media ( max-width : 576px) {
+@media (max-width : 576px) {
 	.mini-cart-sidebar {
 		width: 85%;
 		right: -85%;

@@ -13,6 +13,17 @@
     <link th:href="@{/admin/css/sb-admin-2.min.css}" rel="stylesheet">
     
     <style>
+    /* Sticky sidebar cho desktop */
+    @media (min-width: 769px) {
+        .sidebar {
+            position: sticky !important;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+    }
+    
     /* Off-canvas sidebar cho mobile, giống bên client */
     @media (max-width: 768px) {
         body.sidebar-toggled .sidebar,
