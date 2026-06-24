@@ -79,5 +79,31 @@
         overflow-x: visible !important;
         overflow-y: visible !important;
     }
+    /* Action Icons */
+    .action-icon {
+        color: #6c757d !important;
+        transition: all 0.2s ease;
+    }
+    .action-icon.hover-info:hover { color: #36b9cc !important; }
+    .action-icon.hover-success:hover { color: #1cc88a !important; }
+    .action-icon.hover-danger:hover { color: #e74a3b !important; }
+    .action-icon.hover-warning:hover { color: #f6c23e !important; }
+
+    /* Custom Search Group */
+    .search-group .form-control { border-left: 0; box-shadow: none; }
+    .search-group .form-control:focus { border-color: #d1d3e2; }
+    .search-group .input-group-text { background: #fff; border-right: 0; color: #b7b9cc; }
+    .search-group:focus-within .input-group-text { border-color: #bac8f3; color: #4e73df; }
+    .search-group:focus-within .form-control { border-color: #bac8f3; }
+
+    /* Responsive Header */
+    @media (max-width: 576px) {
+        .card-header.py-3.d-flex {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+        }
+        .card-header.py-3.d-flex form { width: 100%; margin-bottom: 10px !important; }
+        .card-header.py-3.d-flex .btn-sm { width: 100%; }
+    }
     </style>
 </head>

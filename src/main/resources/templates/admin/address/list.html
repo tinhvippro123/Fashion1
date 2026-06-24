@@ -35,7 +35,7 @@
                         <th>SĐT</th>
                         <th>Địa chỉ chi tiết</th>
                         <th>Loại</th> <th class="text-center">Trạng thái</th>
-                        <th style="width: 150px;">Hành động</th>
+                        <th class="text-center" style="width: 120px;">Hành động</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -61,16 +61,16 @@
                             <span th:if="${addr.isDefault}" class="badge badge-success px-2 py-1">Mặc định</span>
                             <span th:unless="${addr.isDefault}" class="badge badge-light text-muted">Phụ</span>
                         </td>
-                        <td>
+                        <td class="text-center">
                             <a th:href="@{/admin/users/{uid}/addresses/edit/{aid}(uid=${userId}, aid=${addr.id})}" 
-                               class="btn btn-warning btn-sm mb-1 mr-1" title="Sửa">
-                                <i class="fas fa-pen"></i>
+                               class="btn btn-link action-icon hover-warning p-1 mx-1" title="Sửa">
+                                <i class="fas fa-pen" style="font-size: 16px;"></i>
                             </a>
                             <a th:href="@{/admin/users/{uid}/addresses/delete/{aid}(uid=${userId}, aid=${addr.id})}" 
-                               class="btn btn-danger btn-sm mb-1 mr-1" 
+                               class="btn btn-link action-icon hover-danger p-1 mx-1" 
                                title="Xóa"
                                onclick="return confirm('Bạn có chắc muốn xóa địa chỉ này? Hành động không thể hoàn tác.');">
-                                <i class="fas fa-trash"></i>
+                                <i class="fas fa-trash-alt" style="font-size: 16px;"></i>
                             </a>
                         </td>
                     </tr>

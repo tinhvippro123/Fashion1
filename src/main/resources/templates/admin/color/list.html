@@ -8,17 +8,21 @@
     <h1 class="h3 mb-4 text-gray-800">Danh sách Màu sắc</h1>
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Danh sách Màu sắc</h6>
+            <form th:action="@{/admin/colors}" method="get" class="form-inline mb-0">
+                <div class="input-group input-group-sm search-group mr-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input type="text" name="keyword" th:value="${keyword}" class="form-control" style="min-width: 260px;" placeholder="Tìm kiếm tên màu...">
+                </div>
+                <button type="submit" class="d-none"></button>
+                <a th:href="@{/admin/colors}" class="btn btn-outline-secondary btn-sm" th:if="${keyword != null}" title="Làm mới"><i class="fas fa-sync-alt"></i></a>
+            </form>
             <a th:href="@{/admin/colors/new}" class="btn btn-sm btn-primary shadow-sm">
                 <i class="fas fa-plus fa-sm text-white-50"></i> Thêm màu mới
             </a>
         </div>
         <div class="card-body">
-            <form th:action="@{/admin/colors}" method="get" class="form-inline mb-3">
-                <input type="text" name="keyword" th:value="${keyword}" class="form-control mr-sm-2 mb-2 mb-sm-0" placeholder="Tìm kiếm tên màu...">
-                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Tìm kiếm</button>
-                <a th:href="@{/admin/colors}" class="btn btn-secondary ml-2" th:if="${keyword != null}">Làm mới</a>
-            </form>
             <div class="table-responsive">
                 <table class="table table-bordered" width="100%" cellspacing="0">
                     <thead>
@@ -26,7 +30,7 @@
                             <th>ID</th>
                             <th>Tên màu</th>
                             <th>Mã Hex</th>
-                            <th>Hiển thị</th> <th>Hành động</th>
+                            <th>Hiển thị</th> <th class="text-center" style="width: 120px;">Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,9 +41,9 @@
                             <td class="text-center">
                                 <span th:style="'background-color:' + ${item.hexCode} + '; display:inline-block; width:30px; height:30px; border:1px solid #ccc;'"></span>
                             </td>
-                            <td>
-                                <a th:href="@{/admin/colors/edit/{id}(id=${item.id})}" class="btn btn-info btn-sm">Sửa</a>
-                                <a th:href="@{/admin/colors/delete/{id}(id=${item.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Xóa màu này?');">Xóa</a>
+                            <td class="text-center">
+                                <a th:href="@{/admin/colors/edit/{id}(id=${item.id})}" class="btn btn-link action-icon hover-info p-1 mx-1" title="Sửa"><i class="fas fa-edit" style="font-size: 16px;"></i></a>
+                                <a th:href="@{/admin/colors/delete/{id}(id=${item.id})}" class="btn btn-link action-icon hover-danger p-1 mx-1" onclick="return confirm('Xóa màu này?');" title="Xóa"><i class="fas fa-trash-alt" style="font-size: 16px;"></i></a>
                             </td>
                         </tr>
                     </tbody>
