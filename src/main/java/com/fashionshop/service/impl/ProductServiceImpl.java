@@ -115,6 +115,11 @@ public class ProductServiceImpl implements ProductService {
 		Size size = sizeRepository.findById(sizeId).orElse(null);
 
 		if (pc != null && size != null) {
+			if (pc.getVariants() != null) {
+				boolean exists = pc.getVariants().stream().anyMatch(v -> v.getSize().getId().equals(sizeId));
+				if (exists) return; // Không thêm trùng Size
+			}
+
 			Variant variant = new Variant();
 			variant.setProductColor(pc);
 			variant.setSize(size);
@@ -128,6 +133,10 @@ public class ProductServiceImpl implements ProductService {
 			}
 
 			variantRepository.save(variant);
+			
+			if (pc.getVariants() != null) {
+				pc.getVariants().add(variant);
+			}
 		}
 	}
 
@@ -139,21 +148,24 @@ public class ProductServiceImpl implements ProductService {
 			img.setProductColor(pc);
 			img.setImageUrl(imageUrl);
 
-
 //			Lấy danh sách ảnh hiện tại để đếm
 			List<VariantImage> currentImages = pc.getImages();
+			int currentSize = (currentImages == null) ? 0 : currentImages.size();
 
-//			Nếu chưa có ảnh nào thì nó là MAIN
-			if (currentImages == null || currentImages.isEmpty()) {
+			if (currentSize == 0) {
 				img.setImageType(ProductImageType.MAIN);
-				img.setSortOrder(1);
+			} else if (currentSize == 1) {
+				img.setImageType(ProductImageType.HOVER);
 			} else {
-//				Mặc định là ảnh phụ (EXTRA)
 				img.setImageType(ProductImageType.EXTRA);
-				img.setSortOrder(currentImages.size() + 1);
 			}
+			img.setSortOrder(currentSize + 1);
 
 			variantImageRepository.save(img);
+			
+			if (currentImages != null) {
+				currentImages.add(img);
+			}
 		}
 	}
 

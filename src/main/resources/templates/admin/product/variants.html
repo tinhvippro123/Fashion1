@@ -7,10 +7,10 @@
 </head>
 <body>
 	<div layout:fragment="content">
-
+		<div class="container-fluid">
 		<div class="d-sm-flex align-items-center justify-content-between mb-4">
 			<h1 class="h3 mb-0 text-gray-800">
-				Biến thể: <span th:text="${product.name}" class="text-primary"></span>
+				Quản lý Biến thể - <span th:text="${product.name}"></span>
 			</h1>
 			<a th:href="@{/admin/products}"
 				class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
@@ -41,7 +41,7 @@
 			<div class="col-lg-12 mb-4" th:each="pc : ${product.productColors}"
 				th:classappend="${pc.isActive} ? '' : 'text-muted'">
 
-				<div class="card shadow"
+				<div class="card shadow" th:id="'color-section-' + ${pc.id}"
 					th:style="${pc.isActive} ? '' : 'opacity: 0.8; border: 1px dashed red; background-color: #f8f9fa;'">
 					
 					<div class="card-header py-3 d-flex flex-column flex-md-row align-items-md-center justify-content-between">
@@ -73,7 +73,7 @@
 								<span th:text="${pc.isActive} ? 'Ẩn' : 'Hiện'"></span>
 							</a> 
 							
-							<a th:href="@{/admin/products/variants/delete-color/{id}(id=${pc.id}, productId=${product.id})}"
+							<a th:href="@{/admin/products/variants/delete-color/{id}(id=${pc.id}, productId=${product.id})} + '#color-section-' + ${pc.id}"
 								class="btn btn-danger btn-sm mb-2 mb-md-0"
 								onclick="return confirm('CẢNH BÁO: Xóa màu này sẽ xóa hết tất cả Size và Ảnh bên trong. Bạn chắc chắn chứ?');">
 								<i class="fas fa-trash"></i> Xóa
@@ -89,13 +89,15 @@
 								<p class="text-muted small mb-2"><i class="fas fa-info-circle"></i> Khuyến nghị: Ảnh tỉ lệ 3:4 (VD: 600x800px) để hiển thị đẹp nhất. Bạn có thể chọn nhiều ảnh cùng lúc.</p>
 
 								<form th:action="@{/admin/products/variants/upload-image}"
-									method="post" enctype="multipart/form-data" class="mb-3 mt-3">
+									method="post" enctype="multipart/form-data" class="mb-3 mt-3"
+									onsubmit="return handleUploadSubmit(this);">
 									<input type="hidden" name="productId" th:value="${product.id}">
 									<input type="hidden" name="productColorId" th:value="${pc.id}">
 									<div class="input-group">
 										<div class="custom-file">
 											<input type="file" name="imageFiles" class="custom-file-input"
-												th:id="'inputGroupFile-' + ${pc.id}" multiple required> <label
+												th:id="'inputGroupFile-' + ${pc.id}" multiple required
+												onchange="handleImagePreview(this)"> <label
 												class="custom-file-label" th:for="'inputGroupFile-' + ${pc.id}">Chọn ảnh...</label>
 										</div>
 										<div class="input-group-append">
@@ -133,12 +135,12 @@
 													  Loại ảnh
 													</button>
 													<div class="dropdown-menu">
-													  <a class="dropdown-item" th:href="@{/admin/products/variants/set-image-type/{id}(id=${img.id}, type='MAIN', productId=${product.id})}">Đặt làm MAIN</a>
-													  <a class="dropdown-item" th:href="@{/admin/products/variants/set-image-type/{id}(id=${img.id}, type='HOVER', productId=${product.id})}">Đặt làm HOVER</a>
-													  <a class="dropdown-item" th:href="@{/admin/products/variants/set-image-type/{id}(id=${img.id}, type='EXTRA', productId=${product.id})}">Đặt làm EXTRA</a>
+													  <a class="dropdown-item" th:href="@{/admin/products/variants/set-image-type/{id}(id=${img.id}, type='MAIN', productId=${product.id})} + '#color-section-' + ${pc.id}">Đặt làm MAIN</a>
+													  <a class="dropdown-item" th:href="@{/admin/products/variants/set-image-type/{id}(id=${img.id}, type='HOVER', productId=${product.id})} + '#color-section-' + ${pc.id}">Đặt làm HOVER</a>
+													  <a class="dropdown-item" th:href="@{/admin/products/variants/set-image-type/{id}(id=${img.id}, type='EXTRA', productId=${product.id})} + '#color-section-' + ${pc.id}">Đặt làm EXTRA</a>
 													</div>
 												</div>
-												<a th:href="@{/admin/products/variants/delete-image/{id}(id=${img.id}, productId=${product.id})}"
+												<a th:href="@{/admin/products/variants/delete-image/{id}(id=${img.id}, productId=${product.id})} + '#color-section-' + ${pc.id}"
 													class="btn btn-outline-danger btn-sm w-100"
 													onclick="return confirm('Xóa ảnh này?');"> 
 													<i class="fas fa-trash"></i> Xóa
@@ -209,7 +211,7 @@
 													class="btn btn-primary btn-sm" title="Sửa giá/kho"> 
 													<i class="fas fa-edit"></i>
 												</a> 
-												<a th:href="@{/admin/products/variants/delete-size/{id}(id=${v.id}, productId=${product.id})}"
+												<a th:href="@{/admin/products/variants/delete-size/{id}(id=${v.id}, productId=${product.id})} + '#color-section-' + ${pc.id}"
 													class="btn btn-danger btn-sm"
 													onclick="return confirm('Xóa size này?');"> 
 													<i class="fas fa-trash"></i>
@@ -228,19 +230,61 @@
 		</div>
 	</div>
 	<th:block layout:fragment="pageScripts">
+		
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			var successMsg = /*[[${successMessage}]]*/ null;
+			var errorMsg = /*[[${errorMessage}]]*/ null;
+
+			if (successMsg) {
+				Swal.fire({
+					toast: true,
+					position: 'top-end',
+					icon: 'success',
+					title: successMsg,
+					showConfirmButton: false,
+					timer: 3000,
+					timerProgressBar: true
+				});
+			}
+
+			if (errorMsg) {
+				Swal.fire({
+					icon: 'error',
+					title: 'Không thể thao tác!',
+					text: errorMsg,
+					confirmButtonColor: '#d33',
+					scrollbarPadding: false
+				});
+			}
+			/*]]>*/
+		</script>
+		
 		<script>
-			// Khi người dùng chọn file
-			$(".custom-file-input").on("change", function(event) {
-				var input = $(this);
-				var files = event.target.files;
+			// Xử lý hiệu ứng Loading khi bấm Upload
+			function handleUploadSubmit(formElement) {
+				var btn = $(formElement).find('button[type="submit"]');
+				if (btn.hasClass("is-loading")) return false; // Tránh click 2 lần
+				
+				btn.addClass("is-loading");
+				btn.html('<i class="fas fa-spinner fa-spin"></i> Đang tải...');
+				btn.css('pointer-events', 'none');
+				return true;
+			}
+
+			// Hàm xử lý Preview Ảnh siêu cấp chống lỗi
+			function handleImagePreview(inputElement) {
+				var input = $(inputElement);
+				var files = inputElement.files;
 				
 				// Update label text
+				var label = input.next(".custom-file-label");
 				if (files && files.length > 1) {
-					input.siblings(".custom-file-label").addClass("selected").html(files.length + " ảnh được chọn");
+					label.addClass("selected").html(files.length + " ảnh được chọn");
 				} else if (files && files.length === 1) {
-					input.siblings(".custom-file-label").addClass("selected").html(files[0].name);
+					label.addClass("selected").html(files[0].name);
 				} else {
-					input.siblings(".custom-file-label").removeClass("selected").html("Chọn ảnh...");
+					label.removeClass("selected").html("Chọn ảnh...");
 				}
 
 				// Generate previews
@@ -249,46 +293,30 @@
 				previewContainer.empty(); // Xóa preview cũ
 				
 				if (files && files.length > 0) {
-					previewWrapper.slideDown(200); // Hiện khung preview mượt mà
-					$.each(files, function(index, file) {
-						if (file.type.match('image.*')) {
+					previewWrapper.show(); // Hiện khung preview mượt mà
+					for (var i = 0; i < files.length; i++) {
+						var file = files[i];
+						if (file.type.indexOf('image') !== -1 || file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
 							var reader = new FileReader();
 							reader.onload = function(e) {
-								var imgBox = $('<div/>', {
-									class: 'position-relative col-4 col-md-3 px-1 mb-2'
-								});
-								
-								var img = $('<img/>', {
-									src: e.target.result,
-									class: 'img-thumbnail w-100',
-									style: 'aspect-ratio: 2/3; object-fit: cover;'
-								});
-								
-								var badge = $('<span/>', {
-									class: 'badge badge-info position-absolute',
-									style: 'top: 5px; right: 5px; z-index: 10;',
-									text: 'Preview'
-								});
+								var imgBox = $('<div class="position-relative col-4 col-md-3 px-1 mb-2"></div>');
+								var img = $('<img class="img-thumbnail w-100" style="aspect-ratio: 2/3; object-fit: cover;">').attr('src', e.target.result);
+								var badge = $('<span class="badge badge-info position-absolute" style="top: 5px; right: 5px; z-index: 10;">Preview</span>');
 
 								imgBox.append(img).append(badge);
 								previewContainer.append(imgBox);
 							}
 							reader.readAsDataURL(file);
 						}
-					});
+					}
 				} else {
-					previewWrapper.slideUp(200); // Ẩn đi nếu không chọn ảnh
+					previewWrapper.hide(); // Ẩn đi nếu không chọn ảnh
 				}
-			});
-
-			// Restore scroll position after reload
-			$(window).on('beforeunload', function() {
-				sessionStorage.setItem('scrollPosition', $(window).scrollTop());
-			});
-			if (sessionStorage.getItem('scrollPosition')) {
-				$(window).scrollTop(sessionStorage.getItem('scrollPosition'));
-				sessionStorage.removeItem('scrollPosition');
 			}
+
+			$(document).ready(function() {
+				// Event handlers đã được tối giản
+			});
 		</script>
 	</th:block>
 </body>

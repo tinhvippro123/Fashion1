@@ -6,6 +6,9 @@
 
     <script th:src="@{/admin/js/sb-admin-2.min.js}"></script>
     
+    <!-- SweetAlert2 Global Import -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script>
     $(document).ready(function() {
         // Đóng sidebar khi click ra ngoài overlay
@@ -13,6 +16,68 @@
             $("body").removeClass("sidebar-toggled");
             $(".sidebar").removeClass("toggled");
         });
+
+        // Global Interceptor: Tự động chuyển đổi tất cả các native confirm() thành SweetAlert2
+        $('[onclick*="confirm"]').each(function() {
+            var onclickStr = $(this).attr('onclick');
+            var match = onclickStr.match(/confirm\(['"](.*?)['"]\)/);
+            if (match && match[1]) {
+                var msg = match[1];
+                $(this).removeAttr('onclick'); // Xóa native alert
+                $(this).addClass('global-sweet-confirm');
+                $(this).attr('data-sweet-title', msg);
+            }
+        });
+
+        $(document).on('click', '.global-sweet-confirm', function(e) {
+            e.preventDefault();
+            var link = $(this).attr("href");
+            var isFormBtn = $(this).is('button');
+            var form = $(this).closest('form');
+            var msg = $(this).attr('data-sweet-title');
+            
+            Swal.fire({
+                title: 'Xác nhận thao tác',
+                text: msg,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#858796',
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Hủy',
+                scrollbarPadding: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (link && link !== '#' && link !== 'javascript:void(0)') {
+                        window.location.href = link;
+                    } else if (isFormBtn && form.length > 0) {
+                        form.submit();
+                    }
+                }
+            });
+        });
+
+        // ==========================================
+        // GHI NHỚ VỊ TRÍ CUỘN TRANG (Chống nhảy lên đầu)
+        // ==========================================
+        // Lưu vị trí cuộn trước khi tải trang đi nơi khác (hoặc reload)
+        $(window).on('beforeunload', function() {
+            sessionStorage.setItem('globalScrollPath', window.location.pathname);
+            sessionStorage.setItem('globalScrollPosition', $(window).scrollTop());
+        });
+
+        // Phục hồi vị trí cuộn nếu đường dẫn trang giống hệt lúc lưu
+        var scrollPath = sessionStorage.getItem('globalScrollPath');
+        var scrollPos = sessionStorage.getItem('globalScrollPosition');
+        
+        if (scrollPath === window.location.pathname && scrollPos && parseInt(scrollPos) > 0) {
+            // Đợi một chút để các giao diện động (nếu có) vẽ xong rồi mới cuộn
+            setTimeout(function() {
+                $(window).scrollTop(scrollPos);
+                sessionStorage.removeItem('globalScrollPosition');
+                sessionStorage.removeItem('globalScrollPath');
+            }, 50);
+        }
     });
     </script>
 </div>

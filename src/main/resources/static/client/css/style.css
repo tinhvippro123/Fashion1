@@ -562,6 +562,10 @@
 		flex-wrap: wrap;
 		gap: 10px;
 	}
+
+	.newsletter-box {
+		margin-top: 15px;
+	}
 }
 
 
@@ -3136,5 +3140,18 @@ a.btn-auth-action {
 	.footer-title {
 		padding: 20px 0;
 		border: none;
+	}
+}
+
+/* Mini cart footer responsive */
+.mini-cart-footer {
+	border-top: none;
+	padding: 20px;
+	background: #fff;
+}
+
+@media (max-width: 768px) {
+	.mini-cart-footer {
+		padding-bottom: 80px !important; /* Chừa chỗ cho thanh điều hướng dưới cùng trên mobile */
 	}
 }

@@ -98,24 +98,46 @@ public class AdminProductController {
 			@RequestParam("productColorId") Long productColorId, @RequestParam("sizeId") Long sizeId,
 			@RequestParam("price") Double price, @RequestParam("stock") Integer stock) {
 		productService.addVariantToProductColor(productColorId, sizeId, price, stock);
-		return "redirect:/admin/products/variants/" + productId;
+		return "redirect:/admin/products/variants/" + productId + "#color-section-" + productColorId;
 	}
 
 	@PostMapping("/variants/upload-image")
 	public String uploadImage(@RequestParam("productId") Long productId,
 			@RequestParam("productColorId") Long productColorId, @RequestParam("imageFiles") MultipartFile[] imageFiles) {
+		
+		// Sử dụng CompletableFuture để upload ảnh song song lên Cloudinary (giảm thời gian chờ)
+		java.util.List<java.util.concurrent.CompletableFuture<String>> futures = new java.util.ArrayList<>();
 		for (MultipartFile file : imageFiles) {
 			if (!file.isEmpty()) {
-				String fileName = storageService.store(file);
-				productService.addImageToProductColor(productColorId, fileName);
+				futures.add(java.util.concurrent.CompletableFuture.supplyAsync(() -> {
+					return storageService.store(file);
+				}));
 			}
 		}
-		return "redirect:/admin/products/variants/" + productId;
+
+		// Đợi tất cả các file upload xong
+		java.util.List<String> fileNames = futures.stream()
+				.map(java.util.concurrent.CompletableFuture::join)
+				.collect(java.util.stream.Collectors.toList());
+
+		// Lưu vào database tuần tự để đảm bảo tính toàn vẹn dữ liệu
+		for (String fileName : fileNames) {
+			productService.addImageToProductColor(productColorId, fileName);
+		}
+
+		return "redirect:/admin/products/variants/" + productId + "#color-section-" + productColorId;
 	}
 
 	@GetMapping("/variants/delete-size/{id}")
-	public String deleteVariant(@PathVariable Long id, @RequestParam Long productId) {
-		productService.deleteVariant(id);
+	public String deleteVariant(@PathVariable Long id, @RequestParam Long productId, org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes) {
+		try {
+			productService.deleteVariant(id);
+			redirectAttributes.addFlashAttribute("successMessage", "Xóa size thành công!");
+		} catch (org.springframework.dao.DataIntegrityViolationException e) {
+			redirectAttributes.addFlashAttribute("errorMessage", "Lỗi: Không thể xóa Size này vì đang nằm trong Giỏ hàng hoặc Đơn hàng của khách! Vui lòng chuyển trạng thái sang ẨN hoặc HẾT HÀNG.");
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("errorMessage", "Lỗi không xác định khi xóa Size!");
+		}
 		return "redirect:/admin/products/variants/" + productId;
 	}
 

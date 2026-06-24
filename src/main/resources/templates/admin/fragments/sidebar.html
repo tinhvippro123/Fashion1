@@ -13,7 +13,7 @@
 
 	<hr class="sidebar-divider my-0">
 
-	<li class="nav-item active"><a class="nav-link"
+	<li class="nav-item" th:classappend="${requestURI != null and (requestURI.startsWith('/admin/dashboard') or requestURI == '/admin') ? 'active' : ''}"><a class="nav-link"
 		th:href="@{/admin/dashboard}"> <i
 			class="fas fa-fw fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
 
@@ -21,7 +21,7 @@
 
 	<div class="sidebar-heading text-left pl-3">Hệ thống</div>
 
-	<li class="nav-item"><a class="nav-link" th:href="@{/admin/users}">
+	<li class="nav-item" th:classappend="${requestURI != null and requestURI.startsWith('/admin/users') ? 'active' : ''}"><a class="nav-link" th:href="@{/admin/users}">
 			<i class="fas fa-fw fa-user"></i> <span>Người dùng (Users)</span>
 	</a></li>
 
@@ -29,28 +29,28 @@
 
 	<div class="sidebar-heading text-left pl-3">Sản phẩm & Thuộc tính</div>
 
-	<li class="nav-item"><a class="nav-link"
+	<li class="nav-item" th:classappend="${requestURI != null and requestURI.startsWith('/admin/products') ? 'active' : ''}"><a class="nav-link"
 		th:href="@{/admin/products}"> <i class="fas fa-fw fa-tshirt"></i>
 			<span>Quản lý Sản phẩm</span></a></li>
 
-	<li class="nav-item"><a class="nav-link"
+	<li class="nav-item" th:classappend="${requestURI != null and requestURI.startsWith('/admin/categories') ? 'active' : ''}"><a class="nav-link"
 		th:href="@{/admin/categories}"> <i class="fas fa-fw fa-list"></i>
 			<span>Danh mục (Category)</span></a></li>
 
-	<li class="nav-item"><a class="nav-link" th:href="@{/admin/sizes}">
+	<li class="nav-item" th:classappend="${requestURI != null and requestURI.startsWith('/admin/sizes') ? 'active' : ''}"><a class="nav-link" th:href="@{/admin/sizes}">
 			<i class="fas fa-fw fa-ruler-horizontal"></i> <span>Kích cỡ
 				(Size)</span>
 	</a></li>
 
-	<li class="nav-item"><a class="nav-link"
+	<li class="nav-item" th:classappend="${requestURI != null and requestURI.startsWith('/admin/colors') ? 'active' : ''}"><a class="nav-link"
 		th:href="@{/admin/colors}"> <i class="fas fa-fw fa-palette"></i> <span>Màu
 				sắc (Color)</span></a></li>
 
-	<li class="nav-item"><a class="nav-link"
+	<li class="nav-item" th:classappend="${requestURI != null and requestURI.startsWith('/admin/orders') ? 'active' : ''}"><a class="nav-link"
 		th:href="@{/admin/orders}"> <i class="fas fa-fw fa-shopping-cart"></i>
 			<span>Quản lý Đơn hàng</span>
 	</a></li>
-	<li class="nav-item"><a class="nav-link"
+	<li class="nav-item" th:classappend="${requestURI != null and requestURI.startsWith('/admin/banners') ? 'active' : ''}"><a class="nav-link"
 		th:href="@{/admin/banners}"> <i class="fas fa-fw fa-images"></i>
 			<span>Quản lý Banner</span>
 	</a></li>
