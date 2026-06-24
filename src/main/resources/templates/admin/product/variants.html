@@ -95,12 +95,16 @@
 									<div class="input-group">
 										<div class="custom-file">
 											<input type="file" name="imageFiles" class="custom-file-input"
-												id="inputGroupFile01" multiple required> <label
-												class="custom-file-label" for="inputGroupFile01">Chọn ảnh...</label>
+												th:id="'inputGroupFile-' + ${pc.id}" multiple required> <label
+												class="custom-file-label" th:for="'inputGroupFile-' + ${pc.id}">Chọn ảnh...</label>
 										</div>
 										<div class="input-group-append">
 											<button class="btn btn-outline-primary" type="submit">Upload</button>
 										</div>
+									</div>
+									<div class="image-preview-wrapper mt-3 mb-4 p-3 border rounded bg-light" style="display: none;">
+										<h6 class="font-weight-bold text-primary mb-3"><i class="fas fa-eye"></i> Xem trước ảnh sẽ tải lên:</h6>
+										<div class="image-preview-container row mx-0"></div>
 									</div>
 								</form>
 
@@ -118,9 +122,9 @@
 													style="top: 5px; right: 5px; z-index: 10;"
 													th:text="'#' + ${img.sortOrder}"></span> 
 												
-												<img th:src="@{'/uploads/' + ${img.imageUrl}}"
+												<img th:src="@{'' + ${img.imageUrl}}"
 													class="card-img-top"
-													style="height: 150px; object-fit: contain; background-color: #fff; padding: 5px;">
+													style="aspect-ratio: 2/3; object-fit: cover; width: 100%; background-color: #fff;">
 											</div>
 											
 											<div class="card-footer p-1 text-center bg-white border-top-0 d-flex flex-column">
@@ -226,15 +230,56 @@
 	<th:block layout:fragment="pageScripts">
 		<script>
 			// Khi người dùng chọn file
-			$(".custom-file-input").on(
-					"change",
-					function() {
-						// Lấy tên file
-						var fileName = $(this).val().split("\\").pop();
-						// Gán tên file vào cái nhãn (label) bên cạnh
-						$(this).siblings(".custom-file-label").addClass(
-								"selected").html(fileName);
+			$(".custom-file-input").on("change", function(event) {
+				var input = $(this);
+				var files = event.target.files;
+				
+				// Update label text
+				if (files && files.length > 1) {
+					input.siblings(".custom-file-label").addClass("selected").html(files.length + " ảnh được chọn");
+				} else if (files && files.length === 1) {
+					input.siblings(".custom-file-label").addClass("selected").html(files[0].name);
+				} else {
+					input.siblings(".custom-file-label").removeClass("selected").html("Chọn ảnh...");
+				}
+
+				// Generate previews
+				var previewWrapper = input.closest('form').find('.image-preview-wrapper');
+				var previewContainer = input.closest('form').find('.image-preview-container');
+				previewContainer.empty(); // Xóa preview cũ
+				
+				if (files && files.length > 0) {
+					previewWrapper.slideDown(200); // Hiện khung preview mượt mà
+					$.each(files, function(index, file) {
+						if (file.type.match('image.*')) {
+							var reader = new FileReader();
+							reader.onload = function(e) {
+								var imgBox = $('<div/>', {
+									class: 'position-relative col-4 col-md-3 px-1 mb-2'
+								});
+								
+								var img = $('<img/>', {
+									src: e.target.result,
+									class: 'img-thumbnail w-100',
+									style: 'aspect-ratio: 2/3; object-fit: cover;'
+								});
+								
+								var badge = $('<span/>', {
+									class: 'badge badge-info position-absolute',
+									style: 'top: 5px; right: 5px; z-index: 10;',
+									text: 'Preview'
+								});
+
+								imgBox.append(img).append(badge);
+								previewContainer.append(imgBox);
+							}
+							reader.readAsDataURL(file);
+						}
 					});
+				} else {
+					previewWrapper.slideUp(200); // Ẩn đi nếu không chọn ảnh
+				}
+			});
 
 			// Restore scroll position after reload
 			$(window).on('beforeunload', function() {

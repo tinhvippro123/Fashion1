@@ -56,7 +56,7 @@
 
                             <img id="mainImage"
                                  th:if="${not #lists.isEmpty(selectedColor.images)}"
-                                 th:src="@{'/uploads/' + ${selectedColor.images[0].imageUrl}}"
+                                 th:src="@{'' + ${selectedColor.images[0].imageUrl}}"
                                  class="main-img-display" alt="Ảnh chính">
                                  
                             <img id="mainImage"
@@ -79,9 +79,9 @@
 
     <div class="gallery-thumbs-scroll" id="thumbScroller">
         <img th:each="img, iter : ${selectedColor.images}"
-             th:src="@{'/uploads/' + ${img.imageUrl}}" class="thumb-img"
+             th:src="@{'' + ${img.imageUrl}}" class="thumb-img"
              th:classappend="${iter.index == 0} ? 'active'"
-             th:onclick="'changeMainImage(this, \'' + @{'/uploads/' + ${img.imageUrl}} + '\')'">
+             th:onclick="'changeMainImage(this, \'' + @{'' + ${img.imageUrl}} + '\')'">
     </div>
 
     <button class="thumb-arrow down"

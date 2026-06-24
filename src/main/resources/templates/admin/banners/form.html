@@ -17,7 +17,7 @@
 					<div class="form-group">
 						<label>Hình ảnh Banner (Khuyến nghị: Tỷ lệ Panorama, kích thước ngang khoảng 1920x600px hoặc 1920x800px)</label>
 						<div class="mb-2" th:if="${banner.imageName != null}">
-							<img th:src="@{'/uploads/' + ${banner.imageName}}" class="img-thumbnail" style="height: 150px;">
+							<img th:src="@{'' + ${banner.imageName}}" class="img-thumbnail" style="height: 150px;">
 						</div>
 						<input type="file" name="file" class="form-control-file" accept="image/*" th:required="${banner.id == null}">
 						<small class="form-text text-muted">Nếu bạn đang sửa và không chọn ảnh mới, ảnh cũ sẽ được giữ nguyên.</small>
@@ -48,3 +48,4 @@
 	</div>
 </body>
 </html>
+

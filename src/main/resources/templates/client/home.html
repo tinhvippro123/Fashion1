@@ -19,7 +19,7 @@
 					<div th:each="banner, iterStat : ${banners}" 
 						 th:classappend="${iterStat.index == 0} ? 'carousel-item active' : 'carousel-item'">
 						<a th:href="@{${banner.targetUrl}}">
-							<img th:src="@{'/uploads/' + ${banner.imageName}}" class="d-block w-100"
+							<img th:src="@{'' + ${banner.imageName}}" class="d-block w-100"
 								alt="Banner">
 						</a>
 					</div>

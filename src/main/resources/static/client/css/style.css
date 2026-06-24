@@ -3114,3 +3114,27 @@ a.btn-auth-action {
 		right: -85%;
 	}
 }
+
+/* Footer accordion rotation */
+.footer-title[aria-expanded="true"] .footer-chevron {
+	transform: rotate(90deg);
+}
+
+@media (max-width: 768px) {
+	.footer-links {
+		margin-bottom: 20px;
+	}
+
+	.footer-links li a {
+		display: block;
+		padding: 8px 0;
+		color: #666;
+		font-size: 14px;
+		text-decoration: none;
+	}
+
+	.footer-title {
+		padding: 20px 0;
+		border: none;
+	}
+}

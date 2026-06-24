@@ -16,3 +16,7 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  # Cloudinary Configuration
+cloudinary:
+  url: ${CLOUDINARY_URL:cloudinary://432231466341726:YOUR_API_SECRET@dan2b8knu}

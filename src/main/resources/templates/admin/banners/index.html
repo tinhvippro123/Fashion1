@@ -38,7 +38,7 @@
 								<td class="d-none d-md-table-cell" th:text="${b.id}"></td>
 								<td>
 									<img th:if="${b.imageName != null}" 
-										 th:src="@{'/uploads/' + ${b.imageName}}" 
+										 th:src="@{'' + ${b.imageName}}" 
 										 class="img-thumbnail" style="width: 280px; height: 100px; object-fit: cover;">
 								</td>
 								<td class="d-none d-md-table-cell">
@@ -69,3 +69,4 @@
 	</div>
 </body>
 </html>
+

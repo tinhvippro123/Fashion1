@@ -22,7 +22,7 @@
 				<div th:each="item : ${globalCart.items}" class="mini-cart-item">
 					<div class="d-flex">
 						<img th:if="${not #lists.isEmpty(item.variant.productColor.images)}"
-							th:src="@{'/uploads/' + ${item.variant.productColor.images[0].imageUrl}}"
+							th:src="@{'' + ${item.variant.productColor.images[0].imageUrl}}"
 							class="mini-cart-img">
 
 						<div class="ml-3 w-100">
