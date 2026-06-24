@@ -36,10 +36,10 @@
     <div layout:fragment="content">
 
         <div class="container-ivy mb-3 mt-3">
-            <small class="text-muted"> 
-                <a th:href="@{/}" class="text-muted">Trang chủ</a> - 
-                <span class="text-dark" th:text="${product.name}"></span>
-            </small>
+            <div class="text-muted pb-2" style="font-size: 14px; border-bottom: 1px solid #e1e1e1;"> 
+                <a th:href="@{/}" class="text-muted" style="text-decoration: none;">Trang chủ</a> <span class="mx-2">-</span> 
+                <span class="text-dark text-uppercase font-weight-bold" th:text="${product.name}"></span>
+            </div>
         </div>
 
         <div class="container-ivy">

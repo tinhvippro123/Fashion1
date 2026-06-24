@@ -3,21 +3,21 @@
 <body>
 
 	<div th:fragment="account-sidebar(activePage)">
-	    <div style="border: 1px solid #f0f0f0; border-radius: 30px 0 30px 0; padding: 30px 25px; background: #fff; margin-bottom: 30px;">
+	    <div style="margin-bottom: 30px;">
 	        <!-- User Profile Summary -->
-			<div class="d-flex align-items-center justify-content-between mb-4 pb-4 border-bottom"
+			<div class="d-flex align-items-center justify-content-between"
 				 id="accountSidebarHeader"
-				 style="cursor: pointer;">
+				 style="cursor: pointer; border: 1px solid #e8e8e8; border-radius: 30px 0 30px 0; padding: 15px 25px; margin-bottom: 15px; background-color: #fff;">
 				<div class="d-flex align-items-center">
-					<div style="width: 45px; height: 45px; background-color: #e5e5e5; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-						<i class="fas fa-user" style="color: #b3b3b3; font-size: 20px;"></i>
+					<div style="width: 42px; height: 42px; background-color: #e8e8e8; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+						<i class="fas fa-user" style="color: #b0b0b0; font-size: 20px;"></i>
 					</div>
 					<div>
-						<div style="font-weight: 600; font-size: 16px; color: #333;" th:if="${user != null}" th:text="${user.fullName}">Tên User</div>
-						<div style="font-weight: 600; font-size: 16px; color: #333;" th:if="${user == null}">Khách hàng</div>
+						<div style="font-weight: 600; font-size: 16px; color: #555;" th:if="${user != null}" th:text="${user.fullName}">Tên User</div>
+						<div style="font-weight: 600; font-size: 16px; color: #555;" th:if="${user == null}">Khách hàng</div>
 					</div>
 				</div>
-				<i class="fas fa-chevron-down d-block d-md-none" style="color: #999; font-size: 14px; transition: transform 0.3s;" id="accountSidebarChevron"></i>
+				<i class="fas fa-angle-down" style="color: #666; font-size: 18px; transition: transform 0.3s;" id="accountSidebarChevron"></i>
 			</div>
 	
 	        <!-- Navigation Menu -->
@@ -31,22 +31,20 @@
 						
 						if (window.innerWidth >= 768) {
 							menu.classList.add('show');
-							header.style.cursor = 'default';
+							icon.style.transform = 'rotate(0deg)'; // point down when open
 						} else {
 							menu.classList.remove('show');
-							icon.style.transform = 'rotate(-90deg)';
+							icon.style.transform = 'rotate(-90deg)'; // point right when collapsed
 						}
 
-						// Handle icon rotation and toggle on click ONLY for mobile
+						// Handle icon rotation and toggle on click
 						header.addEventListener('click', function() {
-							if (window.innerWidth < 768) {
-								if (menu.classList.contains('show')) {
-									$(menu).collapse('hide');
-									icon.style.transform = 'rotate(-90deg)'; // point right when collapsed
-								} else {
-									$(menu).collapse('show');
-									icon.style.transform = 'rotate(0deg)'; // point down when open
-								}
+							if (menu.classList.contains('show')) {
+								$(menu).collapse('hide');
+								icon.style.transform = 'rotate(-90deg)'; // point right when collapsed
+							} else {
+								$(menu).collapse('show');
+								icon.style.transform = 'rotate(0deg)'; // point down when open
 							}
 						});
 					})();

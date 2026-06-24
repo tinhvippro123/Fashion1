@@ -9,10 +9,10 @@
     <div layout:fragment="content">
         <div class="container-ivy" style="margin-top: 30px; margin-bottom: 50px;">
             
-            <div class="mb-5 pb-4 border-bottom text-muted" style="font-size: 14px;">
-                <a th:href="@{/}" style="color: #666; text-decoration: none;">Trang chủ</a> 
-                <span class="mx-2" style="color: #ccc;">&mdash;</span> 
-                <span style="color: #333;">Tài khoản của tôi</span>
+            <div class="mb-3 pb-2 text-uppercase font-weight-bold" style="font-size: 14px; border-bottom: 1px solid #e1e1e1;">
+                <a th:href="@{/}" class="text-dark" style="text-decoration: none;">Trang chủ</a> 
+                <span class="mx-2">-</span> 
+                <span>Tài khoản của tôi</span>
             </div>
 
             <div class="row">
@@ -23,7 +23,7 @@
 
                 <div class="col-lg-9 col-md-8">
                     
-                    <h4 class="font-weight-bold mb-4 text-uppercase">Tài khoản của tôi</h4>
+                    <h5 class="font-weight-bold mb-3 text-uppercase" style="font-size: 18px;">Tài khoản của tôi</h5>
 
                     <div class="alert alert-primary border-0 rounded-0 mb-4" style="background-color: #d1ecf1; color: #0c5460; font-size: 14px;">
                         "Vì chính sách an toàn thẻ, bạn không thể thay đổi SĐT, Ngày sinh, Họ tên. Vui lòng liên hệ CSKH 0905898683 để được hỗ trợ"
@@ -41,66 +41,48 @@
 
                     <form th:action="@{/account/update}" method="post">
                         <div class="row">
-                            <div class="col-lg-8">
+                            <div class="col-lg-8 order-2 order-lg-1">
                                 
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label text-muted">Họ</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control-ivy bg-light" th:value="${displayLastName}" readonly>
+                                <div class="form-group mb-3">
+                                    <label class="text-muted mb-1" style="font-size: 14px;">Họ</label>
+                                    <input type="text" class="form-control-ivy bg-light border-0" th:value="${displayLastName}" readonly style="border-radius: 4px;">
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="text-muted mb-1" style="font-size: 14px;">Tên</label>
+                                    <input type="text" class="form-control-ivy bg-light border-0" th:value="${displayFirstName}" readonly style="border-radius: 4px;">
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="text-muted mb-1" style="font-size: 14px;">Số điện thoại</label>
+                                    <input type="text" class="form-control-ivy bg-light border-0" th:value="${user.phone}" readonly style="border-radius: 4px;">
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="text-muted mb-1" style="font-size: 14px;">Email</label>
+                                    <input type="email" name="email" class="form-control-ivy" th:value="${user.email}" style="border-radius: 4px; border: 1px solid #f0f0f0;">
+                                </div>
+
+                                <div class="d-flex align-items-center mb-4 pt-2">
+                                    <div class="custom-control custom-radio mr-4">
+                                        <input type="radio" id="g-nam" name="gender" value="MALE" class="custom-control-input" 
+                                               th:checked="${user.gender?.name() == 'MALE'}">
+                                        <label class="custom-control-label" for="g-nam">Nam</label>
+                                    </div>
+                                    <div class="custom-control custom-radio mr-4">
+                                        <input type="radio" id="g-nu" name="gender" value="FEMALE" class="custom-control-input"
+                                               th:checked="${user.gender?.name() == 'FEMALE'}">
+                                        <label class="custom-control-label" for="g-nu">Nữ</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="g-khac" name="gender" value="OTHER" class="custom-control-input"
+                                               th:checked="${user.gender?.name() == 'OTHER'}">
+                                        <label class="custom-control-label" for="g-khac">Khác</label>
                                     </div>
                                 </div>
 
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label text-muted">Tên</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control-ivy bg-light" th:value="${displayFirstName}" readonly>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label text-muted">Số điện thoại</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control-ivy bg-light" th:value="${user.phone}" readonly>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label text-muted">Email</label>
-                                    <div class="col-sm-9">
-                                        <input type="email" name="email" class="form-control-ivy" th:value="${user.email}">
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label text-muted">Giới tính</label>
-                                    <div class="col-sm-9 d-flex align-items-center pt-2">
-                                        
-                                        <div class="custom-control custom-radio mr-4">
-                                            <input type="radio" id="g-nam" name="gender" value="MALE" class="custom-control-input" 
-                                                   th:checked="${user.gender?.name() == 'MALE'}">
-                                            <label class="custom-control-label" for="g-nam">Nam</label>
-                                        </div>
-
-                                        <div class="custom-control custom-radio mr-4">
-                                            <input type="radio" id="g-nu" name="gender" value="FEMALE" class="custom-control-input"
-                                                   th:checked="${user.gender?.name() == 'FEMALE'}">
-                                            <label class="custom-control-label" for="g-nu">Nữ</label>
-                                        </div>
-
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" id="g-khac" name="gender" value="OTHER" class="custom-control-input"
-                                                   th:checked="${user.gender?.name() == 'OTHER'}">
-                                            <label class="custom-control-label" for="g-khac">Khác</label>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label text-muted">Ngày sinh</label>
-                                    <div class="col-sm-9">
-                                        <input type="date" class="form-control-ivy bg-light" th:value="${user.dateOfBirth}" readonly>
-                                    </div>
+                                <div class="form-group mb-4">
+                                    <input type="date" class="form-control-ivy bg-light border-0" th:value="${user.dateOfBirth}" readonly style="border-radius: 4px;">
                                 </div>
 
                                 <div class="mt-4 d-flex">
@@ -115,7 +97,7 @@
 
                             </div>
 
-                            <div class="col-lg-4 mt-4 mt-lg-0">
+                            <div class="col-lg-4 order-1 order-lg-2 mb-4 mb-lg-0 mt-lg-0">
                                 <div class="border rounded p-0 overflow-hidden">
                                     <table class="table table-bordered mb-0 text-center" style="font-size: 14px;">
                                         <tbody>

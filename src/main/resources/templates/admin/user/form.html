@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
+<head>
+    <title>Thông tin người dùng</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800" th:text="${user.id == null ? 'Thêm mới Người dùng' : 'Cập nhật Người dùng'}"></h1>
+        <a th:href="@{/admin/users}" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
+            <i class="fas fa-arrow-left fa-sm text-white-50"></i> Quay lại
+        </a>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Thông tin chi tiết</h6>
+        </div>
+        <div class="card-body">
+            <form th:action="${user.id == null ? '/admin/users' : '/admin/users/' + user.id}" th:object="${user}" method="post">
+                <input type="hidden" th:field="*{id}">
+                
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label>Họ và tên (*)</label>
+                        <input type="text" class="form-control" th:field="*{fullName}" required placeholder="Nguyễn Văn A">
+                    </div>
+                    
+                    <div class="col-md-6 form-group">
+                        <label>Email (*)</label>
+                        <input type="email" class="form-control" th:field="*{email}" required placeholder="email@example.com">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label>Số điện thoại</label>
+                        <input type="text" class="form-control" th:field="*{phone}" placeholder="0901234567">
+                    </div>
+
+                    <div class="col-md-6 form-group" th:if="${user.id == null}">
+                        <label>Mật khẩu (*)</label>
+                        <input type="password" class="form-control" th:field="*{passwordHash}" required placeholder="Mật khẩu đăng nhập">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label>Giới tính</label>
+                        <select class="form-control" th:field="*{gender}">
+                            <option value="MALE">Nam</option>
+                            <option value="FEMALE">Nữ</option>
+                            <option value="OTHER">Khác</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label>Ngày sinh</label>
+                        <input type="date" class="form-control" th:field="*{dateOfBirth}">
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label>Phân quyền (*)</label>
+                        <select class="form-control" th:field="*{role}">
+                            <option value="CUSTOMER">Khách hàng</option>
+                            <option value="ADMIN">Quản trị viên</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox mt-2">
+                        <input type="checkbox" class="custom-control-input" id="activeCheck" th:field="*{isActive}">
+                        <label class="custom-control-label" for="activeCheck">Tài khoản đang hoạt động</label>
+                    </div>
+                </div>
+
+                <hr>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Lưu dữ liệu
+                </button>
+                <a th:href="@{/admin/users}" class="btn btn-secondary">Hủy</a>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -7,11 +7,13 @@
 </head>
 <body>
     <div layout:fragment="content">
-        <div class="container-ivy mt-5 mb-5">
+        <div class="container-ivy" style="margin-top: 30px; margin-bottom: 50px;">
             
-            <div class="mb-4 text-muted small">
-                <a th:href="@{/}" class="text-dark">Trang chủ</a> <span class="mx-2">-</span> 
-                <a th:href="@{/account/orders}" class="text-dark">Đơn hàng của tôi</a> <span class="mx-2">-</span>
+            <div class="mb-3 pb-2 text-uppercase font-weight-bold" style="font-size: 14px; border-bottom: 1px solid #e1e1e1;">
+                <a th:href="@{/}" class="text-dark" style="text-decoration: none;">Trang chủ</a> 
+                <span class="mx-2">-</span> 
+                <a th:href="@{/account/orders}" class="text-dark" style="text-decoration: none;">Đơn hàng của tôi</a> 
+                <span class="mx-2">-</span>
                 <span>Chi tiết đơn hàng</span>
             </div>
 
@@ -25,7 +27,7 @@
                     
                     <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
                         <div>
-                            <h5 class="font-weight-bold mb-1">CHI TIẾT ĐƠN HÀNG <span th:text="'#' + ${order.id}"></span></h5>
+                            <h5 class="font-weight-bold mb-1 text-uppercase" style="font-size: 18px;">CHI TIẾT ĐƠN HÀNG <span th:text="'#' + ${order.id}"></span></h5>
                             <span class="text-muted small">Ngày đặt: <span th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy HH:mm')}"></span></span>
                         </div>
                         

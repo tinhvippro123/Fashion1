@@ -35,7 +35,7 @@ public class AdminUserController {
 	public String createUserForm(Model model) {
 		User user = new User();
 		model.addAttribute("user", user);
-		return "admin/user/create";
+		return "admin/user/form";
 	}
 
 	@PostMapping
@@ -47,7 +47,7 @@ public class AdminUserController {
 	@GetMapping("/edit/{id}")
 	public String editUserForm(@PathVariable Long id, Model model) {
 		model.addAttribute("user", userService.getUserById(id));
-		return "admin/user/edit";
+		return "admin/user/form";
 	}
 
 	@PostMapping("/{id}")

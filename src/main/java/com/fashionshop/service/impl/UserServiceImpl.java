@@ -78,10 +78,14 @@ public class UserServiceImpl implements UserService {
 
 		// Logic update: Chỉ update các trường cho phép
 		existingUser.setFullName(userDetails.getFullName());
+		existingUser.setEmail(userDetails.getEmail());
 		existingUser.setPhone(userDetails.getPhone());
 		existingUser.setGender(userDetails.getGender());
 		existingUser.setDateOfBirth(userDetails.getDateOfBirth());
 		existingUser.setRole(userDetails.getRole());
+		if (userDetails.getIsActive() != null) {
+			existingUser.setIsActive(userDetails.getIsActive());
+		}
 
 		// Logic thời gian update
 		existingUser.setUpdatedAt(LocalDateTime.now());

@@ -44,13 +44,20 @@
 	bottom: -17px;
 	/* Đẩy đường kẻ xuống dưới đáy Header (khớp với padding 17px) */
 	left: 85px;
-	/* Cách lề trái đúng 85px */
+	/* Khớp với padding 85px của container trên desktop */
 	right: 85px;
-	/* Cách lề phải đúng 85px */
+	/* Khớp với padding 85px của container trên desktop */
 	height: 1px;
 	/* Độ dày đường kẻ */
 	background-color: #e1e1e1;
 	/* Màu đường kẻ xám nhạt */
+}
+
+@media (max-width: 1199px) {
+	.site-header .container-ivy::after {
+		left: 15px;
+		right: 15px;
+	}
 }
 
 /* Menu bên trái */
@@ -58,6 +65,9 @@
 	color: #333 !important;
 	font-weight: 600;
 	/* Chữ đậm vừa */
+	text-decoration: none;
+	padding: 10px 0;
+	position: relative;
 	text-transform: uppercase;
 	/* Chữ IN HOA */
 	font-size: 12px;
