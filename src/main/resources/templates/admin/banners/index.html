@@ -30,27 +30,27 @@
 					<table class="table table-bordered" width="100%" cellspacing="0">
 						<thead>
 							<tr>
-								<th class="d-none d-md-table-cell">ID</th>
+								<th class="d-none d-lg-table-cell">ID</th>
 								<th width="300">Hình ảnh</th>
-								<th class="d-none d-md-table-cell">Đường link (Target URL)</th>
-								<th class="d-none d-md-table-cell">Thứ tự</th>
-								<th class="d-none d-md-table-cell">Trạng thái</th>
+								<th class="d-none d-lg-table-cell">Đường link (Target URL)</th>
+								<th class="d-none d-lg-table-cell">Thứ tự</th>
+								<th class="d-none d-lg-table-cell">Trạng thái</th>
 								<th class="text-center" style="width: 120px;">Hành động</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="b : ${banners}">
-								<td class="d-none d-md-table-cell" th:text="${b.id}"></td>
+								<td class="d-none d-lg-table-cell" th:text="${b.id}"></td>
 								<td>
 									<img th:if="${b.imageName != null}" 
 										 th:src="@{'' + ${b.imageName}}" 
 										 class="img-thumbnail" style="width: 280px; height: 100px; object-fit: cover;">
 								</td>
-								<td class="d-none d-md-table-cell">
+								<td class="d-none d-lg-table-cell">
 									<a th:href="${b.targetUrl}" target="_blank" th:text="${b.targetUrl}"></a>
 								</td>
-								<td class="d-none d-md-table-cell" th:text="${b.displayOrder}"></td>
-								<td class="d-none d-md-table-cell">
+								<td class="d-none d-lg-table-cell" th:text="${b.displayOrder}"></td>
+								<td class="d-none d-lg-table-cell">
 									<span th:if="${b.isActive}" class="badge badge-success">Hiển thị</span>
 									<span th:unless="${b.isActive}" class="badge badge-secondary">Đã ẩn</span>
 								</td>

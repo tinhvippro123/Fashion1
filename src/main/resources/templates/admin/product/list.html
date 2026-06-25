@@ -34,7 +34,7 @@
 								<th class="d-none d-md-table-cell">ID</th>
 								<th width="100">Hình ảnh</th>
 								<th>Tên sản phẩm</th>
-								<th class="d-none d-md-table-cell">Danh mục</th>
+								<th class="d-none d-lg-table-cell">Danh mục</th>
 								<th class="d-none d-md-table-cell">Giá gốc</th>
 								<th class="d-none d-md-table-cell">Trạng thái</th>
 								<th class="text-center" style="width: 140px;">Hành động</th>
@@ -61,10 +61,10 @@
 
 
 								<td><span th:text="${p.name}"
-									class="font-weight-bold text-primary"></span> <br> <small
-									th:text="${p.slug}"></small></td>
+									class="font-weight-bold text-primary"></span>
+									<small class="d-none d-md-block text-muted mt-1" th:text="${p.slug}"></small></td>
 
-								<td class="d-none d-md-table-cell"
+								<td class="d-none d-lg-table-cell"
 									th:text="${p.category != null ? p.category.name : 'Chưa phân loại'}"></td>
 
 								<td class="d-none d-md-table-cell"

@@ -14,11 +14,11 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <form th:action="@{/admin/orders}" method="get" class="form-inline mb-0">
-                    <div class="input-group input-group-sm search-group mr-2">
+                    <div class="input-group input-group-sm search-group mr-2 flex-nowrap">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-search"></i></span>
                         </div>
-                        <input type="text" name="keyword" th:value="${keyword}" class="form-control" style="min-width: 350px;" placeholder="Tìm kiếm mã, tên, email, sđt...">
+                        <input type="text" name="keyword" th:value="${keyword}" class="form-control" style="width: 300px;" placeholder="Tìm kiếm mã, tên, email, sđt...">
                     </div>
                     <button type="submit" class="d-none"></button>
                     <a th:href="@{/admin/orders}" class="btn btn-outline-secondary btn-sm" th:if="${keyword != null}" title="Làm mới"><i class="fas fa-sync-alt"></i></a>
@@ -31,9 +31,9 @@
                             <tr>
                                 <th>Mã đơn</th>
                                 <th>Khách hàng</th>
-                                <th class="d-none d-md-table-cell">Ngày đặt</th>
-                                <th class="d-none d-md-table-cell">Tổng tiền</th>
-                                <th class="d-none d-md-table-cell">TT Thanh toán</th>
+                                <th class="d-none d-lg-table-cell">Ngày đặt</th>
+                                <th class="d-none d-lg-table-cell">Tổng tiền</th>
+                                <th class="d-none d-lg-table-cell">TT Thanh toán</th>
                                 <th>Trạng thái</th>
                                 <th class="text-center" style="width: 120px;">Hành động</th>
                             </tr>
@@ -49,13 +49,13 @@
 
                                 <td th:text="${order.receiverName}">Nguyễn Văn A</td>
 
-                                <td class="d-none d-md-table-cell" th:text="${#temporals.format(order.orderDate, 'dd-MM-yyyy HH:mm')}">12-12-2024 10:30</td>
+                                <td class="d-none d-lg-table-cell" th:text="${#temporals.format(order.orderDate, 'dd-MM-yyyy HH:mm')}">12-12-2024 10:30</td>
 
-                                <td class="d-none d-md-table-cell" th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">
+                                <td class="d-none d-lg-table-cell" th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">
                                     1.500.000đ
                                 </td>
 
-                                <td class="d-none d-md-table-cell">
+                                <td class="d-none d-lg-table-cell">
                                     <span th:if="${order.payment.paymentStatus.name() == 'PAID'}" class="badge badge-success">Đã thanh toán</span>
                                     <span th:if="${order.payment.paymentStatus.name() == 'UNPAID'}" class="badge badge-secondary">Chưa thanh toán</span>
                                     <span th:if="${order.payment.paymentStatus.name() == 'REFUNDED'}" class="badge badge-warning">Đã hoàn tiền</span>

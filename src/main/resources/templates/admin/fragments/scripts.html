@@ -17,8 +17,8 @@
             $(".sidebar").removeClass("toggled");
         });
 
-        // Tự động chuyển đổi Table thành Mobile Card UI nếu màn hình nhỏ hoặc tablet
-        if ($(window).width() <= 991) {
+        // Tự động chuyển đổi Table thành Mobile Card UI nếu màn hình nhỏ (phone)
+        if ($(window).width() <= 767) {
             $('.table-responsive table').addClass('mobile-stacked-table');
             $('.mobile-stacked-table').each(function() {
                 var headers = [];
