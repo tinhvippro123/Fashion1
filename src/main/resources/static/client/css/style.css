@@ -1382,8 +1382,8 @@ a.zalo-icon {
 .product-info-col {
 	flex-grow: 1;
 	/* Chiếm hết phần còn lại của màn hình */
-	/* QUAN TRỌNG: Padding trái 105px như bạn đo */
-	padding-left: 105px !important;
+	/* QUAN TRỌNG: Padding trái 120px như bạn đo */
+	padding-left: 120px !important;
 	/* Canh chỉnh nội dung */
 	padding-top: 10px;
 }
@@ -1407,8 +1407,33 @@ a.zalo-icon {
 	}
 }
 
-/* Khi màn hình nhỏ hơn 992px (Mobile/Tablet dọc) -> Xếp dọc */
-@media (max-width : 1199px) {
+/* Tablet dọc (768px - 991px): Vẫn dùng layout chia 2 cột như Desktop/iPad Pro, nhưng thu nhỏ ảnh để nhường chỗ cho chữ */
+@media (min-width: 768px) and (max-width: 991px) {
+	.product-info-col {
+		padding-left: 30px !important;
+	}
+	.gallery-main {
+		width: 320px;
+		height: 480px;
+	}
+	.gallery-wrapper {
+		height: 480px;
+	}
+	.gallery-thumbs-scroll {
+		height: 480px;
+	}
+	.gallery-thumbs-container {
+		width: 80px;
+		padding: 20px 0;
+	}
+	.thumb-img {
+		width: 80px;
+		height: 120px;
+	}
+}
+
+/* Khi màn hình nhỏ hơn 768px (Mobile) -> Xếp dọc toàn bộ */
+@media (max-width : 767px) {
 	.product-detail-row {
 		flex-direction: column;
 	}
@@ -3162,6 +3187,7 @@ a.btn-auth-action {
 
 @media (max-width: 768px) {
 	.mini-cart-footer {
-		padding-bottom: 80px !important; /* Chừa chỗ cho thanh điều hướng dưới cùng trên mobile */
+		padding-bottom: 80px !important;
+		/* Chừa chỗ cho thanh điều hướng dưới cùng trên mobile */
 	}
 }

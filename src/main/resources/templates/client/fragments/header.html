@@ -4,7 +4,7 @@
 	<div
 		class="container-ivy d-flex align-items-center justify-content-between position-relative">
 
-		<nav class="d-none d-xl-flex">
+		<nav class="d-none d-lg-flex">
 
 			<div class="ivy-menu-item">
 				<a href="javascript:void(0)" class="ivy-nav-link">NỮ</a>
@@ -99,7 +99,7 @@
 		</nav>
 
 		<!-- Nút Hamburger Mở Mobile Menu -->
-		<button class="btn d-xl-none" type="button" onclick="openMobileMenu()">
+		<button class="btn d-lg-none" type="button" onclick="openMobileMenu()">
 			<i class="fas fa-bars"></i>
 		</button>
 
@@ -204,7 +204,7 @@
 
 		<div class="d-flex align-items-center">
 
-	<form th:action="@{/search}" method="get" class="d-none d-xl-flex ivy-search-box">
+	<form th:action="@{/search}" method="get" class="d-none d-lg-flex ivy-search-box">
     <input type="text" name="keyword" class="ivy-search-input"
            placeholder="TÌM KIẾM SẢN PHẨM"
            th:value="${keyword}"> <button type="submit" class="btn ivy-search-btn">
@@ -212,13 +212,13 @@
     </button>
 </form>
 
-			<a href="#" class="ivy-icon-btn d-none d-xl-block"> <i
+			<a href="#" class="ivy-icon-btn d-none d-lg-block"> <i
 				class="fas fa-headset"></i>
 			</a> <a sec:authorize="!isAuthenticated()" th:href="@{/login}"
-				class="ivy-icon-btn d-none d-xl-block"> <i class="far fa-user"></i>
+				class="ivy-icon-btn d-none d-lg-block"> <i class="far fa-user"></i>
 			</a>
 
-			<div sec:authorize="isAuthenticated()" class="ivy-icon-btn user-dropdown-container d-none d-xl-block">
+			<div sec:authorize="isAuthenticated()" class="ivy-icon-btn user-dropdown-container d-none d-lg-block">
     
     <a href="javascript:void(0)" class="text-dark" onclick="toggleUserMenu(event)">
         <i class="far fa-user"></i>

@@ -7,21 +7,21 @@
 </head>
 <body>
     <div layout:fragment="content">
-        <div class="container-ivy" style="margin-top: 30px; margin-bottom: 50px;">
+        <div class="container-ivy" style="margin-bottom: 50px;">
             
-            <div class="mb-3 pb-2 text-uppercase font-weight-bold" style="font-size: 14px; border-bottom: 1px solid #e1e1e1;">
-                <a th:href="@{/}" class="text-dark" style="text-decoration: none;">Trang chủ</a> 
+            <div class="text-muted" style="font-size: 14px; border-bottom: 1px solid #e1e1e1; padding-top: 20px; padding-bottom: 21px; margin-bottom: 40px;">
+                <a th:href="@{/}" class="text-muted" style="text-decoration: none;">Trang chủ</a> 
                 <span class="mx-2">-</span> 
-                <span>Tài khoản của tôi</span>
+                <span class="text-dark">Tài khoản của tôi</span>
             </div>
 
-            <div class="row">
+            <div class="d-flex flex-column flex-lg-row">
                 
-                <div class="col-lg-3 col-md-4 mb-4">
+                <div class="mb-4" style="flex-shrink: 0; margin-right: 15px;">
                    <div th:replace="~{client/account/sidebar :: account-sidebar(activePage='profile')}"></div>
                 </div>
 
-                <div class="col-lg-9 col-md-8">
+                <div style="flex-grow: 1; min-width: 0;">
                     
                     <h5 class="font-weight-bold mb-3 text-uppercase" style="font-size: 18px;">Tài khoản của tôi</h5>
 
@@ -41,81 +41,153 @@
 
                     <form th:action="@{/account/update}" method="post">
                         <div class="row">
-                            <div class="col-lg-8 order-2 order-lg-1">
+                            <div class="col-lg-7 order-2 order-lg-1">
+                                <style>
+                                    .profile-form-row {
+                                        flex-direction: column;
+                                        align-items: flex-start !important;
+                                    }
+                                    .profile-label {
+                                        width: 100%;
+                                        margin-bottom: 8px;
+                                    }
+                                    .profile-btn-spacer {
+                                        display: none;
+                                    }
+                                    .hide-on-mobile {
+                                        display: none !important;
+                                    }
+                                    .date-mobile-bg {
+                                        border-top: 1px solid #e7e8e9 !important;
+                                        border-bottom: 1px solid #e7e8e9 !important;
+                                        border-radius: 0 !important;
+                                        padding-top: 15px !important;
+                                        padding-bottom: 15px !important;
+                                    }
+                                    .custom-radio .custom-control-input:checked ~ .custom-control-label::before {
+                                        background-color: #222;
+                                        border-color: #222;
+                                    }
+                                    .custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+                                        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+                                        border-radius: 0;
+                                    }
+                                    @media (min-width: 768px) {
+                                        .profile-form-row {
+                                            flex-direction: row;
+                                            align-items: center !important;
+                                        }
+                                        .profile-label {
+                                            width: 150px;
+                                            margin-bottom: 0;
+                                        }
+                                        .profile-btn-spacer {
+                                            display: block;
+                                            width: 150px;
+                                            flex-shrink: 0;
+                                        }
+                                        .hide-on-mobile {
+                                            display: block !important;
+                                        }
+                                        .date-mobile-bg {
+                                            border: 0 !important;
+                                            border-radius: 4px !important;
+                                            padding-top: 10px !important;
+                                            padding-bottom: 10px !important;
+                                        }
+                                    }
+                                </style>
                                 
-                                <div class="form-group mb-3">
-                                    <label class="text-muted mb-1" style="font-size: 14px;">Họ</label>
-                                    <input type="text" class="form-control-ivy bg-light border-0" th:value="${displayLastName}" readonly style="border-radius: 4px;">
-                                </div>
-
-                                <div class="form-group mb-3">
-                                    <label class="text-muted mb-1" style="font-size: 14px;">Tên</label>
-                                    <input type="text" class="form-control-ivy bg-light border-0" th:value="${displayFirstName}" readonly style="border-radius: 4px;">
-                                </div>
-
-                                <div class="form-group mb-3">
-                                    <label class="text-muted mb-1" style="font-size: 14px;">Số điện thoại</label>
-                                    <input type="text" class="form-control-ivy bg-light border-0" th:value="${user.phone}" readonly style="border-radius: 4px;">
-                                </div>
-
-                                <div class="form-group mb-3">
-                                    <label class="text-muted mb-1" style="font-size: 14px;">Email</label>
-                                    <input type="email" name="email" class="form-control-ivy" th:value="${user.email}" style="border-radius: 4px; border: 1px solid #f0f0f0;">
-                                </div>
-
-                                <div class="d-flex align-items-center mb-4 pt-2">
-                                    <div class="custom-control custom-radio mr-4">
-                                        <input type="radio" id="g-nam" name="gender" value="MALE" class="custom-control-input" 
-                                               th:checked="${user.gender?.name() == 'MALE'}">
-                                        <label class="custom-control-label" for="g-nam">Nam</label>
-                                    </div>
-                                    <div class="custom-control custom-radio mr-4">
-                                        <input type="radio" id="g-nu" name="gender" value="FEMALE" class="custom-control-input"
-                                               th:checked="${user.gender?.name() == 'FEMALE'}">
-                                        <label class="custom-control-label" for="g-nu">Nữ</label>
-                                    </div>
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" id="g-khac" name="gender" value="OTHER" class="custom-control-input"
-                                               th:checked="${user.gender?.name() == 'OTHER'}">
-                                        <label class="custom-control-label" for="g-khac">Khác</label>
+                                <div class="d-flex profile-form-row mb-4">
+                                    <label class="text-muted mb-0 profile-label" style="font-size: 14px; flex-shrink: 0;">Họ</label>
+                                    <div style="flex-grow: 1; width: 100%;">
+                                        <input type="text" class="form-control-ivy mb-0 bg-light border-0 w-100" th:value="${displayLastName}" readonly style="border-radius: 4px; padding: 10px 15px;">
                                     </div>
                                 </div>
 
-                                <div class="form-group mb-4">
-                                    <input type="date" class="form-control-ivy bg-light border-0" th:value="${user.dateOfBirth}" readonly style="border-radius: 4px;">
+                                <div class="d-flex profile-form-row mb-4">
+                                    <label class="text-muted mb-0 profile-label" style="font-size: 14px; flex-shrink: 0;">Tên</label>
+                                    <div style="flex-grow: 1; width: 100%;">
+                                        <input type="text" class="form-control-ivy mb-0 bg-light border-0 w-100" th:value="${displayFirstName}" readonly style="border-radius: 4px; padding: 10px 15px;">
+                                    </div>
                                 </div>
 
-                                <div class="mt-4 d-flex">
-                                    <button type="submit" class="btn btn-dark px-4 py-2 mr-3 font-weight-bold" style="border-radius: 20px 0 20px 0;">CẬP NHẬT</button>
-                                    
-                                    <button type="button" class="btn btn-outline-dark px-4 py-2 font-weight-bold" 
-                                            style="border-radius: 20px 0 20px 0; color: #333;" 
-                                            data-toggle="modal" data-target="#changePasswordModal">
-                                        ĐỔI MẬT KHẨU
-                                    </button>
+                                <div class="d-flex profile-form-row mb-4">
+                                    <label class="text-muted mb-0 profile-label" style="font-size: 14px; flex-shrink: 0;">Số điện thoại</label>
+                                    <div style="flex-grow: 1; width: 100%;">
+                                        <input type="text" class="form-control-ivy mb-0 bg-light border-0 w-100" th:value="${user.phone}" readonly style="border-radius: 4px; padding: 10px 15px;">
+                                    </div>
+                                </div>
+
+                                <div class="d-flex profile-form-row mb-4">
+                                    <label class="text-muted mb-0 profile-label" style="font-size: 14px; flex-shrink: 0;">Email</label>
+                                    <div style="flex-grow: 1; width: 100%;">
+                                        <input type="email" name="email" class="form-control-ivy mb-0 w-100" th:value="${user.email}" style="border-radius: 4px; border: 1px solid #f0f0f0; padding: 10px 15px;">
+                                    </div>
+                                </div>
+
+                                <div class="d-flex profile-form-row mb-4">
+                                    <label class="text-muted mb-0 profile-label hide-on-mobile" style="font-size: 14px; flex-shrink: 0;">Giới tính</label>
+                                    <div style="flex-grow: 1; width: 100%;">
+                                        <div class="d-flex align-items-center">
+                                            <div class="custom-control custom-radio mr-4">
+                                                <input type="radio" id="g-nam" name="gender" value="MALE" class="custom-control-input" 
+                                                       th:checked="${user.gender?.name() == 'MALE'}">
+                                                <label class="custom-control-label" for="g-nam">Nam</label>
+                                            </div>
+                                            <div class="custom-control custom-radio mr-4">
+                                                <input type="radio" id="g-nu" name="gender" value="FEMALE" class="custom-control-input"
+                                                       th:checked="${user.gender?.name() == 'FEMALE'}">
+                                                <label class="custom-control-label" for="g-nu">Nữ</label>
+                                            </div>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="g-khac" name="gender" value="OTHER" class="custom-control-input"
+                                                       th:checked="${user.gender?.name() == 'OTHER'}">
+                                                <label class="custom-control-label" for="g-khac">Khác</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex profile-form-row mb-4">
+                                    <label class="text-muted mb-0 profile-label hide-on-mobile" style="font-size: 14px; flex-shrink: 0;">Ngày sinh</label>
+                                    <div style="flex-grow: 1; width: 100%;">
+                                        <input type="date" class="form-control-ivy mb-0 bg-light w-100 date-mobile-bg" th:value="${user.dateOfBirth}" readonly style="border-radius: 4px; padding: 10px 15px;">
+                                    </div>
+                                </div>
+
+                                <div class="d-flex mt-3">
+                                    <div class="profile-btn-spacer"></div>
+                                    <div class="d-flex w-100">
+                                        <button type="submit" class="btn btn-dark px-4 py-2 mr-3 font-weight-bold" style="border-radius: 20px 0 20px 0;">CẬP NHẬT</button>
+                                        
+                                        <button type="button" class="btn btn-outline-dark px-4 py-2 font-weight-bold" 
+                                                style="border-radius: 20px 0 20px 0; color: #333;" 
+                                                data-toggle="modal" data-target="#changePasswordModal">
+                                            ĐỔI MẬT KHẨU
+                                        </button>
+                                    </div>
                                 </div>
 
                             </div>
 
-                            <div class="col-lg-4 order-1 order-lg-2 mb-4 mb-lg-0 mt-lg-0">
-                                <div class="border rounded p-0 overflow-hidden">
-                                    <table class="table table-bordered mb-0 text-center" style="font-size: 14px;">
-                                        <tbody>
-                                            <tr>
-                                                <td class="bg-light text-muted py-3">Điểm chiết khấu</td>
-                                                <td class="font-weight-bold py-3">0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="bg-light text-muted py-3">Chiết khấu</td>
-                                                <td class="font-weight-bold py-3">0%</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="bg-light text-muted py-3">Hạn thẻ</td>
-                                                <td class="font-weight-bold py-3">13/04/2026</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="col-lg-5 order-1 order-lg-2 mb-4 mb-lg-0 mt-lg-0 pl-lg-4">
+                                <table class="table table-bordered mb-3 text-center" style="font-size: 14px;">
+                                    <tbody>
+                                        <tr>
+                                            <td class="bg-light text-muted py-3 px-4 align-middle" style="width: 50%;">Điểm chiết khấu</td>
+                                            <td class="font-weight-bold py-3 px-4 align-middle">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light text-muted py-3 px-4 align-middle">Chiết khấu</td>
+                                            <td class="font-weight-bold py-3 px-4 align-middle">0%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light text-muted py-3 px-4 align-middle">Hạn thẻ</td>
+                                            <td class="font-weight-bold py-3 px-4 align-middle">14/04/2027</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </form>

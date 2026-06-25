@@ -7,23 +7,23 @@
 </head>
 <body>
     <div layout:fragment="content">
-        <div class="container-ivy" style="margin-top: 30px; margin-bottom: 50px;">
+        <div class="container-ivy" style="margin-bottom: 50px;">
             
-            <div class="mb-3 pb-2 text-uppercase font-weight-bold" style="font-size: 14px; border-bottom: 1px solid #e1e1e1;">
-                <a th:href="@{/}" class="text-dark" style="text-decoration: none;">Trang chủ</a> 
+            <div class="text-muted" style="font-size: 14px; border-bottom: 1px solid #e1e1e1; padding-top: 20px; padding-bottom: 21px; margin-bottom: 40px;">
+                <a th:href="@{/}" class="text-muted" style="text-decoration: none;">Trang chủ</a> 
                 <span class="mx-2">-</span> 
-                <a th:href="@{/account/orders}" class="text-dark" style="text-decoration: none;">Đơn hàng của tôi</a> 
+                <a th:href="@{/account/orders}" class="text-muted" style="text-decoration: none;">Đơn hàng của tôi</a> 
                 <span class="mx-2">-</span>
-                <span>Chi tiết đơn hàng</span>
+                <span class="text-dark">Chi tiết đơn hàng</span>
             </div>
 
-            <div class="row">
+            <div class="d-flex flex-column flex-lg-row">
                 
-                <div class="col-lg-3">
-                    <div th:replace="~{client/account/sidebar :: account-sidebar(activePage='orders')}"></div>
+                <div class="mb-4" style="flex-shrink: 0; margin-right: 15px;">
+                   <div th:replace="~{client/account/sidebar :: account-sidebar(activePage='orders')}"></div>
                 </div>
 
-                <div class="col-lg-9">
+                <div style="flex-grow: 1; min-width: 0;">
                     
                     <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
                         <div>

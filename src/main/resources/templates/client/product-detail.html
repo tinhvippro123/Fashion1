@@ -35,10 +35,16 @@
 <body>
     <div layout:fragment="content">
 
-        <div class="container-ivy mb-3 mt-3">
-            <div class="text-muted pb-2" style="font-size: 14px; border-bottom: 1px solid #e1e1e1;"> 
-                <a th:href="@{/}" class="text-muted" style="text-decoration: none;">Trang chủ</a> <span class="mx-2">-</span> 
-                <span class="text-dark text-uppercase font-weight-bold" th:text="${product.name}"></span>
+        <div class="container-ivy">
+            <div class="text-muted" style="font-size: 14px; border-bottom: 1px solid #e1e1e1; padding-top: 20px; padding-bottom: 21px; margin-bottom: 40px;"> 
+                <a th:href="@{/}" class="text-muted" style="text-decoration: none;">Trang chủ</a> 
+                <span class="mx-2">-</span> 
+                <th:block th:if="${product.category != null}">
+                    <a th:if="${product.category.parent != null}" th:href="@{'/danh-muc/' + ${product.category.parent.slug}}" class="text-muted" style="text-decoration: none;" th:text="${#strings.toUpperCase(product.category.parent.name)}"></a>
+                    <a th:if="${product.category.parent == null}" th:href="@{'/danh-muc/' + ${product.category.slug}}" class="text-muted" style="text-decoration: none;" th:text="${#strings.toUpperCase(product.category.name)}"></a>
+                    <span class="mx-2">-</span> 
+                </th:block>
+                <span class="text-dark" th:text="${product.name}"></span>
             </div>
         </div>
 
@@ -98,25 +104,27 @@
                     <input type="hidden" name="productId" th:value="${product.id}">
 
                     <h2 class="font-weight-bold text-uppercase mb-3"
-                        style="font-size: 20px;" th:text="${product.name}"></h2>
+                        style="font-size: 28px;" th:text="${product.name}"></h2>
 
-                    <div class="mb-2 text-muted" style="font-size: 14px;">
-                        <span>SKU: <span th:text="${product.id}"></span>M9377</span>
-                    </div>
                     <div class="d-flex align-items-center mb-4 text-muted" style="font-size: 14px;">
-                        <div class="text-warning mr-2">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <div class="mr-4">
+                            <span>SKU: <span th:text="${product.id}"></span>M9377</span>
                         </div>
-                        <span>(0 đánh giá)</span>
+                        <div class="d-flex align-items-center">
+                            <div class="text-warning mr-2">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <span>(0 đánh giá)</span>
+                        </div>
                     </div>
 
-                    <div class="product-price-large mb-4"
-                         th:text="${#numbers.formatDecimal(product.basePrice, 0, 'POINT', 0, 'COMMA')} + 'đ'" style="font-size: 24px;">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="font-weight-bold" th:text="${#numbers.formatDecimal(product.basePrice, 0, 'POINT', 0, 'COMMA')} + 'đ'" style="font-size: 24px; color: #222;"></div>
                     </div>
 
                     <div class="mb-4 mt-3">
-                        <div class="color-label mb-2 font-weight-bold" style="font-size: 16px;">
-                            Màu sắc: <span th:text="${selectedColor.color.name}">Trắng ngà</span>
+                        <div class="color-label mb-2" style="font-size: 18px;">
+                            <span class="font-weight-bold" style="color: #222;">Màu sắc:</span> <span th:text="${selectedColor.color.name}">Trắng ngà</span>
                         </div>
                         <div class="d-flex flex-wrap">
                             <th:block th:each="pc : ${product.productColors}">

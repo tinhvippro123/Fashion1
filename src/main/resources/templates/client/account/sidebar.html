@@ -3,11 +3,27 @@
 <body>
 
 	<div th:fragment="account-sidebar(activePage)">
-	    <div style="margin-bottom: 30px;">
+		<style>
+			.order-sidemenu-custom {
+				width: 100%;
+				padding: 15px 20px !important;
+			}
+			.sidebar-menu-custom {
+				margin-top: 25px;
+				padding-top: 25px;
+				border-top: 1px solid #e7e8e9;
+			}
+			@media (min-width: 992px) {
+				.order-sidemenu-custom {
+					width: 235px !important;
+					padding: 32px 33px !important;
+				}
+			}
+		</style>
+	    <div class="order-sidemenu block-border order-sidemenu-custom" style="margin-bottom: 30px; border: 1px solid #e7e8e9; border-radius: 32px 0 32px 0; background-color: #fff; color: #6c6d70; text-align: left;">
 	        <!-- User Profile Summary -->
 			<div class="d-flex align-items-center justify-content-between"
-				 id="accountSidebarHeader"
-				 style="cursor: pointer; border: 1px solid #e8e8e8; border-radius: 30px 0 30px 0; padding: 15px 25px; margin-bottom: 15px; background-color: #fff;">
+				 id="accountSidebarHeader" style="cursor: pointer;">
 				<div class="d-flex align-items-center">
 					<div style="width: 42px; height: 42px; background-color: #e8e8e8; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
 						<i class="fas fa-user" style="color: #b0b0b0; font-size: 20px;"></i>
@@ -17,11 +33,12 @@
 						<div style="font-weight: 600; font-size: 16px; color: #555;" th:if="${user == null}">Khách hàng</div>
 					</div>
 				</div>
-				<i class="fas fa-angle-down" style="color: #666; font-size: 18px; transition: transform 0.3s;" id="accountSidebarChevron"></i>
+				<i class="fas fa-angle-down d-lg-none" style="color: #666; font-size: 18px; transition: transform 0.3s;" id="accountSidebarChevron"></i>
 			</div>
 	
 	        <!-- Navigation Menu -->
-			<ul class="list-unstyled mb-0 collapse" id="accountSidebarMenu" style="font-size: 15px;">
+			<div class="collapse" id="accountSidebarMenu">
+				<ul class="list-unstyled mb-0 sidebar-menu-custom" style="font-size: 14px;">
 				<script>
 					// Initialize sidebar state based on screen size
 					(function() {
@@ -29,7 +46,7 @@
 						var icon = document.getElementById('accountSidebarChevron');
 						var header = document.getElementById('accountSidebarHeader');
 						
-						if (window.innerWidth >= 768) {
+						if (window.innerWidth >= 992) {
 							menu.classList.add('show');
 							icon.style.transform = 'rotate(0deg)'; // point down when open
 						} else {
@@ -39,72 +56,88 @@
 
 						// Handle icon rotation and toggle on click
 						header.addEventListener('click', function() {
-							if (menu.classList.contains('show')) {
+							if (window.innerWidth >= 992) return;
+							
+							var isExpanded = menu.classList.contains('show');
+							
+							// Bootstrap collapse is handled by data-toggle if we added it, 
+							// but since we don't have data-toggle on header, we must manually toggle
+							if (isExpanded) {
 								$(menu).collapse('hide');
-								icon.style.transform = 'rotate(-90deg)'; // point right when collapsed
+								icon.style.transform = 'rotate(-90deg)';
 							} else {
 								$(menu).collapse('show');
-								icon.style.transform = 'rotate(0deg)'; // point down when open
+								icon.style.transform = 'rotate(0deg)';
+							}
+						});
+						
+						// Handle resize events
+						window.addEventListener('resize', function() {
+							if (window.innerWidth >= 992) {
+								$(menu).collapse('show');
+							} else {
+								$(menu).collapse('hide');
 							}
 						});
 					})();
 				</script>
-				<li class="mb-4 pb-1">
-				    <a th:href="@{/account/profile}" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s;"
+				<li style="margin-bottom: 32px;">
+				    <a th:href="@{/account/profile}" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s; white-space: nowrap;"
 					   th:styleappend="${activePage == 'profile'} ? 'color: #111; font-weight: 600;' : 'color: #666; font-weight: 500;'"> 
-					   <i class="far fa-user" style="width: 30px; text-align: center; margin-right: 15px; font-size: 18px;" th:styleappend="${activePage == 'profile'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Thông tin tài khoản
+					   <i class="far fa-user" style="width: 13px; height: 14px; display: inline-flex; justify-content: center; align-items: center; margin-right: 15px; font-size: 14px;" th:styleappend="${activePage == 'profile'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Thông tin tài khoản
 				    </a>
 				</li>
 	
-				<li class="mb-4 pb-1">
-				    <a href="javascript:void(0)" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s;"
+				<li style="margin-bottom: 32px;">
+				    <a href="javascript:void(0)" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s; white-space: nowrap;"
 					   th:styleappend="${activePage == 'login_history'} ? 'color: #111; font-weight: 600;' : 'color: #666; font-weight: 500;'"> 
-					   <i class="fas fa-lock" style="width: 30px; text-align: center; margin-right: 15px; font-size: 18px;" th:styleappend="${activePage == 'login_history'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Lịch sử đăng nhập
+					   <i class="fas fa-lock" style="width: 13px; height: 14px; display: inline-flex; justify-content: center; align-items: center; margin-right: 15px; font-size: 14px;" th:styleappend="${activePage == 'login_history'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Lịch sử đăng nhập
 				    </a>
 				</li>
 	
-				<li class="mb-4 pb-1">
-				    <a th:href="@{/account/orders}" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s;"
+				<li style="margin-bottom: 32px;">
+				    <a th:href="@{/account/orders}" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s; white-space: nowrap;"
 					   th:styleappend="${activePage == 'orders'} ? 'color: #111; font-weight: 600;' : 'color: #666; font-weight: 500;'"> 
-					   <i class="fas fa-sync" style="width: 30px; text-align: center; margin-right: 15px; font-size: 18px;" th:styleappend="${activePage == 'orders'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Quản lý đơn hàng
+					   <i class="fas fa-sync" style="width: 13px; height: 14px; display: inline-flex; justify-content: center; align-items: center; margin-right: 15px; font-size: 14px;" th:styleappend="${activePage == 'orders'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Quản lý đơn hàng
 				    </a>
 				</li>
 	
-				<li class="mb-4 pb-1">
-				    <a th:href="@{/account/addresses}" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s;"
+				<li style="margin-bottom: 32px;">
+				    <a th:href="@{/account/addresses}" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s; white-space: nowrap;"
 					   th:styleappend="${activePage == 'addresses'} ? 'color: #111; font-weight: 600;' : 'color: #666; font-weight: 500;'"> 
-					   <i class="fas fa-map-marker-alt" style="width: 30px; text-align: center; margin-right: 15px; font-size: 18px;" th:styleappend="${activePage == 'addresses'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Sổ địa chỉ
+					   <i class="fas fa-map-marker-alt" style="width: 13px; height: 14px; display: inline-flex; justify-content: center; align-items: center; margin-right: 15px; font-size: 14px;" th:styleappend="${activePage == 'addresses'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Sổ địa chỉ
 				    </a>
 				</li>
 	
-				<li class="mb-4 pb-1">
-				    <a href="javascript:void(0)" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s;"
+				<li style="margin-bottom: 32px;">
+				    <a href="javascript:void(0)" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s; white-space: nowrap;"
 					   th:styleappend="${activePage == 'viewed_products'} ? 'color: #111; font-weight: 600;' : 'color: #666; font-weight: 500;'"> 
-					   <i class="fas fa-glasses" style="width: 30px; text-align: center; margin-right: 15px; font-size: 18px;" th:styleappend="${activePage == 'viewed_products'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Sản phẩm đã xem
+					   <i class="fas fa-glasses" style="width: 13px; height: 14px; display: inline-flex; justify-content: center; align-items: center; margin-right: 15px; font-size: 14px;" th:styleappend="${activePage == 'viewed_products'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Sản phẩm đã xem
 				    </a>
 				</li>
 				
-				<li class="mb-4 pb-1">
-				    <a href="javascript:void(0)" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s;"
+				<li style="margin-bottom: 32px;">
+				    <a href="javascript:void(0)" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s; white-space: nowrap;"
 					   th:styleappend="${activePage == 'favorite_products'} ? 'color: #111; font-weight: 600;' : 'color: #666; font-weight: 500;'"> 
-					   <i class="far fa-heart" style="width: 30px; text-align: center; margin-right: 15px; font-size: 18px;" th:styleappend="${activePage == 'favorite_products'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Sản phẩm yêu thích
+					   <i class="far fa-heart" style="width: 13px; height: 14px; display: inline-flex; justify-content: center; align-items: center; margin-right: 15px; font-size: 14px;" th:styleappend="${activePage == 'favorite_products'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Sản phẩm yêu thích
 				    </a>
 				</li>
 				
-				<li class="mb-4 pb-1">
-				    <a href="javascript:void(0)" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s;"
+				<li style="margin-bottom: 32px;">
+				    <a href="javascript:void(0)" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s; white-space: nowrap;"
 					   th:styleappend="${activePage == 'faq'} ? 'color: #111; font-weight: 600;' : 'color: #666; font-weight: 500;'"> 
-					   <i class="fas fa-headset" style="width: 30px; text-align: center; margin-right: 15px; font-size: 18px;" th:styleappend="${activePage == 'faq'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Hỏi đáp sản phẩm
+					   <i class="fas fa-headset" style="width: 13px; height: 14px; display: inline-flex; justify-content: center; align-items: center; margin-right: 15px; font-size: 14px;" th:styleappend="${activePage == 'faq'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Hỏi đáp sản phẩm
 				    </a>
 				</li>
 				
-				<li>
-				    <a href="javascript:void(0)" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s;"
+				<li style="margin-bottom: 0;">
+				    <a href="javascript:void(0)" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s; white-space: nowrap;"
 					   th:styleappend="${activePage == 'support'} ? 'color: #111; font-weight: 600;' : 'color: #666; font-weight: 500;'"> 
-					   <i class="far fa-hand-point-right" style="width: 30px; text-align: center; margin-right: 15px; font-size: 18px;" th:styleappend="${activePage == 'support'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Hỗ trợ - IVY
+					   <i class="far fa-hand-point-right" style="width: 13px; height: 14px; display: inline-flex; justify-content: center; align-items: center; margin-right: 15px; font-size: 14px;" th:styleappend="${activePage == 'support'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Hỗ trợ - IVY
 				    </a>
 				</li>
 			</ul>
+			</div>
 		</div>
 	</div>
 </body>
