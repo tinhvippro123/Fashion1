@@ -90,11 +90,15 @@
     .action-icon.hover-warning:hover { color: #f6c23e !important; }
 
     /* Custom Search Group */
+    .search-group { flex-wrap: nowrap; }
     .search-group .form-control { border-left: 0; box-shadow: none; }
     .search-group .form-control:focus { border-color: #d1d3e2; }
     .search-group .input-group-text { background: #fff; border-right: 0; color: #b7b9cc; }
     .search-group:focus-within .input-group-text { border-color: #bac8f3; color: #4e73df; }
     .search-group:focus-within .form-control { border-color: #bac8f3; }
+
+    /* Prevent table header text wrapping */
+    .table th { white-space: nowrap; }
 
     /* Responsive Header */
     @media (max-width: 576px) {
@@ -107,7 +111,7 @@
     }
 
     /* Mobile stacked table */
-    @media (max-width: 767px) {
+    @media (max-width: 991px) {
         .mobile-stacked-table thead {
             display: none;
         }
