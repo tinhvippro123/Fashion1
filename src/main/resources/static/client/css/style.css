@@ -132,6 +132,89 @@
 	padding: 6px 12px;
 }
 
+/* Live Search Dropdown */
+.live-search-dropdown {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	background: #fff;
+	border: 1px solid #e1e1e1;
+	border-radius: 4px;
+	box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+	z-index: 1050;
+	display: none;
+	max-height: 400px;
+	overflow-y: auto;
+	margin-top: 5px;
+}
+
+.live-search-item {
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	border-bottom: 1px solid #f5f5f5;
+	text-decoration: none !important;
+	color: #333;
+	transition: background 0.2s;
+}
+
+.live-search-item:hover {
+	background: #f9f9f9;
+}
+
+.live-search-img {
+	width: 40px;
+	height: 60px;
+	object-fit: cover;
+	border-radius: 2px;
+	margin-right: 10px;
+}
+
+.live-search-info {
+	flex-grow: 1;
+	overflow: hidden;
+}
+
+.live-search-name {
+	font-size: 13px;
+	font-weight: 500;
+	margin-bottom: 4px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.live-search-price {
+	font-size: 13px;
+	color: #d9534f;
+	font-weight: 600;
+}
+
+.live-search-view-all {
+	display: block;
+	padding: 10px;
+	text-align: center;
+	font-size: 13px;
+	color: #007bff;
+	text-decoration: none !important;
+	font-weight: 500;
+	background: #f8f9fa;
+	border-radius: 0 0 4px 4px;
+}
+
+.live-search-view-all:hover {
+	background: #e9ecef;
+	color: #0056b3;
+}
+
+.live-search-empty {
+	padding: 15px;
+	text-align: center;
+	font-size: 13px;
+	color: #666;
+}
+
 /* Icon bên phải (User, Cart...) */
 .ivy-icon-btn {
 	color: #333;

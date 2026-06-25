@@ -204,13 +204,14 @@
 
 		<div class="d-flex align-items-center">
 
-	<form th:action="@{/search}" method="get" class="d-none d-lg-flex ivy-search-box">
+	<form th:action="@{/search}" method="get" class="d-none d-lg-flex ivy-search-box" id="desktopSearchForm">
 		<button type="submit" class="btn ivy-search-btn">
 			<i class="fas fa-search"></i>
 		</button>
-		<input type="text" name="keyword" class="ivy-search-input"
+		<input type="text" name="keyword" class="ivy-search-input" id="desktopSearchInput" autocomplete="off"
 			   placeholder="TÌM KIẾM SẢN PHẨM"
 			   th:value="${keyword}"> 
+		<div class="live-search-dropdown" id="desktopSearchResults"></div>
 	</form>
 
 			<a href="#" class="ivy-icon-btn d-none d-lg-block"> <i

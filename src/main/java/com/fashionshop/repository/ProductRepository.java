@@ -40,7 +40,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 			"LEFT JOIN cat.parent cp " + 
 			"LEFT JOIN cp.parent cpp " + 
 			"WHERE pc.isActive = true " + 
-			"AND (:keyword IS NULL OR p.name LIKE %:keyword%) " +
+			"AND (:keyword IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
 			"AND (:categoryId IS NULL OR cat.id = :categoryId OR cp.id = :categoryId OR cpp.id = :categoryId) " +
 			"AND (:sizes IS NULL OR v.size.name IN :sizes) " + 
 			"AND (:colors IS NULL OR pc.color.name IN :colors) " +
@@ -50,10 +50,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 			@Param("sizes") List<String> sizes, @Param("colors") List<String> colors,
 			@Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice, Pageable pageable);
 
-	@Query("SELECT p FROM Product p WHERE p.name LIKE %:keyword%")
+	@Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
 	List<Product> searchProducts(@Param("keyword") String keyword);
 
-	@Query("SELECT p FROM Product p WHERE p.name LIKE %:keyword%")
+	@Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
 	Page<Product> searchProducts(@Param("keyword") String keyword, Pageable pageable);
 
 }

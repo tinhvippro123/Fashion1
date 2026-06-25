@@ -197,10 +197,11 @@
 			<i class="fas fa-arrow-left" onclick="closeSearch()"
 				style="font-size: 20px; color: #333; margin-right: 15px; cursor: pointer;"></i>
 			<form th:action="@{/search}" method="get" style="flex-grow: 1; margin: 0; position: relative;">
-				<input type="text" name="keyword" id="mobileSearchInput" placeholder="TÌM KIẾM SẢN PHẨM"
+				<input type="text" name="keyword" id="mobileSearchInput" placeholder="TÌM KIẾM SẢN PHẨM" autocomplete="off"
 					style="width: 100%; border: none; background: #f5f5f5; border-radius: 20px; padding: 10px 15px 10px 40px; outline: none; font-size: 14px;">
 				<i class="fas fa-search"
 					style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999;"></i>
+				<div class="live-search-dropdown" id="mobileSearchResults"></div>
 			</form>
 		</div>
 		<div style="padding: 20px;">
@@ -221,5 +222,76 @@
 		</div>
 	</div>
 
+	<script th:inline="javascript">
+		document.addEventListener("DOMContentLoaded", function() {
+			function setupLiveSearch(inputId, dropdownId) {
+				const input = document.getElementById(inputId);
+				const dropdown = document.getElementById(dropdownId);
+				let timeout = null;
+
+				if (!input || !dropdown) return;
+
+				input.addEventListener('input', function() {
+					clearTimeout(timeout);
+					const keyword = this.value.trim();
+
+					if (keyword.length < 2) {
+						dropdown.style.display = 'none';
+						return;
+					}
+
+					timeout = setTimeout(() => {
+						fetch(`/api/search?keyword=${encodeURIComponent(keyword)}`)
+							.then(res => res.json())
+							.then(data => {
+								dropdown.innerHTML = '';
+								if (data.suggestions && data.suggestions.length > 0) {
+									data.suggestions.forEach(p => {
+										let priceStr = new Intl.NumberFormat('vi-VN').format(p.basePrice) + ' ₫';
+										let itemHtml = `
+											<a href="/san-pham/${p.slug}" class="live-search-item">
+												<img src="${p.imageUrl}" class="live-search-img" onerror="this.src='/client/img/default-product.png'">
+												<div class="live-search-info">
+													<div class="live-search-name">${p.name}</div>
+													<div class="live-search-price">${priceStr}</div>
+												</div>
+											</a>
+										`;
+										dropdown.insertAdjacentHTML('beforeend', itemHtml);
+									});
+									let viewAllHtml = `
+										<a href="/search?keyword=${encodeURIComponent(keyword)}" class="live-search-view-all">
+											Xem tất cả ${data.totalElements} kết quả cho "${keyword}"
+										</a>
+									`;
+									dropdown.insertAdjacentHTML('beforeend', viewAllHtml);
+								} else {
+									dropdown.innerHTML = `<div class="live-search-empty">Không tìm thấy sản phẩm nào khớp với "${keyword}".</div>`;
+								}
+								dropdown.style.display = 'block';
+							})
+							.catch(err => console.error(err));
+					}, 300); // 300ms debounce
+				});
+
+				// Hide dropdown when clicking outside
+				document.addEventListener('click', function(e) {
+					if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+						dropdown.style.display = 'none';
+					}
+				});
+				
+				// Show dropdown when clicking input if it has value
+				input.addEventListener('focus', function() {
+					if (this.value.trim().length >= 2 && dropdown.innerHTML !== '') {
+						dropdown.style.display = 'block';
+					}
+				});
+			}
+
+			setupLiveSearch('desktopSearchInput', 'desktopSearchResults');
+			setupLiveSearch('mobileSearchInput', 'mobileSearchResults');
+		});
+	</script>
 </footer>
 </footer>
