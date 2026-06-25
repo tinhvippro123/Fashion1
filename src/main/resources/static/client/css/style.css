@@ -905,25 +905,15 @@ a.zalo-icon {
 }
 
 .color-dot {
-	width: 14px;
-	height: 14px;
+	width: 18px;
+	height: 18px;
 	border-radius: 50%;
 	display: inline-block;
 	border: 1px solid #ddd;
 	position: relative;
 }
 
-.color-dot.active::after {
-	/* Dấu tick hoặc viền đen cho màu đang chọn */
-	content: '';
-	position: absolute;
-	top: -2px;
-	left: -2px;
-	right: -2px;
-	bottom: -2px;
-	border: 1px solid #000;
-	border-radius: 50%;
-}
+
 
 .btn-wishlist {
 	color: #999;
@@ -1127,26 +1117,15 @@ a.zalo-icon {
 /* Chấm tròn màu sắc */
 .color-dot {
 	display: inline-block;
-	width: 16px;
-	height: 16px;
+	width: 18px;
+	height: 18px;
 	border-radius: 50%;
 	border: 1px solid #e1e1e1;
 	position: relative;
 	cursor: pointer;
 }
 
-/* Hiệu ứng: Màu đầu tiên có vòng tròn bao ngoài (Active) */
-.color-dot.active::after {
-	content: '';
-	position: absolute;
-	top: -3px;
-	left: -3px;
-	right: -3px;
-	bottom: -3px;
-	border: 1px solid #000;
-	/* Vòng tròn đen bao ngoài */
-	border-radius: 50%;
-}
+
 
 /* Nút Tim (Yêu thích) */
 .btn-wishlist {
@@ -3190,4 +3169,27 @@ a.btn-auth-action {
 		padding-bottom: 80px !important;
 		/* Chừa chỗ cho thanh điều hướng dưới cùng trên mobile */
 	}
+}
+
+.account-sidebar-margin {
+	margin-right: 30px;
+}
+@media (max-width: 991px) {
+	.account-sidebar-margin {
+		margin-right: 0 !important;
+	}
+}
+
+/* CSS for color selection checkmarks */
+.color-dot .check-icon,
+.color-option-box .check-icon {
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.2s ease;
+}
+
+.color-dot.active .check-icon,
+.color-option-box.active-color .check-icon {
+	opacity: 1;
+	visibility: visible;
 }

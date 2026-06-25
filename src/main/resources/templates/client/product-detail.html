@@ -16,11 +16,9 @@
             margin-right: 10px;
             position: relative;
         }
-        /* Viền khi màu đang được chọn */
+        /* Hiệu ứng khi màu đang được chọn (không dùng vòng viền nữa) */
         .color-option-box.active-color {
-            border: 2px solid #222; /* Viền đen đậm */
-            transform: scale(1.1);
-            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            /* Giữ lại viền gốc nếu có, hoặc để trống */
         }
         /* Gạch chéo cho size hết hàng */
         .size-box.disabled {
@@ -136,7 +134,7 @@
                                     <span class="color-option-box"
                                           th:classappend="${pc.id == selectedColor.id} ? 'active-color'"
                                           th:style="'background-color:' + ${pc.color.hexCode} + '; ' + (${pc.color.hexCode} == '#FFFFFF' ? 'border: 1px solid #ccc;' : '')">
-                                        <i class="fas fa-check" th:if="${pc.id == selectedColor.id}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 12px; mix-blend-mode: difference;"></i>
+                                        <i class="fas fa-check check-icon" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 12px; mix-blend-mode: difference;"></i>
                                     </span>
                                 </a>
                             </th:block>

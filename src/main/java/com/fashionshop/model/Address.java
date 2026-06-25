@@ -66,4 +66,11 @@ public class Address {
 		this.updatedAt = LocalDateTime.now();
 	}
 	
+	public String getFullAddress() {
+		return String.format("%s, %s, %s, %s", 
+			street != null ? street : "", 
+			ward != null ? ward : "", 
+			district != null ? district : "", 
+			province != null ? province : "");
+	}
 }

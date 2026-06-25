@@ -25,9 +25,62 @@
 					<div class="card-header py-3">
 						<h6 class="m-0 font-weight-bold text-primary">Sản phẩm mua</h6>
 					</div>
+					<style>
+						@media (max-width: 767px) {
+							.admin-order-table thead { display: none; }
+							.admin-order-table tbody tr {
+								display: block;
+								border: 1px solid #e3e6f0;
+								border-radius: 8px;
+								margin-bottom: 15px;
+								padding: 15px;
+							}
+							.admin-order-table tbody td {
+								display: flex;
+								justify-content: space-between;
+								align-items: center;
+								border: none !important;
+								padding: 8px 0 !important;
+								text-align: right;
+							}
+							.admin-order-table tbody td:first-child {
+								display: block;
+								text-align: left;
+								border-bottom: 1px dashed #e3e6f0 !important;
+								margin-bottom: 10px;
+								padding-bottom: 15px !important;
+							}
+							.admin-order-table tbody td:not(:first-child)::before {
+								content: attr(data-label);
+								font-weight: 600;
+								color: #858796;
+							}
+							.admin-order-table tfoot tr {
+								display: flex;
+								justify-content: space-between;
+								align-items: center;
+								border-top: 1px solid #e3e6f0;
+							}
+							.admin-order-table tfoot tr:first-child {
+								border-top: 2px solid #4e73df;
+								margin-top: 15px;
+								padding-top: 10px;
+							}
+							.admin-order-table tfoot td {
+								border: none !important;
+								padding: 8px 0 !important;
+							}
+							.admin-order-table tfoot td[colspan] {
+								text-align: left !important;
+							}
+							.table-responsive {
+								overflow-x: visible;
+							}
+						}
+					</style>
 					<div class="card-body">
 						<div class="table-responsive">
-							<table class="table table-bordered">
+							<table class="table table-bordered admin-order-table">
 								<thead class="bg-light">
 									<tr>
 										<th>Sản phẩm</th>
@@ -42,10 +95,10 @@
 											<div class="d-flex align-items-center">
 												<img th:if="${item.productImage != null}"
 													th:src="@{'' + ${item.productImage}}"
-													style="width: 50px; height: 75px; object-fit: cover; margin-right: 10px; border: 1px solid #ddd;">
+													style="width: 50px; height: 75px; object-fit: cover; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
 
 												<div>
-													<div class="font-weight-bold" th:text="${item.productName}">Áo
+													<div class="font-weight-bold text-dark" style="font-size: 15px;" th:text="${item.productName}">Áo
 														sơ mi</div>
 													<small class="text-muted"> Màu: <span
 														th:text="${item.colorName}"></span> | Size: <span
@@ -54,32 +107,32 @@
 												</div>
 											</div>
 										</td>
-										<td class="text-center"
-											th:text="${#numbers.formatDecimal(item.unitPrice, 0, 'COMMA', 0, 'POINT')}">500.000</td>
-										<td class="text-center" th:text="${item.quantity}">2</td>
-										<td class="text-right font-weight-bold"
-											th:text="${#numbers.formatDecimal(item.unitPrice * item.quantity, 0, 'COMMA', 0, 'POINT')} + 'đ'">
+										<td class="text-center text-dark" data-label="Đơn giá"
+											th:text="${#numbers.formatDecimal(item.unitPrice, 0, 'COMMA', 0, 'POINT')} + ' đ'">500.000</td>
+										<td class="text-center text-dark" data-label="Số lượng" th:text="${item.quantity}">2</td>
+										<td class="text-right font-weight-bold text-danger" data-label="Thành tiền"
+											th:text="${#numbers.formatDecimal(item.unitPrice * item.quantity, 0, 'COMMA', 0, 'POINT')} + ' đ'">
 											1.000.000đ</td>
 									</tr>
 								</tbody>
 								<tfoot>
 									<tr>
-										<td colspan="3" class="text-right">Tạm tính:</td>
-										<td class="text-right"
-											th:text="${#numbers.formatDecimal(order.totalAmount - order.shippingFee, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
+										<td colspan="3" class="text-right text-muted">Tạm tính:</td>
+										<td class="text-right font-weight-bold"
+											th:text="${#numbers.formatDecimal(order.totalAmount - order.shippingFee, 0, 'COMMA', 0, 'POINT')} + ' đ'"></td>
 									</tr>
 									<tr>
-										<td colspan="3" class="text-right">Phí vận chuyển:</td>
-										<td class="text-right"
-											th:text="${#numbers.formatDecimal(order.shippingFee, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
+										<td colspan="3" class="text-right text-muted">Phí vận chuyển:</td>
+										<td class="text-right font-weight-bold"
+											th:text="${#numbers.formatDecimal(order.shippingFee, 0, 'COMMA', 0, 'POINT')} + ' đ'"></td>
 									</tr>
 									<tr class="bg-light">
 										<td colspan="3"
 											class="text-right font-weight-bold text-primary"
-											style="font-size: 1.2rem;">TỔNG CỘNG:</td>
+											style="font-size: 1.1rem;">TỔNG CỘNG:</td>
 										<td class="text-right font-weight-bold text-primary"
-											style="font-size: 1.2rem;"
-											th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'">
+											style="font-size: 1.1rem;"
+											th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' đ'">
 										</td>
 									</tr>
 								</tfoot>

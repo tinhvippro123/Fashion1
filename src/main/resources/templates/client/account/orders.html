@@ -7,6 +7,53 @@
 </head>
 <body>
 	<div layout:fragment="content">
+		<style>
+			@media (max-width: 1199px) {
+				.orders-table thead { display: none; }
+				.orders-table tbody tr {
+					display: flex;
+					flex-wrap: wrap;
+					border-bottom: 1px solid #e1e1e1;
+					padding: 16px 0;
+				}
+				.orders-table tbody tr td {
+					border: none !important;
+					padding: 2px 0 !important;
+					text-align: left !important;
+				}
+				/* Row 1: ID (left) + Date (right) = full width */
+				.orders-table .td-id {
+					flex: 0 0 auto;
+				}
+				.orders-table .td-date {
+					flex: 1 1 auto;
+					text-align: right !important;
+				}
+				/* Row 2: Products = full width */
+				.orders-table .td-products {
+					flex: 0 0 100%;
+					padding-top: 8px !important;
+				}
+				/* Row 3: Price (left) + Status (right) = full width */
+				.orders-table .td-price {
+					flex: 0 0 auto;
+					padding-top: 8px !important;
+				}
+				.orders-table .td-status {
+					flex: 1 1 auto;
+					text-align: right !important;
+					padding-top: 8px !important;
+				}
+				.order-header-row {
+					/* Keep flex-row, just ensure items can wrap if screen is very tiny */
+					flex-wrap: wrap;
+				}
+				.order-header-row .order-filter {
+					/* Ensure filter stays on the right */
+					margin-left: auto;
+				}
+			}
+		</style>
 		<div class="container-ivy" style="margin-bottom: 50px;">
 			<div class="text-muted" style="font-size: 14px; border-bottom: 1px solid #e1e1e1; padding-top: 20px; padding-bottom: 21px; margin-bottom: 40px;">
 				<a th:href="@{/}" class="text-muted" style="text-decoration: none;">Trang chủ</a> 
@@ -16,16 +63,16 @@
 
             <div class="d-flex flex-column flex-lg-row">
                 
-                <div class="mb-4" style="flex-shrink: 0; margin-right: 15px;">
+                <div class="mb-4 account-sidebar-margin" style="flex-shrink: 0;">
                    <div th:replace="~{client/account/sidebar :: account-sidebar(activePage='orders')}"></div>
                 </div>
 
                 <div style="flex-grow: 1; min-width: 0;">
 
-					<div class="d-flex justify-content-between align-items-center mb-4">
+					<div class="d-flex justify-content-between align-items-center mb-4 order-header-row">
 						<h5 class="font-weight-bold mb-0 text-uppercase" style="font-size: 18px;">QUẢN LÝ ĐƠN HÀNG</h5>
 
-						<div class="d-flex align-items-center">
+						<div class="d-flex align-items-center order-filter">
 							<span class="text-muted mr-2 small">Trạng thái đơn hàng:</span> <select
 								class="form-control-ivy form-control-sm" style="width: 150px;">
 								<option>Tất cả</option>
@@ -37,16 +84,14 @@
 					</div>
 
 					<div class="table-responsive">
-						<table class="table table-hover border-bottom">
+						<table class="table table-hover border-bottom orders-table">
 							<thead class="bg-white border-top border-bottom">
 								<tr class="text-muted small text-uppercase font-weight-bold">
 									<th class="border-0 py-3">Mã đơn hàng</th>
 									<th class="border-0 py-3">Ngày</th>
-									<th class="border-0 py-3">Trạng thái</th>
 									<th class="border-0 py-3" style="width: 35%;">Sản phẩm</th>
 									<th class="border-0 py-3 text-right">Tổng tiền</th>
-									<th class="border-0 py-3 text-center" style="width: 120px;">Hành
-										động</th>
+									<th class="border-0 py-3">Trạng thái</th>
 								</tr>
 							</thead>
 							<tbody class="bg-white">
@@ -57,17 +102,30 @@
 
 								<tr th:each="order : ${orders}">
 
-									<td class="align-middle"><a
+									<td class="align-middle td-id"><a
 										th:href="@{'/account/orders/' + ${order.id}}"
 										class="text-dark font-weight-bold"
 										style="text-decoration: underline;"
-										th:text="'#' + ${order.id}">#IVM123</a></td>
+										th:text="'IVM' + ${order.id}">IVM123</a></td>
 
-									<td class="align-middle small text-muted"
-										th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy HH:mm')}">
+									<td class="align-middle small text-muted td-date"
+										th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy HH:mm:ss')}">
 										08/12/2025</td>
 
-									<td class="align-middle small"><span
+									<td class="align-middle td-products">
+										<div th:each="item : ${order.orderItems}" class="small mb-1">
+											<span th:text="${item.quantity} + 'x'"></span> <span
+												th:text="${item.productName}">Tên SP</span><span
+												th:text="', ' + ${item.colorName}">
+											</span>
+										</div>
+									</td>
+
+									<td class="align-middle font-weight-bold td-price"><span
+										th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'POINT', 0, 'COMMA')} + ' đ'">
+											2,090,000 đ </span></td>
+
+									<td class="align-middle small td-status"><span
 										th:switch="${order.status.name()}"> <span
 											th:case="'PENDING'"><i
 												class="fas fa-clock mr-1 text-warning"></i> Chờ xử lý</span> <span
@@ -76,57 +134,24 @@
 											th:case="'DELIVERED'"><i
 												class="fas fa-check-circle mr-1 text-success"></i> Đã giao</span> <span
 											th:case="'CANCELLED'"><i
-												class="fas fa-times-circle mr-1 text-secondary"></i> Đã hủy</span>
+												class="fas fa-sync mr-1 text-secondary" style="font-size:12px;"></i> Đã hủy đơn hàng</span>
 											<span th:case="*" th:text="${order.status}"></span>
 									</span></td>
-
-									<td class="align-middle">
-										<div th:each="item : ${order.orderItems}" class="small mb-1">
-											<span class="font-weight-bold"
-												th:text="${item.quantity} + 'x'"></span> <span
-												th:text="${item.productName}">Tên SP</span> <span
-												class="text-muted"
-												th:text="'(' + ${item.colorName} + ', ' + ${item.sizeName} + ')'">
-											</span>
-										</div>
-									</td>
-
-									<td class="align-middle text-right font-weight-bold"><span
-										th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'POINT', 0, 'COMMA')} + 'đ'">
-											2,090,000 đ </span></td>
-									<td class="align-middle text-center"><a
-										th:if="${order.status.name() == 'PENDING'}"
-										th:href="@{'/account/orders/cancel/' + ${order.id}}"
-										class="btn btn-outline-danger btn-sm"
-										onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
-											Hủy đơn </a> <a th:href="@{'/account/orders/' + ${order.id}}"
-										class="btn btn-outline-dark btn-sm"> Chi tiết </a></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 
-					<div class="d-flex justify-content-center mt-4" th:if="${page.totalPages > 1}">
+					<div class="d-flex justify-content-center mt-5" th:if="${page.totalPages > 1}">
 						<nav>
 							<ul class="pagination pagination-sm">
-								<!-- Nút Previous -->
-								<li class="page-item" th:classappend="${page.first} ? 'disabled'">
-									<a class="page-link text-dark" th:href="@{/account/orders(page=${page.number - 1})}" tabindex="-1">Trước</a>
-								</li>
-								
-								<!-- Danh sách trang -->
-								<li class="page-item" 
-									th:each="pageNum : ${#numbers.sequence(0, page.totalPages - 1)}"
-									th:classappend="${pageNum == page.number} ? 'active'">
-									<a class="page-link" 
-									   th:classappend="${pageNum == page.number} ? 'bg-dark border-dark text-white' : 'text-dark'" 
+								<li class="page-item mx-1" 
+									th:each="pageNum : ${#numbers.sequence(0, page.totalPages - 1)}">
+									<a class="page-link text-center" 
+									   style="width: 30px; height: 30px; line-height: 18px; border-radius: 4px;"
+									   th:classappend="${pageNum == page.number} ? 'bg-dark border-dark text-white' : 'text-dark bg-white border-0'" 
 									   th:href="@{/account/orders(page=${pageNum})}" 
 									   th:text="${pageNum + 1}">1</a>
-								</li>
-								
-								<!-- Nút Next -->
-								<li class="page-item" th:classappend="${page.last} ? 'disabled'">
-									<a class="page-link text-dark" th:href="@{/account/orders(page=${page.number + 1})}">Sau</a>
 								</li>
 							</ul>
 						</nav>
