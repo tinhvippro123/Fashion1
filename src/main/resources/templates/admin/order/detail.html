@@ -199,10 +199,7 @@
 							<strong>Số điện thoại:</strong> <span th:text="${order.phone}"></span>
 						</p>
 						<p>
-							<strong>Địa chỉ:</strong> <span th:text="${order.street}"></span>,
-							<span th:text="${order.ward}"></span>, <span
-								th:text="${order.district}"></span>, <span
-								th:text="${order.province}"></span>
+							<strong>Địa chỉ:</strong> <span th:text="${order.street + ', ' + order.ward + ', ' + order.district + ', ' + order.province}"></span>
 						</p>
 						<hr>
 						<p>

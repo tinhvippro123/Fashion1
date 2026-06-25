@@ -108,12 +108,7 @@
                     <tr th:each="addr : ${addresses}">
                         <td data-label="Người nhận" class="font-weight-bold" th:text="${addr.receiverName}"></td>
                         <td data-label="SĐT" th:text="${addr.phone}"></td>
-                        <td data-label="Địa chỉ chi tiết">
-                            <span th:text="${addr.street}"></span>, 
-                            <span th:text="${addr.ward}"></span>, 
-                            <span th:text="${addr.district}"></span>, 
-                            <span th:text="${addr.province}"></span>
-                        </td>
+                        <td data-label="Địa chỉ chi tiết" th:text="${addr.street + ', ' + addr.ward + ', ' + addr.district + ', ' + addr.province}"></td>
                         
                         <td data-label="Loại">
                             <span class="badge badge-info" th:text="${addr.addressType.label}"></span>
