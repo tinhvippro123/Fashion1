@@ -14,7 +14,7 @@
     
     <style>
     /* Sticky sidebar cho desktop */
-    @media (min-width: 769px) {
+    @media (min-width: 992px) {
         .sidebar {
             position: sticky !important;
             top: 0;
@@ -25,7 +25,7 @@
     }
     
     /* Off-canvas sidebar cho mobile, giống bên client */
-    @media (max-width: 768px) {
+    @media (max-width: 991px) {
         body.sidebar-toggled .sidebar,
         .sidebar.toggled,
         .sidebar {
@@ -104,6 +104,43 @@
         }
         .card-header.py-3.d-flex form { width: 100%; margin-bottom: 10px !important; }
         .card-header.py-3.d-flex .btn-sm { width: 100%; }
+    }
+
+    /* Mobile stacked table */
+    @media (max-width: 767px) {
+        .mobile-stacked-table thead {
+            display: none;
+        }
+        .mobile-stacked-table tbody tr {
+            display: block;
+            border: 1px solid #e3e6f0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .mobile-stacked-table tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: right;
+            border-top: none !important;
+            border-bottom: 1px solid #e3e6f0;
+            padding: 10px 15px !important;
+        }
+        .mobile-stacked-table tbody td:last-child {
+            border-bottom: none;
+            background-color: #f8f9fc;
+            justify-content: center;
+            border-radius: 0 0 8px 8px;
+        }
+        .mobile-stacked-table tbody td::before {
+            content: attr(data-label);
+            font-weight: bold;
+            color: #4e73df;
+            text-align: left;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
     }
     </style>
 </head>

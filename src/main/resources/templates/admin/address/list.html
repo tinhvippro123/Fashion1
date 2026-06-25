@@ -9,19 +9,81 @@
 
 <body>
 <div layout:fragment="content">
+    <style>
+        /* CSS Responsive Table (Hiển thị dọc trên mobile) */
+        @media (max-width: 767px) {
+            .table-responsive {
+                border: none !important;
+            }
+            /* Ép tất cả các thành phần bảng thành dạng block */
+            table.table, .table thead, .table tbody, .table th, .table td, .table tr { 
+                display: block; 
+                width: 100%;
+            }
+            
+            /* Ẩn tiêu đề cột */
+            .table thead tr { 
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            
+            /* Tách mỗi hàng thành một "thẻ" (card) */
+            .table tbody tr { 
+                border: 1px solid #e3e6f0;
+                border-radius: 8px;
+                margin-bottom: 1rem;
+                background-color: #fff;
+                box-shadow: 0 .15rem .5rem 0 rgba(58,59,69,.15);
+            }
+            
+            /* Thiết lập lại border cho các ô */
+            .table td { 
+                border: none !important;
+                border-bottom: 1px solid #e3e6f0 !important; 
+                position: relative;
+                padding-left: 45% !important; /* Dành chỗ cho nhãn dán */
+                text-align: right !important; /* Nội dung dạt qua phải */
+                min-height: 50px;
+                display: block;
+                padding-top: 0.75rem;
+                padding-bottom: 0.75rem;
+            }
+            
+            .table td:last-child {
+                border-bottom: 0 !important;
+            }
+            
+            /* Tạo nhãn (label) cho từng ô trước nội dung */
+            .table td:before { 
+                position: absolute;
+                top: 0.75rem;
+                left: 1rem;
+                width: 40%; 
+                padding-right: 10px; 
+                white-space: nowrap;
+                font-weight: bold;
+                color: #4e73df;
+                content: attr(data-label);
+                text-align: left;
+            }
+        }
+    </style>
     
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">
+        <h1 class="h3 mb-3 mb-sm-0 text-gray-800">
             Sổ địa chỉ: <span th:text="${user.fullName}" class="text-primary font-weight-bold"></span>
         </h1>
-        <a th:href="@{/admin/users}" class="btn btn-secondary btn-sm shadow-sm">
-            <i class="fas fa-arrow-left fa-sm text-white-50"></i> Quay lại DS User
-        </a>
+        <div>
+            <a th:href="@{/admin/users}" class="btn btn-secondary btn-sm shadow-sm">
+                <i class="fas fa-arrow-left fa-sm text-white-50"></i> Quay lại DS User
+            </a>
+        </div>
     </div>
 
     <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Danh sách địa chỉ nhận hàng</h6>
+        <div class="card-header py-3 d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary mb-3 mb-sm-0">Danh sách địa chỉ nhận hàng</h6>
             <a th:href="@{/admin/users/{id}/addresses/new(id=${userId})}" class="btn btn-sm btn-primary shadow-sm">
                 <i class="fas fa-plus fa-sm text-white-50"></i> Thêm địa chỉ mới
             </a>
@@ -44,24 +106,24 @@
                     </tr>
 
                     <tr th:each="addr : ${addresses}">
-                        <td class="font-weight-bold" th:text="${addr.receiverName}"></td>
-                        <td th:text="${addr.phone}"></td>
-                        <td>
+                        <td data-label="Người nhận" class="font-weight-bold" th:text="${addr.receiverName}"></td>
+                        <td data-label="SĐT" th:text="${addr.phone}"></td>
+                        <td data-label="Địa chỉ chi tiết">
                             <span th:text="${addr.street}"></span>, 
                             <span th:text="${addr.ward}"></span>, 
                             <span th:text="${addr.district}"></span>, 
                             <span th:text="${addr.province}"></span>
                         </td>
                         
-                        <td>
+                        <td data-label="Loại">
                             <span class="badge badge-info" th:text="${addr.addressType.label}"></span>
                         </td>
 
-                        <td class="text-center">
+                        <td data-label="Trạng thái" class="text-center">
                             <span th:if="${addr.isDefault}" class="badge badge-success px-2 py-1">Mặc định</span>
                             <span th:unless="${addr.isDefault}" class="badge badge-light text-muted">Phụ</span>
                         </td>
-                        <td class="text-center">
+                        <td data-label="Hành động" class="text-center">
                             <a th:href="@{/admin/users/{uid}/addresses/edit/{aid}(uid=${userId}, aid=${addr.id})}" 
                                class="btn btn-link action-icon hover-warning p-1 mx-1" title="Sửa">
                                 <i class="fas fa-pen" style="font-size: 16px;"></i>
