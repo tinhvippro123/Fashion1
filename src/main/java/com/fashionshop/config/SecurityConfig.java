@@ -23,11 +23,11 @@ public class SecurityConfig {
                 .requestMatchers("/admin/css/**", "/admin/js/**", "/admin/vendor/**", "/admin/img/**", "/favicon.ico", "/favicon.png").permitAll()
                 .requestMatchers("/client/css/**", "/client/js/**", "/client/img/**", "/uploads/**").permitAll()
 
-                .requestMatchers("/", "/home", "/login", "/register").permitAll()
+                .requestMatchers("/", "/home", "/login", "/register", "/contact").permitAll()
                 
                 .requestMatchers("/danh-muc/**", "/san-pham/**", "/search", "/new-arrival/**","/product/**").permitAll()
                 
-                .requestMatchers("/cart/**", "/checkout/**", "/order/**").permitAll()
+                .requestMatchers("/cart/**", "/checkout/**", "/order/**", "/api/wishlist/**").permitAll()
 
                 .requestMatchers("/admin","/admin/**").hasRole("ADMIN")
 

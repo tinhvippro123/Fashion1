@@ -18,4 +18,7 @@ public class Banner {
     private String targetUrl;
     private boolean isActive;
     private int displayOrder;
+    
+    @Column(name = "position", length = 50)
+    private String position = "HOME_MAIN";
 }

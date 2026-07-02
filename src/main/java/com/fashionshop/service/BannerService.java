@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface BannerService {
     List<Banner> getActiveBanners();
+    List<Banner> getActiveBannersByPosition(String position);
     List<Banner> getAllBanners();
     Page<Banner> getAllBanners(Pageable pageable);
     Page<Banner> searchBanners(String keyword, Pageable pageable);

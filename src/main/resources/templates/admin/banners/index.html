@@ -34,6 +34,7 @@
 								<th width="300">Hình ảnh</th>
 								<th class="d-none d-lg-table-cell">Đường link (Target URL)</th>
 								<th class="d-none d-lg-table-cell">Thứ tự</th>
+								<th class="d-none d-lg-table-cell">Vị trí</th>
 								<th class="d-none d-lg-table-cell">Trạng thái</th>
 								<th class="text-center" style="width: 120px;">Hành động</th>
 							</tr>
@@ -50,6 +51,10 @@
 									<a th:href="${b.targetUrl}" target="_blank" th:text="${b.targetUrl}"></a>
 								</td>
 								<td class="d-none d-lg-table-cell" th:text="${b.displayOrder}"></td>
+								<td class="d-none d-lg-table-cell">
+									<span th:if="${b.position == 'HOME_MAIN'}" class="badge badge-primary">Trang chủ</span>
+									<span th:if="${b.position == 'CONTACT'}" class="badge badge-info">Liên hệ</span>
+								</td>
 								<td class="d-none d-lg-table-cell">
 									<span th:if="${b.isActive}" class="badge badge-success">Hiển thị</span>
 									<span th:unless="${b.isActive}" class="badge badge-secondary">Đã ẩn</span>

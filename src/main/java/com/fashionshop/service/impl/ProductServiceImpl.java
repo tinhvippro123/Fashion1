@@ -280,6 +280,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> searchProductsWithFilters(String keyword, Long categoryId, List<String> sizes, List<String> colors, Double minPrice, Double maxPrice, Pageable pageable) {
+        keyword = (keyword == null) ? "" : keyword;
         return productRepository.findProductsWithFilters(keyword, categoryId, sizes, colors, minPrice, maxPrice, pageable);
     }
 

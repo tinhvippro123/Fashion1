@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{client/layout}">
+<head>
+    <title>Liên hệ - Luxe Fashion</title>
+    <style>
+        .contact-info-card {
+            transition: all 0.3s ease;
+        }
+        .contact-info-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #ced4da;
+        }
+        .input-group-text i {
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div layout:fragment="content" class="container-ivy" style="padding-top: 30px; padding-bottom: 50px;">
+        <nav aria-label="breadcrumb" style="margin-bottom: 30px;">
+            <ol class="breadcrumb bg-transparent p-0 m-0">
+                <li class="breadcrumb-item"><a th:href="@{/}" class="text-muted" style="text-decoration: none;">Trang chủ</a></li>
+                <li class="breadcrumb-item active text-dark" aria-current="page">Liên hệ</li>
+            </ol>
+        </nav>
+
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${success}"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${error}"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <!-- Banner -->
+        <div class="contact-banner mb-5 text-center">
+            <img th:if="${contactBanner != null}" th:src="@{'/uploads/' + ${contactBanner.imageName}}" alt="Banner Liên hệ" style="width: 100%; object-fit: cover; border-top-left-radius: 80px; border-bottom-right-radius: 80px;">
+            <img th:unless="${contactBanner != null}" th:src="@{/client/img/bg_contact.jpg}" alt="Banner Liên hệ" style="width: 100%; object-fit: cover; border-top-left-radius: 80px; border-bottom-right-radius: 80px; max-height: 400px;">
+        </div>
+
+        <div class="row">
+            <!-- Left: Info Cards -->
+            <div class="col-lg-4 mb-4">
+                <div class="contact-info-card d-flex mb-3 p-4 border" style="background: #fff; border-color: #f0f0f0 !important; border-radius: 40px 0 0 0 !important;">
+                    <div class="contact-icon mr-4" style="width: 60px; height: 60px; border-radius: 50%; background: #f8f9fa; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="fas fa-map-marker-alt" style="color: #666; font-size: 20px;"></i>
+                    </div>
+                    <div>
+                        <h6 class="font-weight-bold mb-2">Địa chỉ</h6>
+                        <p class="text-muted mb-0 small" style="line-height: 1.6;">Tầng 14, Tòa nhà Hapulico Complex 24T- 85 Vũ Trọng Phụng - Quận Thanh Xuân, HN</p>
+                    </div>
+                </div>
+                
+                <div class="contact-info-card d-flex mb-3 p-4 border" style="background: #fff; border-color: #f0f0f0 !important; border-radius: 0 !important;">
+                    <div class="contact-icon mr-4" style="width: 60px; height: 60px; border-radius: 50%; background: #f8f9fa; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="fas fa-envelope" style="color: #666; font-size: 20px;"></i>
+                    </div>
+                    <div>
+                        <h6 class="font-weight-bold mb-2">Email</h6>
+                        <p class="text-muted mb-0 small">cskh@ivy.com.vn</p>
+                    </div>
+                </div>
+
+                <div class="contact-info-card d-flex mb-3 p-4 border" style="background: #fff; border-color: #f0f0f0 !important; border-radius: 0 !important;">
+                    <div class="contact-icon mr-4" style="width: 60px; height: 60px; border-radius: 50%; background: #f8f9fa; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="fas fa-phone-alt" style="color: #666; font-size: 20px;"></i>
+                    </div>
+                    <div>
+                        <h6 class="font-weight-bold mb-2">Mua hàng online</h6>
+                        <p class="text-muted mb-0 small">02466623434</p>
+                    </div>
+                </div>
+
+                <div class="contact-info-card d-flex mb-3 p-4 border" style="background: #fff; border-color: #f0f0f0 !important; border-radius: 0 0 40px 0 !important;">
+                    <div class="contact-icon mr-4" style="width: 60px; height: 60px; border-radius: 50%; background: #f8f9fa; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="fas fa-headset" style="color: #666; font-size: 20px;"></i>
+                    </div>
+                    <div>
+                        <h6 class="font-weight-bold mb-2">Chăm sóc khách hàng</h6>
+                        <p class="text-muted mb-0 small" style="line-height: 1.6;">Email: cskh@ivy.com.vn<br>Hotline: 0905 89 86 83<br>Thứ Hai đến Thứ Bảy, từ 8:00 đến 17:30</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Form -->
+            <div class="col-lg-8 mb-4">
+                <div class="contact-form-box p-5 border" style="border-radius: 40px 0 40px 0; border-color: #f0f0f0 !important; background: #fff;">
+                    <h4 class="font-weight-bold mb-3" style="font-size: 24px;">Email to IVYmoda</h4>
+                    <p class="text-muted mb-4 small" style="line-height: 1.6;">We are here to help and answer any question you might have. Tell us about your issue so we can help you more quickly. We look forward to hearing from you.</p>
+
+                    <form th:action="@{/contact}" th:object="${contact}" method="post">
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white border-right-0"><i class="far fa-user"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control border-left-0 pl-0" th:field="*{fullName}" placeholder="Họ và tên" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white border-right-0"><i class="fas fa-phone-alt" style="font-size: 14px;"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control border-left-0 pl-0" th:field="*{phone}" placeholder="Điện thoại" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white border-right-0"><i class="far fa-envelope"></i></span>
+                                    </div>
+                                    <input type="email" class="form-control border-left-0 pl-0" th:field="*{email}" placeholder="Địa chỉ email" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white border-right-0"><i class="far fa-file-alt"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control border-left-0 pl-0" th:field="*{subject}" placeholder="Chủ đề" required>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-4">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white border-right-0" style="display: flex; align-items: flex-start; padding-top: 0.375rem;"><i class="far fa-comment-dots" style="margin-top: 4px;"></i></span>
+                                    </div>
+                                    <textarea class="form-control border-left-0 pl-0" rows="4" th:field="*{message}" placeholder="Nội dung" required style="resize: vertical;"></textarea>
+                                </div>
+                            </div>
+                            
+                            <!-- Captcha (Demo) -->
+                            <div class="col-md-6 mb-4">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white border-right-0"><i class="fas fa-lock"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control border-left-0 pl-0" placeholder="Nhập mã captcha" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4 d-flex align-items-center">
+                                <div class="mr-3" style="font-family: 'Courier New', Courier, monospace; font-size: 24px; font-weight: bold; letter-spacing: 5px; transform: rotate(-5deg); user-select: none;">
+                                    5 q d Y f
+                                </div>
+                                <a href="javascript:void(0)" class="text-muted"><i class="fas fa-sync-alt"></i></a>
+                            </div>
+                            
+                            <div class="col-12 mt-2">
+                                <button type="submit" class="btn btn-dark px-5 py-2" style="border-radius: 20px 0 20px 0; font-weight: 500;">GỬI</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Section -->
+        <div class="row mt-5 pt-4">
+            <div class="col-lg-4 mb-4 d-flex flex-column justify-content-center">
+                <h3 class="font-weight-bold mb-4" style="font-size: 32px;">Find us on Google Maps</h3>
+                <p class="text-muted text-justify" style="line-height: 1.8;">
+                    IVY moda là thương hiệu thời trang Việt Nam với mong muốn đem lại vẻ đẹp hiện đại và sự tự tin cho khách hàng, thông qua các dòng sản phẩm thời trang thể hiện cá tính và xu hướng. Một trong những "tôn chỉ" về thiết kế của IVY moda chính là sự đa dạng, với mong muốn mang đến cho người mặc những sản phẩm phù hợp nhất với ngoại hình và quan trọng hơn cả là cá tính của chính mình.
+                </p>
+            </div>
+            <div class="col-lg-8 mb-4">
+                <div style="border-radius: 40px 0 40px 0; overflow: hidden; border: 1px solid #f0f0f0; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.7788390772427!2d105.8038753147627!3d21.00149798601322!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135acbd365af3cb%3A0xc6bf31f4a9b57560!2zVGjhu51pIFRyYW5nIEl2eSBNb2Rh!5e0!3m2!1svi!2s!4v1655883296068!5m2!1svi!2s" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

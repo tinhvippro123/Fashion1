@@ -24,13 +24,25 @@ public class ClientProductController {
 
 	@GetMapping("/product/{id}")
 	public String productDetail(@PathVariable Long id,
-			@RequestParam(name = "color", required = false) String selectedColorName, Model model) {
+			@RequestParam(name = "color", required = false) String selectedColorName, Model model, jakarta.servlet.http.HttpSession session) {
 
 		Product product = productService.getProductWithActiveColors(id);
 
 		if (product == null) {
 			return "redirect:/";
 		}
+
+		// Add to recently viewed
+		java.util.List<Long> recentProducts = (java.util.List<Long>) session.getAttribute("recent_products");
+		if (recentProducts == null) {
+			recentProducts = new java.util.ArrayList<>();
+		}
+		recentProducts.remove(product.getId());
+		recentProducts.add(0, product.getId());
+		if (recentProducts.size() > 20) {
+			recentProducts = recentProducts.subList(0, 20);
+		}
+		session.setAttribute("recent_products", recentProducts);
 
 		ProductColor selectedColor = product.getProductColors().get(0);
 

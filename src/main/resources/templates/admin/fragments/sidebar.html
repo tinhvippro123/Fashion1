@@ -50,6 +50,14 @@
 		th:href="@{/admin/orders}"> <i class="fas fa-fw fa-shopping-cart"></i>
 			<span>Quản lý Đơn hàng</span>
 	</a></li>
+	<li class="nav-item" th:classappend="${requestURI != null and requestURI.startsWith('/admin/pages') ? 'active' : ''}"><a class="nav-link"
+		th:href="@{/admin/pages}"> <i class="fas fa-fw fa-file-alt"></i>
+			<span>Quản lý Trang tĩnh</span>
+	</a></li>
+	<li class="nav-item" th:classappend="${requestURI != null and requestURI.startsWith('/admin/contacts') ? 'active' : ''}"><a class="nav-link"
+		th:href="@{/admin/contacts}"> <i class="fas fa-fw fa-envelope"></i>
+			<span>Quản lý Liên hệ</span>
+	</a></li>
 	<li class="nav-item" th:classappend="${requestURI != null and requestURI.startsWith('/admin/banners') ? 'active' : ''}"><a class="nav-link"
 		th:href="@{/admin/banners}"> <i class="fas fa-fw fa-images"></i>
 			<span>Quản lý Banner</span>

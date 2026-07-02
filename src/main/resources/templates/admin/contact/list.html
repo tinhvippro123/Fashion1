@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{admin/layout}">
+<head>
+    <title>Quản lý Liên Hệ</title>
+    <style>
+        .msg-cell {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .msg-full {
+            display: none;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Quản lý Liên Hệ</h1>
+        </div>
+
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${success}"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${error}"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Danh sách lời nhắn từ khách hàng</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Thời gian</th>
+                                <th>Họ tên</th>
+                                <th>SĐT / Email</th>
+                                <th>Chủ đề</th>
+                                <th>Nội dung</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="contact : ${contacts}">
+                                <td th:text="${#temporals.format(contact.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+                                <td th:text="${contact.fullName}" th:style="${!contact.isRead ? 'font-weight: bold;' : ''}"></td>
+                                <td>
+                                    <div th:text="${contact.phone}"></div>
+                                    <div class="small text-muted" th:text="${contact.email}"></div>
+                                </td>
+                                <td th:text="${contact.subject}"></td>
+                                <td>
+                                    <div class="msg-cell" th:text="${contact.message}"></div>
+                                    <div class="msg-full" th:text="${contact.message}"></div>
+                                    <a href="javascript:void(0)" class="small read-more-btn">Xem thêm</a>
+                                </td>
+                                <td>
+                                    <span th:if="${contact.isRead}" class="badge badge-success">Đã đọc</span>
+                                    <span th:unless="${contact.isRead}" class="badge badge-danger">Chưa đọc</span>
+                                </td>
+                                <td>
+                                    <a th:if="${!contact.isRead}" th:href="@{/admin/contacts/read/{id}(id=${contact.id})}" class="btn btn-info btn-sm mb-1">
+                                        <i class="fas fa-check"></i> Đánh dấu đã đọc
+                                    </a>
+                                    <a th:href="@{/admin/contacts/delete/{id}(id=${contact.id})}" class="btn btn-danger btn-sm mb-1" onclick="return confirm('Bạn có chắc chắn muốn xóa lời nhắn này?');">
+                                        <i class="fas fa-trash"></i> Xóa
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(contacts)}">
+                                <td colspan="6" class="text-center">Không có dữ liệu</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block layout:fragment="pageScripts">
+        <script>
+            $(document).ready(function() {
+                $('.read-more-btn').on('click', function() {
+                    var cell = $(this).siblings('.msg-cell');
+                    var full = $(this).siblings('.msg-full');
+                    if (cell.is(':visible')) {
+                        cell.hide();
+                        full.show();
+                        $(this).text('Thu gọn');
+                    } else {
+                        cell.show();
+                        full.hide();
+                        $(this).text('Xem thêm');
+                    }
+                });
+            });
+        </script>
+    </th:block>
+</body>
+</html>

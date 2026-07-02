@@ -230,26 +230,77 @@ function toggleUserMenu(event) {
     
     // 3. Bật/Tắt class 'show'
     if (menu) {
-        // Kiểm tra xem đang hiện hay ẩn để toggle
-        if (menu.style.display === "block") {
-            menu.style.display = "none";
-        } else {
-            menu.style.display = "block";
-        }
+        menu.classList.toggle('show');
     }
 }
 
 // Sự kiện: Bấm bất kỳ đâu ngoài màn hình thì đóng menu
 document.addEventListener("click", function(event) {
     var menu = document.getElementById("userDropdown");
-    var container = document.querySelector(".user-dropdown-container");
-
-    // Nếu bấm ra ngoài vùng container thì ẩn menu đi
-    if (menu && container && !container.contains(event.target)) {
-        menu.style.display = "none";
+    var btn = document.querySelector(".user-dropdown-container");
+    
+    if (menu && menu.classList.contains("show")) {
+        if (btn && !btn.contains(event.target)) {
+            menu.classList.remove("show");
+        }
     }
 });
 
 
 function openMobileMenu() { document.getElementById('mobileMenuOverlay').style.display = 'block'; setTimeout(() => { document.getElementById('mobileMenuSidebar').style.left = '0'; }, 10); }
 function closeMobileMenu() { document.getElementById('mobileMenuSidebar').style.left = '-100%'; setTimeout(() => { document.getElementById('mobileMenuOverlay').style.display = 'none'; }, 300); }
+
+// --- 6. XỬ LÝ YÊU THÍCH SẢN PHẨM ---
+function toggleWishlist(productId, btnElement) {
+    // Prevent event bubbling if the button is inside a link
+    if(event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    $.ajax({
+        url: '/api/wishlist/toggle/' + productId,
+        type: 'POST',
+        success: function(response) {
+            if (response.status === 'success') {
+                var icon = $(btnElement).find('i');
+                if (response.added) {
+                    icon.removeClass('far').addClass('fas');
+                    icon.css('color', '#dc3545');
+                } else {
+                    icon.removeClass('fas').addClass('far');
+                    icon.css('color', '');
+                }
+            } else {
+                alert(response.message);
+            }
+        },
+        error: function(xhr) {
+            if (xhr.status === 401) {
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        title: 'Thông báo',
+                        text: 'Vui lòng đăng nhập để sử dụng tính năng này!',
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonText: 'Đăng nhập',
+                        cancelButtonText: 'Đóng',
+                        confirmButtonColor: '#000'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "/login";
+                        }
+                    });
+                } else {
+                    alert("Vui lòng đăng nhập để sử dụng tính năng này!");
+                    window.location.href = "/login";
+                }
+            } else {
+                var msg = "Có lỗi xảy ra!";
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    msg = xhr.responseJSON.message;
+                }
+                alert(msg);
+            }
+        }
+    });
+}

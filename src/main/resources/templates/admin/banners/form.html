@@ -14,18 +14,46 @@
 				<form th:action="@{/admin/banners/save}" th:object="${banner}" method="post" enctype="multipart/form-data">
 					<input type="hidden" th:field="*{id}" />
 
-					<div class="form-group">
-						<label>Hình ảnh Banner (Khuyến nghị: Tỷ lệ Panorama, kích thước ngang khoảng 1920x600px hoặc 1920x800px)</label>
-						<div class="mb-2" th:if="${banner.imageName != null}">
-							<img th:src="@{'' + ${banner.imageName}}" class="img-thumbnail" style="height: 150px;">
-						</div>
-						<input type="file" name="file" class="form-control-file" accept="image/*" th:required="${banner.id == null}">
-						<small class="form-text text-muted">Nếu bạn đang sửa và không chọn ảnh mới, ảnh cũ sẽ được giữ nguyên.</small>
+					<div class="alert alert-info mt-3 shadow-sm border-left-info" style="border-radius: 8px;">
+						<h6 class="font-weight-bold mb-2"><i class="fas fa-info-circle mr-1"></i> Khuyến nghị kích thước ảnh:</h6>
+						<ul class="mb-0" style="padding-left: 20px; font-size: 14px;">
+							<li class="mb-1"><strong>Trang chủ (HOME_MAIN):</strong> Tỷ lệ dài ngang (Panorama), kích thước tốt nhất là <code>1920x800px</code> hoặc <code>1920x600px</code>.</li>
+							<li><strong>Trang Liên Hệ (CONTACT):</strong> Tỷ lệ ngang hẹp, kích thước tốt nhất là <code>1920x300px</code> hoặc <code>1920x400px</code>.</li>
+						</ul>
 					</div>
+
+					<div class="form-group mt-4">
+						<label class="font-weight-bold">Tải lên hình ảnh Banner (*)</label>
+						<div class="mb-3" th:if="${banner.imageName != null}">
+							<img th:src="@{'' + ${banner.imageName}}" class="img-thumbnail shadow-sm" style="height: 150px; border-radius: 8px;">
+						</div>
+						<div class="custom-file mb-2">
+							<input type="file" name="file" class="custom-file-input" id="bannerImageFile" accept="image/*" th:required="${banner.id == null}">
+							<label class="custom-file-label" for="bannerImageFile">Chọn file ảnh...</label>
+						</div>
+						<small class="form-text text-muted"><i class="fas fa-exclamation-triangle text-warning"></i> Nếu bạn đang sửa và không chọn ảnh mới, ảnh cũ sẽ được giữ nguyên.</small>
+					</div>
+
+					<script>
+						// Hiển thị tên file sau khi chọn
+						document.querySelector('.custom-file-input').addEventListener('change', function (e) {
+							var fileName = document.getElementById("bannerImageFile").files[0].name;
+							var nextSibling = e.target.nextElementSibling;
+							nextSibling.innerText = fileName;
+						});
+					</script>
 
 					<div class="form-group">
 						<label>Đường link (Target URL)</label>
 						<input type="text" class="form-control" th:field="*{targetUrl}" placeholder="VD: /danh-muc/hang-nu-moi-ve">
+					</div>
+
+					<div class="form-group">
+						<label>Vị trí hiển thị</label>
+						<select class="form-control" th:field="*{position}">
+							<option value="HOME_MAIN">Trang chủ (HOME_MAIN)</option>
+							<option value="CONTACT">Trang Liên Hệ (CONTACT)</option>
+						</select>
 					</div>
 
 					<div class="form-group">

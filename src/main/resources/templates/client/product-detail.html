@@ -187,7 +187,7 @@
 					        MUA HÀNG
 					    </button>
 					
-					    <button type="button" class="btn-wishlist-box">
+					    <button type="button" class="btn-wishlist-box" th:data-product-id="${product.id}" onclick="toggleWishlistDetail(this)">
 					        <i class="far fa-heart"></i>
 					    </button>
 					</div>
@@ -292,12 +292,39 @@
                 document.getElementById('size-error').style.display = 'none';
             }
 
-            // 4. Cập nhật Số lượng
             function updateQty(change) {
                 const input = document.getElementById('qtyInput');
                 let newVal = parseInt(input.value) + change;
                 if (newVal < 1) newVal = 1;
                 input.value = newVal;
+            }
+            
+            function toggleWishlistDetail(btn) {
+                const productId = btn.getAttribute('data-product-id');
+                $.post('/api/wishlist/toggle/' + productId, function(response) {
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            title: 'Thành công',
+                            text: response.message,
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        const icon = btn.querySelector('i');
+                        if (response.added) {
+                            icon.classList.remove('far');
+                            icon.classList.add('fas');
+                            icon.style.color = '#dc3545';
+                        } else {
+                            icon.classList.remove('fas');
+                            icon.classList.add('far');
+                            icon.style.color = '';
+                        }
+                    }
+                }).fail(function(xhr) {
+                    var res = xhr.responseJSON;
+                    Swal.fire('Thông báo', res ? res.message : 'Có lỗi xảy ra', 'info');
+                });
             }
             
             

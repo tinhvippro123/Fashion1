@@ -21,6 +21,11 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
+    public List<Banner> getActiveBannersByPosition(String position) {
+        return bannerRepository.findByPositionAndIsActiveOrderByDisplayOrderAsc(position, true);
+    }
+
+    @Override
     public List<Banner> getAllBanners() {
         return bannerRepository.findAll(org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.ASC, "displayOrder"));
     }

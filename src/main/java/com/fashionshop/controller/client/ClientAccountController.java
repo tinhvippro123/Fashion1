@@ -23,6 +23,48 @@ public class ClientAccountController {
 
     @Autowired private UserService userService;
     @Autowired private OrderService orderService;
+    @Autowired private com.fashionshop.service.WishlistService wishlistService;
+
+    @GetMapping("/wishlist")
+    public String myWishlist(Model model, Principal principal) {
+        if (principal == null) return "redirect:/login";
+
+        User user = userService.findByEmail(principal.getName());
+        model.addAttribute("user", user);
+
+        List<com.fashionshop.model.WishlistItem> wishlist = wishlistService.getUserWishlist(user.getId());
+        model.addAttribute("wishlist", wishlist);
+
+        return "client/account/wishlist";
+    }
+
+    @Autowired private com.fashionshop.repository.ProductRepository productRepository;
+
+    @GetMapping("/recently-viewed")
+    public String recentlyViewed(Model model, Principal principal, jakarta.servlet.http.HttpSession session) {
+        if (principal == null) return "redirect:/login";
+
+        User user = userService.findByEmail(principal.getName());
+        model.addAttribute("user", user);
+
+        List<Long> recentProductIds = (List<Long>) session.getAttribute("recent_products");
+        List<com.fashionshop.model.Product> recentProducts = new java.util.ArrayList<>();
+        if (recentProductIds != null && !recentProductIds.isEmpty()) {
+            List<com.fashionshop.model.Product> products = productRepository.findAllById(recentProductIds);
+            // Sort to match session order
+            for (Long id : recentProductIds) {
+                for (com.fashionshop.model.Product p : products) {
+                    if (p.getId().equals(id)) {
+                        recentProducts.add(p);
+                        break;
+                    }
+                }
+            }
+        }
+        model.addAttribute("recentProducts", recentProducts);
+
+        return "client/account/recently-viewed";
+    }
 
     @GetMapping("/profile")
     public String viewProfile(Model model, Principal principal) {

@@ -58,7 +58,7 @@
 					</th:block>
 				</div>
 
-				<button class="btn-wishlist">
+				<button class="btn-wishlist" th:onclick="'toggleWishlist(' + ${p.id} + ', this)'">
 					<i class="far fa-heart"></i>
 				</button>
 			</div>

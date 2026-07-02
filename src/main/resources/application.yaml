@@ -19,4 +19,4 @@ spring:
 
   # Cloudinary Configuration
 cloudinary:
-  url: ${CLOUDINARY_URL:cloudinary://432231466341726:YOUR_API_SECRET@dan2b8knu}
+  url: ${CLOUDINARY_URL:cloudinary://432231466341726:xBGOokPoQSU9TBt1ry7OMqWaz_s@dan2b8knu}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{client/layout}">
+<head>
+    <title th:text="${page.title} + ' - Luxe Fashion'">Trang Nội Dung</title>
+</head>
+<body>
+    <div layout:fragment="content" class="container-ivy" style="padding-top: 30px; padding-bottom: 50px;">
+        <nav aria-label="breadcrumb" style="margin-bottom: 30px;">
+            <ol class="breadcrumb bg-transparent p-0 m-0">
+                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${page.title}"></li>
+            </ol>
+        </nav>
+
+        <h1 class="mb-4" style="font-size: 28px; font-weight: 700; text-transform: uppercase;" th:text="${page.title}"></h1>
+        
+        <div class="page-content" th:utext="${page.content}" style="line-height: 1.8; color: #333; font-size: 15px;">
+            <!-- Nội dung từ CKEditor sẽ được render ở đây -->
+        </div>
+    </div>
+</body>
+</html>
