@@ -22,12 +22,16 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
 
-        // 2. Chuyển đổi sang UserDetails của Spring Security
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getEmail())
-                .password(user.getPasswordHash()) // Lấy mật khẩu đã mã hóa từ DB
-                .roles(user.getRole().name()) // Set Role (Ví dụ: "ADMIN", "USER")
-                .disabled(!user.getIsActive()) // Kiểm tra active
-                .build();
+        // 2. Chuyển đổi sang CustomUserDetails của Spring Security
+        return new com.fashionshop.security.CustomUserDetails(
+                user.getEmail(),
+                user.getPasswordHash(),
+                user.getIsActive(),
+                true,
+                true,
+                true,
+                org.springframework.security.core.authority.AuthorityUtils.createAuthorityList("ROLE_" + user.getRole().name()),
+                user.getFullName()
+        );
     }
 }

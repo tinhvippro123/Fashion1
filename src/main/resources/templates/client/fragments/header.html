@@ -214,7 +214,7 @@
 		<div class="live-search-dropdown" id="desktopSearchResults"></div>
 	</form>
 
-			<a href="#" class="ivy-icon-btn d-none d-lg-block"> <i
+			<a th:href="@{/contact}" class="ivy-icon-btn d-none d-lg-block" title="Liên hệ"> <i
 				class="fas fa-headset"></i>
 			</a> <a sec:authorize="!isAuthenticated()" th:href="@{/login}"
 				class="ivy-icon-btn d-none d-lg-block"> <i class="far fa-user"></i>
@@ -226,34 +226,59 @@
         <i class="far fa-user"></i>
     </a>
 
-    <div class="user-dropdown-menu" id="userDropdown" style="display: none;">
+    <div class="user-dropdown-menu" id="userDropdown">
         
         <div class="user-info">
-            Xin chào, <b sec:authentication="name">User</b>
+            Xin chào, <b th:text="${#authentication.principal.class.name == 'com.fashionshop.security.CustomUserDetails' and #authentication.principal.fullName != null and !#authentication.principal.fullName.isEmpty() ? #authentication.principal.fullName : #authentication.name}">User</b>
         </div>
         
         <ul class="user-menu-list">
             <li sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{/admin/}" class="text-danger font-weight-bold">
-                    <i class="fas fa-cogs mr-2"></i> Trang quản trị
+                <a th:href="@{/admin/}">
+                    <i class="fas fa-cogs mr-3" style="width: 20px; text-align: center;"></i> Trang quản trị
                 </a>
             </li>
 
             <li>
                 <a th:href="@{/account/profile}">
-                    <i class="far fa-id-card mr-2"></i> Thông tin tài khoản
+                    <i class="far fa-user mr-3" style="width: 20px; text-align: center;"></i> Thông tin tài khoản
                 </a>
             </li>
             <li>
                 <a th:href="@{/account/orders}">
-                    <i class="fas fa-history mr-2"></i> Quản lý đơn hàng
+                    <i class="fas fa-sync-alt mr-3" style="width: 20px; text-align: center;"></i> Quản lý đơn hàng
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-map-marker-alt mr-3" style="width: 20px; text-align: center;"></i> Sổ địa chỉ
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/account/recently-viewed}">
+                    <i class="fas fa-glasses mr-3" style="width: 20px; text-align: center;"></i> Sản phẩm đã xem
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/account/wishlist}">
+                    <i class="far fa-heart mr-3" style="width: 20px; text-align: center;"></i> Sản phẩm yêu thích
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-headphones-alt mr-3" style="width: 20px; text-align: center;"></i> Hỏi đáp sản phẩm
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="far fa-hand-point-right mr-3" style="width: 20px; text-align: center;"></i> Hỗ trợ - LUXE
                 </a>
             </li>
             
-            <li class="border-top pt-2 mt-2">
+            <li>
                 <form th:action="@{/logout}" method="post">
                     <button type="submit" class="btn-logout-link">
-                        <i class="fas fa-sign-out-alt mr-2"></i> Đăng xuất
+                        <i class="fas fa-sign-out-alt mr-3" style="width: 20px; text-align: center;"></i> Đăng xuất
                     </button>
                 </form>
             </li>

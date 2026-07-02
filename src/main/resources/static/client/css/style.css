@@ -141,7 +141,7 @@
 	background: #fff;
 	border: 1px solid #e1e1e1;
 	border-radius: 4px;
-	box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 	z-index: 1050;
 	display: none;
 	max-height: 400px;
@@ -392,8 +392,8 @@
 	/* Tiêu đề to đùng */
 	font-weight: 600;
 	/* Rất đậm */
-	text-transform: uppercase;
-	margin-bottom: 20px;
+	text-transform: none;
+	margin-bottom: 16px;
 	/* Cách nội dung xa hơn (gốc 25px) */
 	color: #000;
 	letter-spacing: 0px;
@@ -415,8 +415,8 @@
 	color: #555;
 	text-decoration: none;
 	transition: all 0.2s;
-	font-weight: 500;
-	/* Chữ đậm hơn một chút cho dễ đọc */
+	font-weight: 400;
+	/* Chữ mỏng hơn */
 	display: block;
 	padding: 2px 0;
 }
@@ -464,16 +464,12 @@
 
 /* 5. Khung Newsletter (To và Nổi bật) */
 .newsletter-box {
-	border: 1px solid #ccc;
-	padding: 30px 22px;
+	border: 2px solid #e1e1e1;
+	padding: 25px 22px;
 	/* Tăng khoảng cách bên trong cho khung "mập" ra */
-	border-top-left-radius: 50px;
-	/* Bo góc mạnh hơn */
-	border-bottom-right-radius: 50px;
+	border-radius: 40px 0 40px 0px;
 	position: relative;
 	background: #fff;
-	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
-	/* Thêm bóng nhẹ cho nổi */
 }
 
 .newsletter-box h6 {
@@ -485,16 +481,17 @@
 
 .newsletter-group {
 	display: flex;
-	border-bottom: 1px solid #999;
-	/* Đường kẻ đậm hơn chút */
-	padding-bottom: 10px;
+	align-items: center;
 }
 
 .newsletter-group input {
 	border: none;
+	border-bottom: 1px solid #999;
 	width: 100%;
+	flex: 1;
+	margin-right: 10px;
 	outline: none;
-	font-size: 14px;
+	font-size: 13px;
 	/* Chữ nhập to hơn */
 	color: #333;
 	background: transparent;
@@ -505,9 +502,9 @@
 	background: #fff;
 	border: 1px solid #333;
 	border-radius: 20px 0 20px 0;
-	padding: 8px 25px;
+	padding: 8px 15px;
 	/* Nút to hơn */
-	font-size: 14px;
+	font-size: 13px;
 	font-weight: 700;
 	text-transform: uppercase;
 	color: #333;
@@ -553,7 +550,7 @@
 
 /* 2. Cột Giới thiệu */
 .footer-col-intro {
-	width: 136px;
+	width: 160px;
 	/* Chiều rộng đủ chứa chữ */
 	flex-shrink: 0;
 	/* YÊU CẦU: Cách cột Dịch vụ 68px */
@@ -570,7 +567,7 @@
 
 /* 4. Cột Liên hệ */
 .footer-col-contact {
-	width: 91px;
+	width: 100px;
 	flex-shrink: 0;
 	/* YÊU CẦU: Cách cột Newsletter 61px */
 	margin-right: 61px;
@@ -1475,20 +1472,25 @@ a.zalo-icon {
 	.product-info-col {
 		padding-left: 30px !important;
 	}
+
 	.gallery-main {
 		width: 320px;
 		height: 480px;
 	}
+
 	.gallery-wrapper {
 		height: 480px;
 	}
+
 	.gallery-thumbs-scroll {
 		height: 480px;
 	}
+
 	.gallery-thumbs-container {
 		width: 80px;
 		padding: 20px 0;
 	}
+
 	.thumb-img {
 		width: 80px;
 		height: 120px;
@@ -2634,18 +2636,22 @@ a.btn-auth-action {
 
 /* Ẩn menu mặc định */
 .user-dropdown-menu {
-	display: none;
+	visibility: hidden;
+	opacity: 0;
+	transform: translateY(15px);
 	position: absolute;
 	top: 100%;
 	right: -10px;
 	/* Căn lề phải */
-	width: 220px;
+	min-width: 260px;
+    width: max-content;
 	background: #fff;
 	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 	border-radius: 4px;
-	padding: 15px;
+	padding: 24px;
 	z-index: 9999;
 	border: 1px solid #eee;
+	transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 /* Mũi tên nhọn chỉ lên trên (Optional) */
@@ -2653,26 +2659,25 @@ a.btn-auth-action {
 	content: "";
 	position: absolute;
 	top: -8px;
-	right: 15px;
+	right: 25px;
 	border-left: 8px solid transparent;
 	border-right: 8px solid transparent;
 	border-bottom: 8px solid #fff;
 }
 
-/* Hiện menu khi Hover vào container */
-/*.user-dropdown-container:hover .user-dropdown-menu {
-	    display: block;
-	} */
 .user-dropdown-menu.show {
-	display: block !important;
+	visibility: visible;
+	opacity: 1;
+	transform: translateY(0);
 }
 
 /* Style nội dung bên trong */
 .user-info {
-	font-size: 14px;
+	font-size: 15px;
+    font-weight: 600;
 	border-bottom: 1px solid #eee;
-	padding-bottom: 10px;
-	margin-bottom: 10px;
+	padding-bottom: 24px;
+	margin-bottom: 24px;
 	color: #333;
 }
 
@@ -2683,13 +2688,18 @@ a.btn-auth-action {
 }
 
 .user-menu-list li {
-	margin-bottom: 8px;
+	margin-bottom: 24px;
+}
+
+.user-menu-list li:last-child {
+	margin-bottom: 0;
 }
 
 .user-menu-list a,
 .btn-logout-link {
-	font-size: 13px;
-	color: #555;
+	font-size: 14px;
+	color: #666;
+    font-weight: 500;
 	text-decoration: none;
 	transition: color 0.2s;
 	display: block;
@@ -3258,6 +3268,7 @@ a.btn-auth-action {
 .account-sidebar-margin {
 	margin-right: 30px;
 }
+
 @media (max-width: 991px) {
 	.account-sidebar-margin {
 		margin-right: 0 !important;
