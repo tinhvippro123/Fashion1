@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
+<head>
+    <title>Thêm/Sửa FAQ | Admin</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0 text-primary font-weight-bold" th:text="${faq.id != null ? 'Sửa Câu hỏi thường gặp' : 'Thêm Câu hỏi thường gặp mới'}">Thêm FAQ</h5>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/admin/faqs/save}" th:object="${faq}" method="post">
+                            <input type="hidden" th:field="*{id}" />
+
+                            <div class="form-group">
+                                <label class="font-weight-bold">Câu hỏi <span class="text-danger">*</span></label>
+                                <input type="text" th:field="*{question}" class="form-control" required placeholder="Nhập câu hỏi...VD: Tại sao thẻ bị từ chối?" />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="font-weight-bold">Câu trả lời <span class="text-danger">*</span></label>
+                                <textarea th:field="*{answer}" class="form-control" rows="5" required placeholder="Nhập nội dung trả lời chi tiết..."></textarea>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label class="font-weight-bold">Vị trí hiển thị (Số thứ tự)</label>
+                                    <input type="number" th:field="*{displayOrder}" class="form-control" min="0" />
+                                    <small class="text-muted">Số càng nhỏ, hiển thị càng lên trên</small>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label class="font-weight-bold">Trạng thái</label>
+                                    <div class="custom-control custom-switch mt-2">
+                                        <input type="checkbox" class="custom-control-input" id="statusSwitch" th:field="*{status}">
+                                        <label class="custom-control-label" for="statusSwitch">Hiển thị trên Web</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group text-right mt-4 mb-0">
+                                <a th:href="@{/admin/faqs}" class="btn btn-secondary rounded-pill px-4 mr-2">Hủy</a>
+                                <button type="submit" class="btn btn-primary rounded-pill px-4">
+                                    <i class="fas fa-save mr-1"></i> Lưu lại
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

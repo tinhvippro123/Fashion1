@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{client/layout}">
+<head>
+<title>Lịch sử đăng nhập | Luxe Fashion</title>
+<style>
+    /* Responsive table on mobile */
+    @media (max-width: 767px) {
+        .login-history-table thead {
+            display: none;
+        }
+        .login-history-table tbody tr {
+            display: block;
+            margin-bottom: 25px;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            overflow: hidden;
+            background-color: #fff;
+        }
+        .login-history-table tbody td {
+            display: block;
+            text-align: right !important;
+            position: relative;
+            padding-left: 45%;
+            border-bottom: 1px solid #f2f2f2;
+            padding-top: 12px !important;
+            padding-bottom: 12px !important;
+        }
+        .login-history-table tbody td:first-child {
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #e1e1e1;
+        }
+        .login-history-table tbody td:last-child {
+            border-bottom: none;
+        }
+        .login-history-table tbody td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 15px;
+            width: 40%;
+            text-align: left;
+            font-weight: 600;
+            color: #111;
+            white-space: nowrap;
+        }
+    }
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+        <div class="container-luxe" style="margin-bottom: 50px;">
+            
+            <div class="text-muted" style="font-size: 14px; border-bottom: 1px solid #e1e1e1; padding-top: 20px; padding-bottom: 21px; margin-bottom: 40px;">
+                <a th:href="@{/}" class="text-muted" style="text-decoration: none;">Trang chủ</a> 
+                <span class="mx-2">-</span> 
+                <span class="text-dark">Lịch sử đăng nhập</span>
+            </div>
+
+            <div class="d-flex flex-column flex-lg-row">
+                
+                <div class="mb-4 account-sidebar-margin" style="flex-shrink: 0;">
+                   <div th:replace="~{client/account/sidebar :: account-sidebar(activePage='login_history')}"></div>
+                </div>
+
+                <div style="flex-grow: 1; min-width: 0;">
+                    <h5 class="font-weight-bold mb-4 text-uppercase" style="font-size: 20px;">Lịch sử đăng nhập</h5>
+
+					<div class="table-responsive" style="overflow-x: hidden;">
+						<table class="table text-center align-middle login-history-table" style="font-size: 14px;">
+							<thead style="border-bottom: 2px solid #f2f2f2;">
+								<tr>
+									<th class="border-top-0 font-weight-bold text-uppercase pb-3 pt-0">Thiết bị</th>
+									<th class="border-top-0 font-weight-bold text-uppercase pb-3 pt-0">Phần mềm</th>
+									<th class="border-top-0 font-weight-bold text-uppercase pb-3 pt-0">Kiểu đăng nhập</th>
+									<th class="border-top-0 font-weight-bold text-uppercase pb-3 pt-0">Địa chỉ</th>
+									<th class="border-top-0 font-weight-bold text-uppercase pb-3 pt-0">IP</th>
+									<th class="border-top-0 font-weight-bold text-uppercase pb-3 pt-0">Thời gian</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:if="${#lists.isEmpty(loginHistories)}">
+									<td colspan="6" class="py-5 text-muted">Chưa có lịch sử đăng nhập nào được ghi nhận.</td>
+								</tr>
+								<tr th:each="history : ${loginHistories}">
+									<td data-label="Thiết bị" th:text="${history.device}" class="py-3" style="color: #6c6d70;">Windows (desktop)</td>
+									<td data-label="Phần mềm" th:text="${history.software}" class="py-3" style="color: #6c6d70;">Website luxefashion.com</td>
+									<td data-label="Kiểu đăng nhập" th:text="${history.loginType}" class="py-3" style="color: #6c6d70;">Mặc định</td>
+									<td data-label="Địa chỉ" class="py-3" style="color: #6c6d70;">-</td>
+									<td data-label="IP" th:text="${history.ipAddress}" class="py-3" style="color: #6c6d70;">127.0.0.1</td>
+									<td data-label="Thời gian" th:text="${#temporals.format(history.loginTime, 'yyyy-MM-dd HH:mm:ss')}" class="py-3" style="color: #6c6d70;">2026-07-03 16:42:13</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+                </div>
+            </div>
+        </div>
+	</div>
+
+</body>
+</html>

@@ -58,6 +58,10 @@
 		th:href="@{/admin/contacts}"> <i class="fas fa-fw fa-envelope"></i>
 			<span>Quản lý Liên hệ</span>
 	</a></li>
+	<li class="nav-item" th:classappend="${requestURI != null and requestURI.startsWith('/admin/faqs') ? 'active' : ''}"><a class="nav-link"
+		th:href="@{/admin/faqs}"> <i class="fas fa-fw fa-question-circle"></i>
+			<span>Quản lý Hỏi đáp (FAQ)</span>
+	</a></li>
 	<li class="nav-item" th:classappend="${requestURI != null and requestURI.startsWith('/admin/banners') ? 'active' : ''}"><a class="nav-link"
 		th:href="@{/admin/banners}"> <i class="fas fa-fw fa-images"></i>
 			<span>Quản lý Banner</span>

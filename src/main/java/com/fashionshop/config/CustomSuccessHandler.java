@@ -25,6 +25,9 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     @Autowired
     private UserService userService; // Cần cái này để tìm User
 
+    @Autowired
+    private com.fashionshop.service.LoginHistoryService loginHistoryService;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, 
                                         HttpServletResponse response, 
@@ -70,6 +73,11 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
                 session.removeAttribute("CART_SESSION_ID"); 
             } else {
                 System.out.println(">>> KHÔNG GỘP: Do SessionId null hoặc User null"); // LOG 5
+            }
+            
+            // Ghi nhận lịch sử đăng nhập
+            if (user != null) {
+                loginHistoryService.saveLoginHistory(user, request);
             }
         } catch (Exception e) {
             e.printStackTrace();

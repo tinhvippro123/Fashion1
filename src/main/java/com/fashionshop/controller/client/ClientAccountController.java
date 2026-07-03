@@ -40,6 +40,18 @@ public class ClientAccountController {
 
     @Autowired private com.fashionshop.repository.ProductRepository productRepository;
     @Autowired private com.fashionshop.service.RecentlyViewedService recentlyViewedService;
+    @Autowired private com.fashionshop.service.LoginHistoryService loginHistoryService;
+    @Autowired private com.fashionshop.service.FaqService faqService;
+
+    @GetMapping("/faq")
+    public String faqPage(Model model, Principal principal) {
+        if (principal != null) {
+            User user = userService.findByEmail(principal.getName());
+            model.addAttribute("user", user);
+        }
+        model.addAttribute("faqs", faqService.getActiveFaqs());
+        return "client/account/faq";
+    }
 
     @GetMapping("/recently-viewed")
     public String recentlyViewed(Model model, Principal principal) {
@@ -52,6 +64,19 @@ public class ClientAccountController {
         model.addAttribute("recentProducts", recentProducts);
 
         return "client/account/recently-viewed";
+    }
+
+    @GetMapping("/login-history")
+    public String loginHistory(Model model, Principal principal) {
+        if (principal == null) return "redirect:/login";
+
+        User user = userService.findByEmail(principal.getName());
+        model.addAttribute("user", user);
+
+        List<com.fashionshop.model.LoginHistory> loginHistories = loginHistoryService.getLoginHistoryByUser(user, 50);
+        model.addAttribute("loginHistories", loginHistories);
+
+        return "client/account/login-history";
     }
 
     @GetMapping("/profile")
