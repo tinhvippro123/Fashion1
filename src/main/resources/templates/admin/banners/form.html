@@ -25,7 +25,7 @@
 					<div class="form-group mt-4">
 						<label class="font-weight-bold">Tải lên hình ảnh Banner (*)</label>
 						<div class="mb-3" th:if="${banner.imageName != null}">
-							<img th:src="@{'' + ${banner.imageName}}" class="img-thumbnail shadow-sm" style="height: 150px; border-radius: 8px;">
+							<img th:src="${banner.imageName != null and #strings.startsWith(banner.imageName, 'http') ? banner.imageName : '/uploads/' + banner.imageName}" class="img-thumbnail shadow-sm" style="height: 150px; border-radius: 8px;">
 						</div>
 						<div class="custom-file mb-2">
 							<input type="file" name="file" class="custom-file-input" id="bannerImageFile" accept="image/*" th:required="${banner.id == null}">

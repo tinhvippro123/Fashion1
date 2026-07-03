@@ -3,11 +3,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{client/layout}">
 <head>
-    <title>Chi tiết đơn hàng - Luxe Fashion</title>
+    <title>Chi tiết đơn hàng | Luxe Fashion</title>
 </head>
 <body>
     <div layout:fragment="content">
-        <div class="container-ivy" style="margin-bottom: 50px;">
+        <div class="container-luxe" style="margin-bottom: 50px;">
             
             <div class="text-muted" style="font-size: 14px; border-bottom: 1px solid #e1e1e1; padding-top: 20px; padding-bottom: 21px; margin-bottom: 40px;">
                 <a th:href="@{/}" class="text-muted" style="text-decoration: none;">Trang chủ</a> 
@@ -47,7 +47,7 @@
                             <!-- Items -->
                             <div class="order-items-list mb-4 border-bottom pb-4">
                                 <div th:each="item : ${order.orderItems}" class="d-flex mb-4">
-                                    <img th:if="${item.productImage != null}" th:src="@{'' + ${item.productImage}}" style="width: 120px; height: 180px; object-fit: cover; border-radius: 4px;" class="mr-4">
+                                    <img th:if="${item.productImage != null}" th:src="${item.productImage != null and #strings.startsWith(item.productImage, 'http') ? item.productImage : '/uploads/' + item.productImage}" style="width: 120px; height: 180px; object-fit: cover; border-radius: 4px;" class="mr-4">
                                     <div class="flex-grow-1">
                                         <div class="d-flex justify-content-between">
                                             <div class="font-weight-bold text-dark" style="font-size: 16px;" th:text="${item.productName}">Đầm Tweed kem tay dài</div>

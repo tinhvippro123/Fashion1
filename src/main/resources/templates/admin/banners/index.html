@@ -44,7 +44,7 @@
 								<td class="d-none d-lg-table-cell" th:text="${b.id}"></td>
 								<td>
 									<img th:if="${b.imageName != null}" 
-										 th:src="@{'' + ${b.imageName}}" 
+										 th:src="${b.imageName != null and #strings.startsWith(b.imageName, 'http') ? b.imageName : '/uploads/' + b.imageName}" 
 										 class="img-thumbnail" style="width: 280px; height: 100px; object-fit: cover;">
 								</td>
 								<td class="d-none d-lg-table-cell">

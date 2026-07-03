@@ -13,17 +13,17 @@
 
 						<img th:id="'img-main-' + ${p.id}"
 							th:if="${not #lists.isEmpty(firstColor.images)}"
-							th:src="@{'' + ${firstColor.images[0].imageUrl}}"
+							th:src="${firstColor.images[0].imageUrl != null and #strings.startsWith(firstColor.images[0].imageUrl, 'http') ? firstColor.images[0].imageUrl : '/uploads/' + firstColor.images[0].imageUrl}"
 							class="img-main">
 
 						<img th:id="'img-hover-' + ${p.id}"
 							th:if="${firstColor.images.size() > 1}"
-							th:src="@{'' + ${firstColor.images[1].imageUrl}}"
+							th:src="${firstColor.images[1].imageUrl != null and #strings.startsWith(firstColor.images[1].imageUrl, 'http') ? firstColor.images[1].imageUrl : '/uploads/' + firstColor.images[1].imageUrl}"
 							class="img-hover">
 
 						<img th:id="'img-hover-' + ${p.id}"
 							th:if="${firstColor.images.size() == 1}"
-							th:src="@{'' + ${firstColor.images[0].imageUrl}}"
+							th:src="${firstColor.images[0].imageUrl != null and #strings.startsWith(firstColor.images[0].imageUrl, 'http') ? firstColor.images[0].imageUrl : '/uploads/' + firstColor.images[0].imageUrl}"
 							class="img-hover">
 					</th:block>
 				</th:block> <img th:if="${#lists.isEmpty(p.productColors)}"
@@ -42,8 +42,8 @@
 							<div th:if="${pc.isActive and not #lists.isEmpty(pc.images)}"
 								class="color-dot-wrapper" style="cursor: pointer;"
 								th:data-id="${p.id}" th:data-color="${pc.color.name}"
-								th:data-img="@{'' + ${pc.images[0].imageUrl}}"
-								th:data-hover="@{'' + ${pc.images.size() > 1 ? pc.images[1].imageUrl : pc.images[0].imageUrl}}"
+								th:data-img="${pc.images[0].imageUrl != null and #strings.startsWith(pc.images[0].imageUrl, 'http') ? pc.images[0].imageUrl : '/uploads/' + pc.images[0].imageUrl}"
+								th:data-hover="${pc.images.size() > 1 ? pc.images[1].imageUrl : pc.images[0].imageUrl != null and #strings.startsWith(pc.images.size() > 1 ? pc.images[1].imageUrl : pc.images[0].imageUrl, 'http') ? pc.images.size() > 1 ? pc.images[1].imageUrl : pc.images[0].imageUrl : '/uploads/' + pc.images.size() > 1 ? pc.images[1].imageUrl : pc.images[0].imageUrl}"
 								onclick="changeProductImage(this.getAttribute('data-id'), this.getAttribute('data-img'), this.getAttribute('data-hover'), this.getAttribute('data-color'), this)"
 								th:title="${pc.color.name}">
 

@@ -17,7 +17,7 @@ function switchTab(gender, event) {
 	$('.product-tab-content').hide();
 
 	// B. Xóa class active ở tất cả các nút
-	$('.ivy-tab-item').removeClass('active');
+	$('.luxe-tab-item').removeClass('active');
 
 	// C. Hiện tab được chọn
 	var selectedTab = $('#tab-' + gender);

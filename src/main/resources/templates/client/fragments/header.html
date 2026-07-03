@@ -2,18 +2,18 @@
 <header xmlns:th="http://www.thymeleaf.org" th:fragment="header"
 	class="site-header sticky-top">
 	<div
-		class="container-ivy d-flex align-items-center justify-content-between position-relative">
+		class="container-luxe d-flex align-items-center justify-content-between position-relative">
 
 		<nav class="d-none d-lg-flex">
 
-			<div class="ivy-menu-item">
-				<a href="javascript:void(0)" class="ivy-nav-link">NỮ</a>
+			<div class="luxe-menu-item">
+				<a href="javascript:void(0)" class="luxe-nav-link">NỮ</a>
 
-				<div class="ivy-mega-menu">
-					<div class="container-ivy">
-						<div class="ivy-grid-wrapper">
+				<div class="luxe-mega-menu">
+					<div class="container-luxe">
+						<div class="luxe-grid-wrapper">
 
-							<div class="ivy-col-special">
+							<div class="luxe-col-special">
 								<a th:href="@{/danh-muc/hang-nu-moi-ve}"
 									class="d-block font-weight-bold mb-3 text-danger"
 									style="font-size: 14px;">NEW ARRIVAL</a> <a
@@ -23,12 +23,12 @@
 									style="font-size: 14px;">HOT ITEMS - SALE 50%</a>
 							</div>
 
-							<div class="ivy-col-categories">
-								<div class="ivy-sub-cat-item"
+							<div class="luxe-col-categories">
+								<div class="luxe-sub-cat-item"
 									th:each="parent : ${womenCategories}">
 
 									<a th:href="@{'/danh-muc/' + ${parent.slug}}"
-										class="ivy-cat-title" th:text="${parent.name}">ÁO</a>
+										class="luxe-cat-title" th:text="${parent.name}">ÁO</a>
 
 									<div th:each="child : ${parent.children}">
 										<a th:href="@{'/danh-muc/' + ${child.slug}}"
@@ -46,14 +46,14 @@
 				</div>
 			</div>
 
-			<div class="ivy-menu-item">
-				<a href="javascript:void(0)" class="ivy-nav-link">NAM</a>
+			<div class="luxe-menu-item">
+				<a href="javascript:void(0)" class="luxe-nav-link">NAM</a>
 
-				<div class="ivy-mega-menu">
-					<div class="container-ivy">
-						<div class="ivy-grid-wrapper">
+				<div class="luxe-mega-menu">
+					<div class="container-luxe">
+						<div class="luxe-grid-wrapper">
 
-							<div class="ivy-col-special">
+							<div class="luxe-col-special">
 								<a th:href="@{/danh-muc/hang-nam-moi-ve}"
 									class="d-block font-weight-bold mb-3 text-danger"
 									style="font-size: 14px;">NEW ARRIVAL</a> <a
@@ -64,11 +64,11 @@
 									style="font-size: 14px;">HOT ITEMS - SALE 50%</a>
 							</div>
 
-							<div class="ivy-col-categories">
-								<div class="ivy-sub-cat-item"
+							<div class="luxe-col-categories">
+								<div class="luxe-sub-cat-item"
 									th:each="parent : ${menCategories}">
 									<a th:href="@{'/danh-muc/' + ${parent.slug}}"
-										class="ivy-cat-title" th:text="${parent.name}">ÁO</a>
+										class="luxe-cat-title" th:text="${parent.name}">ÁO</a>
 									<div th:each="child : ${parent.children}">
 										<a th:href="@{'/danh-muc/' + ${child.slug}}"
 											class="d-block mb-2 text-muted"
@@ -85,15 +85,15 @@
 				</div>
 			</div>
 
-			<div class="ivy-menu-item">
-				<a th:href="@{/sale}" class="ivy-nav-link nav-highlight">BIG
+			<div class="luxe-menu-item">
+				<a th:href="@{/sale}" class="luxe-nav-link nav-highlight">BIG
 					SALE THÁNG 12</a>
 			</div>
-			<div class="ivy-menu-item">
-				<a th:href="@{/collection}" class="ivy-nav-link">BỘ SƯU TẬP</a>
+			<div class="luxe-menu-item">
+				<a th:href="@{/collection}" class="luxe-nav-link">BỘ SƯU TẬP</a>
 			</div>
-			<div class="ivy-menu-item">
-				<a th:href="@{/about}" class="ivy-nav-link">VỀ CHÚNG TÔI</a>
+			<div class="luxe-menu-item">
+				<a th:href="@{/about}" class="luxe-nav-link">VỀ CHÚNG TÔI</a>
 			</div>
 
 		</nav>
@@ -198,29 +198,29 @@
 
 		</div>
 
-		<a th:href="@{/}" class="ivy-logo text-center">
+		<a th:href="@{/}" class="luxe-logo text-center">
 			<img th:src="@{/client/img/logo.png}" alt="Logo" style="height: 40px; width: auto;">
 		</a>
 
 		<div class="d-flex align-items-center">
 
-	<form th:action="@{/search}" method="get" class="d-none d-lg-flex ivy-search-box" id="desktopSearchForm">
-		<button type="submit" class="btn ivy-search-btn">
+	<form th:action="@{/search}" method="get" class="d-none d-lg-flex luxe-search-box" id="desktopSearchForm">
+		<button type="submit" class="btn luxe-search-btn">
 			<i class="fas fa-search"></i>
 		</button>
-		<input type="text" name="keyword" class="ivy-search-input" id="desktopSearchInput" autocomplete="off"
+		<input type="text" name="keyword" class="luxe-search-input" id="desktopSearchInput" autocomplete="off"
 			   placeholder="TÌM KIẾM SẢN PHẨM"
 			   th:value="${keyword}"> 
 		<div class="live-search-dropdown" id="desktopSearchResults"></div>
 	</form>
 
-			<a th:href="@{/contact}" class="ivy-icon-btn d-none d-lg-block" title="Liên hệ"> <i
+			<a th:href="@{/contact}" class="luxe-icon-btn d-none d-lg-block" title="Liên hệ"> <i
 				class="fas fa-headset"></i>
 			</a> <a sec:authorize="!isAuthenticated()" th:href="@{/login}"
-				class="ivy-icon-btn d-none d-lg-block"> <i class="far fa-user"></i>
+				class="luxe-icon-btn d-none d-lg-block"> <i class="far fa-user"></i>
 			</a>
 
-			<div sec:authorize="isAuthenticated()" class="ivy-icon-btn user-dropdown-container d-none d-lg-block">
+			<div sec:authorize="isAuthenticated()" class="luxe-icon-btn user-dropdown-container d-none d-lg-block">
     
     <a href="javascript:void(0)" class="text-dark" onclick="toggleUserMenu(event)">
         <i class="far fa-user"></i>

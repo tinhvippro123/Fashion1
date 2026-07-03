@@ -3,12 +3,12 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{client/layout}">
 <head>
-<title>Giỏ hàng - Luxe Fashion</title>
+<title>Giỏ hàng | Luxe Fashion</title>
 </head>
 <body>
 	<div layout:fragment="content">
 
-		<div class="container-ivy mt-4">
+		<div class="container-luxe mt-4">
 			<div class="checkout-progress">
 				<div class="progress-step active">
 					<div class="step-dot"></div>
@@ -25,7 +25,7 @@
 			</div>
 		</div>
 
-		<div class="container-ivy mb-5">
+		<div class="container-luxe mb-5">
 
 			<div th:if="${cart == null || #lists.isEmpty(cart.items)}"
 				class="text-center py-5">
@@ -54,7 +54,7 @@
 
 						<div class="cart-img">
 							<img
-								th:src="@{'' + ${item.variant.productColor.images[0].imageUrl}}"
+								th:src="${item.variant.productColor.images[0].imageUrl != null and #strings.startsWith(item.variant.productColor.images[0].imageUrl, 'http') ? item.variant.productColor.images[0].imageUrl : '/uploads/' + item.variant.productColor.images[0].imageUrl}"
 								alt="SP">
 						</div>
 

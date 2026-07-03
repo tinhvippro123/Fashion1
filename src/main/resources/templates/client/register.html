@@ -3,11 +3,11 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{client/layout}">
 <head>
-<title>Đăng ký tài khoản - Luxe Fashion</title>
+<title>Đăng ký tài khoản | Luxe Fashion</title>
 </head>
 <body>
 	<div layout:fragment="content">
-		<div class="container-ivy"
+		<div class="container-luxe"
 			style="margin-top: 50px; margin-bottom: 50px;">
 
 			<h3 class="text-center font-weight-bold mb-5"
@@ -34,12 +34,12 @@
 						<div class="row">
 							<div class="col-md-6 mb-3">
 								<label class="auth-label">Họ:<span class="text-danger">*</span></label>
-								<input type="text" name="lastName" class="form-control-ivy"
+								<input type="text" name="lastName" class="form-control-luxe"
 									placeholder="Họ...">
 							</div>
 							<div class="col-md-6 mb-3">
 								<label class="auth-label">Tên:<span class="text-danger">*</span></label>
-								<input type="text" name="firstName" class="form-control-ivy"
+								<input type="text" name="firstName" class="form-control-luxe"
 									placeholder="Tên...">
 							</div>
 						</div>
@@ -48,12 +48,12 @@
 							<div class="col-md-6 mb-3">
 								<label class="auth-label">Email:<span
 									class="text-danger">*</span></label> <input type="email" name="email"
-									class="form-control-ivy" placeholder="Email...">
+									class="form-control-luxe" placeholder="Email...">
 							</div>
 							<div class="col-md-6 mb-3">
 								<label class="auth-label">Điện thoại:<span
 									class="text-danger">*</span></label> <input type="text"
-									name="phoneNumber" class="form-control-ivy"
+									name="phoneNumber" class="form-control-luxe"
 									placeholder="Điện thoại...">
 							</div>
 						</div>
@@ -62,12 +62,12 @@
 							<div class="col-md-6 mb-3">
 								<label class="auth-label">Ngày sinh:<span
 									class="text-danger">*</span></label> <input type="date" name="dob"
-									class="form-control-ivy">
+									class="form-control-luxe">
 							</div>
 							<div class="col-md-6 mb-3">
 								<label class="auth-label">Giới tính:<span
 									class="text-danger">*</span></label> <select name="gender"
-									class="form-control-ivy">
+									class="form-control-luxe">
 									<option value="nu">Nữ</option>
 									<option value="nam">Nam</option>
 									<option value="khac">Khác</option>
@@ -78,13 +78,13 @@
 <div class="row">
     <div class="col-md-6 mb-3">
         <label class="auth-label">Tỉnh/TP:<span class="text-danger">*</span></label> 
-        <select id="provinceSelect" name="city" class="form-control-ivy" required>
+        <select id="provinceSelect" name="city" class="form-control-luxe" required>
             <option value="">Chọn Tỉnh/Tp</option>
         </select>
     </div>
     <div class="col-md-6 mb-3">
         <label class="auth-label">Quận/Huyện:<span class="text-danger">*</span></label> 
-        <select id="districtSelect" name="district" class="form-control-ivy" required>
+        <select id="districtSelect" name="district" class="form-control-luxe" required>
             <option value="">Chọn Quận/Huyện</option>
         </select>
     </div>
@@ -92,7 +92,7 @@
 
 <div class="form-group mb-3">
     <label class="auth-label">Phường/Xã:<span class="text-danger">*</span></label> 
-    <select id="wardSelect" name="ward" class="form-control-ivy" required>
+    <select id="wardSelect" name="ward" class="form-control-luxe" required>
         <option value="">Chọn Phường/Xã</option>
     </select>
 </div>
@@ -100,7 +100,7 @@
 						<div class="form-group mb-3">
 							<label class="auth-label">Địa chỉ:<span
 								class="text-danger">*</span></label>
-							<textarea name="detailAddress" class="form-control-ivy" rows="2"
+							<textarea name="detailAddress" class="form-control-luxe" rows="2"
 								placeholder="Địa chỉ chi tiết..."></textarea>
 						</div>
 					</div>
@@ -112,14 +112,14 @@
 						<div class="form-group mb-3">
 							<label class="auth-label">Mật khẩu:<span
 								class="text-danger">*</span></label> <input type="password"
-								name="password" class="form-control-ivy"
+								name="password" class="form-control-luxe"
 								placeholder="Mật khẩu...">
 						</div>
 
 						<div class="form-group mb-3">
 							<label class="auth-label">Nhập lại mật khẩu:<span
 								class="text-danger">*</span></label> <input type="password"
-								name="confirmPassword" class="form-control-ivy"
+								name="confirmPassword" class="form-control-luxe"
 								placeholder="Nhập lại mật khẩu...">
 						</div>
 
@@ -127,7 +127,7 @@
 							<label class="auth-label">Mã xác thực:<span
 								class="text-danger">*</span></label>
 							<div class="d-flex align-items-center">
-								<input type="text" class="form-control-ivy mr-3"
+								<input type="text" class="form-control-luxe mr-3"
 									style="width: 50%;">
 								<div
 									style="background: #eee; padding: 8px 15px; font-weight: bold; letter-spacing: 5px; font-family: monospace; border: 1px solid #ccc;">
@@ -140,7 +140,7 @@
 								id="termAgree" required> <label
 								class="custom-control-label small text-muted" for="termAgree">
 								Đồng ý với các <a href="#" class="text-danger">điều khoản</a>
-								của IVY
+								của LUXE
 							</label>
 						</div>
 						<div class="custom-control custom-checkbox mb-4">

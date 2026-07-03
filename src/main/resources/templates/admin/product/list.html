@@ -47,7 +47,7 @@
 								<td><img
 									th:if="${not #lists.isEmpty(p.productColors) 
                           and not #lists.isEmpty(p.productColors[0].images)}"
-									th:src="@{'' + ${p.productColors[0].images[0].imageUrl}}"
+									th:src="${p.productColors[0].images[0].imageUrl != null and #strings.startsWith(p.productColors[0].images[0].imageUrl, 'http') ? p.productColors[0].images[0].imageUrl : '/uploads/' + p.productColors[0].images[0].imageUrl}"
 									class="img-thumbnail"
 									style="width: 80px; height: 100px; object-fit: cover;">
 

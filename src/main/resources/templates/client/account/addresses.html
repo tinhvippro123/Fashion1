@@ -3,11 +3,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{client/layout}">
 <head>
-    <title>Sổ địa chỉ - Luxe Fashion</title>
+    <title>Sổ địa chỉ | Luxe Fashion</title>
 </head>
 <body>
     <div layout:fragment="content">
-        <div class="container-ivy" style="margin-bottom: 50px;">
+        <div class="container-luxe" style="margin-bottom: 50px;">
             <div class="text-muted" style="font-size: 14px; border-bottom: 1px solid #e1e1e1; padding-top: 20px; padding-bottom: 21px; margin-bottom: 40px;">
                 <a th:href="@{/}" class="text-muted" style="text-decoration: none;">Trang chủ</a> 
                 <span class="mx-2">-</span>
@@ -88,32 +88,32 @@
     <form th:action="@{/account/addresses/add}" method="post">
         <div class="row">
             <div class="col-md-6 mb-3">
-                <input type="text" name="receiverName" class="form-control-ivy" placeholder="Họ tên" required>
+                <input type="text" name="receiverName" class="form-control-luxe" placeholder="Họ tên" required>
             </div>
             <div class="col-md-6 mb-3">
-                <input type="text" name="phone" class="form-control-ivy" placeholder="Số điện thoại" required>
+                <input type="text" name="phone" class="form-control-luxe" placeholder="Số điện thoại" required>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6 mb-3">
-                <select name="province" id="add-province" class="form-control-ivy" required>
+                <select name="province" id="add-province" class="form-control-luxe" required>
                     <option value="">Chọn Tỉnh/Tp</option>
                 </select>
             </div>
             <div class="col-md-6 mb-3">
-                <select name="district" id="add-district" class="form-control-ivy" required>
+                <select name="district" id="add-district" class="form-control-luxe" required>
                     <option value="">Quận/Huyện</option>
                 </select>
             </div>
         </div>
         <div class="mb-3">
-            <select name="ward" id="add-ward" class="form-control-ivy" required>
+            <select name="ward" id="add-ward" class="form-control-luxe" required>
                 <option value="">Phường xã</option>
             </select>
         </div>
         <div class="mb-3">
-            <input type="text" name="street" class="form-control-ivy" placeholder="Địa chỉ cụ thể (Số nhà, tên đường...)" required>
+            <input type="text" name="street" class="form-control-luxe" placeholder="Địa chỉ cụ thể (Số nhà, tên đường...)" required>
         </div>
 
         <div class="form-group d-flex align-items-center mb-4 mt-4">
@@ -149,34 +149,34 @@
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <input type="text" name="receiverName" id="edit-name" class="form-control-ivy" placeholder="Họ tên" required>
+                                    <input type="text" name="receiverName" id="edit-name" class="form-control-luxe" placeholder="Họ tên" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <input type="text" name="phone" id="edit-phone" class="form-control-ivy" placeholder="Số điện thoại" required>
+                                    <input type="text" name="phone" id="edit-phone" class="form-control-luxe" placeholder="Số điện thoại" required>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <select name="province" id="edit-province" class="form-control-ivy" required>
+                                    <select name="province" id="edit-province" class="form-control-luxe" required>
                                         <option value="">Chọn Tỉnh/Tp</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <select name="district" id="edit-district" class="form-control-ivy" required>
+                                    <select name="district" id="edit-district" class="form-control-luxe" required>
                                         <option value="">Quận/Huyện</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <select name="ward" id="edit-ward" class="form-control-ivy" required>
+                                <select name="ward" id="edit-ward" class="form-control-luxe" required>
                                     <option value="">Phường xã</option>
                                 </select>
                             </div>
 
                             <div class="mb-3">
-                                <input type="text" name="street" id="edit-street" class="form-control-ivy" placeholder="Địa chỉ cụ thể" required>
+                                <input type="text" name="street" id="edit-street" class="form-control-luxe" placeholder="Địa chỉ cụ thể" required>
                             </div>
 
                             <div class="form-group d-flex align-items-center mb-4 mt-4">

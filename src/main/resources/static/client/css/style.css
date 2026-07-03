@@ -6,7 +6,7 @@
 }
 
 /* 1. Cấu hình Container đặc biệt (Cách lề 85px) */
-.container-ivy {
+.container-luxe {
 	width: 100%;
 	padding-right: 85px;
 	padding-left: 85px;
@@ -16,7 +16,7 @@
 
 /* Trên mobile thì không cần cách lề 85px, chỉ cần 15px */
 @media (max-width : 1199px) {
-	.container-ivy {
+	.container-luxe {
 		padding-right: 15px;
 		padding-left: 15px;
 	}
@@ -30,7 +30,7 @@
 
 }
 
-.site-header .container-ivy {
+.site-header .container-luxe {
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -38,7 +38,7 @@
 	/*-> Giữ nguyên cái này để 2 bên trái phải dãn ra */
 }
 
-.site-header .container-ivy::after {
+.site-header .container-luxe::after {
 	content: "";
 	position: absolute;
 	bottom: -17px;
@@ -54,14 +54,14 @@
 }
 
 @media (max-width: 1199px) {
-	.site-header .container-ivy::after {
+	.site-header .container-luxe::after {
 		left: 15px;
 		right: 15px;
 	}
 }
 
 /* Menu bên trái */
-.ivy-nav-link {
+.luxe-nav-link {
 	color: #333 !important;
 	font-weight: 600;
 	/* Chữ đậm vừa */
@@ -76,7 +76,7 @@
 	transition: color 0.3s;
 }
 
-.ivy-nav-link:hover {
+.luxe-nav-link:hover {
 	color: #000 !important;
 	text-decoration: none;
 }
@@ -87,7 +87,7 @@
 }
 
 /* Logo ở giữa */
-.ivy-logo {
+.luxe-logo {
 	position: absolute;
 	/* Thoát khỏi dòng chảy Flexbox */
 	left: 50%;
@@ -101,13 +101,13 @@
 	z-index: 10;
 }
 
-.ivy-logo span {
+.luxe-logo span {
 	font-weight: 300;
 	/* Chữ 'moda' mỏng hơn */
 }
 
 /* Thanh tìm kiếm bên phải */
-.ivy-search-box {
+.luxe-search-box {
 	position: relative;
 	width: 250px;
 	border: 1px solid #e1e1e1;
@@ -115,7 +115,7 @@
 	align-items: center;
 }
 
-.ivy-search-input {
+.luxe-search-input {
 	width: 100%;
 	border: none;
 	padding: 6px 12px 6px 0;
@@ -125,7 +125,7 @@
 	font-weight: 300;
 }
 
-.ivy-search-btn {
+.luxe-search-btn {
 	background: transparent;
 	border: none;
 	color: #333;
@@ -216,7 +216,7 @@
 }
 
 /* Icon bên phải (User, Cart...) */
-.ivy-icon-btn {
+.luxe-icon-btn {
 	color: #333;
 	font-size: 18px;
 	margin-left: 20px;
@@ -237,13 +237,13 @@
 }
 
 /* Container cho mỗi item menu cha */
-.ivy-menu-item {
+.luxe-menu-item {
 	position: static;
 	/* Quan trọng để Mega menu full width */
 }
 
 /* Mega Menu ẩn mặc định */
-.ivy-mega-menu {
+.luxe-mega-menu {
 	display: none;
 	position: absolute;
 	/* 1. ĐỊNH VỊ CHUẨN XÁC: Bắt đầu và kết thúc tại lề 85px */
@@ -263,7 +263,7 @@
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
 
-.ivy-mega-menu::before {
+.luxe-mega-menu::before {
 	content: "";
 	position: absolute;
 	/* Đẩy lớp giả lên trên để lấp khoảng trống giữa menu cha và con */
@@ -280,24 +280,24 @@
 }
 
 /* Hiện Mega Menu khi Hover */
-.ivy-menu-item:hover .ivy-mega-menu {
+.luxe-menu-item:hover .luxe-mega-menu {
 	display: block;
 }
 
 /* Hover vào link con cấp 3 */
-/*.ivy-mega-menu a.text-secondary:hover {
+/*.luxe-mega-menu a.text-secondary:hover {
 		color: #000 !important;
 		padding-left: 5px; /* Hiệu ứng đẩy nhẹ sang phải */
 /*}*/
 
 /* 2. Layout Lưới đặc biệt (Cách nhau 50px) */
-.ivy-grid-wrapper {
+.luxe-grid-wrapper {
 	display: flex;
 	width: 100%;
 }
 
 /* Cột Đặc biệt (ALL ITEMS) - Cố định bên trái */
-.ivy-col-special {
+.luxe-col-special {
 	width: 240px;
 	flex-shrink: 0;
 	padding-right: 40px;
@@ -308,7 +308,7 @@
 }
 
 /* Khu vực chứa các cột danh mục (ÁO, QUẦN...) */
-.ivy-col-categories {
+.luxe-col-categories {
 	flex-grow: 1;
 	/* Chiếm hết không gian còn lại bên phải */
 	display: flex;
@@ -326,7 +326,7 @@
 }
 
 /* Mỗi cột danh mục con */
-.ivy-sub-cat-item {
+.luxe-sub-cat-item {
 	width: 200px;
 	/* Đặt chiều rộng cố định cho mỗi cột */
 	min-width: 180px;
@@ -339,7 +339,7 @@
 }
 
 /* Link Style */
-.ivy-cat-title {
+.luxe-cat-title {
 	display: block;
 	font-weight: 700;
 	color: #333;
@@ -349,18 +349,18 @@
 	text-decoration: none !important;
 }
 
-.ivy-cat-title:hover {
+.luxe-cat-title:hover {
 	color: #000;
 }
 
-.ivy-flex-container {
+.luxe-flex-container {
 	display: flex;
 	width: 100%;
 	justify-content: flex-start;
 	/* BẮT BUỘC: Để nội dung dồn về bên trái */
 }
 
-.ivy-mega-menu .container-ivy {
+.luxe-mega-menu .container-luxe {
 	width: 100%;
 	padding: 0;
 	/* Xóa padding 85px đi để tránh bị cộng dồn thành 170px */
@@ -697,7 +697,7 @@ a.zalo-icon {
 
 
 /* --------------------------------- BANNER SLIDER STYLE --------------------------------- */
-.ivy-banner-wrapper {
+.luxe-banner-wrapper {
 	/* Tạo độ bo góc chéo đặc trưng */
 	border-top-left-radius: 80px;
 	/* Bo góc trên trái */
@@ -841,7 +841,7 @@ a.zalo-icon {
 }
 
 /* --------------------------------- SECTION HEADER (NEW ARRIVAL) --------------------------------- */
-.ivy-section-header {
+.luxe-section-header {
 	text-align: center;
 	margin-bottom: 25px;
 	/* Cách xa sản phẩm một chút */
@@ -849,7 +849,7 @@ a.zalo-icon {
 }
 
 /* 1. Dòng chữ NEW ARRIVAL to đùng */
-.ivy-section-title {
+.luxe-section-title {
 	font-size: 32px;
 	/* Chữ to */
 	font-weight: 700;
@@ -863,7 +863,7 @@ a.zalo-icon {
 }
 
 /* 2. Hai cái tab Luxe Fashion | Metagent */
-.ivy-tab-item {
+.luxe-tab-item {
 	display: inline-block;
 	font-size: 18px;
 	/* Chữ tab nhỏ hơn tiêu đề */
@@ -880,7 +880,7 @@ a.zalo-icon {
 }
 
 /* Tab đang chọn (Luxe Fashion) */
-.ivy-tab-item.active {
+.luxe-tab-item.active {
 	color: #000;
 	/* Màu đen đậm */
 	font-weight: 500;
@@ -889,23 +889,23 @@ a.zalo-icon {
 }
 
 /* Hiệu ứng hover cho tab chưa chọn */
-.ivy-tab-item:hover {
+.luxe-tab-item:hover {
 	color: #000;
 }
 
-.ivy-tab-item:hover {
+.luxe-tab-item:hover {
 	color: #000;
 }
 
 /* --- GRID 5 CỘT (Custom) --- */
-.row-ivy-5 {
+.row-luxe-5 {
 	display: flex;
 	flex-wrap: wrap;
 	margin-right: -10px;
 	margin-left: -10px;
 }
 
-.col-ivy-5 {
+.col-luxe-5 {
 	position: relative;
 	width: 20%;
 	/* 100% chia 5 = 20% */
@@ -915,7 +915,7 @@ a.zalo-icon {
 }
 
 @media (max-width : 1199px) {
-	.col-ivy-5 {
+	.col-luxe-5 {
 		width: 33.33%;
 	}
 
@@ -942,12 +942,12 @@ a.zalo-icon {
 }
 
 @media (max-width : 576px) {
-	.col-ivy-5 {
+	.col-luxe-5 {
 		width: 50%;
 	}
 }
 
-/* --- PRODUCT CARD STYLE (IVY STYLE) --- */
+/* --- PRODUCT CARD STYLE (LUXE STYLE) --- */
 .product-item {
 	position: relative;
 	transition: all 0.3s;
@@ -958,7 +958,7 @@ a.zalo-icon {
 	position: absolute;
 	top: 0;
 	left: 0;
-	background: #f7941d; /* Màu cam Ivy */
+	background: #f7941d; /* Màu cam Luxe */
 /*color: #fff;
 	font-size: 10px;
 	font-weight: 700;
@@ -1050,7 +1050,7 @@ a.zalo-icon {
 }
 
 /* --- 2. STYLE NÚT "XEM TẤT CẢ" (HÌNH CHIẾC LÁ) --- */
-.btn-ivy-see-all {
+.btn-luxe-see-all {
 	background: #fff;
 	color: #333;
 	border: 1px solid #333;
@@ -1066,7 +1066,7 @@ a.zalo-icon {
 	text-decoration: none;
 }
 
-.btn-ivy-see-all:hover {
+.btn-luxe-see-all:hover {
 	background: #000;
 	border-color: #000;
 	color: #fff;
@@ -1087,7 +1087,7 @@ a.zalo-icon {
 	top: 0;
 	left: 0;
 	background: #f7941d;
-	/* Màu cam Ivy */
+	/* Màu cam Luxe */
 	color: #fff;
 	font-size: 11px;
 	font-weight: 700;
@@ -2011,7 +2011,7 @@ a.zalo-icon {
 }
 
 /* 1. Các ô nhập liệu (Input) */
-.form-control-ivy {
+.form-control-luxe {
 	border: 1px solid #ddd;
 	border-radius: 4px 0 4px 0;
 	/* Bo góc chéo đặc trưng */
@@ -2024,7 +2024,7 @@ a.zalo-icon {
 	transition: border 0.3s;
 }
 
-.form-control-ivy:focus {
+.form-control-luxe:focus {
 	border-color: #000;
 }
 
@@ -2280,7 +2280,7 @@ a.zalo-icon {
 	/* Ẩn thanh cuộn ngang */
 	height: auto;
 	/* Bỏ height cố định nếu có */
-	/* Tùy chỉnh thanh cuộn cho đẹp (giống Ivy) */
+	/* Tùy chỉnh thanh cuộn cho đẹp (giống Luxe) */
 	scrollbar-width: thin;
 	scrollbar-color: #ccc #fff;
 }
@@ -2403,7 +2403,7 @@ a.zalo-icon {
 	color: #fff;
 	border-color: #000;
 	background-color: #000;
-	/* Checkbox màu đen giống Ivy */
+	/* Checkbox màu đen giống Luxe */
 }
 
 /* Pagination Style */
@@ -2457,7 +2457,7 @@ a.zalo-icon {
 }
 
 /* ------------------------------------- 2. SUCCESS MODAL (Thông báo thành công) ------------------------------------ */
-.ivy-modal {
+.luxe-modal {
 	display: none;
 	position: fixed;
 	z-index: 9999;
@@ -2471,7 +2471,7 @@ a.zalo-icon {
 	justify-content: center;
 }
 
-.ivy-modal-content {
+.luxe-modal-content {
 	background-color: #fff;
 	padding: 40px;
 	text-align: center;
@@ -2729,8 +2729,8 @@ a.btn-auth-action {
 	font-weight: 400;
 }
 
-/* Ô nhập liệu (Input) chuẩn Ivy */
-.form-control-ivy {
+/* Ô nhập liệu (Input) chuẩn Luxe */
+.form-control-luxe {
 	border: 1px solid #e1e1e1;
 	border-radius: 4px;
 	height: 40px;
@@ -2741,7 +2741,7 @@ a.btn-auth-action {
 	transition: border 0.3s;
 }
 
-.form-control-ivy:focus {
+.form-control-luxe:focus {
 	border-color: #333;
 }
 
@@ -2824,7 +2824,7 @@ a.btn-auth-action {
 }
 
 /* Input readonly (màu xám nhạt giống ảnh) */
-.form-control-ivy.bg-light {
+.form-control-luxe.bg-light {
 	background-color: #f8f9fa !important;
 	border-color: #eee;
 	color: #555;
@@ -3204,7 +3204,7 @@ a.btn-auth-action {
 }
 
 /* Giới hạn chiều cao của banner để không bị quá to trên Desktop */
-.ivy-banner-wrapper .carousel-item img {
+.luxe-banner-wrapper .carousel-item img {
 	aspect-ratio: 2.5 / 1;
 	/* Tỷ lệ vàng chính xác của Luxe Fashion */
 	width: 100%;
@@ -3214,7 +3214,7 @@ a.btn-auth-action {
 }
 
 @media (max-width: 768px) {
-	.ivy-banner-wrapper .carousel-item img {
+	.luxe-banner-wrapper .carousel-item img {
 		height: 35vh;
 		/* Thấp hơn trên Mobile */
 	}

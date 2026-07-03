@@ -3,11 +3,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{client/layout}">
 <head>
-    <title>Tra cứu đơn hàng - Luxe Fashion</title>
+    <title>Tra cứu đơn hàng | Luxe Fashion</title>
 </head>
 <body>
     <div layout:fragment="content">
-        <div class="container-ivy mt-5 mb-5">
+        <div class="container-luxe mt-5 mb-5">
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-5">
                     
@@ -24,12 +24,12 @@
                         <form th:action="@{/order/tracking}" method="get">
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold small">MÃ ĐƠN HÀNG</label>
-                                <input type="number" name="id" class="form-control-ivy" placeholder="Ví dụ: 123" required>
+                                <input type="number" name="id" class="form-control-luxe" placeholder="Ví dụ: 123" required>
                             </div>
                             
                             <div class="form-group mb-4">
                                 <label class="font-weight-bold small">SỐ ĐIỆN THOẠI</label>
-                                <input type="text" name="phone" class="form-control-ivy" placeholder="Nhập SĐT đặt hàng" required>
+                                <input type="text" name="phone" class="form-control-luxe" placeholder="Nhập SĐT đặt hàng" required>
                             </div>
 
                             <button type="submit" class="btn btn-dark btn-block font-weight-bold py-3" style="border-radius: 4px 0 4px 0;">

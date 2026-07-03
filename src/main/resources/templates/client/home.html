@@ -3,13 +3,13 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{client/layout}">
 <head>
-<title>Trang chủ - Luxe Fashion</title>
+<title>Trang chủ | Luxe Fashion</title>
 </head>
 <body>
 	<div layout:fragment="content">
 
-		<div class="container-ivy mb-5">
-			<div id="homeCarousel" class="carousel slide ivy-banner-wrapper"
+		<div class="container-luxe mb-5">
+			<div id="homeCarousel" class="carousel slide luxe-banner-wrapper"
 				data-ride="carousel" data-interval="3000">
 				<ol class="carousel-indicators">
 					<li data-target="#homeCarousel" data-slide-to="0" class="active"></li>
@@ -19,7 +19,7 @@
 					<div th:each="banner, iterStat : ${banners}" 
 						 th:classappend="${iterStat.index == 0} ? 'carousel-item active' : 'carousel-item'">
 						<a th:href="@{${banner.targetUrl}}">
-							<img th:src="@{'' + ${banner.imageName}}" class="d-block w-100"
+							<img th:src="${banner.imageName != null and #strings.startsWith(banner.imageName, 'http') ? banner.imageName : '/uploads/' + banner.imageName}" class="d-block w-100"
 								alt="Banner">
 						</a>
 					</div>
@@ -45,14 +45,14 @@
 			</div>
 		</div>
 
-		<div class="container-ivy" style="margin-top: 30px;">
+		<div class="container-luxe" style="margin-top: 30px;">
 
-			<div class="ivy-section-header">
-				<h3 class="ivy-section-title">NEW ARRIVAL</h3>
+			<div class="luxe-section-header">
+				<h3 class="luxe-section-title">NEW ARRIVAL</h3>
 				<div class="d-flex justify-content-center">
-					<a href="javascript:void(0)" class="ivy-tab-item active"
+					<a href="javascript:void(0)" class="luxe-tab-item active"
 						onclick="switchTab('women', event)">WOMEN</a> <a
-						href="javascript:void(0)" class="ivy-tab-item"
+						href="javascript:void(0)" class="luxe-tab-item"
 						onclick="switchTab('men', event)">MEN</a>
 				</div>
 			</div>
@@ -67,7 +67,7 @@
 						</div>
 					</div>
 					<div class="text-center mt-2">
-						<a th:href="@{/danh-muc/hang-nu-moi-ve}" class="btn-ivy-see-all">Xem
+						<a th:href="@{/danh-muc/hang-nu-moi-ve}" class="btn-luxe-see-all">Xem
 							tất cả</a>
 					</div>
 				</div>
@@ -90,7 +90,7 @@
 						</div>
 					</div>
 					<div class="text-center mt-2">
-						<a th:href="@{/danh-muc/hang-nam-moi-ve}" class="btn-ivy-see-all">Xem
+						<a th:href="@{/danh-muc/hang-nam-moi-ve}" class="btn-luxe-see-all">Xem
 							tất cả</a>
 					</div>
 				</div>
@@ -140,7 +140,7 @@
 			function switchTab(gender, event) {
 				// 1. Ẩn tất cả tab & Bỏ active cũ
 				$('.product-tab-content').hide();
-				$('.ivy-tab-item').removeClass('active');
+				$('.luxe-tab-item').removeClass('active');
 
 				// 2. Hiện tab mới
 				var selectedTab = $('#tab-' + gender);

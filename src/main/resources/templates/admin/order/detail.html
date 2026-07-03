@@ -94,7 +94,7 @@
 										<td>
 											<div class="d-flex align-items-center">
 												<img th:if="${item.productImage != null}"
-													th:src="@{'' + ${item.productImage}}"
+													th:src="${item.productImage != null and #strings.startsWith(item.productImage, 'http') ? item.productImage : '/uploads/' + item.productImage}"
 													style="width: 50px; height: 75px; object-fit: cover; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
 
 												<div>

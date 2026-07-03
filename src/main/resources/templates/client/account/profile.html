@@ -3,11 +3,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{client/layout}">
 <head>
-    <title>Thông tin tài khoản - Luxe Fashion</title>
+    <title>Thông tin tài khoản | Luxe Fashion</title>
 </head>
 <body>
     <div layout:fragment="content">
-        <div class="container-ivy" style="margin-bottom: 50px;">
+        <div class="container-luxe" style="margin-bottom: 50px;">
             
             <div class="text-muted" style="font-size: 14px; border-bottom: 1px solid #e1e1e1; padding-top: 20px; padding-bottom: 21px; margin-bottom: 40px;">
                 <a th:href="@{/}" class="text-muted" style="text-decoration: none;">Trang chủ</a> 
@@ -101,28 +101,28 @@
                                 <div class="d-flex profile-form-row mb-4">
                                     <label class="text-muted mb-0 profile-label" style="font-size: 14px; flex-shrink: 0;">Họ</label>
                                     <div style="flex-grow: 1; width: 100%;">
-                                        <input type="text" class="form-control-ivy mb-0 bg-light border-0 w-100" th:value="${displayLastName}" readonly style="border-radius: 4px; padding: 10px 15px;">
+                                        <input type="text" class="form-control-luxe mb-0 bg-light border-0 w-100" th:value="${displayLastName}" readonly style="border-radius: 4px; padding: 10px 15px;">
                                     </div>
                                 </div>
 
                                 <div class="d-flex profile-form-row mb-4">
                                     <label class="text-muted mb-0 profile-label" style="font-size: 14px; flex-shrink: 0;">Tên</label>
                                     <div style="flex-grow: 1; width: 100%;">
-                                        <input type="text" class="form-control-ivy mb-0 bg-light border-0 w-100" th:value="${displayFirstName}" readonly style="border-radius: 4px; padding: 10px 15px;">
+                                        <input type="text" class="form-control-luxe mb-0 bg-light border-0 w-100" th:value="${displayFirstName}" readonly style="border-radius: 4px; padding: 10px 15px;">
                                     </div>
                                 </div>
 
                                 <div class="d-flex profile-form-row mb-4">
                                     <label class="text-muted mb-0 profile-label" style="font-size: 14px; flex-shrink: 0;">Số điện thoại</label>
                                     <div style="flex-grow: 1; width: 100%;">
-                                        <input type="text" class="form-control-ivy mb-0 bg-light border-0 w-100" th:value="${user.phone}" readonly style="border-radius: 4px; padding: 10px 15px;">
+                                        <input type="text" class="form-control-luxe mb-0 bg-light border-0 w-100" th:value="${user.phone}" readonly style="border-radius: 4px; padding: 10px 15px;">
                                     </div>
                                 </div>
 
                                 <div class="d-flex profile-form-row mb-4">
                                     <label class="text-muted mb-0 profile-label" style="font-size: 14px; flex-shrink: 0;">Email</label>
                                     <div style="flex-grow: 1; width: 100%;">
-                                        <input type="email" name="email" class="form-control-ivy mb-0 w-100" th:value="${user.email}" style="border-radius: 4px; border: 1px solid #f0f0f0; padding: 10px 15px;">
+                                        <input type="email" name="email" class="form-control-luxe mb-0 w-100" th:value="${user.email}" style="border-radius: 4px; border: 1px solid #f0f0f0; padding: 10px 15px;">
                                     </div>
                                 </div>
 
@@ -152,7 +152,7 @@
                                 <div class="d-flex profile-form-row mb-4">
                                     <label class="text-muted mb-0 profile-label hide-on-mobile" style="font-size: 14px; flex-shrink: 0;">Ngày sinh</label>
                                     <div style="flex-grow: 1; width: 100%;">
-                                        <input type="date" class="form-control-ivy mb-0 bg-light w-100 date-mobile-bg" th:value="${user.dateOfBirth}" readonly style="border-radius: 4px; padding: 10px 15px;">
+                                        <input type="date" class="form-control-luxe mb-0 bg-light w-100 date-mobile-bg" th:value="${user.dateOfBirth}" readonly style="border-radius: 4px; padding: 10px 15px;">
                                     </div>
                                 </div>
 
@@ -214,17 +214,17 @@
                             
                             <div class="form-group">
                                 <label class="small text-muted font-weight-bold">Mật khẩu hiện tại</label>
-                                <input type="password" name="currentPassword" class="form-control-ivy" required>
+                                <input type="password" name="currentPassword" class="form-control-luxe" required>
                             </div>
 
                             <div class="form-group">
                                 <label class="small text-muted font-weight-bold">Mật khẩu mới</label>
-                                <input type="password" name="newPassword" class="form-control-ivy" required>
+                                <input type="password" name="newPassword" class="form-control-luxe" required>
                             </div>
 
                             <div class="form-group">
                                 <label class="small text-muted font-weight-bold">Nhập lại Mật khẩu mới</label>
-                                <input type="password" name="confirmPassword" class="form-control-ivy" required>
+                                <input type="password" name="confirmPassword" class="form-control-luxe" required>
                             </div>
 
                             <button type="submit" class="btn btn-dark btn-block font-weight-bold py-3 mt-4" style="border-radius: 4px 0 4px 0;">

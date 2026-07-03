@@ -7,7 +7,7 @@
 </head>
 <body>
     <div layout:fragment="content">
-        <div class="container-ivy mt-5 mb-5">
+        <div class="container-luxe mt-5 mb-5">
             
             <div class="row justify-content-center">
                 <div class="col-lg-10">
@@ -53,7 +53,7 @@
                                     <td class="align-middle">
                                         <div class="d-flex align-items-center">
                                             <img th:if="${item.productImage != null}" 
-                                                 th:src="@{'' + ${item.productImage}}" 
+                                                 th:src="${item.productImage != null and #strings.startsWith(item.productImage, 'http') ? item.productImage : '/uploads/' + item.productImage}" 
                                                  style="width: 50px; height: 75px; object-fit: cover;" class="mr-3">
                                             <div>
                                                 <div class="font-weight-bold small" th:text="${item.productName}"></div>

@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{client/layout}">
 <head>
-    <title th:text="${product.name} + ' - Luxe Fashion'">Chi tiết sản phẩm</title>
+    <title th:text="${product.name} + ' | Luxe Fashion'">Chi tiết sản phẩm</title>
     <style>
         /* CSS cho ô màu sắc */
         .color-option-box {
@@ -15,6 +15,14 @@
             display: inline-block;
             margin-right: 10px;
             position: relative;
+        }
+
+        /* Responsive: 20x20 trên Desktop */
+        @media (min-width: 992px) {
+            .color-option-box {
+                width: 20px;
+                height: 20px;
+            }
         }
         /* Hiệu ứng khi màu đang được chọn (không dùng vòng viền nữa) */
         .color-option-box.active-color {
@@ -28,12 +36,31 @@
             text-decoration: line-through;
             border-color: #eee;
         }
+
+        /* Tối ưu Bảng Size trên điện thoại (Không cần cuộn ngang) */
+        @media (max-width: 767px) {
+            #sizeGuideModal .modal-body {
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+            }
+            #sizeGuideModal .table-responsive {
+                overflow-x: hidden !important; 
+            }
+            #sizeGuideModal table th,
+            #sizeGuideModal table td {
+                padding: 6px 2px !important;
+                font-size: 10px !important;
+                white-space: normal !important;
+                word-wrap: break-word;
+                vertical-align: middle !important;
+            }
+        }
     </style>
 </head>
 <body>
     <div layout:fragment="content">
 
-        <div class="container-ivy">
+        <div class="container-luxe">
             <div class="text-muted" style="font-size: 14px; border-bottom: 1px solid #e1e1e1; padding-top: 20px; padding-bottom: 21px; margin-bottom: 40px;"> 
                 <a th:href="@{/}" class="text-muted" style="text-decoration: none;">Trang chủ</a> 
                 <span class="mx-2">-</span> 
@@ -46,7 +73,7 @@
             </div>
         </div>
 
-        <div class="container-ivy">
+        <div class="container-luxe">
             <div class="product-detail-row">
 
                 <div>
@@ -60,7 +87,7 @@
 
                             <img id="mainImage"
                                  th:if="${not #lists.isEmpty(selectedColor.images)}"
-                                 th:src="@{'' + ${selectedColor.images[0].imageUrl}}"
+                                 th:src="${selectedColor.images[0].imageUrl != null and #strings.startsWith(selectedColor.images[0].imageUrl, 'http') ? selectedColor.images[0].imageUrl : '/uploads/' + selectedColor.images[0].imageUrl}"
                                  class="main-img-display" alt="Ảnh chính">
                                  
                             <img id="mainImage"
@@ -83,9 +110,10 @@
 
     <div class="gallery-thumbs-scroll" id="thumbScroller">
         <img th:each="img, iter : ${selectedColor.images}"
-             th:src="@{'' + ${img.imageUrl}}" class="thumb-img"
+             th:src="${img.imageUrl != null and #strings.startsWith(img.imageUrl, 'http') ? img.imageUrl : '/uploads/' + img.imageUrl}" class="thumb-img"
              th:classappend="${iter.index == 0} ? 'active'"
-             th:onclick="'changeMainImage(this, \'' + @{'' + ${img.imageUrl}} + '\')'">
+             th:data-url="${img.imageUrl != null and #strings.startsWith(img.imageUrl, 'http') ? img.imageUrl : '/uploads/' + img.imageUrl}"
+             onclick="changeMainImage(this, this.getAttribute('data-url'))">
     </div>
 
     <button class="thumb-arrow down"
@@ -164,9 +192,9 @@
                             </div>
                         </div>
                         
-                        <div class="text-muted small" style="cursor: pointer;">
+                        <span class="text-dark font-weight-bold small" style="text-decoration: underline; cursor: pointer;" data-toggle="modal" data-target="#sizeGuideModal">
                             <i class="fas fa-ruler mr-1"></i> Kiểm tra size của bạn
-                        </div>
+                        </span>
                     </div>
 
 					<div class="mb-4 d-flex align-items-center">
@@ -236,12 +264,310 @@
 				    </div>
                 </div>
 
+    <!-- Modal Bảng Tư Vấn Size -->
+    <div class="modal fade" id="sizeGuideModal" tabindex="-1" role="dialog" aria-labelledby="sizeGuideModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content" style="border-radius: 0;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title font-weight-bold w-100 text-center" id="sizeGuideModalLabel" style="font-size: 24px;">BẢNG TƯ VẤN SIZE</h5>
+                    <button type="button" class="close position-absolute" data-dismiss="modal" aria-label="Close" style="right: 20px; top: 20px;">
+                        <span aria-hidden="true" style="font-size: 28px;">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body px-4 pb-5 pt-3">
+                    <!-- Nav Tabs -->
+                    <ul class="nav nav-tabs justify-content-center mb-4 border-0" id="sizeGuideTabs" role="tablist">
+                        <li class="nav-item mx-2">
+                            <a class="nav-link active font-weight-bold px-4 py-2" id="nam-tab" data-toggle="tab" href="#nam-size" role="tab" style="color: #000; border: none; border-bottom: 2px solid #000;">Nam</a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a class="nav-link font-weight-bold px-4 py-2 text-muted" id="nu-tab" data-toggle="tab" href="#nu-size" role="tab" style="border: none;">Nữ</a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a class="nav-link font-weight-bold px-4 py-2 text-muted" id="tre-em-tab" data-toggle="tab" href="#tre-em-size" role="tab" style="border: none;">Trẻ em</a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a class="nav-link font-weight-bold px-4 py-2 text-muted" id="giay-kids-tab" data-toggle="tab" href="#giay-kids-size" role="tab" style="border: none;">Giày Kids</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content" id="sizeGuideTabsContent">
+                        <!-- Tab Nam -->
+                        <div class="tab-pane fade show active" id="nam-size" role="tabpanel">
+                            <h6 class="font-weight-bold mb-3">1. Size Áo Nam (Sơ mi, Áo phông, Áo len, Áo khoác...)</h6>
+                            <div class="table-responsive mb-4">
+                                <table class="table table-bordered text-center align-middle" style="font-size: 14px;">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th>SIZE</th>
+                                            <th>S</th>
+                                            <th>M</th>
+                                            <th>L</th>
+                                            <th>XL</th>
+                                            <th>XXL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-weight-bold">Vòng cổ</td>
+                                            <td>37-38</td>
+                                            <td>39-40</td>
+                                            <td>41-42</td>
+                                            <td>43-44</td>
+                                            <td>45-46</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold">Vòng ngực</td>
+                                            <td>86-90</td>
+                                            <td>90-94</td>
+                                            <td>94-98</td>
+                                            <td>98-102</td>
+                                            <td>102-106</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold">Vòng eo</td>
+                                            <td>70-74</td>
+                                            <td>74-78</td>
+                                            <td>78-82</td>
+                                            <td>82-86</td>
+                                            <td>86-90</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h6 class="font-weight-bold mb-3 text-uppercase">Size Quần</h6>
+                            <div class="table-responsive mb-4">
+                                <table class="table table-bordered text-center align-middle" style="font-size: 14px;">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>TÊN GỌI/SIZE</th>
+                                            <th>S(29)</th>
+                                            <th>M(30)</th>
+                                            <th>L(31)</th>
+                                            <th>XL(32)</th>
+                                            <th>XXL(33)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td class="font-weight-bold text-left">Vòng Eo</td>
+                                            <td>76</td>
+                                            <td>80</td>
+                                            <td>84</td>
+                                            <td>86</td>
+                                            <td>90</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td class="font-weight-bold text-left">Vòng Mông</td>
+                                            <td>91</td>
+                                            <td>95</td>
+                                            <td>99</td>
+                                            <td>104</td>
+                                            <td>109</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td class="font-weight-bold text-left">Cân nặng (kg)</td>
+                                            <td>62 - 68</td>
+                                            <td>68 - 70</td>
+                                            <td>70 - 74</td>
+                                            <td>74 - 78</td>
+                                            <td>78 - 82</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td class="font-weight-bold text-left">Chiều Cao (cm)</td>
+                                            <td>162 - 168</td>
+                                            <td>168 - 172</td>
+                                            <td>172 - 176</td>
+                                            <td>176 - 180</td>
+                                            <td>180 - 184</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h6 class="font-weight-bold mb-3 text-uppercase">Size Giày Dép</h6>
+                            <div class="table-responsive mb-2">
+                                <table class="table table-bordered text-center align-middle" style="font-size: 14px;">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th class="text-left">TÊN GỌI/SIZE</th>
+                                            <th>39</th>
+                                            <th>40</th>
+                                            <th>41</th>
+                                            <th>42</th>
+                                            <th>43</th>
+                                            <th>44</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-weight-bold text-left">Chiều dài bàn chân</td>
+                                            <td>20,5</td>
+                                            <td>26</td>
+                                            <td>26,9</td>
+                                            <td>27,7</td>
+                                            <td>28,5</td>
+                                            <td>29,4</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Tab Nữ -->
+                        <div class="tab-pane fade" id="nu-size" role="tabpanel">
+                            <h6 class="font-weight-bold mb-3 text-uppercase">Size Váy Áo Nữ</h6>
+                            <div class="table-responsive mb-4">
+                                <table class="table table-bordered text-center align-middle" style="font-size: 14px;">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>TÊN GỌI/SIZE</th>
+                                            <th>S</th>
+                                            <th>M</th>
+                                            <th>L</th>
+                                            <th>XL</th>
+                                            <th>XXL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>1</td><td class="font-weight-bold text-left">Vai</td><td>36</td><td>37</td><td>38</td><td>39</td><td>40</td></tr>
+                                        <tr><td>2</td><td class="font-weight-bold text-left">Ngực</td><td>82</td><td>86</td><td>90</td><td>94</td><td>98</td></tr>
+                                        <tr><td>3</td><td class="font-weight-bold text-left">Eo</td><td>66</td><td>70</td><td>74</td><td>78</td><td>82</td></tr>
+                                        <tr><td>4</td><td class="font-weight-bold text-left">Hông</td><td>90</td><td>94</td><td>98</td><td>102</td><td>106</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h6 class="font-weight-bold mb-3 text-uppercase">Size Quần</h6>
+                            <div class="table-responsive mb-4">
+                                <table class="table table-bordered text-center align-middle" style="font-size: 14px;">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>TÊN GỌI/SIZE</th>
+                                            <th>S(26)</th>
+                                            <th>M(27)</th>
+                                            <th>L(28)</th>
+                                            <th>XL(29)</th>
+                                            <th>XXL(30)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>1</td><td class="font-weight-bold text-left">Vòng Eo</td><td>66</td><td>70</td><td>74</td><td>78</td><td>82</td></tr>
+                                        <tr><td>2</td><td class="font-weight-bold text-left">Vòng Mông</td><td>90</td><td>94</td><td>98</td><td>102</td><td>106</td></tr>
+                                        <tr><td>3</td><td class="font-weight-bold text-left">Vòng Bụng</td><td>68</td><td>72</td><td>76</td><td>80</td><td>84</td></tr>
+                                        <tr><td>4</td><td class="font-weight-bold text-left">Dài Quần</td><td>96</td><td>97</td><td>99</td><td>100</td><td>101</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h6 class="font-weight-bold mb-3 text-uppercase">Size Giày Dép</h6>
+                            <div class="table-responsive mb-2">
+                                <table class="table table-bordered text-center align-middle" style="font-size: 14px;">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th class="text-left">TÊN GỌI/SIZE</th>
+                                            <th>34</th>
+                                            <th>35</th>
+                                            <th>36</th>
+                                            <th>37</th>
+                                            <th>38</th>
+                                            <th>39</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td class="font-weight-bold text-left">Chiều dài bàn chân</td><td>20,5</td><td>21,5</td><td>22 - 22,5</td><td>23</td><td>23,8 - 24,1</td><td>24,5</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Tab Trẻ Em -->
+                        <div class="tab-pane fade" id="tre-em-size" role="tabpanel">
+                            <h6 class="font-weight-bold mb-3 text-uppercase">Size Váy Áo Trẻ Em</h6>
+                            <div class="table-responsive mb-2">
+                                <table class="table table-bordered text-center align-middle" style="font-size: 14px;">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>CỠ / TUỔI</th>
+                                            <th>4-5</th>
+                                            <th>6-7</th>
+                                            <th>8-9</th>
+                                            <th>10-11</th>
+                                            <th>12-13</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>1</td><td class="font-weight-bold text-left text-uppercase">Chiều Cao (cm)</td><td>110</td><td>122</td><td>133</td><td>150</td><td>155</td></tr>
+                                        <tr><td>2</td><td class="font-weight-bold text-left text-uppercase">Cân Nặng (kg)</td><td>15-20</td><td>20-25</td><td>23-29</td><td>28-35</td><td>34-43</td></tr>
+                                        <tr><td>3</td><td class="font-weight-bold text-left text-uppercase">Rộng Vai</td><td>29</td><td>30</td><td>31</td><td>32</td><td>33</td></tr>
+                                        <tr><td>4</td><td class="font-weight-bold text-left text-uppercase">Vòng Ngực</td><td>59</td><td>65</td><td>68</td><td>74</td><td>79</td></tr>
+                                        <tr><td>5</td><td class="font-weight-bold text-left text-uppercase">Vòng Bụng</td><td>54</td><td>59</td><td>62</td><td>65</td><td>69</td></tr>
+                                        <tr><td>6</td><td class="font-weight-bold text-left text-uppercase">Vòng Mông</td><td>61</td><td>66</td><td>70</td><td>75</td><td>80</td></tr>
+                                        <tr><td>7</td><td class="font-weight-bold text-left text-uppercase">Dài Tay</td><td>40</td><td>43</td><td>47</td><td>50</td><td>53</td></tr>
+                                        <tr><td>8</td><td class="font-weight-bold text-left text-uppercase">Chiều Dài Từ Đũng Đến Ống</td><td>42</td><td>52</td><td>59</td><td>66</td><td>72</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="text-muted small mb-4">* Số đo trong "BẢNG THÔNG SỐ" là số đo cơ thể không phải số đo quần áo</p>
+                        </div>
+                        
+                        <!-- Tab Giày Kids -->
+                        <div class="tab-pane fade" id="giay-kids-size" role="tabpanel">
+                            <h6 class="font-weight-bold mb-3 text-uppercase">Bảng Thông Số Kích Thước Giày Trẻ Em</h6>
+                            <div class="table-responsive mb-2">
+                                <table class="table table-bordered text-center align-middle" style="font-size: 14px;">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th class="text-left">Size Theo web</th>
+                                            <th>Chiều dài</th>
+                                            <th>Size số</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td class="text-left">Size 4-5</td><td>18 cm</td><td>29</td></tr>
+                                        <tr><td class="text-left">Size 5-6</td><td>19 cm</td><td>30</td></tr>
+                                        <tr><td class="text-left">Size 6-7</td><td>20 cm</td><td>31</td></tr>
+                                        <tr><td class="text-left">Size 7-8</td><td>21 cm</td><td>32</td></tr>
+                                        <tr><td class="text-left">Size 8-9</td><td>22 cm</td><td>33</td></tr>
+                                        <tr><td class="text-left">Size 9-10</td><td>23 cm</td><td>34</td></tr>
+                                        <tr><td class="text-left">Size 10-11</td><td>24 cm</td><td>35</td></tr>
+                                        <tr><td class="text-left">Size 11-12</td><td>25 cm</td><td>36</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
             </div>
         </div>
     </div>
 
     <th:block layout:fragment="pageScripts">
         <script>
+            $(document).ready(function() {
+                // Di chuyển modal ra ngoài body để tránh lỗi z-index hoặc bị che khuất
+                $('#sizeGuideModal').appendTo('body');
+                
+                // Đổi style khi click tab
+                $('#sizeGuideTabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                    $('#sizeGuideTabs a').removeClass('active text-dark').addClass('text-muted').css('border-bottom', 'none');
+                    $(e.target).removeClass('text-muted').addClass('active text-dark').css('border-bottom', '2px solid #000');
+                });
+            });
+
             // 1. Đổi ảnh chính
             function changeMainImage(thumbElement, newSrc) {
                 document.getElementById('mainImage').src = newSrc;
