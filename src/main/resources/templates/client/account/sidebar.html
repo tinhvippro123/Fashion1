@@ -110,7 +110,7 @@
 				</li>
 	
 				<li style="margin-bottom: 32px;">
-				    <a href="javascript:void(0)" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s; white-space: nowrap;"
+				    <a th:href="@{/account/recently-viewed}" style="text-decoration: none; display: flex; align-items: center; transition: 0.3s; white-space: nowrap;"
 					   th:styleappend="${activePage == 'viewed_products'} ? 'color: #111; font-weight: 600;' : 'color: #666; font-weight: 500;'"> 
 					   <i class="fas fa-glasses" style="width: 13px; height: 14px; display: inline-flex; justify-content: center; align-items: center; margin-right: 15px; font-size: 14px;" th:styleappend="${activePage == 'viewed_products'} ? 'color: #111;' : 'color: #a0a0a0;'"></i> Sản phẩm đã xem
 				    </a>

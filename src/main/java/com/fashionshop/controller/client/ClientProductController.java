@@ -21,10 +21,16 @@ public class ClientProductController {
 
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private com.fashionshop.service.UserService userService;
+	
+	@Autowired
+	private com.fashionshop.service.RecentlyViewedService recentlyViewedService;
 
 	@GetMapping("/product/{id}")
 	public String productDetail(@PathVariable Long id,
-			@RequestParam(name = "color", required = false) String selectedColorName, Model model, jakarta.servlet.http.HttpSession session) {
+			@RequestParam(name = "color", required = false) String selectedColorName, Model model, java.security.Principal principal) {
 
 		Product product = productService.getProductWithActiveColors(id);
 
@@ -32,17 +38,13 @@ public class ClientProductController {
 			return "redirect:/";
 		}
 
-		// Add to recently viewed
-		java.util.List<Long> recentProducts = (java.util.List<Long>) session.getAttribute("recent_products");
-		if (recentProducts == null) {
-			recentProducts = new java.util.ArrayList<>();
+		// Add to recently viewed in DB if logged in
+		if (principal != null) {
+		    com.fashionshop.model.User user = userService.findByEmail(principal.getName());
+		    if (user != null) {
+		        recentlyViewedService.addProductToRecentlyViewed(user, product);
+		    }
 		}
-		recentProducts.remove(product.getId());
-		recentProducts.add(0, product.getId());
-		if (recentProducts.size() > 20) {
-			recentProducts = recentProducts.subList(0, 20);
-		}
-		session.setAttribute("recent_products", recentProducts);
 
 		ProductColor selectedColor = product.getProductColors().get(0);
 

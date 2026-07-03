@@ -27,7 +27,7 @@
 					<div th:if="${#lists.isEmpty(recentProducts)}" class="text-center py-5">
 						<i class="fas fa-history text-muted mb-3" style="font-size: 50px;"></i>
 						<h5 class="text-muted">Bạn chưa xem sản phẩm nào</h5>
-						<a th:href="@{/danh-muc/nu}" class="btn btn-dark mt-3 px-4 py-2" style="border-radius: 0;">Khám phá ngay</a>
+						<a th:href="@{/}" class="btn btn-dark mt-3 px-4 py-2" style="border-radius: 0;">Tiếp tục mua sắm</a>
 					</div>
 
 					<div th:unless="${#lists.isEmpty(recentProducts)}" class="row">

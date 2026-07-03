@@ -39,28 +39,16 @@ public class ClientAccountController {
     }
 
     @Autowired private com.fashionshop.repository.ProductRepository productRepository;
+    @Autowired private com.fashionshop.service.RecentlyViewedService recentlyViewedService;
 
     @GetMapping("/recently-viewed")
-    public String recentlyViewed(Model model, Principal principal, jakarta.servlet.http.HttpSession session) {
+    public String recentlyViewed(Model model, Principal principal) {
         if (principal == null) return "redirect:/login";
 
         User user = userService.findByEmail(principal.getName());
         model.addAttribute("user", user);
 
-        List<Long> recentProductIds = (List<Long>) session.getAttribute("recent_products");
-        List<com.fashionshop.model.Product> recentProducts = new java.util.ArrayList<>();
-        if (recentProductIds != null && !recentProductIds.isEmpty()) {
-            List<com.fashionshop.model.Product> products = productRepository.findAllById(recentProductIds);
-            // Sort to match session order
-            for (Long id : recentProductIds) {
-                for (com.fashionshop.model.Product p : products) {
-                    if (p.getId().equals(id)) {
-                        recentProducts.add(p);
-                        break;
-                    }
-                }
-            }
-        }
+        List<com.fashionshop.model.Product> recentProducts = recentlyViewedService.getRecentlyViewedProducts(user, 40);
         model.addAttribute("recentProducts", recentProducts);
 
         return "client/account/recently-viewed";
