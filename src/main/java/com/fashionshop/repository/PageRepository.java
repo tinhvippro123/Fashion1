@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface PageRepository extends JpaRepository<Page, Long> {
     Optional<Page> findBySlugAndIsActiveTrue(String slug);
     Optional<Page> findBySlug(String slug);
+    java.util.List<Page> findByIsActiveTrue();
 }

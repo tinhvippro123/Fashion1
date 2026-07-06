@@ -8,6 +8,7 @@ public interface PageService {
     List<Page> findAll();
     Page findById(Long id);
     Optional<Page> findBySlug(String slug);
+    List<Page> getActivePages();
     Page save(Page page);
     void delete(Long id);
 }

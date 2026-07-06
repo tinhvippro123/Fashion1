@@ -31,6 +31,11 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
+    public List<Page> getActivePages() {
+        return pageRepository.findByIsActiveTrue();
+    }
+
+    @Override
     public Page save(Page page) {
         return pageRepository.save(page);
     }

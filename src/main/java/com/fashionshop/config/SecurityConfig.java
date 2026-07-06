@@ -25,7 +25,7 @@ public class SecurityConfig {
 
                 .requestMatchers("/", "/home", "/login", "/register", "/contact").permitAll()
                 
-                .requestMatchers("/danh-muc/**", "/san-pham/**", "/search", "/new-arrival/**","/product/**").permitAll()
+                .requestMatchers("/danh-muc/**", "/san-pham/**", "/search", "/new-arrival/**","/product/**", "/pages/**").permitAll()
                 
                 .requestMatchers("/cart/**", "/checkout/**", "/order/**", "/api/wishlist/**").permitAll()
 

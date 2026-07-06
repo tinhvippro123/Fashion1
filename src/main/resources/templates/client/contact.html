@@ -21,12 +21,11 @@
 </head>
 <body>
     <div layout:fragment="content" class="container-luxe" style="padding-top: 30px; padding-bottom: 50px;">
-        <nav aria-label="breadcrumb" style="margin-bottom: 30px;">
-            <ol class="breadcrumb bg-transparent p-0 m-0">
-                <li class="breadcrumb-item"><a th:href="@{/}" class="text-muted" style="text-decoration: none;">Trang chủ</a></li>
-                <li class="breadcrumb-item active text-dark" aria-current="page">Liên hệ</li>
-            </ol>
-        </nav>
+        <div style="margin-bottom: 30px; font-size: 15px; font-weight: 500;">
+            <a th:href="@{/}" style="color: #666; text-decoration: none;">Trang chủ</a>
+            <span class="mx-2" style="color: #999;">-</span>
+            <span style="color: #666;">Liên hệ</span>
+        </div>
 
         <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
             <span th:text="${success}"></span>
@@ -94,7 +93,7 @@
             <!-- Right: Form -->
             <div class="col-lg-8 mb-4">
                 <div class="contact-form-box p-5 border" style="border-radius: 40px 0 40px 0; border-color: #f0f0f0 !important; background: #fff;">
-                    <h4 class="font-weight-bold mb-3" style="font-size: 24px;">Email to LUXEmoda</h4>
+                    <h4 class="font-weight-bold mb-3" style="font-size: 24px;">Email to LUXE fashion</h4>
                     <p class="text-muted mb-4 small" style="line-height: 1.6;">We are here to help and answer any question you might have. Tell us about your issue so we can help you more quickly. We look forward to hearing from you.</p>
 
                     <form th:action="@{/contact}" th:object="${contact}" method="post">

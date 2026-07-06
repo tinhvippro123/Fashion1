@@ -10,4 +10,5 @@ import java.util.List;
 public interface FaqRepository extends JpaRepository<Faq, Long> {
     List<Faq> findByStatusOrderByDisplayOrderAscCreatedAtDesc(boolean status);
     List<Faq> findAllByOrderByDisplayOrderAscCreatedAtDesc();
+    List<Faq> findByQuestionContainingIgnoreCaseOrderByDisplayOrderAscCreatedAtDesc(String keyword);
 }

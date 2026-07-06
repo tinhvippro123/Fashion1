@@ -5,12 +5,7 @@
 </head>
 <body>
     <div layout:fragment="content">
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Quản lý Trang Tĩnh</h1>
-            <a th:href="@{/admin/pages/create}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                <i class="fas fa-plus fa-sm text-white-50"></i> Thêm trang mới
-            </a>
-        </div>
+        <h1 class="h3 mb-4 text-gray-800">Quản lý Trang Tĩnh</h1>
 
         <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
             <span th:text="${success}"></span>
@@ -26,8 +21,20 @@
         </div>
 
         <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Danh sách trang tĩnh</h6>
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <form th:action="@{/admin/pages}" method="get" class="form-inline mb-0">
+                    <div class="input-group input-group-sm search-group mr-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                        </div>
+                        <input type="text" name="keyword" th:value="${keyword}" class="form-control" style="min-width: 260px;" placeholder="Tìm kiếm trang tĩnh...">
+                    </div>
+                    <button type="submit" class="d-none"></button>
+                    <a th:href="@{/admin/pages}" class="btn btn-outline-secondary btn-sm" th:if="${keyword != null}" title="Làm mới"><i class="fas fa-sync-alt"></i></a>
+                </form>
+                <a th:href="@{/admin/pages/create}" class="btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-plus fa-sm text-white-50"></i> Thêm trang mới
+                </a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">

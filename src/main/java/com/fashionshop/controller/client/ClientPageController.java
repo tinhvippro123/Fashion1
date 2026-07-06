@@ -22,6 +22,7 @@ public class ClientPageController {
         
         if (pageOpt.isPresent()) {
             model.addAttribute("page", pageOpt.get());
+            model.addAttribute("activePages", pageService.getActivePages());
             return "client/page";
         } else {
             return "error/404";

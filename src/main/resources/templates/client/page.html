@@ -5,17 +5,117 @@
 </head>
 <body>
     <div layout:fragment="content" class="container-luxe" style="padding-top: 30px; padding-bottom: 50px;">
-        <nav aria-label="breadcrumb" style="margin-bottom: 30px;">
-            <ol class="breadcrumb bg-transparent p-0 m-0">
-                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
-                <li class="breadcrumb-item active" aria-current="page" th:text="${page.title}"></li>
-            </ol>
-        </nav>
-
-        <h1 class="mb-4" style="font-size: 28px; font-weight: 700; text-transform: uppercase;" th:text="${page.title}"></h1>
+        <style>
+            .page-sidebar-link:hover {
+                color: #000 !important;
+                background-color: #f8f9fa;
+            }
+            .page-content h1, .page-content h2, .page-content h3 {
+                font-weight: bold !important;
+                margin-top: 20px;
+                margin-bottom: 15px;
+            }
+            @media (max-width: 767px) {
+                .page-content h1 { font-size: 22px !important; }
+                .page-content h2 { font-size: 18px !important; }
+                .page-content h3 { font-size: 16px !important; }
+                .page-content p, .page-content li { font-size: 14px !important; }
+            }
+            @media (min-width: 768px) {
+                .page-content h1 { font-size: 26px !important; }
+                .page-content h2 { font-size: 22px !important; }
+                .page-content h3 { font-size: 18px !important; }
+            }
+            
+            /* Custom dropdown styling for mobile */
+            .mobile-dropdown-btn {
+                width: 100%;
+                padding: 12px 20px;
+                border: 1px solid #e1e1e1;
+                border-radius: 30px; /* Hình viên thuốc (pill shape) */
+                background-color: #fff;
+                font-size: 14px;
+                font-weight: 500;
+                color: #333;
+                text-transform: uppercase;
+                text-align: left;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 25px;
+            }
+            .mobile-dropdown-btn:focus {
+                outline: none;
+                box-shadow: none;
+                border-color: #999;
+            }
+            .mobile-dropdown-menu {
+                width: 100%;
+                border-radius: 20px 0 20px 0;
+                border: 1px solid #e1e1e1;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+                padding: 10px 0;
+                margin-top: 5px;
+            }
+            .mobile-dropdown-item {
+                padding: 10px 20px;
+                font-size: 14px;
+                color: #555;
+                background-color: transparent !important;
+            }
+            .mobile-dropdown-item:hover, .mobile-dropdown-item:focus {
+                background-color: #f8f9fa !important;
+                color: #111 !important;
+            }
+            .mobile-dropdown-item.active {
+                font-weight: 600 !important;
+                color: #111 !important;
+                background-color: transparent !important;
+            }
+        </style>
+        <div style="margin-bottom: 30px; font-size: 14px; font-weight: 500;">
+            <a th:href="@{/}" style="color: #666; text-decoration: none;">Trang chủ</a>
+            <span class="mx-2" style="color: #999;">-</span>
+            <span th:text="${page.title}" style="color: #333;"></span>
+        </div>
         
-        <div class="page-content" th:utext="${page.content}" style="line-height: 1.8; color: #333; font-size: 15px;">
-            <!-- Nội dung từ CKEditor sẽ được render ở đây -->
+        <div class="row">
+            <!-- Sidebar for Desktop -->
+            <div class="col-md-3 d-none d-md-block">
+                <div class="card border-0 mb-4" style="box-shadow: 0 0 15px rgba(0,0,0,0.05); border-radius: 20px;">
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush" style="border-radius: 20px; overflow: hidden;">
+                            <li class="list-group-item p-0" style="border: none;" th:each="p : ${activePages}">
+                                <a th:href="@{/pages/{slug}(slug=${p.slug})}" 
+                                   class="page-sidebar-link d-block"
+                                   th:text="${p.title}"
+                                   th:style="${page.id == p.id ? 'padding: 18px 25px; color: #333; font-weight: 600; text-decoration: none; font-size: 15px;' : 'padding: 18px 25px; color: #555; text-decoration: none; font-size: 15px; transition: 0.3s;'}"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-9 col-12 pl-md-4">
+                <!-- Dropdown for Mobile -->
+                <div class="dropdown d-md-none">
+                    <button class="btn mobile-dropdown-btn" type="button" id="mobilePageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span th:text="${page.title}"></span>
+                        <i class="fas fa-chevron-down text-muted" style="font-size: 12px;"></i>
+                    </button>
+                    <div class="dropdown-menu mobile-dropdown-menu" aria-labelledby="mobilePageDropdown">
+                        <a class="dropdown-item mobile-dropdown-item" 
+                           th:each="p : ${activePages}" 
+                           th:href="@{/pages/{slug}(slug=${p.slug})}" 
+                           th:text="${p.title}"
+                           th:classappend="${page.id == p.id} ? 'active' : ''"></a>
+                    </div>
+                </div>
+
+                <div class="page-content" th:utext="${page.content}" style="line-height: 1.8; color: #333; font-size: 15px;">
+                    <!-- Nội dung từ CKEditor sẽ được render ở đây -->
+                </div>
+            </div>
         </div>
     </div>
 </body>

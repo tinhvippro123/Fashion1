@@ -53,6 +53,21 @@ public class ClientAccountController {
         return "client/account/faq";
     }
 
+    @GetMapping("/support")
+    public String supportPage(Model model, Principal principal) {
+        if (principal != null) {
+            User user = userService.findByEmail(principal.getName());
+            model.addAttribute("user", user);
+        }
+        return "client/account/support";
+    }
+
+    @PostMapping("/support/submit")
+    public String submitSupport(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("success", "Yêu cầu hỗ trợ của bạn đã được gửi thành công. Chúng tôi sẽ phản hồi trong thời gian sớm nhất.");
+        return "redirect:/account/support";
+    }
+
     @GetMapping("/recently-viewed")
     public String recentlyViewed(Model model, Principal principal) {
         if (principal == null) return "redirect:/login";

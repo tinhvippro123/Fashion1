@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{client/layout}">
+<head>
+<title>Yêu cầu hỗ trợ | Luxe Fashion</title>
+</head>
+<body>
+	<div layout:fragment="content">
+        <div class="container-luxe" style="margin-bottom: 50px;">
+            
+            <div class="text-muted" style="font-size: 14px; border-bottom: 1px solid #e1e1e1; padding-top: 20px; padding-bottom: 21px; margin-bottom: 40px;">
+                <a th:href="@{/}" class="text-muted" style="text-decoration: none;">Trang chủ</a> 
+                <span class="mx-2">-</span> 
+                <span class="text-dark">Yêu cầu hỗ trợ của bạn</span>
+            </div>
+
+            <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <span th:text="${success}"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="d-flex flex-column flex-lg-row">
+                
+                <div class="mb-4 account-sidebar-margin" style="flex-shrink: 0;">
+                   <div th:replace="~{client/account/sidebar :: account-sidebar(activePage='support')}"></div>
+                </div>
+
+                <div style="flex-grow: 1; min-width: 0;">
+                    
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
+                        <h5 class="font-weight-bold mb-0" style="font-size: 20px;">Yêu cầu hỗ trợ của bạn</h5>
+                        <a th:href="@{/account/support}" class="btn btn-dark px-4" style="font-size: 14px; font-weight: 500; border-radius: 20px 0 20px 0; background-color: #222; border: none; display: flex; align-items: center; letter-spacing: 0.5px; text-decoration: none; color: #fff;">
+                            <span style="border: 1.5px solid #fff; border-radius: 50%; width: 16px; height: 16px; display: inline-flex; justify-content: center; align-items: center; margin-right: 8px;">
+                                <i class="fas fa-plus" style="font-size: 9px;"></i>
+                            </span>
+                            GỬI <span class="d-none d-md-inline ml-1">CÂU HỎI</span>
+                        </a>
+                    </div>
+
+                    <div class="text-center mt-5 mb-4">
+                        <h5 class="font-weight-bold mb-2" style="font-size: 18px;">Gửi yêu cầu hỗ trợ của bạn</h5>
+                        <p class="text-muted mb-4" style="font-size: 14px;">Xin vui lòng cho chúng tôi biết bạn đang gặp khó khăn gì,<br>chúng tôi luôn sẵn sàng trợ giúp bạn</p>
+                    </div>
+                    
+                    <div class="row justify-content-center mb-5">
+                        <div class="col-md-9 col-lg-8">
+                            <form th:action="@{/account/support/submit}" method="post">
+                                <div class="form-group mb-4">
+                                    <select class="form-control text-muted" name="category" required style="border: 1px solid #e1e1e1; border-radius: 4px; padding: 12px 15px; height: auto; font-size: 14px; appearance: auto;">
+                                        <option value="" disabled selected hidden>Danh mục hỗ trợ</option>
+                                        <option value="Tai khoan">Tài khoản</option>
+                                        <option value="Don hang">Đơn hàng</option>
+                                        <option value="Thanh toan">Thanh toán</option>
+                                        <option value="Giao nhan">Giao nhận</option>
+                                        <option value="Khac">Khác</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group mb-4">
+                                    <input type="text" name="topic" class="form-control" placeholder="Chủ đề" required style="border: 1px solid #e1e1e1; border-radius: 4px; padding: 12px 15px; height: auto; font-size: 14px;">
+                                </div>
+                                
+                                <div class="form-group mb-4">
+                                    <textarea name="content" class="form-control" placeholder="Nhập yêu cầu của bạn" rows="5" required style="border: 1px solid #e1e1e1; border-radius: 4px; padding: 12px 15px; font-size: 14px; resize: vertical;"></textarea>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-dark w-100" style="padding: 14px; font-weight: 600; background-color: #222; border: none; border-radius: 4px; font-size: 14px; letter-spacing: 0.5px;">GỬI YÊU CẦU</button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+	</div>
+</body>
+</html>

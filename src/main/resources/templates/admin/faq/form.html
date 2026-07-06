@@ -25,7 +25,7 @@
 
                             <div class="form-group">
                                 <label class="font-weight-bold">Câu trả lời <span class="text-danger">*</span></label>
-                                <textarea th:field="*{answer}" class="form-control" rows="5" required placeholder="Nhập nội dung trả lời chi tiết..."></textarea>
+                                <textarea id="editor" th:field="*{answer}" class="form-control" rows="5" required placeholder="Nhập nội dung trả lời chi tiết..."></textarea>
                             </div>
 
                             <div class="row">
@@ -56,5 +56,17 @@
         </div>
     </div>
 </div>
+
+<th:block layout:fragment="pageScripts">
+    <!-- CKEditor 4 CDN -->
+    <script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('editor', {
+            height: 300,
+            versionCheck: false,
+            removeButtons: 'Save,NewPage,ExportPdf,Preview,Print,Templates,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField'
+        });
+    </script>
+</th:block>
 </body>
 </html>

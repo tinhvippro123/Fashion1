@@ -20,6 +20,14 @@ public class FaqServiceImpl implements FaqService {
     }
 
     @Override
+    public List<Faq> searchFaqs(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return getAllFaqs();
+        }
+        return faqRepository.findByQuestionContainingIgnoreCaseOrderByDisplayOrderAscCreatedAtDesc(keyword.trim());
+    }
+
+    @Override
     public List<Faq> getActiveFaqs() {
         return faqRepository.findByStatusOrderByDisplayOrderAscCreatedAtDesc(true);
     }

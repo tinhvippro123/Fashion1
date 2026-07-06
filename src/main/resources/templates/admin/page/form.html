@@ -45,14 +45,14 @@
     </div>
 
     <th:block layout:fragment="pageScripts">
-        <!-- CKEditor 5 CDN -->
-        <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+        <!-- CKEditor 4 CDN (Full version for rich features like alignment, colors, etc.) -->
+        <script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
         <script>
-            ClassicEditor
-                .create(document.querySelector('#editor'))
-                .catch(error => {
-                    console.error(error);
-                });
+            CKEDITOR.replace('editor', {
+                height: 500,
+                versionCheck: false,
+                removeButtons: 'Save,NewPage,ExportPdf,Preview,Print,Templates,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField'
+            });
 
             function generateSlug() {
                 var title = document.getElementById('title').value;

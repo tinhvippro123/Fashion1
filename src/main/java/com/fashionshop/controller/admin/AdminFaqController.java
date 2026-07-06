@@ -16,8 +16,13 @@ public class AdminFaqController {
     private FaqService faqService;
 
     @GetMapping
-    public String listFaqs(Model model) {
-        model.addAttribute("faqs", faqService.getAllFaqs());
+    public String listFaqs(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            model.addAttribute("faqs", faqService.searchFaqs(keyword));
+            model.addAttribute("keyword", keyword);
+        } else {
+            model.addAttribute("faqs", faqService.getAllFaqs());
+        }
         return "admin/faq/list";
     }
 
