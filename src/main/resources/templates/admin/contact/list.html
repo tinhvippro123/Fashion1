@@ -2,6 +2,10 @@
 <html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{admin/layout}">
 <head>
     <title>Quản lý Liên Hệ</title>
+
+</head>
+<body>
+    <div layout:fragment="content">
     <style>
         .msg-cell {
             max-width: 300px;
@@ -12,11 +16,21 @@
         .msg-full {
             display: none;
             white-space: pre-wrap;
+            word-break: break-word;
+        }
+        @media (max-width: 767px) {
+            .table-responsive {
+                overflow-x: hidden;
+            }
+            .content-wrapper {
+                text-align: right;
+                max-width: 65%;
+            }
+            .msg-cell {
+                max-width: 100%;
+            }
         }
     </style>
-</head>
-<body>
-    <div layout:fragment="content">
         <h1 class="h3 mb-4 text-gray-800">Quản lý Liên Hệ</h1>
 
         <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -64,26 +78,32 @@
                                 <td th:text="${#temporals.format(contact.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
                                 <td th:text="${contact.fullName}" th:style="${!contact.isRead ? 'font-weight: bold;' : ''}"></td>
                                 <td>
-                                    <div th:text="${contact.phone}"></div>
-                                    <div class="small text-muted" th:text="${contact.email}"></div>
+                                    <div class="content-wrapper">
+                                        <div th:text="${contact.phone}"></div>
+                                        <div class="small text-muted" th:text="${contact.email}" style="word-break: break-all;"></div>
+                                    </div>
                                 </td>
                                 <td th:text="${contact.subject}"></td>
                                 <td>
-                                    <div class="msg-cell" th:text="${contact.message}"></div>
-                                    <div class="msg-full" th:text="${contact.message}"></div>
-                                    <a href="javascript:void(0)" class="small read-more-btn">Xem thêm</a>
+                                    <div class="content-wrapper">
+                                        <div class="msg-cell" th:text="${contact.message}"></div>
+                                        <div class="msg-full" th:text="${contact.message}"></div>
+                                        <a href="javascript:void(0)" class="small read-more-btn">Xem thêm</a>
+                                    </div>
                                 </td>
                                 <td>
                                     <span th:if="${contact.isRead}" class="badge badge-success">Đã đọc</span>
                                     <span th:unless="${contact.isRead}" class="badge badge-danger">Chưa đọc</span>
                                 </td>
                                 <td class="text-center">
-                                    <a th:if="${!contact.isRead}" th:href="@{/admin/contacts/read/{id}(id=${contact.id})}" class="btn btn-link action-icon hover-info p-1 mx-1" title="Đánh dấu đã đọc">
-                                        <i class="fas fa-check" style="font-size: 16px;"></i>
-                                    </a>
-                                    <a th:href="@{/admin/contacts/delete/{id}(id=${contact.id})}" class="btn btn-link action-icon hover-danger p-1 mx-1" onclick="return confirm('Bạn có chắc chắn muốn xóa lời nhắn này?');" title="Xóa">
-                                        <i class="fas fa-trash-alt" style="font-size: 16px;"></i>
-                                    </a>
+                                    <div class="content-wrapper">
+                                        <a th:if="${!contact.isRead}" th:href="@{/admin/contacts/read/{id}(id=${contact.id})}" class="btn btn-link action-icon hover-info p-1 mx-1" title="Đánh dấu đã đọc">
+                                            <i class="fas fa-check" style="font-size: 16px;"></i>
+                                        </a>
+                                        <a th:href="@{/admin/contacts/delete/{id}(id=${contact.id})}" class="btn btn-link action-icon hover-danger p-1 mx-1" onclick="return confirm('Bạn có chắc chắn muốn xóa lời nhắn này?');" title="Xóa">
+                                            <i class="fas fa-trash-alt" style="font-size: 16px;"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             <tr th:if="${#lists.isEmpty(contacts)}">
