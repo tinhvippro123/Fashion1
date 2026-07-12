@@ -13,6 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "cart")
+@com.fasterxml.jackson.annotation.JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Cart {
 
     @Id
@@ -20,6 +21,7 @@ public class Cart {
     private Long id;
 
     // User đăng nhập (có thể null)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;

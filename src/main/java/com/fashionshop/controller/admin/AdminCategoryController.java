@@ -1,4 +1,6 @@
 package com.fashionshop.controller.admin;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 
 import com.fashionshop.model.Category;
 import com.fashionshop.service.CategoryService;
@@ -18,12 +20,12 @@ public class AdminCategoryController {
 	public String list(@RequestParam(defaultValue = "0") int page, 
 	                   @RequestParam(value = "keyword", required = false) String keyword, 
 	                   Model model) {
-		org.springframework.data.domain.Page<Category> categoryPage;
+		Page<Category> categoryPage;
 		if (keyword != null && !keyword.isEmpty()) {
-			categoryPage = categoryService.searchCategories(keyword, org.springframework.data.domain.PageRequest.of(page, 10));
+			categoryPage = categoryService.searchCategories(keyword, PageRequest.of(page, 10));
 			model.addAttribute("keyword", keyword);
 		} else {
-			categoryPage = categoryService.getAllCategories(org.springframework.data.domain.PageRequest.of(page, 10));
+			categoryPage = categoryService.getAllCategories(PageRequest.of(page, 10));
 		}
 		model.addAttribute("categories", categoryPage.getContent());
 		model.addAttribute("page", categoryPage);

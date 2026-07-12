@@ -1,4 +1,6 @@
 package com.fashionshop.service.impl;
+import com.fashionshop.exception.FashionShopException;
+import com.fashionshop.exception.ErrorCode;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder; // Cần thiết vì có Spring Security
@@ -48,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUserById(Long id) {
-		return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+		return userRepository.findById(id).orElseThrow(() -> new FashionShopException(ErrorCode.UNAUTHENTICATED, "User not found"));
 	}
 
 	@Override
@@ -102,8 +104,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findByEmail(String email) {
-		// Repository tìm theo cột email trong database
 		return userRepository.findByEmail(email);
+	}
+
+	@Override
+	public User getUserByEmailOrThrow(String email) {
+		User user = userRepository.findByEmail(email);
+		if (user == null) {
+			throw new FashionShopException(ErrorCode.UNAUTHENTICATED);
+		}
+		return user;
 	}
 
 	@Override
@@ -112,7 +122,12 @@ public class UserServiceImpl implements UserService {
 
 		// 1. Kiểm tra Email
 		if (userRepository.findByEmail(dto.getEmail()) != null) {
-			throw new RuntimeException("Email đã tồn tại!");
+			throw new FashionShopException(ErrorCode.VALIDATION_ERROR);
+		}
+
+		// 2. Kiểm tra mật khẩu xác nhận
+		if (!dto.getPassword().equals(dto.getConfirmPassword())) {
+			throw new FashionShopException(ErrorCode.VALIDATION_ERROR);
 		}
 
 		// 2. Map DTO -> USER Entity
@@ -170,7 +185,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void changePassword(User user, String newPassword) {
+	public void changePassword(User user, String currentPassword, String newPassword, String confirmPassword) {
+		if (!passwordEncoder.matches(currentPassword, user.getPasswordHash())) {
+			throw new FashionShopException(ErrorCode.VALIDATION_ERROR);
+		}
+		
+		if (!newPassword.equals(confirmPassword)) {
+			throw new FashionShopException(ErrorCode.VALIDATION_ERROR);
+		}
+
 		user.setPasswordHash(passwordEncoder.encode(newPassword));
 		userRepository.save(user);
 	}
@@ -179,7 +202,10 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void updateProfile(User user, String newEmail, String genderStr) {
 		// 1. Cập nhật Email
-		if (newEmail != null && !newEmail.isEmpty()) {
+		if (newEmail != null && !newEmail.isEmpty() && !newEmail.equals(user.getEmail())) {
+			if (userRepository.findByEmail(newEmail) != null) {
+				throw new FashionShopException(ErrorCode.VALIDATION_ERROR);
+			}
 			user.setEmail(newEmail);
 		}
 

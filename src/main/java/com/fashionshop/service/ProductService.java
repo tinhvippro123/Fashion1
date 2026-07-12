@@ -52,5 +52,7 @@ public interface ProductService {
 
 	Product getProductWithActiveColors(Long id);
 
+	java.util.Map<String, Object> getProductDetailData(Long id, String selectedColorName, String userEmail);
+
 	long countAllProducts();
 }

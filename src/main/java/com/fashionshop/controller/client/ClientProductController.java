@@ -1,4 +1,8 @@
 package com.fashionshop.controller.client;
+import org.springframework.data.domain.Sort;
+import com.fashionshop.model.User;
+import com.fashionshop.service.RecentlyViewedService;
+import com.fashionshop.service.UserService;
 
 import com.fashionshop.model.Product;
 import com.fashionshop.model.ProductColor;
@@ -23,10 +27,10 @@ public class ClientProductController {
 	private ProductService productService;
 	
 	@Autowired
-	private com.fashionshop.service.UserService userService;
+	private UserService userService;
 	
 	@Autowired
-	private com.fashionshop.service.RecentlyViewedService recentlyViewedService;
+	private RecentlyViewedService recentlyViewedService;
 
 	@GetMapping("/product/{id}")
 	public String productDetail(@PathVariable Long id,
@@ -40,7 +44,7 @@ public class ClientProductController {
 
 		// Add to recently viewed in DB if logged in
 		if (principal != null) {
-		    com.fashionshop.model.User user = userService.findByEmail(principal.getName());
+		    User user = userService.findByEmail(principal.getName());
 		    if (user != null) {
 		        recentlyViewedService.addProductToRecentlyViewed(user, product);
 		    }
@@ -72,13 +76,13 @@ public class ClientProductController {
 			@RequestParam(name = "maxPrice", required = false) Double maxPrice,
 			@RequestParam(name = "sort", required = false, defaultValue = "default") String sort, Model model) {
 
-		org.springframework.data.domain.Sort sortObj = org.springframework.data.domain.Sort.unsorted();
+		Sort sortObj = Sort.unsorted();
         if ("price_asc".equals(sort)) {
-            sortObj = org.springframework.data.domain.Sort.by("basePrice").ascending();
+            sortObj = Sort.by("basePrice").ascending();
         } else if ("price_desc".equals(sort)) {
-            sortObj = org.springframework.data.domain.Sort.by("basePrice").descending();
+            sortObj = Sort.by("basePrice").descending();
         } else if ("newest".equals(sort)) {
-            sortObj = org.springframework.data.domain.Sort.by("createdAt").descending();
+            sortObj = Sort.by("createdAt").descending();
         }
 		Pageable pageable = PageRequest.of(page, 24, sortObj);
 

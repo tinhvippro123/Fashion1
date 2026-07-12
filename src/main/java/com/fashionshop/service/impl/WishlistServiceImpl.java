@@ -1,4 +1,6 @@
 package com.fashionshop.service.impl;
+import com.fashionshop.exception.FashionShopException;
+import com.fashionshop.exception.ErrorCode;
 
 import com.fashionshop.model.Product;
 import com.fashionshop.model.User;
@@ -39,8 +41,8 @@ public class WishlistServiceImpl implements WishlistService {
             wishlistRepository.delete(existing.get());
             return false; // Removed from wishlist
         } else {
-            User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-            Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
+            User user = userRepository.findById(userId).orElseThrow(() -> new FashionShopException(ErrorCode.UNAUTHENTICATED, "User not found"));
+            Product product = productRepository.findById(productId).orElseThrow(() -> new FashionShopException(ErrorCode.PRODUCT_NOT_FOUND, "Product not found"));
             
             WishlistItem item = new WishlistItem();
             item.setUser(user);

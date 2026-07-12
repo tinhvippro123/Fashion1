@@ -1,4 +1,6 @@
 package com.fashionshop.controller.admin;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 
 import com.fashionshop.model.Color;
 import com.fashionshop.service.ColorService;
@@ -18,12 +20,12 @@ public class AdminColorController {
 	public String list(@RequestParam(defaultValue = "0") int page,
 					   @RequestParam(value = "keyword", required = false) String keyword,
 					   Model model) {
-		org.springframework.data.domain.Page<Color> colorPage;
+		Page<Color> colorPage;
 		if (keyword != null && !keyword.isEmpty()) {
-			colorPage = colorService.searchColors(keyword, org.springframework.data.domain.PageRequest.of(page, 10));
+			colorPage = colorService.searchColors(keyword, PageRequest.of(page, 10));
 			model.addAttribute("keyword", keyword);
 		} else {
-			colorPage = colorService.getAllColors(org.springframework.data.domain.PageRequest.of(page, 10));
+			colorPage = colorService.getAllColors(PageRequest.of(page, 10));
 		}
 		model.addAttribute("colors", colorPage.getContent());
 		model.addAttribute("page", colorPage);

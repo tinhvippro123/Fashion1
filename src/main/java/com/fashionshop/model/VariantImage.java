@@ -18,6 +18,7 @@ public class VariantImage {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@com.fasterxml.jackson.annotation.JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "product_color_id")
 	private ProductColor productColor;

@@ -1,4 +1,6 @@
 package com.fashionshop.controller.admin;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 
 import com.fashionshop.model.Size;
 import com.fashionshop.service.SizeService;
@@ -18,12 +20,12 @@ public class AdminSizeController {
     public String list(@RequestParam(defaultValue = "0") int page,
                        @RequestParam(value = "keyword", required = false) String keyword,
                        Model model) {
-        org.springframework.data.domain.Page<Size> sizePage;
+        Page<Size> sizePage;
         if (keyword != null && !keyword.isEmpty()) {
-            sizePage = sizeService.searchSizes(keyword, org.springframework.data.domain.PageRequest.of(page, 10));
+            sizePage = sizeService.searchSizes(keyword, PageRequest.of(page, 10));
             model.addAttribute("keyword", keyword);
         } else {
-            sizePage = sizeService.getAllSizes(org.springframework.data.domain.PageRequest.of(page, 10));
+            sizePage = sizeService.getAllSizes(PageRequest.of(page, 10));
         }
         model.addAttribute("sizes", sizePage.getContent());
         model.addAttribute("page", sizePage);

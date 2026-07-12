@@ -1,4 +1,6 @@
 package com.fashionshop.controller.client;
+import org.springframework.data.domain.Sort;
+import com.fashionshop.service.BannerService;
 
 import com.fashionshop.dto.UserRegisterDTO;
 import com.fashionshop.model.Category;
@@ -32,7 +34,7 @@ public class ClientController {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private com.fashionshop.service.BannerService bannerService;
+	private BannerService bannerService;
 
 	@GetMapping(value = { "/", "/home" })
 	public String home(Model model) {
@@ -65,13 +67,13 @@ public class ClientController {
         String breadcrumbName = gender.equals("men") ? "HÀNG NAM MỚI VỀ" : "HÀNG NỮ MỚI VỀ";
 
         int pageSize = 24;
-        org.springframework.data.domain.Sort sortObj = org.springframework.data.domain.Sort.unsorted();
+        Sort sortObj = Sort.unsorted();
         if ("price_asc".equals(sort)) {
-            sortObj = org.springframework.data.domain.Sort.by("basePrice").ascending();
+            sortObj = Sort.by("basePrice").ascending();
         } else if ("price_desc".equals(sort)) {
-            sortObj = org.springframework.data.domain.Sort.by("basePrice").descending();
+            sortObj = Sort.by("basePrice").descending();
         } else if ("newest".equals(sort)) {
-            sortObj = org.springframework.data.domain.Sort.by("createdAt").descending();
+            sortObj = Sort.by("createdAt").descending();
         }
         Pageable pageable = PageRequest.of(page, pageSize, sortObj);
 
@@ -117,13 +119,13 @@ public class ClientController {
             Model model) {
 
         int pageSize = 24;
-        org.springframework.data.domain.Sort sortObj = org.springframework.data.domain.Sort.unsorted();
+        Sort sortObj = Sort.unsorted();
         if ("price_asc".equals(sort)) {
-            sortObj = org.springframework.data.domain.Sort.by("basePrice").ascending();
+            sortObj = Sort.by("basePrice").ascending();
         } else if ("price_desc".equals(sort)) {
-            sortObj = org.springframework.data.domain.Sort.by("basePrice").descending();
+            sortObj = Sort.by("basePrice").descending();
         } else if ("newest".equals(sort)) {
-            sortObj = org.springframework.data.domain.Sort.by("createdAt").descending();
+            sortObj = Sort.by("createdAt").descending();
         }
         Pageable pageable = PageRequest.of(page, pageSize, sortObj);
         

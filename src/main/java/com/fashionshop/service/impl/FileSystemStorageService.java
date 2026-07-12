@@ -1,4 +1,6 @@
 package com.fashionshop.service.impl;
+import com.fashionshop.exception.FashionShopException;
+import com.fashionshop.exception.ErrorCode;
 
 import com.fashionshop.service.StorageService;
 import org.springframework.stereotype.Service;
@@ -27,7 +29,7 @@ public class FileSystemStorageService implements StorageService {
 		try {
 			Files.createDirectories(rootLocation);
 		} catch (IOException e) {
-			throw new RuntimeException("Could not initialize storage", e);
+			throw new FashionShopException(ErrorCode.UNCATEGORIZED_EXCEPTION, "Could not initialize storage");
 		}
 	}
 
@@ -35,20 +37,30 @@ public class FileSystemStorageService implements StorageService {
 	public String store(MultipartFile file) {
 		try {
 			if (file.isEmpty()) {
-				throw new RuntimeException("Failed to store empty file.");
+				throw new FashionShopException(ErrorCode.BAD_REQUEST, "Failed to store empty file.");
 			}
 
-			// Đổi tên file ngẫu nhiên để tránh trùng (ví dụ: avatar.jpg -> uuid-avatar.jpg)
-			String originalFilename = file.getOriginalFilename();
+			// Chỉ cho phép các định dạng ảnh an toàn (Whitelist)
 			String extension = "";
-			int i = originalFilename.lastIndexOf('.');
-			if (i > 0) {
-				extension = originalFilename.substring(i);
+			String originalFilename = file.getOriginalFilename();
+			if (originalFilename != null) {
+				int i = originalFilename.lastIndexOf('.');
+				if (i > 0) {
+					extension = originalFilename.substring(i).toLowerCase();
+				}
+			}
+
+			if (!extension.matches("^\\.(jpg|jpeg|png|gif|webp)$")) {
+				throw new FashionShopException(ErrorCode.BAD_REQUEST, "Định dạng file không được hỗ trợ. Chỉ chấp nhận ảnh (jpg, jpeg, png, gif, webp).");
 			}
 
 			String newFilename = UUID.randomUUID().toString() + extension;
-
 			Path destinationFile = this.rootLocation.resolve(Paths.get(newFilename)).normalize().toAbsolutePath();
+
+			// Ngăn chặn Path Traversal Vulnerability
+			if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
+				throw new FashionShopException(ErrorCode.BAD_REQUEST, "Không thể lưu file ngoài thư mục cho phép (Path Traversal Attempt).");
+			}
 
 			try (InputStream inputStream = file.getInputStream()) {
 				Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
@@ -56,7 +68,7 @@ public class FileSystemStorageService implements StorageService {
 
 			return newFilename;
 		} catch (IOException e) {
-			throw new RuntimeException("Failed to store file.", e);
+			throw new FashionShopException(ErrorCode.UNCATEGORIZED_EXCEPTION, "Failed to store file.");
 		}
 	}
 
@@ -66,7 +78,7 @@ public class FileSystemStorageService implements StorageService {
 			Path file = rootLocation.resolve(filename);
 			Files.deleteIfExists(file);
 		} catch (IOException e) {
-			throw new RuntimeException("Failed to delete file.", e);
+			throw new FashionShopException(ErrorCode.UNCATEGORIZED_EXCEPTION, "Failed to delete file.");
 		}
 	}
 }

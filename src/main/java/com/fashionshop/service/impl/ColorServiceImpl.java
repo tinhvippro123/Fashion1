@@ -1,4 +1,6 @@
 package com.fashionshop.service.impl;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.fashionshop.model.Color;
 import com.fashionshop.repository.ColorRepository;
@@ -19,12 +21,12 @@ public class ColorServiceImpl implements ColorService {
 	}
 
 	@Override
-	public org.springframework.data.domain.Page<Color> getAllColors(org.springframework.data.domain.Pageable pageable) {
+	public Page<Color> getAllColors(Pageable pageable) {
 		return colorRepository.findAll(pageable);
 	}
 
 	@Override
-	public org.springframework.data.domain.Page<Color> searchColors(String keyword, org.springframework.data.domain.Pageable pageable) {
+	public Page<Color> searchColors(String keyword, Pageable pageable) {
 		if (keyword == null || keyword.trim().isEmpty()) {
 			return colorRepository.findAll(pageable);
 		}

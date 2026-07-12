@@ -11,6 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "product_colors")
+@com.fasterxml.jackson.annotation.JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ProductColor {
 
 	@Id

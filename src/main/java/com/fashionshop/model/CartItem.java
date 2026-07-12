@@ -11,6 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "cart_item")
+@com.fasterxml.jackson.annotation.JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class CartItem {
 
     @Id
@@ -19,6 +20,7 @@ public class CartItem {
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Cart cart;
 
     @ManyToOne

@@ -1,4 +1,6 @@
 package com.fashionshop.controller.client;
+import com.fashionshop.service.BannerService;
+import com.fashionshop.model.Banner;
 
 import com.fashionshop.model.Contact;
 import com.fashionshop.service.ContactService;
@@ -17,13 +19,13 @@ public class ContactController {
     private ContactService contactService;
     
     @Autowired
-    private com.fashionshop.service.BannerService bannerService;
+    private BannerService bannerService;
 
     @GetMapping("/contact")
     public String showContactPage(Model model) {
         model.addAttribute("contact", new Contact());
         
-        java.util.List<com.fashionshop.model.Banner> contactBanners = bannerService.getActiveBannersByPosition("CONTACT");
+        java.util.List<Banner> contactBanners = bannerService.getActiveBannersByPosition("CONTACT");
         if (!contactBanners.isEmpty()) {
             model.addAttribute("contactBanner", contactBanners.get(0));
         }

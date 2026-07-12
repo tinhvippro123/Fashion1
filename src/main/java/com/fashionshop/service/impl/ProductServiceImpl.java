@@ -16,9 +16,16 @@ import com.fashionshop.repository.VariantRepository;
 import com.fashionshop.repository.CategoryRepository;
 import com.fashionshop.service.ProductService;
 import com.fashionshop.service.StorageService;
+import com.fashionshop.service.UserService;
+import com.fashionshop.service.RecentlyViewedService;
+import com.fashionshop.exception.ErrorCode;
+import com.fashionshop.exception.FashionShopException;
+import com.fashionshop.model.User;
 import com.fashionshop.utils.SlugUtil;
 import com.fashionshop.enums.ProductImageType;
 import com.fashionshop.enums.VariantStatus;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,6 +54,10 @@ public class ProductServiceImpl implements ProductService {
 	private SizeRepository sizeRepository;
 	@Autowired
 	private CategoryRepository categoryRepository;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private RecentlyViewedService recentlyViewedService;
 
 	@Autowired
 	private StorageService storageService;
@@ -328,5 +339,38 @@ public class ProductServiceImpl implements ProductService {
     
     public long countAllProducts() {
         return productRepository.count();
+    }
+    
+    @Override
+    public Map<String, Object> getProductDetailData(Long id, String selectedColorName, String userEmail) {
+        Product product = getProductWithActiveColors(id);
+        
+        if (product == null) {
+            throw new FashionShopException(ErrorCode.PRODUCT_NOT_FOUND);
+        }
+
+        if (userEmail != null) {
+            User user = userService.findByEmail(userEmail);
+            if (user != null) {
+                recentlyViewedService.addProductToRecentlyViewed(user, product);
+            }
+        }
+
+        ProductColor selectedColor = product.getProductColors().isEmpty() ? null : product.getProductColors().get(0);
+
+        if (selectedColorName != null && !selectedColorName.isEmpty() && product.getProductColors() != null) {
+            for (ProductColor pc : product.getProductColors()) {
+                if (pc.getColor().getName().equalsIgnoreCase(selectedColorName)) {
+                    selectedColor = pc;
+                    break;
+                }
+            }
+        }
+
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("product", product);
+        responseData.put("selectedColor", selectedColor);
+
+        return responseData;
     }
 }

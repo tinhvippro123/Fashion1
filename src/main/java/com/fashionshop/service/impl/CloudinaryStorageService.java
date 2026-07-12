@@ -1,4 +1,6 @@
 package com.fashionshop.service.impl;
+import com.fashionshop.exception.FashionShopException;
+import com.fashionshop.exception.ErrorCode;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -27,7 +29,7 @@ public class CloudinaryStorageService implements StorageService {
     public String store(MultipartFile file) {
         try {
             if (file.isEmpty()) {
-                throw new RuntimeException("Failed to store empty file.");
+                throw new FashionShopException(ErrorCode.BAD_REQUEST, "Failed to store empty file.");
             }
 
             // Upload ảnh lên Cloudinary
@@ -37,7 +39,7 @@ public class CloudinaryStorageService implements StorageService {
             return uploadResult.get("secure_url").toString();
             
         } catch (IOException e) {
-            throw new RuntimeException("Failed to store file on Cloudinary.", e);
+            throw new FashionShopException(ErrorCode.UNCATEGORIZED_EXCEPTION, "Failed to store file on Cloudinary.");
         }
     }
 

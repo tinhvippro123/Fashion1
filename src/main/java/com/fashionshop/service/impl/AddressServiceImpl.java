@@ -1,4 +1,6 @@
 package com.fashionshop.service.impl;
+import com.fashionshop.exception.FashionShopException;
+import com.fashionshop.exception.ErrorCode;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ public class AddressServiceImpl implements AddressService {
 //  Common
 	@Override
 	public Address getAddressById(Long id) {
-		return addressRepository.findById(id).orElseThrow(() -> new RuntimeException("Address not found"));
+		return addressRepository.findById(id).orElseThrow(() -> new FashionShopException(ErrorCode.BAD_REQUEST, "Address not found"));
 	}
 
 	@Override
@@ -40,7 +42,7 @@ public class AddressServiceImpl implements AddressService {
 	@Override
 	@Transactional
 	public void addAddressToUser(Long userId, Address address) {
-		User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+		User user = userRepository.findById(userId).orElseThrow(() -> new FashionShopException(ErrorCode.UNAUTHENTICATED, "User not found"));
 		address.setUser(user);
 
 		save(address);
@@ -54,12 +56,12 @@ public class AddressServiceImpl implements AddressService {
 
 //      Tìm địa chỉ cũ trong DB
 		Address existingAddress = addressRepository.findById(addressId)
-				.orElseThrow(() -> new RuntimeException("Địa chỉ không tồn tại"));
+				.orElseThrow(() -> new FashionShopException(ErrorCode.BAD_REQUEST, "Địa chỉ không tồn tại"));
 
 //         Kiểm tra bảo mật:
 //         Người đang đăng nhập (userId) có phải là chủ của địa chỉ này không?
 		if (!existingAddress.getUser().getId().equals(userId)) {
-			throw new RuntimeException("Bạn không có quyền sửa địa chỉ này!");
+			throw new FashionShopException(ErrorCode.UNAUTHORIZED, "Bạn không có quyền sửa địa chỉ này!");
 		}
 
 //      Logic xử lý Mặc định

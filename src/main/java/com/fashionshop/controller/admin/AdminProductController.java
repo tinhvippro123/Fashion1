@@ -1,4 +1,6 @@
 package com.fashionshop.controller.admin;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.fashionshop.enums.ProductImageType;
 
 import com.fashionshop.model.Product;
 import com.fashionshop.model.Variant;
@@ -129,7 +131,7 @@ public class AdminProductController {
 	}
 
 	@GetMapping("/variants/delete-size/{id}")
-	public String deleteVariant(@PathVariable Long id, @RequestParam Long productId, org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes) {
+	public String deleteVariant(@PathVariable Long id, @RequestParam Long productId, RedirectAttributes redirectAttributes) {
 		try {
 			productService.deleteVariant(id);
 			redirectAttributes.addFlashAttribute("successMessage", "Xóa size thành công!");
@@ -183,7 +185,7 @@ public class AdminProductController {
 
 	@GetMapping("/variants/set-image-type/{imageId}")
 	public String setImageType(@PathVariable Long imageId, @RequestParam("type") String type, @RequestParam("productId") Long productId) {
-		productService.setImageType(imageId, com.fashionshop.enums.ProductImageType.valueOf(type));
+		productService.setImageType(imageId, ProductImageType.valueOf(type));
 		return "redirect:/admin/products/variants/" + productId;
 	}
 }

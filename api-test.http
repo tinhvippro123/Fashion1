@@ -1,0 +1,93 @@
+### 1. Test Validation (Kiểm tra lỗi dữ liệu)
+# Cố tình gửi sai email, thiếu số điện thoại, mật khẩu ngắn
+POST http://localhost:8080/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "lastName": "Nguyễn",
+  "firstName": "A",
+  "email": "email_sai_dinh_dang",
+  "phoneNumber": "",
+  "password": "123",
+  "confirmPassword": "123"
+}
+
+###
+
+### 2. Test Đăng ký thành công
+# Nhớ đổi email/sđt nếu bạn bấm gửi nhiều lần để tránh lỗi trùng lặp
+POST http://localhost:8080/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "lastName": "Nguyễn",
+  "firstName": "Văn A",
+  "email": "test_user_1@gmail.com",
+  "phoneNumber": "0901234567",
+  "password": "password123",
+  "confirmPassword": "password123"
+}
+
+###
+
+### 3. Test Đăng nhập thành công (Nhận Token)
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "test_user_1@gmail.com",
+  "password": "password123"
+}
+
+###
+
+### ==============================
+### PHASE 4: SHOPPING API TEST
+### ==============================
+
+### 4. Thêm sản phẩm vào giỏ (Thay variantId bằng ID thực tế trong DB)
+POST http://localhost:8080/api/v1/cart/add
+Content-Type: application/json
+
+{
+  "variantId": 1,
+  "quantity": 2
+}
+
+###
+
+### 5. Xem Giỏ Hàng
+GET http://localhost:8080/api/v1/cart
+
+###
+
+### 6. Đặt hàng (Checkout)
+POST http://localhost:8080/api/v1/checkout/place-order
+Content-Type: application/json
+
+{
+  "receiverName": "Khách Test",
+  "phone": "0901234567",
+  "province": "TP.HCM",
+  "district": "Quận 1",
+  "ward": "Bến Nghé",
+  "street": "123 Nguyễn Huệ",
+  "paymentMethod": "COD"
+}
+
+###
+
+### ==============================
+### PHASE 5: ACCOUNT & ORDER API TEST
+### (Yêu cầu phải có Token đăng nhập ở Header Authorization)
+### ==============================
+
+### 7. Xem thông tin cá nhân (Profile)
+GET http://localhost:8080/api/v1/account/profile
+Authorization: Bearer <DÁN_TOKEN_CỦA_BẠN_VÀO_ĐÂY>
+
+###
+
+### 8. Lấy danh sách đơn hàng đã mua
+GET http://localhost:8080/api/v1/orders
+Authorization: Bearer <DÁN_TOKEN_CỦA_BẠN_VÀO_ĐÂY>

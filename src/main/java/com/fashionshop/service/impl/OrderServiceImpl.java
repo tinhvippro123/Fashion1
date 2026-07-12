@@ -1,4 +1,7 @@
 package com.fashionshop.service.impl;
+import com.fashionshop.enums.OrderStatus;
+import com.fashionshop.exception.FashionShopException;
+import com.fashionshop.exception.ErrorCode;
 
 import com.fashionshop.enums.OrderStatus;
 import com.fashionshop.enums.PaymentMethod;
@@ -53,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
 		}
 
 		if (cart == null || cart.getItems().isEmpty()) {
-			throw new RuntimeException("Giỏ hàng trống, không thể đặt hàng");
+			throw new FashionShopException(ErrorCode.BAD_REQUEST, "Giỏ hàng trống, không thể đặt hàng");
 		}
 
 		// 2. Tạo đối tượng Order (Mới)
@@ -94,7 +97,8 @@ public class OrderServiceImpl implements OrderService {
 			}
 
 			// Lưu giá tại thời điểm mua
-			double unitPrice = product.getBasePrice();
+			// Ưu tiên lấy giá riêng của Variant (ví dụ size XXL đắt hơn), nếu không có thì lấy BasePrice
+			double unitPrice = (variant.getPrice() != null && variant.getPrice() > 0) ? variant.getPrice() : product.getBasePrice();
 			orderItem.setUnitPrice(unitPrice);
 
 			// Cộng dồn tổng tiền
@@ -159,8 +163,16 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Order getOrderById(Long id) {
-		return orderRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng ID: " + id));
+		return orderRepository.findById(id).orElseThrow(() -> new FashionShopException(ErrorCode.BAD_REQUEST, "Order not found"));
+	}
+
+	@Override
+	public Order getOrderByIdAndUserId(Long id, Long userId) {
+		Order order = getOrderById(id);
+		if (!order.getUser().getId().equals(userId)) {
+			throw new FashionShopException(ErrorCode.UNAUTHENTICATED);
+		}
+		return order;
 	}
 
 	@Override
@@ -172,7 +184,7 @@ public class OrderServiceImpl implements OrderService {
 		// 1. CHECK HỢP LỆ (Logic mới thêm)
 		// Nếu chuyển trạng thái không hợp lý -> Báo lỗi ngay
 		if (!isValidStatusChange(oldStatus, newStatus)) {
-			throw new RuntimeException("Không thể chuyển từ trạng thái " + oldStatus + " sang " + newStatus);
+			throw new FashionShopException(ErrorCode.BAD_REQUEST, "Không thể chuyển từ trạng thái " + oldStatus + " sang " + newStatus);
 		}
 
 		// 2. LOGIC HOÀN TRẢ KHO (Đã làm từ trước)
@@ -199,8 +211,8 @@ public class OrderServiceImpl implements OrderService {
 				int quantityToBuy = item.getQuantity();
 
 				if (currentStock < quantityToBuy) {
-					throw new RuntimeException("Không thể khôi phục đơn hàng. Sản phẩm "
-							+ variant.getProductColor().getProduct().getName() + " đã hết hàng trong kho!");
+					throw new FashionShopException(ErrorCode.BAD_REQUEST, "Không thể khôi phục đơn hàng. Sản phẩm "
+							+ item.getVariant().getProductColor().getProduct().getName() + " không đủ tồn kho.");
 				}
 
 				variant.setStock(currentStock - quantityToBuy);
@@ -265,17 +277,17 @@ public class OrderServiceImpl implements OrderService {
 	@Transactional
 	public void cancelOrder(Long orderId, Long userId) {
 		Order order = orderRepository.findById(orderId)
-				.orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
+				.orElseThrow(() -> new FashionShopException(ErrorCode.BAD_REQUEST, "Không tìm thấy đơn hàng"));
 
 		// 1. Kiểm tra chủ sở hữu (Bảo mật)
 		if (!order.getUser().getId().equals(userId)) {
-			throw new RuntimeException("Bạn không có quyền hủy đơn hàng này");
+			throw new FashionShopException(ErrorCode.UNAUTHENTICATED);
 		}
 
 		// 2. Kiểm tra trạng thái (Chỉ cho hủy khi đang PENDING)
 		// Nếu bạn muốn cho hủy cả lúc CONFIRMED thì thêm vào điều kiện
 		if (order.getStatus() != OrderStatus.PENDING) {
-			throw new RuntimeException("Đơn hàng đang giao hoặc đã hoàn thành, không thể hủy!");
+			throw new FashionShopException(ErrorCode.VALIDATION_ERROR);
 		}
 
 		// 3. Cập nhật trạng thái
@@ -296,7 +308,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Order findOrderForTracking(Long orderId, String phone) {
 		return orderRepository.findByIdAndPhone(orderId, phone)
-				.orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng hoặc số điện thoại không khớp!"));
+				.orElseThrow(() -> new FashionShopException(ErrorCode.BAD_REQUEST, "Không tìm thấy đơn hàng hoặc số điện thoại không khớp!"));
 	}
 
 //	 Hàm tính tổng doanh thu

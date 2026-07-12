@@ -12,6 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "categories")
+@com.fasterxml.jackson.annotation.JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Category {
 
 	@Id

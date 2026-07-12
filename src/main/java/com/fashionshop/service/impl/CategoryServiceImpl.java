@@ -78,4 +78,14 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryRepository.findBySlug(slug);
 	}
 
+	@Override
+	public Category resolveCategoryFromSlug(String slug) {
+		if (slug.equals("hang-nam-moi-ve")) {
+			return categoryRepository.findBySlug("nam");
+		} else if (slug.equals("hang-nu-moi-ve")) {
+			return categoryRepository.findBySlug("nu");
+		} else {
+			return categoryRepository.findBySlug(slug);
+		}
+	}
 }

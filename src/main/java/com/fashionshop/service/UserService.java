@@ -1,4 +1,5 @@
 package com.fashionshop.service;
+import com.fashionshop.model.User;
 
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -13,17 +14,18 @@ public interface UserService {
 
 	User getUserById(Long id);
 
-	User createUser(com.fashionshop.model.User user);
+	User createUser(User user);
 
 	User updateUser(Long id, User user);
 
 	void deleteUser(Long id);
 
 	User findByEmail(String email);
+	User getUserByEmailOrThrow(String email);
 
 	void registerUser(UserRegisterDTO registrationDto);
 
-	void changePassword(User user, String newPassword);
+	void changePassword(User user, String currentPassword, String newPassword, String confirmPassword);
 
 	boolean checkPassword(User user, String rawPassword);
 	

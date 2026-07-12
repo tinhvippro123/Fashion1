@@ -26,6 +26,7 @@ public interface OrderService {
 
 	// ADMIN: Lấy chi tiết 1 đơn
 	Order getOrderById(Long id);
+	Order getOrderByIdAndUserId(Long orderId, Long userId);
 
 	// ADMIN: Cập nhật trạng thái đơn hàng (Duyệt, Giao, Hủy)
 	void updateOrderStatus(Long orderId, OrderStatus newStatus);

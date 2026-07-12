@@ -20,4 +20,5 @@ public interface CategoryService {
 	List<Category> getAllRootCategories();
 
 	Category findBySlug(String slug);
+	Category resolveCategoryFromSlug(String slug);
 }

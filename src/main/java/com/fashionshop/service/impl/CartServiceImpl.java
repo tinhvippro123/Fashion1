@@ -1,4 +1,6 @@
 package com.fashionshop.service.impl;
+import com.fashionshop.exception.FashionShopException;
+import com.fashionshop.exception.ErrorCode;
 
 import com.fashionshop.model.Cart;
 import com.fashionshop.model.CartItem;
@@ -57,7 +59,7 @@ public class CartServiceImpl implements CartService {
 		}
 
 		if (variant.getStock() < (currentQuantityInCart + quantity)) {
-			throw new RuntimeException("Xin lỗi, sản phẩm này chỉ còn lại " + variant.getStock() + " sản phẩm.");
+			throw new FashionShopException(ErrorCode.BAD_REQUEST, "Xin lỗi, sản phẩm này chỉ còn lại " + variant.getStock() + " sản phẩm.");
 		}
 
 		// 4. Thêm vào giỏ hoặc Cập nhật số lượng
@@ -94,7 +96,7 @@ public class CartServiceImpl implements CartService {
 		}
 
 		if (itemToUpdate == null) {
-			throw new RuntimeException("Sản phẩm không có trong giỏ hàng");
+			throw new FashionShopException(ErrorCode.BAD_REQUEST, "Sản phẩm không có trong giỏ hàng");
 		}
 
 		// Check số lượng > 0
@@ -105,7 +107,7 @@ public class CartServiceImpl implements CartService {
 			// Check tồn kho
 			Variant variant = itemToUpdate.getVariant();
 			if (variant.getStock() < newQuantity) {
-				throw new RuntimeException("Kho không đủ hàng");
+				throw new FashionShopException(ErrorCode.BAD_REQUEST, "Kho không đủ hàng");
 			}
 			itemToUpdate.setQuantity(newQuantity);
 		}
@@ -235,7 +237,7 @@ public class CartServiceImpl implements CartService {
 
 		if (cart == null) {
 			// Trường hợp hiếm: Cả userId và sessionId đều null
-			throw new RuntimeException("Không xác định được người dùng");
+			throw new FashionShopException(ErrorCode.UNAUTHENTICATED, "Không xác định được người dùng");
 		}
 
 		// Nếu là cart mới (chưa có ID), cần save lần đầu để có ID (tùy logic, ở đây
@@ -261,9 +263,10 @@ public class CartServiceImpl implements CartService {
 		double total = 0;
 		if (cart != null && cart.getItems() != null) {
 			for (CartItem item : cart.getItems()) {
-				// Lấy giá từ Variant -> Product -> BasePrice
-				// Công thức: Giá * Số lượng
-				double itemPrice = item.getVariant().getProductColor().getProduct().getBasePrice();
+				// Lấy giá từ Variant, nếu không có mới lấy BasePrice của Product
+				Double variantPrice = item.getVariant().getPrice();
+				double basePrice = item.getVariant().getProductColor().getProduct().getBasePrice();
+				double itemPrice = (variantPrice != null && variantPrice > 0) ? variantPrice : basePrice;
 				total += itemPrice * item.getQuantity();
 			}
 		}

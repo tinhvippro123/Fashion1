@@ -1,4 +1,6 @@
 package com.fashionshop.repository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,5 +14,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     long countByRole(UserRole role);
 
-    org.springframework.data.domain.Page<User> findByFullNameContainingIgnoreCaseOrEmailContainingIgnoreCase(String fullName, String email, org.springframework.data.domain.Pageable pageable);
+    Page<User> findByFullNameContainingIgnoreCaseOrEmailContainingIgnoreCase(String fullName, String email, Pageable pageable);
 }

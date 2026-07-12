@@ -1,4 +1,6 @@
 package com.fashionshop.controller.admin;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,12 +21,12 @@ public class AdminUserController {
 	public String list(@RequestParam(defaultValue = "0") int page, 
 	                   @RequestParam(value = "keyword", required = false) String keyword, 
 	                   Model model) {
-		org.springframework.data.domain.Page<User> userPage;
+		Page<User> userPage;
 		if (keyword != null && !keyword.isEmpty()) {
-			userPage = userService.searchUsers(keyword, org.springframework.data.domain.PageRequest.of(page, 10));
+			userPage = userService.searchUsers(keyword, PageRequest.of(page, 10));
 			model.addAttribute("keyword", keyword);
 		} else {
-			userPage = userService.getAllUsers(org.springframework.data.domain.PageRequest.of(page, 10));
+			userPage = userService.getAllUsers(PageRequest.of(page, 10));
 		}
 		model.addAttribute("users", userPage.getContent());
 		model.addAttribute("page", userPage);

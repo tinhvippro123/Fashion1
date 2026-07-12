@@ -15,12 +15,14 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "orders")
+@com.fasterxml.jackson.annotation.JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Order {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@com.fasterxml.jackson.annotation.JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;

@@ -1,4 +1,6 @@
 package com.fashionshop.utils;
+import com.fashionshop.exception.FashionShopException;
+import com.fashionshop.exception.ErrorCode;
 
 import java.text.Normalizer;
 
@@ -11,7 +13,7 @@ public class SlugUtil {
 
 	public static String makeSlug(String input) {
 		if (input == null)
-			throw new IllegalArgumentException();
+			throw new FashionShopException(ErrorCode.BAD_REQUEST, "Chuỗi truyền vào để tạo Slug không được để trống");
 
 		// 1. Chuyển đổi ký tự tiếng Việt đặc biệt (đ, Đ) thủ công
 		// Vì Normalizer không xử lý triệt để chữ đ

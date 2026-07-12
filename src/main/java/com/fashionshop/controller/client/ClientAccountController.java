@@ -1,4 +1,16 @@
 package com.fashionshop.controller.client;
+import com.fashionshop.service.WishlistService;
+import com.fashionshop.service.RecentlyViewedService;
+import com.fashionshop.model.Product;
+import com.fashionshop.service.FaqService;
+import org.springframework.data.domain.PageRequest;
+import com.fashionshop.repository.ProductRepository;
+import com.fashionshop.model.LoginHistory;
+import org.springframework.data.domain.Page;
+import com.fashionshop.service.LoginHistoryService;
+import com.fashionshop.model.WishlistItem;
+import com.fashionshop.exception.FashionShopException;
+import com.fashionshop.exception.ErrorCode;
 
 import com.fashionshop.model.Order;
 import com.fashionshop.model.User;
@@ -23,7 +35,7 @@ public class ClientAccountController {
 
     @Autowired private UserService userService;
     @Autowired private OrderService orderService;
-    @Autowired private com.fashionshop.service.WishlistService wishlistService;
+    @Autowired private WishlistService wishlistService;
 
     @GetMapping("/wishlist")
     public String myWishlist(Model model, Principal principal) {
@@ -32,16 +44,15 @@ public class ClientAccountController {
         User user = userService.findByEmail(principal.getName());
         model.addAttribute("user", user);
 
-        List<com.fashionshop.model.WishlistItem> wishlist = wishlistService.getUserWishlist(user.getId());
+        List<WishlistItem> wishlist = wishlistService.getUserWishlist(user.getId());
         model.addAttribute("wishlist", wishlist);
 
         return "client/account/wishlist";
     }
 
-    @Autowired private com.fashionshop.repository.ProductRepository productRepository;
-    @Autowired private com.fashionshop.service.RecentlyViewedService recentlyViewedService;
-    @Autowired private com.fashionshop.service.LoginHistoryService loginHistoryService;
-    @Autowired private com.fashionshop.service.FaqService faqService;
+    @Autowired private RecentlyViewedService recentlyViewedService;
+    @Autowired private LoginHistoryService loginHistoryService;
+    @Autowired private FaqService faqService;
 
     @GetMapping("/faq")
     public String faqPage(Model model, Principal principal) {
@@ -75,7 +86,7 @@ public class ClientAccountController {
         User user = userService.findByEmail(principal.getName());
         model.addAttribute("user", user);
 
-        List<com.fashionshop.model.Product> recentProducts = recentlyViewedService.getRecentlyViewedProducts(user, 40);
+        List<Product> recentProducts = recentlyViewedService.getRecentlyViewedProducts(user, 40);
         model.addAttribute("recentProducts", recentProducts);
 
         return "client/account/recently-viewed";
@@ -88,7 +99,7 @@ public class ClientAccountController {
         User user = userService.findByEmail(principal.getName());
         model.addAttribute("user", user);
 
-        List<com.fashionshop.model.LoginHistory> loginHistories = loginHistoryService.getLoginHistoryByUser(user, 50);
+        List<LoginHistory> loginHistories = loginHistoryService.getLoginHistoryByUser(user, 50);
         model.addAttribute("loginHistories", loginHistories);
 
         return "client/account/login-history";
@@ -131,17 +142,12 @@ public class ClientAccountController {
                                  RedirectAttributes redirectAttributes) {
         User user = userService.findByEmail(principal.getName());
 
-        if (!userService.checkPassword(user, currentPassword)) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Mật khẩu hiện tại không đúng!");
-            return "redirect:/account/profile";
+        try {
+            userService.changePassword(user, currentPassword, newPassword, confirmPassword);
+            redirectAttributes.addFlashAttribute("successMessage", "Đổi mật khẩu thành công!");
+        } catch (FashionShopException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Mật khẩu hiện tại không đúng hoặc xác nhận mật khẩu không khớp!");
         }
-        if (!newPassword.equals(confirmPassword)) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Mật khẩu xác nhận không khớp!");
-            return "redirect:/account/profile";
-        }
-
-        userService.changePassword(user, newPassword);
-        redirectAttributes.addFlashAttribute("successMessage", "Đổi mật khẩu thành công!");
         return "redirect:/account/profile";
     }
 
@@ -152,7 +158,7 @@ public class ClientAccountController {
         User user = userService.findByEmail(principal.getName());
         model.addAttribute("user", user);
 
-        org.springframework.data.domain.Page<Order> orderPage = orderService.getOrdersByUser(user.getId(), org.springframework.data.domain.PageRequest.of(page, 5));
+        Page<Order> orderPage = orderService.getOrdersByUser(user.getId(), PageRequest.of(page, 5));
         model.addAttribute("orders", orderPage.getContent());
         model.addAttribute("page", orderPage);
 

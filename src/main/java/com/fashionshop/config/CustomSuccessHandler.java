@@ -1,4 +1,5 @@
 package com.fashionshop.config;
+import com.fashionshop.service.LoginHistoryService;
 
 import com.fashionshop.model.User;
 import com.fashionshop.service.CartService;
@@ -26,7 +27,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     private UserService userService; // Cần cái này để tìm User
 
     @Autowired
-    private com.fashionshop.service.LoginHistoryService loginHistoryService;
+    private LoginHistoryService loginHistoryService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, 

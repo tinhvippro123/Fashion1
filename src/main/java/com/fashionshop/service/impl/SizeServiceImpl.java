@@ -1,4 +1,6 @@
 package com.fashionshop.service.impl;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.fashionshop.model.Size;
 import com.fashionshop.repository.SizeRepository;
@@ -19,12 +21,12 @@ public class SizeServiceImpl implements SizeService {
     }
 
     @Override
-    public org.springframework.data.domain.Page<Size> getAllSizes(org.springframework.data.domain.Pageable pageable) {
+    public Page<Size> getAllSizes(Pageable pageable) {
         return sizeRepository.findAll(pageable);
     }
 
     @Override
-    public org.springframework.data.domain.Page<Size> searchSizes(String keyword, org.springframework.data.domain.Pageable pageable) {
+    public Page<Size> searchSizes(String keyword, Pageable pageable) {
         if (keyword == null || keyword.trim().isEmpty()) {
             return sizeRepository.findAll(pageable);
         }

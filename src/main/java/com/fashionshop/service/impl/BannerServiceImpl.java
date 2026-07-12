@@ -1,4 +1,7 @@
 package com.fashionshop.service.impl;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.fashionshop.model.Banner;
 import com.fashionshop.repository.BannerRepository;
@@ -27,16 +30,16 @@ public class BannerServiceImpl implements BannerService {
 
     @Override
     public List<Banner> getAllBanners() {
-        return bannerRepository.findAll(org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.ASC, "displayOrder"));
+        return bannerRepository.findAll(Sort.by(Sort.Direction.ASC, "displayOrder"));
     }
 
     @Override
-    public org.springframework.data.domain.Page<Banner> getAllBanners(org.springframework.data.domain.Pageable pageable) {
+    public Page<Banner> getAllBanners(Pageable pageable) {
         return bannerRepository.findAll(pageable);
     }
 
     @Override
-    public org.springframework.data.domain.Page<Banner> searchBanners(String keyword, org.springframework.data.domain.Pageable pageable) {
+    public Page<Banner> searchBanners(String keyword, Pageable pageable) {
         if (keyword == null || keyword.trim().isEmpty()) {
             return bannerRepository.findAll(pageable);
         }

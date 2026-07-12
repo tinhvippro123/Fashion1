@@ -1,4 +1,5 @@
 package com.fashionshop.service.impl;
+import com.fashionshop.security.CustomUserDetails;
 
 import com.fashionshop.model.User;
 import com.fashionshop.repository.UserRepository;
@@ -23,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         // 2. Chuyển đổi sang CustomUserDetails của Spring Security
-        return new com.fashionshop.security.CustomUserDetails(
+        return new CustomUserDetails(
                 user.getEmail(),
                 user.getPasswordHash(),
                 user.getIsActive(),
