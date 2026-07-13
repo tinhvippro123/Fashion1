@@ -76,6 +76,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/v1/auth/**").permitAll() // Cho phép Đăng nhập/Đăng ký
                 .requestMatchers("/api/v1/home", "/api/v1/products/**", "/api/v1/cart/**", "/api/v1/checkout/**").permitAll() // Các API public
+                .requestMatchers("/api/v1/admin/**").hasRole("ADMIN") // BẢO MẬT: Chỉ Admin mới được gọi API Admin
                 .anyRequest().authenticated()
             )
             .exceptionHandling(ex -> ex
