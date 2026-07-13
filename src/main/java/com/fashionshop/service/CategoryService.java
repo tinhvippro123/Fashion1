@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.fashionshop.model.Category;
+import com.fashionshop.dto.admin.CategoryRequestDTO;
 
 public interface CategoryService {
 	List<Category> getAllCategories();
@@ -13,7 +14,7 @@ public interface CategoryService {
 
 	Category getCategoryById(Long id);
 
-	void saveCategory(Category category);
+	Category saveCategory(Category category);
 
 	void deleteCategory(Long id);
 
@@ -21,4 +22,6 @@ public interface CategoryService {
 
 	Category findBySlug(String slug);
 	Category resolveCategoryFromSlug(String slug);
+    Category createCategory(CategoryRequestDTO request);
+    Category updateCategory(Long id, CategoryRequestDTO request);
 }

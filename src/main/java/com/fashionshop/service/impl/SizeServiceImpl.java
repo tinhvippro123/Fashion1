@@ -1,4 +1,7 @@
 package com.fashionshop.service.impl;
+import com.fashionshop.dto.admin.SizeRequestDTO;
+import com.fashionshop.exception.ErrorCode;
+import com.fashionshop.exception.FashionShopException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -35,19 +38,35 @@ public class SizeServiceImpl implements SizeService {
 
     @Override
     public Size getSizeById(Long id) {
-        return sizeRepository.findById(id).orElse(null);
+        return sizeRepository.findById(id).orElseThrow(() -> new FashionShopException(ErrorCode.SIZE_NOT_FOUND));
     }
 
     @Override
-    public void saveSize(Size size) {
+    public Size saveSize(Size size) {
         if (size.getName() != null) {
             size.setName(size.getName().toUpperCase());
         }
-        sizeRepository.save(size);
+        return sizeRepository.save(size);
     }
 
     @Override
     public void deleteSize(Long id) {
         sizeRepository.deleteById(id);
     }
+
+    @Override
+    public Size createSize(SizeRequestDTO request) {
+        Size entity = new Size();
+        entity.setName(request.getName());
+        return saveSize(entity);
+    }
+
+    @Override
+    public Size updateSize(Long id, SizeRequestDTO request) {
+        Size entity = getSizeById(id);
+        entity.setName(request.getName());
+        return saveSize(entity);
+    }
+
+
 }

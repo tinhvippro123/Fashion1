@@ -56,4 +56,25 @@ public class WishlistServiceImpl implements WishlistService {
     public boolean isProductInWishlist(Long userId, Long productId) {
         return wishlistRepository.existsByUserIdAndProductId(userId, productId);
     }
+
+    @Override
+    public List<WishlistItem> getUserWishlistByEmail(String email) {
+        com.fashionshop.model.User user = userRepository.findByEmail(email);
+        if (user == null) throw new com.fashionshop.exception.FashionShopException(com.fashionshop.exception.ErrorCode.USER_NOT_FOUND);
+        return getUserWishlist(user.getId());
+    }
+
+    @Override
+    public boolean toggleWishlistByEmail(String email, Long productId) {
+        com.fashionshop.model.User user = userRepository.findByEmail(email);
+        if (user == null) throw new com.fashionshop.exception.FashionShopException(com.fashionshop.exception.ErrorCode.USER_NOT_FOUND);
+        return toggleWishlist(user.getId(), productId);
+    }
+
+    @Override
+    public boolean isProductInWishlistByEmail(String email, Long productId) {
+        com.fashionshop.model.User user = userRepository.findByEmail(email);
+        if (user == null) throw new com.fashionshop.exception.FashionShopException(com.fashionshop.exception.ErrorCode.USER_NOT_FOUND);
+        return isProductInWishlist(user.getId(), productId);
+    }
 }

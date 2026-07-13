@@ -1,4 +1,7 @@
 package com.fashionshop.service.impl;
+import com.fashionshop.dto.admin.PageRequestDTO;
+import com.fashionshop.exception.ErrorCode;
+import com.fashionshop.exception.FashionShopException;
 
 import com.fashionshop.model.Page;
 import com.fashionshop.repository.PageRepository;
@@ -22,7 +25,7 @@ public class PageServiceImpl implements PageService {
 
     @Override
     public Page findById(Long id) {
-        return pageRepository.findById(id).orElse(null);
+        return pageRepository.findById(id).orElseThrow(() -> new FashionShopException(ErrorCode.PAGE_NOT_FOUND));
     }
 
     @Override
@@ -43,5 +46,25 @@ public class PageServiceImpl implements PageService {
     @Override
     public void delete(Long id) {
         pageRepository.deleteById(id);
+    }
+
+    @Override
+    public Page createPage(PageRequestDTO request) {
+        Page entity = new Page();
+        entity.setTitle(request.getTitle());
+        entity.setSlug(request.getSlug());
+        entity.setContent(request.getContent());
+        entity.setIsActive(request.getIsActive());
+        return save(entity);
+    }
+
+    @Override
+    public Page updatePage(Long id, PageRequestDTO request) {
+        Page entity = findById(id);
+        entity.setTitle(request.getTitle());
+        entity.setSlug(request.getSlug());
+        entity.setContent(request.getContent());
+        entity.setIsActive(request.getIsActive());
+        return save(entity);
     }
 }

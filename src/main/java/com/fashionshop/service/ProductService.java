@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 
 import com.fashionshop.enums.ProductImageType;
 import com.fashionshop.model.Product;
+import com.fashionshop.dto.admin.ProductRequestDTO;
+import com.fashionshop.dto.admin.ProductRequestDTO;
 import com.fashionshop.model.Variant;
 import com.fashionshop.enums.VariantStatus;
 
@@ -16,6 +18,8 @@ public interface ProductService {
 	Product getProductById(Long id);
 
 	Product saveProduct(Product product);
+	Product createProduct(ProductRequestDTO request);
+	Product updateProduct(Long id, ProductRequestDTO request);
 
 	void deleteProduct(Long id);
 
@@ -55,4 +59,12 @@ public interface ProductService {
 	java.util.Map<String, Object> getProductDetailData(Long id, String selectedColorName, String userEmail);
 
 	long countAllProducts();
+    void uploadImages(Long productColorId, org.springframework.web.multipart.MultipartFile[] imageFiles);
+    
+    java.util.Map<String, Object> getSearchSuggestions(String keyword);
+
+	java.util.Map<String, Object> getCategoryProductsData(String slug, int page, java.util.List<String> sizes, java.util.List<String> colors, Double minPrice, Double maxPrice, String sort);
+	java.util.Map<String, Object> getSearchProductsData(String keyword, int page, java.util.List<String> sizes, java.util.List<String> colors, Double minPrice, Double maxPrice, String sort);
+	
+	java.util.Map<String, Object> getHomeData(java.util.List<com.fashionshop.model.Banner> activeBanners);
 }

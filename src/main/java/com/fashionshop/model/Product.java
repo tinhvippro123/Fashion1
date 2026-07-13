@@ -53,5 +53,4 @@ public class Product {
 		if (createdAt == null) return false;
 		return ChronoUnit.DAYS.between(createdAt, LocalDateTime.now()) <= 7;
 	}
-	
 }

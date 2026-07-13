@@ -1,6 +1,7 @@
 package com.fashionshop.service;
 
 import com.fashionshop.model.Banner;
+import com.fashionshop.dto.admin.BannerRequestDTO;
 
 import java.util.List;
 
@@ -13,7 +14,9 @@ public interface BannerService {
     List<Banner> getAllBanners();
     Page<Banner> getAllBanners(Pageable pageable);
     Page<Banner> searchBanners(String keyword, Pageable pageable);
-    void saveBanner(Banner banner);
+    Banner saveBanner(Banner banner);
+    Banner createBanner(BannerRequestDTO request);
+    Banner updateBanner(Long id, BannerRequestDTO request);
     Banner getBannerById(Long Id);
     void deleteBanner(Long id);
 }

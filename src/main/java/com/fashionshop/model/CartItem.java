@@ -36,5 +36,4 @@ public class CartItem {
     protected void onCreate() {
         this.addedAt = LocalDateTime.now();
     }
-    
 }

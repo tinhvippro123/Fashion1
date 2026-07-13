@@ -25,15 +25,6 @@ public class HomeController {
 
     @GetMapping
     public ApiResponse<Map<String, Object>> getHomeData() {
-        List<Product> womenProducts = productService.findTop10NewestWomen();
-        List<Product> menProducts = productService.findTop10NewestMen();
-        var banners = bannerService.getActiveBanners();
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("womenProducts", womenProducts);
-        data.put("menProducts", menProducts);
-        data.put("banners", banners);
-
-        return ApiResponse.success(data);
+        return ApiResponse.success(productService.getHomeData(bannerService.getActiveBanners()));
     }
 }

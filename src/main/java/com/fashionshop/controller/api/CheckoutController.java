@@ -32,21 +32,11 @@ public class CheckoutController {
             @RequestHeader(value = "X-Cart-Session-Id", required = false) String sessionId,
             Principal principal) {
 
-        User user = null;
-        if (principal != null) {
-            user = userService.getUserByEmailOrThrow(principal.getName());
-        }
-
-        Order order = orderService.placeOrder(user, sessionId, 
+        String email = principal != null ? principal.getName() : null;
+        return ApiResponse.success(orderService.placeOrderData(email, sessionId, 
                 request.getReceiverName(), request.getPhone(), 
                 request.getProvince(), request.getDistrict(), 
                 request.getWard(), request.getStreet(), 
-                request.getNote(), request.getPaymentMethod());
-
-        Map<String, Object> responseData = new HashMap<>();
-        responseData.put("orderId", order.getId());
-        responseData.put("message", "Đặt hàng thành công!");
-
-        return ApiResponse.success(responseData);
+                request.getNote(), request.getPaymentMethod()));
     }
 }

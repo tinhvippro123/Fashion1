@@ -52,4 +52,25 @@ public class RecentlyViewedServiceImpl implements RecentlyViewedService {
         List<RecentlyViewedItem> items = recentlyViewedItemRepository.findByUserIdOrderByViewedAtDesc(user.getId(), PageRequest.of(0, limit));
         return items.stream().map(RecentlyViewedItem::getProduct).collect(Collectors.toList());
     }
+
+    @Autowired
+    private com.fashionshop.repository.UserRepository userRepository;
+    
+    @Autowired
+    private com.fashionshop.repository.ProductRepository productRepository;
+
+    @Override
+    public void addProductToRecentlyViewed(String email, Long productId) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) throw new com.fashionshop.exception.FashionShopException(com.fashionshop.exception.ErrorCode.USER_NOT_FOUND);
+        Product product = productRepository.findById(productId).orElseThrow(() -> new com.fashionshop.exception.FashionShopException(com.fashionshop.exception.ErrorCode.PRODUCT_NOT_FOUND));
+        addProductToRecentlyViewed(user, product);
+    }
+
+    @Override
+    public List<Product> getRecentlyViewedProducts(String email, int limit) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) throw new com.fashionshop.exception.FashionShopException(com.fashionshop.exception.ErrorCode.USER_NOT_FOUND);
+        return getRecentlyViewedProducts(user, limit);
+    }
 }

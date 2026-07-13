@@ -19,6 +19,8 @@ public interface UserService {
 	User updateUser(Long id, User user);
 
 	void deleteUser(Long id);
+	void updateUserRole(Long id, com.fashionshop.enums.UserRole role);
+	void toggleUserStatus(Long id, Boolean isActive);
 
 	User findByEmail(String email);
 	User getUserByEmailOrThrow(String email);
@@ -32,4 +34,11 @@ public interface UserService {
 	void updateProfile(User user, String newEmail, String genderStr);
 	
 	long countAllCustomers();
+	
+	java.util.Map<String, Object> getProfileData(String email);
+	
+	java.util.Map<String, Object> generateLoginResponse(String email, String token);
+
+	void updateProfileByEmail(String userEmail, String newEmail, String gender);
+	void changePasswordByEmail(String userEmail, String currentPassword, String newPassword, String confirmPassword);
 }
