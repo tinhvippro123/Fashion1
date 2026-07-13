@@ -1,8 +1,15 @@
 package com.fashionshop.dto;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ApiResponse<T> {
     private int code = 200;
     private String message;
@@ -23,12 +30,4 @@ public class ApiResponse<T> {
         response.setMessage(message);
         return response;
     }
-
-    // Getters and Setters
-    public int getCode() { return code; }
-    public void setCode(int code) { this.code = code; }
-    public String getMessage() { return message; }
-    public void setMessage(String message) { this.message = message; }
-    public T getData() { return data; }
-    public void setData(T data) { this.data = data; }
 }
