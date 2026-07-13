@@ -17,37 +17,37 @@ public class CheckoutRequest {
 
 
 
-    @NotBlank(message = "TÃªn ngÆ°á»\ufffdi nháº­n khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+    @NotBlank(message = "Tên người nhận không được để trống")
 
     private String receiverName;
 
 
 
-    @NotBlank(message = "Sá»‘ Ä‘iá»‡n thoáº¡i khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+    @NotBlank(message = "Số điện thoại không được để trống")
 
     private String phone;
 
 
 
-    @NotBlank(message = "Tá»‰nh/ThÃ nh phá»‘ khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+    @NotBlank(message = "Tỉnh/Thành phố không được để trống")
 
     private String province;
 
 
 
-    @NotBlank(message = "Quáº­n/Huyá»‡n khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+    @NotBlank(message = "Quận/Huyện không được để trống")
 
     private String district;
 
 
 
-    @NotBlank(message = "PhÆ°á»\ufffdng/XÃ£ khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+    @NotBlank(message = "Phường/Xã không được để trống")
 
     private String ward;
 
 
 
-    @NotBlank(message = "Sá»‘ nhÃ , tÃªn Ä‘Æ°á»\ufffdng khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+    @NotBlank(message = "Số nhà, tên đường không được để trống")
 
     private String street;
 

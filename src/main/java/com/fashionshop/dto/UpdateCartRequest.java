@@ -19,13 +19,13 @@ public class UpdateCartRequest {
 
 
 
-    @NotNull(message = "Thiáº¿u mÃ£ sáº£n pháº©m trong giá»\ufffd (itemId)")
+    @NotNull(message = "Thiếu mã sản phẩm trong giỏ (itemId)")
 
     private Long itemId;
 
 
 
-    @Min(value = 1, message = "Sá»‘ lÆ°á»£ng pháº£i lá»›n hÆ¡n 0")
+    @Min(value = 1, message = "Số lượng phải lớn hơn 0")
 
     private int quantity;
 

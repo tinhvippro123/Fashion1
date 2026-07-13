@@ -27,7 +27,7 @@ public class DataSeeder implements CommandLineRunner {
             admin.setRole(UserRole.ADMIN);
             admin.setIsActive(true);
             userRepository.save(admin);
-            System.out.println("âœ… Ä\ufffdÃ£ táº¡o tÃ i khoáº£n Admin máº·c Ä‘á»‹nh: admin@gmail.com / 123456");
+            System.out.println("✅ Đã tạo tài khoản Admin mặc định: admin@gmail.com / 123456");
         }
 
         if (userRepository.findByEmail("user@gmail.com") == null) {
@@ -38,7 +38,7 @@ public class DataSeeder implements CommandLineRunner {
             user.setRole(UserRole.CUSTOMER);
             user.setIsActive(true);
             userRepository.save(user);
-            System.out.println("âœ… Ä\ufffdÃ£ táº¡o tÃ i khoáº£n User máº·c Ä‘á»‹nh: user@gmail.com / 123456");
+            System.out.println("✅ Đã tạo tài khoản User mặc định: user@gmail.com / 123456");
         }
     }
 }

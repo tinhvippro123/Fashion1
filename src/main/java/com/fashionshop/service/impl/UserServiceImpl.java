@@ -8,7 +8,7 @@ import com.fashionshop.exception.ErrorCode;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.security.crypto.password.PasswordEncoder; // Cáº§n thiáº¿t vÃ¬ cÃ³ Spring Security
+import org.springframework.security.crypto.password.PasswordEncoder; // Cần thiết vì có Spring Security
 
 import org.springframework.stereotype.Service;
 
@@ -112,13 +112,13 @@ public class UserServiceImpl implements UserService {
 
 	public User createUser(User user) {
 
-//		 Logic nghiá»‡p vá»¥: MÃ£ hÃ³a máº­t kháº©u
+//		 Logic nghiệp vụ: Mã hóa mật khẩu
 
 		user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
 
 
 
-//		 Logic nghiá»‡p vá»¥: Set thá»\ufffdi gian táº¡o
+//		 Logic nghiệp vụ: Set thời gian tạo
 
 		user.setCreatedAt(LocalDateTime.now());
 
@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-//		 Náº¿u chÆ°a cÃ³ role, máº·c Ä‘á»‹nh lÃ  CUSTOMER
+//		 Nếu chưa có role, mặc định là CUSTOMER
 
 		if (user.getRole() == null) {
 
@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-		// Máº·c Ä‘á»‹nh user má»›i cÃ³ thá»ƒ lÃ  active
+		// Mặc định user mới có thể là active
 
 		if (user.getIsActive() == null)
 
@@ -158,7 +158,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-		// Logic update: Chá»‰ update cÃ¡c trÆ°á»\ufffdng cho phÃ©p
+		// Logic update: Chỉ update các trường cho phép
 
 		existingUser.setFullName(userDetails.getFullName());
 
@@ -180,7 +180,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-		// Logic thá»\ufffdi gian update
+		// Logic thời gian update
 
 		existingUser.setUpdatedAt(LocalDateTime.now());
 
@@ -196,9 +196,9 @@ public class UserServiceImpl implements UserService {
 
 	public void deleteUser(Long id) {
 
-		// Logic: CÃ³ thá»ƒ lÃ  xÃ³a má»\ufffdm (soft delete) báº±ng cÃ¡ch set isActive = false
+		// Logic: Có thể là xóa mềm (soft delete) bằng cách set isActive = false
 
-		// á»ž Ä‘Ã¢y demo xÃ³a cá»©ng
+		// Ở đây demo xóa cứng
 
 		userRepository.deleteById(id);
 
@@ -242,7 +242,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-		// 1. Kiá»ƒm tra Email
+		// 1. Kiểm tra Email
 
 		if (userRepository.findByEmail(dto.getEmail()) != null) {
 
@@ -252,7 +252,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-		// 2. Kiá»ƒm tra máº­t kháº©u xÃ¡c nháº­n
+		// 2. Kiểm tra mật khẩu xác nhận
 
 		if (!dto.getPassword().equals(dto.getConfirmPassword())) {
 
@@ -282,15 +282,15 @@ public class UserServiceImpl implements UserService {
 
 
 
-		// --- Xá»¬ LÃ\ufffd GIá»šI TÃ\ufffdNH (STRING -> ENUM) ---
+		// --- XỬ LÝ GIỚI TÍNH (STRING -> ENUM) ---
 
-		// Form HTML gá»­i lÃªn value="nam", "nu" hoáº·c "male", "female"
+		// Form HTML gửi lên value="nam", "nu" hoặc "male", "female"
 
-		// Ta cáº§n chuáº©n hÃ³a vá»\ufffd MALE / FEMALE
+		// Ta cần chuẩn hóa về MALE / FEMALE
 
 		if (dto.getGender() != null) {
 
-			String g = dto.getGender().trim().toUpperCase(); // Chuyá»ƒn vá»\ufffd chá»¯ hoa
+			String g = dto.getGender().trim().toUpperCase(); // Chuyển về chữ hoa
 
 			if (g.equals("NAM") || g.equals("MALE")) {
 
@@ -318,13 +318,13 @@ public class UserServiceImpl implements UserService {
 
 
 
-		user.setRole(UserRole.CUSTOMER); // Role má»›i lÃ  CUSTOMER
+		user.setRole(UserRole.CUSTOMER); // Role mới là CUSTOMER
 
 		user.setIsActive(true);
 
 
 
-		// LÆ°u User
+		// Lưu User
 
 		User savedUser = userRepository.save(user);
 
@@ -404,7 +404,7 @@ public class UserServiceImpl implements UserService {
 
 	public void updateProfile(User user, String newEmail, String genderStr) {
 
-		// 1. Cáº­p nháº­t Email
+		// 1. Cập nhật Email
 
 		if (newEmail != null && !newEmail.isEmpty() && !newEmail.equals(user.getEmail())) {
 
@@ -420,13 +420,13 @@ public class UserServiceImpl implements UserService {
 
 
 
-		// 2. Cáº­p nháº­t Giá»›i tÃ­nh (Convert tá»« String sang Enum)
+		// 2. Cập nhật Giới tính (Convert từ String sang Enum)
 
 		if (genderStr != null) {
 
 			try {
 
-				// Chuyá»ƒn "male", "female" thÃ nh Enum
+				// Chuyển "male", "female" thành Enum
 
 				UserGender gender = UserGender.valueOf(genderStr.toUpperCase());
 
@@ -434,7 +434,7 @@ public class UserServiceImpl implements UserService {
 
 			} catch (IllegalArgumentException e) {
 
-				// Náº¿u giÃ¡ trá»‹ khÃ´ng há»£p lá»‡ thÃ¬ bá»\ufffd qua hoáº·c set OTHER
+				// Nếu giá trị không hợp lệ thì bỏ qua hoặc set OTHER
 
 				user.setGender(UserGender.OTHER);
 
@@ -444,7 +444,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-		// 3. LÆ°u xuá»‘ng DB
+		// 3. Lưu xuống DB
 
 		userRepository.save(user);
 

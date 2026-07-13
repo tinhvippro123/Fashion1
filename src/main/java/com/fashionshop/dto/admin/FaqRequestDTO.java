@@ -13,15 +13,15 @@ import jakarta.validation.constraints.NotNull;
 @AllArgsConstructor
 public class FaqRequestDTO {
 
-    @NotBlank(message = "CÃ¢u há»\ufffdi khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+    @NotBlank(message = "CÃ¢u hỏi không được để trống")
 
     private String question;
 
-    @NotBlank(message = "CÃ¢u tráº£ lá»\ufffdi khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+    @NotBlank(message = "CÃ¢u trả lỏi không được để trống")
 
     private String answer;
 
-    @NotNull(message = "Tráº¡ng thÃ¡i hoáº¡t Ä‘á»™ng khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+    @NotNull(message = "Trạng thái hoạt động không được để trống")
 
     private Boolean isActive;
 

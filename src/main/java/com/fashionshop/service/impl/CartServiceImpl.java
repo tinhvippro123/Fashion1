@@ -8,7 +8,7 @@ import com.fashionshop.model.User;
 import com.fashionshop.model.Variant;
 import com.fashionshop.repository.CartRepository;
 import com.fashionshop.repository.UserRepository;
-import com.fashionshop.repository.VariantRepository; // Giáº£ sá»­ Ä‘Ã£ cÃ³
+import com.fashionshop.repository.VariantRepository; // Giả sử đã có
 import com.fashionshop.service.CartService;
 
 import java.time.LocalDateTime;
@@ -42,15 +42,15 @@ public class CartServiceImpl implements CartService {
 	@Override
 	@Transactional
 	public Cart addToCart(Long userId, String sessionId, Long variantId, int quantity) {
-		// 1. TÃ¬m hoáº·c Táº¡o giá»\ufffd hÃ ng
+		// 1. Tìm hoặc Tạo giỏ hàng
 		Cart cart = findOrCreateCart(userId, sessionId);
 
-		// 2. Láº¥y thÃ´ng tin sáº£n pháº©m (Variant)
+		// 2. Lấy thông tin sản phẩm (Variant)
 		Variant variant = variantRepository.findById(variantId)
-				.orElseThrow(() -> new RuntimeException("Sáº£n pháº©m khÃ´ng tá»“n táº¡i"));
+				.orElseThrow(() -> new RuntimeException("Sản phẩm không tồn tại"));
 
-		// 3. Kiá»ƒm tra tá»“n kho (Stock)
-		// LÆ°u Ã½: Pháº£i check tá»•ng sá»‘ lÆ°á»£ng Ä‘á»‹nh mua (trong giá»\ufffd + mua thÃªm)
+		// 3. Kiểm tra tồn kho (Stock)
+		// Lưu ý: Phải check tổng số lượng định mua (trong giỏ + mua thêm)
 		int currentQuantityInCart = 0;
 		CartItem existingItem = findItemInCart(cart, variantId);
 
@@ -59,17 +59,17 @@ public class CartServiceImpl implements CartService {
 		}
 
 		if (variant.getStock() < (currentQuantityInCart + quantity)) {
-			throw new FashionShopException(ErrorCode.BAD_REQUEST, "Xin lá»—i, sáº£n pháº©m nÃ y chá»‰ cÃ²n láº¡i " + variant.getStock() + " sáº£n pháº©m.");
+			throw new FashionShopException(ErrorCode.BAD_REQUEST, "Xin lỗi, sản phẩm này chỉ còn lại " + variant.getStock() + " sản phẩm.");
 		}
 
-		// 4. ThÃªm vÃ o giá»\ufffd hoáº·c Cáº­p nháº­t sá»‘ lÆ°á»£ng
+		// 4. Thêm vào giỏ hoặc Cập nhật số lượng
 		if (existingItem != null) {
-			// TrÆ°á»\ufffdng há»£p A: Ä\ufffdÃ£ cÃ³ -> Cá»™ng dá»“n
+			// Trường hợp A: Đã có -> Cộng dồn
 			existingItem.setQuantity(currentQuantityInCart + quantity);
 			existingItem.setAddedAt(LocalDateTime.now());
-			// náº¿u muá»‘n
+			// nếu muốn
 		} else {
-			// TrÆ°á»\ufffdng há»£p B: ChÆ°a cÃ³ -> Táº¡o má»›i
+			// Trường hợp B: Chưa có -> Tạo mới
 			CartItem newItem = new CartItem();
 			newItem.setCart(cart);
 			newItem.setVariant(variant);
@@ -86,7 +86,7 @@ public class CartServiceImpl implements CartService {
 	public Cart updateQuantity(Long userId, String sessionId, Long cartItemId, int newQuantity) {
 		Cart cart = findOrCreateCart(userId, sessionId);
 
-		// TÃ¬m item trong giá»\ufffd
+		// Tìm item trong giỏ
 		CartItem itemToUpdate = null;
 		for (CartItem item : cart.getItems()) {
 			if (item.getId().equals(cartItemId)) {
@@ -96,18 +96,18 @@ public class CartServiceImpl implements CartService {
 		}
 
 		if (itemToUpdate == null) {
-			throw new FashionShopException(ErrorCode.BAD_REQUEST, "Sáº£n pháº©m khÃ´ng cÃ³ trong giá»\ufffd hÃ ng");
+			throw new FashionShopException(ErrorCode.BAD_REQUEST, "Sản phẩm không có trong giờ hàng");
 		}
 
-		// Check sá»‘ lÆ°á»£ng > 0
+		// Check số lượng > 0
 		if (newQuantity <= 0) {
-			// Náº¿u update vá»\ufffd 0 thÃ¬ xÃ³a luÃ´n
+			// Nếu update về 0 thì xóa luôn
 			cart.getItems().remove(itemToUpdate);
 		} else {
-			// Check tá»“n kho
+			// Check tồn kho
 			Variant variant = itemToUpdate.getVariant();
 			if (variant.getStock() < newQuantity) {
-				throw new FashionShopException(ErrorCode.BAD_REQUEST, "Kho khÃ´ng Ä‘á»§ hÃ ng");
+				throw new FashionShopException(ErrorCode.BAD_REQUEST, "Kho không đủ hàng");
 			}
 			itemToUpdate.setQuantity(newQuantity);
 		}
@@ -120,11 +120,11 @@ public class CartServiceImpl implements CartService {
 //	public Cart removeFromCart(Long userId, String sessionId, Long cartItemId) {
 //		Cart cart = findOrCreateCart(userId, sessionId);
 //
-//		// DÃ¹ng removeIf cá»§a Java 8 cho gá»\ufffdn
+//		// Dùng removeIf của Java 8 cho gọn
 //		boolean removed = cart.getItems().removeIf(item -> item.getId().equals(cartItemId));
 //
 //		if (!removed) {
-//			throw new RuntimeException("KhÃ´ng tÃ¬m tháº¥y sáº£n pháº©m Ä‘á»ƒ xÃ³a");
+//			throw new RuntimeException("Không tìm thấy sản phẩm để xóa");
 //		}
 //
 //		return cartRepository.save(cart);
@@ -133,8 +133,8 @@ public class CartServiceImpl implements CartService {
 	@Override
 	@Transactional
 	public Cart removeFromCart(Long userId, String sessionId, Long cartItemId) {
-		// 1. TÃ¬m giá»\ufffd hÃ ng (Thay vÃ¬ findOrCreate, ta chá»‰ tÃ¬m thÃ´i)
-		// Náº¿u chÆ°a cÃ³ giá»\ufffd hÃ ng thÃ¬ láº¥y Ä‘Ã¢u ra mÃ  xÃ³a? -> Return null luÃ´n cho nhanh.
+		// 1. Tìm giỏ hàng (Thay vì findOrCreate, ta chỉ tìm thôi)
+		// Nếu chưa có giỏ hàng thì lấy đâu ra mà xóa? -> Return null luôn cho nhanh.
 		Cart cart = null;
 		if (userId != null) {
 			cart = cartRepository.findByUserId(userId);
@@ -142,21 +142,21 @@ public class CartServiceImpl implements CartService {
 			cart = cartRepository.findBySessionId(sessionId);
 		}
 
-		// Náº¿u khÃ´ng tÃ¬m tháº¥y giá»\ufffd hÃ ng -> KhÃ´ng lÃ m gÃ¬ cáº£
+		// Nếu không tìm thấy giỏ hàng -> Không làm gì cả
 		if (cart == null) {
 			return null;
 		}
 
-		// 2. DÃ¹ng removeIf Ä‘á»ƒ xÃ³a item khá»\ufffdi danh sÃ¡ch trong bá»™ nhá»› (Memory)
-		// Khi save, Hibernate sáº½ tháº¥y list bá»‹ thiáº¿u 1 cÃ¡i -> Tá»± Ä‘á»™ng xÃ³a trong DB
+		// 2. Dùng removeIf để xóa item khỏi danh sách trong bộ nhớ (Memory)
+		// Khi save, Hibernate sẽ thấy list bị thiếu 1 cái -> Tự động xóa trong DB
 		boolean removed = cart.getItems().removeIf(item -> item.getId().equals(cartItemId));
 
-		// 3. Náº¿u khÃ´ng cÃ³ gÃ¬ thay Ä‘á»•i thÃ¬ return cart cÅ©
+		// 3. Nếu không có gì thay đổi thì return cart cũ
 		if (!removed) {
 			return cart;
 		}
 
-		// 4. LÆ°u láº¡i Cart (Hibernate sáº½ xÃ³a orphan item vÃ  cáº­p nháº­t láº¡i list)
+		// 4. Lưu lại Cart (Hibernate sẽ xóa orphan item và cập nhật lại list)
 		return cartRepository.save(cart);
 	}
 
@@ -164,21 +164,21 @@ public class CartServiceImpl implements CartService {
 	@Transactional
 	public void clearCart(Long userId, String sessionId) {
 		Cart cart = findOrCreateCart(userId, sessionId);
-		cart.getItems().clear(); // OrphanRemoval = true sáº½ tá»± xÃ³a trong DB
+		cart.getItems().clear(); // OrphanRemoval = true sẽ tự xóa trong DB
 		cartRepository.save(cart);
 	}
 
 	@Override
 	@Transactional
 	public void mergeCart(String sessionId, User user) {
-		// 1. TÃ¬m giá»\ufffd hÃ ng Session cÅ©
+		// 1. Tìm giỏ hàng Session cũ
 		Cart sessionCart = cartRepository.findBySessionId(sessionId);
-		// Náº¿u giá»\ufffd Session khÃ´ng cÃ³ gÃ¬ thÃ¬ thÃ´i, thoÃ¡t luÃ´n
+		// Nếu giỏ Session không có gì thì thôi, thoát luôn
 		if (sessionCart == null || sessionCart.getItems().isEmpty()) {
 			return;
 		}
 
-		// 2. Láº¥y (hoáº·c táº¡o má»›i) giá»\ufffd hÃ ng User
+		// 2. Lấy (hoặc tạo mới) giỏ hàng User
 		Cart userCart = cartRepository.findByUserId(user.getId());
 		if (userCart == null) {
 			userCart = new Cart();
@@ -186,11 +186,11 @@ public class CartServiceImpl implements CartService {
 			userCart = cartRepository.save(userCart);
 		}
 
-		// 3. Chuyá»ƒn item tá»« Session -> User
+		// 3. Chuyển item từ Session -> User
 		for (CartItem sessionItem : sessionCart.getItems()) {
 			boolean isExist = false;
 
-			// Kiá»ƒm tra trÃ¹ng sáº£n pháº©m
+			// Kiểm tra trùng sản phẩm
 			for (CartItem userItem : userCart.getItems()) {
 				if (userItem.getVariant().getId().equals(sessionItem.getVariant().getId())) {
 					userItem.setQuantity(userItem.getQuantity() + sessionItem.getQuantity());
@@ -199,7 +199,7 @@ public class CartServiceImpl implements CartService {
 				}
 			}
 
-			// Náº¿u chÆ°a cÃ³ -> ThÃªm má»›i
+			// Nếu chưa có -> Thêm mới
 			if (!isExist) {
 				CartItem newItem = new CartItem();
 				newItem.setCart(userCart);
@@ -209,15 +209,15 @@ public class CartServiceImpl implements CartService {
 			}
 		}
 
-		// 4. LÆ°u giá»\ufffd User vÃ  XÃ³a giá»\ufffd Session
-		cartRepository.save(userCart); // LÆ°u danh sÃ¡ch item má»›i
-		cartRepository.delete(sessionCart); // XÃ³a giá»\ufffd cÅ©
+		// 4. Lưu giỏ User và Xóa giỏ Session
+		cartRepository.save(userCart); // Lưu danh sách item mới
+		cartRepository.delete(sessionCart); // Xóa giỏ cũ
 	}
 
 	private Cart findOrCreateCart(Long userId, String sessionId) {
 		Cart cart = null;
 
-		// Æ¯u tiÃªn tÃ¬m theo User náº¿u Ä‘Ã£ Ä‘Äƒng nháº­p
+		// Ưu tiên tìm theo User nếu đã đăng nhập
 		if (userId != null) {
 			cart = cartRepository.findByUserId(userId);
 			if (cart == null) {
@@ -226,7 +226,7 @@ public class CartServiceImpl implements CartService {
 				cart.setUser(user);
 			}
 		}
-		// Náº¿u khÃ´ng thÃ¬ tÃ¬m theo Session
+		// Nếu không thì tìm theo Session
 		else if (sessionId != null) {
 			cart = cartRepository.findBySessionId(sessionId);
 			if (cart == null) {
@@ -236,12 +236,12 @@ public class CartServiceImpl implements CartService {
 		}
 
 		if (cart == null) {
-			// TrÆ°á»\ufffdng há»£p hiáº¿m: Cáº£ userId vÃ  sessionId Ä‘á»\ufffdu null
-			throw new FashionShopException(ErrorCode.UNAUTHENTICATED, "KhÃ´ng xÃ¡c Ä‘á»‹nh Ä‘Æ°á»£c ngÆ°á»\ufffdi dÃ¹ng");
+			// Trường hợp hiếm: Cả userId và sessionId đều null
+			throw new FashionShopException(ErrorCode.UNAUTHENTICATED, "Không xác định được người dùng");
 		}
 
-		// Náº¿u lÃ  cart má»›i (chÆ°a cÃ³ ID), cáº§n save láº§n Ä‘áº§u Ä‘á»ƒ cÃ³ ID (tÃ¹y logic, á»Ÿ Ä‘Ã¢y
-		// save cuá»‘i hÃ m cÅ©ng Ä‘c)
+		// Nếu là cart mới (chưa có ID), cần save lần đầu để có ID (tùy logic, ở đây
+		// save cuối hàm cũng đc)
 		return cart;
 	}
 
@@ -250,7 +250,7 @@ public class CartServiceImpl implements CartService {
 			return null;
 
 		for (CartItem item : cart.getItems()) {
-			// So sÃ¡nh Variant ID
+			// So sánh Variant ID
 			if (item.getVariant().getId().equals(variantId)) {
 				return item;
 			}
@@ -263,7 +263,7 @@ public class CartServiceImpl implements CartService {
 		double total = 0;
 		if (cart != null && cart.getItems() != null) {
 			for (CartItem item : cart.getItems()) {
-				// Láº¥y giÃ¡ tá»« Variant, náº¿u khÃ´ng cÃ³ má»›i láº¥y BasePrice cá»§a Product
+				// Lấy giá từ Variant, nếu không có mới lấy BasePrice của Product
 				Double variantPrice = item.getVariant().getPrice();
 				double basePrice = item.getVariant().getProductColor().getProduct().getBasePrice();
 				double itemPrice = (variantPrice != null && variantPrice > 0) ? variantPrice : basePrice;
@@ -318,7 +318,7 @@ public class CartServiceImpl implements CartService {
         int totalItems = (updatedCart != null) ? updatedCart.getTotalItems() : 0;
 
         java.util.Map<String, Object> response = new java.util.HashMap<>();
-        response.put("message", "ThÃªm vÃ o giá»\ufffd hÃ ng thÃ nh cÃ´ng!");
+        response.put("message", "Thêm và o giờ hàng thành công!");
         response.put("totalItems", totalItems);
         response.put("sessionId", sessionId);
 

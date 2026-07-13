@@ -19,27 +19,27 @@ import jakarta.validation.constraints.Size;
 @AllArgsConstructor
 public class UserRegisterDTO {
 
-	@NotBlank(message = "Há»\ufffd khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+	@NotBlank(message = "Họ không được để trống")
 
 	private String lastName;
 
 	
 
-	@NotBlank(message = "TÃªn khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+	@NotBlank(message = "Tên không được để trống")
 
 	private String firstName;
 
 	
 
-	@NotBlank(message = "Email khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+	@NotBlank(message = "Email không được để trống")
 
-	@Email(message = "Email khÃ´ng há»£p lá»‡")
+	@Email(message = "Email không hợp lệ")
 
 	private String email;
 
 	
 
-	@NotBlank(message = "Sá»‘ Ä‘iá»‡n thoáº¡i khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+	@NotBlank(message = "Số điện thoại không được để trống")
 
 	private String phoneNumber;
 
@@ -61,15 +61,15 @@ public class UserRegisterDTO {
 
 
 
-	@NotBlank(message = "Máº­t kháº©u khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+	@NotBlank(message = "Mật khẩu không được để trống")
 
-	@Size(min = 6, message = "Máº­t kháº©u pháº£i tá»« 6 kÃ½ tá»± trá»Ÿ lÃªn")
+	@Size(min = 6, message = "Mật khẩu phải từ 6 ký tự trở lên")
 
 	private String password;
 
 	
 
-	@NotBlank(message = "XÃ¡c nháº­n máº­t kháº©u khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+	@NotBlank(message = "Xác nhận mật khẩu không được để trống")
 
 	private String confirmPassword;
 

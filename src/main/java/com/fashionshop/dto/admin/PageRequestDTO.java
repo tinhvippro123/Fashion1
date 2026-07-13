@@ -13,19 +13,19 @@ import jakarta.validation.constraints.NotNull;
 @AllArgsConstructor
 public class PageRequestDTO {
 
-    @NotBlank(message = "TiÃªu Ä‘á»\ufffd khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+    @NotBlank(message = "TiÃªu đỏ không được để trống")
 
     private String title;
 
-    @NotBlank(message = "Slug khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+    @NotBlank(message = "Slug không được để trống")
 
     private String slug;
 
-    @NotBlank(message = "Ná»™i dung khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+    @NotBlank(message = "Ná»™i dung không được để trống")
 
     private String content;
 
-    @NotNull(message = "Tráº¡ng thÃ¡i hoáº¡t Ä‘á»™ng khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+    @NotNull(message = "Trạng thái hoạt động không được để trống")
 
     private Boolean isActive;
 

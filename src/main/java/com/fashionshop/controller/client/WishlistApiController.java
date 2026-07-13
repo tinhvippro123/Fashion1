@@ -27,7 +27,7 @@ public class WishlistApiController {
         
         if (principal == null) {
             response.put("status", "error");
-            response.put("message", "Vui lÃ²ng Ä‘Äƒng nháº­p Ä‘á»ƒ sá»­ dá»¥ng tÃ­nh nÄƒng nÃ y!");
+            response.put("message", "Vui lòng đăng nhập để sử dụng tính năng này!");
             return ResponseEntity.status(401).body(response);
         }
 
@@ -37,11 +37,11 @@ public class WishlistApiController {
             
             response.put("status", "success");
             response.put("added", added);
-            response.put("message", added ? "Ä\ufffdÃ£ thÃªm vÃ o danh sÃ¡ch yÃªu thÃ­ch!" : "Ä\ufffdÃ£ gá»¡ khá»\ufffdi danh sÃ¡ch yÃªu thÃ­ch!");
+            response.put("message", added ? "Đã thêm vào danh sách yêu thích!" : "Đã gỡ khỏi danh sách yêu thích!");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.put("status", "error");
-            response.put("message", "Ä\ufffdÃ£ xáº£y ra lá»—i: " + e.getMessage());
+            response.put("message", "Đã xảy ra lỗi: " + e.getMessage());
             return ResponseEntity.badRequest().body(response);
         }
     }
