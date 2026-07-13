@@ -1,9 +1,13 @@
 package com.fashionshop.service.impl;
 
+import com.fashionshop.exception.ErrorCode;
+import com.fashionshop.exception.FashionShopException;
 import com.fashionshop.model.Product;
 import com.fashionshop.model.RecentlyViewedItem;
 import com.fashionshop.model.User;
+import com.fashionshop.repository.ProductRepository;
 import com.fashionshop.repository.RecentlyViewedItemRepository;
+import com.fashionshop.repository.UserRepository;
 import com.fashionshop.service.RecentlyViewedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -54,23 +58,23 @@ public class RecentlyViewedServiceImpl implements RecentlyViewedService {
     }
 
     @Autowired
-    private com.fashionshop.repository.UserRepository userRepository;
+    private UserRepository userRepository;
     
     @Autowired
-    private com.fashionshop.repository.ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Override
     public void addProductToRecentlyViewed(String email, Long productId) {
         User user = userRepository.findByEmail(email);
-        if (user == null) throw new com.fashionshop.exception.FashionShopException(com.fashionshop.exception.ErrorCode.USER_NOT_FOUND);
-        Product product = productRepository.findById(productId).orElseThrow(() -> new com.fashionshop.exception.FashionShopException(com.fashionshop.exception.ErrorCode.PRODUCT_NOT_FOUND));
+        if (user == null) throw new FashionShopException(ErrorCode.USER_NOT_FOUND);
+        Product product = productRepository.findById(productId).orElseThrow(() -> new FashionShopException(ErrorCode.PRODUCT_NOT_FOUND));
         addProductToRecentlyViewed(user, product);
     }
 
     @Override
     public List<Product> getRecentlyViewedProducts(String email, int limit) {
         User user = userRepository.findByEmail(email);
-        if (user == null) throw new com.fashionshop.exception.FashionShopException(com.fashionshop.exception.ErrorCode.USER_NOT_FOUND);
+        if (user == null) throw new FashionShopException(ErrorCode.USER_NOT_FOUND);
         return getRecentlyViewedProducts(user, limit);
     }
 }
