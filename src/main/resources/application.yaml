@@ -25,3 +25,15 @@ jwt:
   secret: ${JWT_SECRET:YourSuperSecretKeyForFashionShopApp2026WithAtLeast32Bytes}
   expiration: ${JWT_EXPIRATION:604800000}
 
+spring.mail:
+  host: smtp.gmail.com
+  port: 587
+  username: ${MAIL_USERNAME:your-email@gmail.com}
+  password: ${MAIL_PASSWORD:your-app-password}
+  properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          enable: true
+

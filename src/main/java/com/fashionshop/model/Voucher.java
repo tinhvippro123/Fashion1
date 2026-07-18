@@ -9,27 +9,33 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "pages")
-public class Page {
+@Table(name = "vouchers")
+public class Voucher {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String title;
+    @Column(nullable = false, unique = true, length = 50)
+    private String code;
 
-    @Column(name = "meta_title")
-    private String metaTitle;
+    @Column(name = "discount_amount", nullable = false)
+    private Double discountAmount;
 
-    @Column(name = "meta_description", length = 500)
-    private String metaDescription;
+    @Column(name = "min_order_value")
+    private Double minOrderValue;
 
-    @Column(unique = true, nullable = false)
-    private String slug;
+    @Column(name = "quantity_limit")
+    private Integer quantityLimit;
 
-    @Column(columnDefinition = "text")
-    private String content;
+    @Column(name = "used_count")
+    private Integer usedCount = 0;
+
+    @Column(name = "start_date")
+    private LocalDateTime startDate;
+
+    @Column(name = "end_date")
+    private LocalDateTime endDate;
 
     @Column(name = "is_active")
     private Boolean isActive = true;

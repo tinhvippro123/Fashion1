@@ -29,6 +29,21 @@ public class Product {
 	@Column(columnDefinition = "text")
 	private String description;
 
+	@Column(length = 100)
+	private String sku;
+
+	@Column(length = 100)
+	private String brand;
+
+	@Column(length = 255)
+	private String thumbnail;
+
+	@Column(name = "original_price")
+	private Double originalPrice;
+
+	@Column(name = "discount_percent")
+	private Integer discountPercent;
+
 	@Column(name = "base_price")
 	private Double basePrice;
 

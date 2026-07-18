@@ -61,6 +61,12 @@ public class Order {
 	@Column(name = "total_amount")
 	private Double totalAmount;
 
+	@Column(name = "discount_amount")
+	private Double discountAmount;
+
+	@Column(name = "voucher_code", length = 50)
+	private String voucherCode;
+
 	// Quan hệ 1-N với OrderItem
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OrderItem> orderItems = new ArrayList<>();

@@ -32,6 +32,9 @@ public class User {
 	@Column(name = "full_name", columnDefinition = "varchar(100)")
 	private String fullName;
 
+	@Column(length = 255)
+	private String avatar;
+
 	@Enumerated(EnumType.STRING)
 	@Column(length = 10)
 	private UserGender gender;

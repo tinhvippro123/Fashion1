@@ -4,6 +4,7 @@ import com.fashionshop.dto.admin.OrderUpdateStatusDTO;
 import com.fashionshop.enums.OrderStatus;
 import com.fashionshop.model.Order;
 import com.fashionshop.service.OrderService;
+import com.fashionshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,12 +41,16 @@ public class AdminOrderController {
         return ApiResponse.success("Cập nhật trạng thái đơn hàng thành công");
     }
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/dashboard")
     public ApiResponse<Map<String, Object>> dashboard() {
         Map<String, Object> data = new HashMap<>();
         data.put("totalRevenue", orderService.calculateTotalRevenue());
         data.put("orderStatusCounts", orderService.getOrderStatusCounts());
         data.put("revenueLast7Days", orderService.getRevenueLast7Days());
+        data.put("totalCustomers", userService.countAllCustomers());
         return ApiResponse.success(data);
     }
 }

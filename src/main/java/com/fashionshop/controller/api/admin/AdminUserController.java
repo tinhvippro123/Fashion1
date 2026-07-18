@@ -19,7 +19,11 @@ public class AdminUserController {
     private UserService userService;
 
     @GetMapping
-    public ApiResponse<Page<User>> list(@RequestParam(defaultValue = "0") int page) {
+    public ApiResponse<Page<User>> list(@RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(value = "keyword", required = false) String keyword) {
+        if (keyword != null && !keyword.isEmpty()) {
+            return ApiResponse.success(userService.searchUsers(keyword, PageRequest.of(page, 10)));
+        }
         return ApiResponse.success(userService.getAllUsers(PageRequest.of(page, 10)));
     }
 
